@@ -4,7 +4,7 @@ TitanPlayerSettings = nil;
 TitanPluginSettings = nil;
 TitanPanelSettings = nil;
 
-TITAN_VERSION = "4.1.2.30000";
+TITAN_VERSION = "4.1.3.30000";
 
 local _G = getfenv(0);
 

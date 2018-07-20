@@ -209,6 +209,7 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	
 	["Spell Power"] = "SPELLPOW",
 	["Critical Strike Rating"] = "CRIT",
+	["Critical strike rating"] = "CRIT",
 	["Critical Rating"] = "CRIT",
 	["Crit Rating"] = "CRIT",
 	["Ranged Critical Strike"] = "RANGEDCRIT",
@@ -217,6 +218,7 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Defense Rating"] = "DEFENSE",
 	["Haste Rating"] = "HASTE",
 	["Mana per 5 Seconds"] = "MANAREG",
+	["mana per 5 seconds"] = "MANAREG",
 	["Mana every 5 Sec"] = "MANAREG",
 	["Mana every 5 seconds"] = "MANAREG",
 	["Mana restored per 5 seconds"] = "MANAREG",
@@ -271,6 +273,7 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Silence Duration Reduced by"] = "PERCSILENCE",
 	["Fear Duration Reduced by"] = "PERCFEAR",
 	["Stun Duration Reduced by"] = "PERCSTUN",
+	["Root Duration by"] = "PERCSNARE",
 	["Increased Critical Healing Effect"] = "PERCCRITHEALING",
 };	
 
@@ -302,7 +305,9 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+21 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
 	{ pattern = "%+14 Spell Power and %+2%% Intellect", effect = {"SPELLPOW", "PERCINT"}, value = {14, 2} },
 	{ pattern = "%+25 Spell Power and %+2%% Intellect", effect = {"SPELLPOW", "PERCINT"}, value = {25, 2} },	
-	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },	
+	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
+	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
+	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6}  },
 	
 -- rest of custom patterns
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
@@ -314,6 +319,8 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	
 	{ pattern = "Vitality 2", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
 	{ pattern = "Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
+	{ pattern = "Accuracy", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
+	{ pattern = "Titanium Weapon Chain", effect = "TOHIT", value = 28 },	
 	{ pattern = "Icewalker", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
 	{ pattern = "Soulfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Sunfire", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },

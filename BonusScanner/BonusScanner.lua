@@ -764,7 +764,7 @@ function BonusScanner:ScanLine(line,r,g,b)
 		_, _, tmpStr = string.find(line, BONUSSCANNER_PATTERN_SETNAME);
 		if(tmpStr) then
 			BonusScanner.temp.set = tmpStr;
-		  else
+		  else		  
 		 found = BonusScanner:CheckOther(line);
 		if(not found) then
 		found = BonusScanner:CheckGeneric(line);

@@ -130,8 +130,8 @@ TITAN_VOLUME_SPEAKER_CONTROL_TITLE = "Динамик";
 TITAN_VOLUME_CONTROL_HIGH = "Макс";
 TITAN_VOLUME_CONTROL_LOW = "Мин";
 TITAN_VOLUME_MENU_TEXT = "Настройки Звука";
-TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL = "Show Sound/Voice options" ;
-TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "Override Blizzard Volume Settings";
+TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL = "Настройки звука/голоса" ;
+TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "Перезаписать звуковые настройки близзарда";
 end
 
 -- Chinese Locale

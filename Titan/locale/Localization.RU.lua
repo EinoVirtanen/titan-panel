@@ -200,7 +200,7 @@ function TitanLocalizeRU()
 	TITAN_CLOCK_MENU_SERVER_TIME = "Отображать серверное время (С)";
 	TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME = "Отображать заданное серверное время (З)";
 	TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE = "Отображать часы справа";
-	TITAN_CLOCK_MENU_HIDE_GAMETIME = "Hide Time/Calendar button";
+	TITAN_CLOCK_MENU_HIDE_GAMETIME = "Скрыть кнопку времени/календаря";
 	
 	TITAN_COORDS_FORMAT = "(%.d, %.d)";
 	TITAN_COORDS_FORMAT2 = "(%.1f, %.1f)";
@@ -223,7 +223,7 @@ function TitanLocalizeRU()
 	TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT = "Показывать координаты на мировой карте";
 	TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Курсор(X,Y): %s";
 	TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Игрок(X,Y): %s";
-	TITAN_COORDS_NO_COORDS = "No Coords";
+	TITAN_COORDS_NO_COORDS = "Нет координат";
 	
 	TITAN_FPS_FORMAT = "%.1f";
 	TITAN_FPS_BUTTON_LABEL = "FPS: ";
@@ -264,8 +264,6 @@ function TitanLocalizeRU()
 	TITAN_MEMORY_TOOLTIP_INITIAL_MEMORY = "Исходная: ";
 	TITAN_MEMORY_TOOLTIP_INCREASING_RATE = "Темп прироста: ";
 	TITAN_MEMORY_KBMB_LABEL = "KB/MB"; 	
-	--TITAN_MEMORY_MENU_TEXT = "Память";
-	--TITAN_MEMORY_MENU_RESET_SESSION = "Сбросить данные памяти";
 	
 	TITAN_MONEY_GOLD = "з";
 	TITAN_MONEY_SILVER = "с";
@@ -320,11 +318,11 @@ function TitanLocalizeRU()
 	TITAN_XP_MENU_TEXT = "Опыт";
 	TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL = "Показывать Опыт/ч на этом уровне";
 	TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION = "Показывать Опыт/ч за эту сессию";
-	TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP = "Show Multi-info view";
-  TITAN_XP_MENU_SIMPLE_BUTTON_TITLE = "Button";
-  TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "Show Rested XP";
-  TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP = "Show XP to level";
-  TITAN_XP_MENU_SIMPLE_BUTTON_KILLS = "Show est. kills to level";
+	TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP = "Вид мульти-инфо";
+  TITAN_XP_MENU_SIMPLE_BUTTON_TITLE = "Кнопка";
+  TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "Показ опыта за отдых";
+  TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP = "Показ опыта до уровня";
+  TITAN_XP_MENU_SIMPLE_BUTTON_KILLS = "Показ прим.убийств до уровня";
 	TITAN_XP_MENU_RESET_SESSION = "Сбросить сессию";
 	TITAN_XP_MENU_REFRESH_PLAYED = "Обновить таймеры";
 	TITAN_XP_UPDATE_PENDING = "Обновляется...";

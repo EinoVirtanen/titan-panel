@@ -408,15 +408,16 @@ function Titan_UIParent_ManageRightSideFrames()
 end
 ]]--
 
-function Titan_ContainerFrames_Relocate()	
+function Titan_ContainerFrames_Relocate()
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);		
 		-- experimental fixes
 		-- Update bag anchor
 		if MultiBarBottomRight:IsShown() or MultiBarBottomLeft:IsShown() then
-			CONTAINER_OFFSET_Y = 100 + panelYOffset;
+			CONTAINER_OFFSET_Y = 110 + panelYOffset;
 			--97
 		elseif not MultiBarBottomRight:IsVisible() and not MultiBarBottomLeft:IsVisible() then
-			CONTAINER_OFFSET_Y = 55 + panelYOffset;
+			CONTAINER_OFFSET_Y = 65 + panelYOffset;
+			-- 55
 		else
 			CONTAINER_OFFSET_Y = 70 + panelYOffset;
 			--70
@@ -441,20 +442,25 @@ end
 function Titan_ManageFramesNew()
 -- Move frames		   
  	Titan_CastingBarFrame_UpdatePosition();
- 	Titan_FCF_UpdateCombatLogPosition();
+ 	Titan_FCF_UpdateCombatLogPosition(); 	
  
 		   if (TitanPanelGetVar("BothBars") and not TitanPanelGetVar("AuxScreenAdjust")) or (TitanPanelGetVar("Position") == 2 and not TitanPanelGetVar("ScreenAdjust")) then
 		   TitanMovableFrame_CheckFrames(TITAN_PANEL_PLACE_BOTTOM);
 			 TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
 			 Titan_ContainerFrames_Relocate();
-			 Titan_CastingBarFrame_UpdatePosition();
-			 --Titan_FCF_UpdateCombatLogPosition()
+			 Titan_CastingBarFrame_UpdatePosition();			 
 			 end
+end
+
+function Titan_ManageTopFramesVehicle()
+	TitanMovableFrame_CheckFrames(1);
+	TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
 end
 
 function Titan_ManageVehicles()	
 		TitanMovableModule:CancelAllTimers()
-		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)		
+		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 1)
+		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)
 end
 
 -- Titan Hooks

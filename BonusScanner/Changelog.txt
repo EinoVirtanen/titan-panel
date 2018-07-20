@@ -1,5 +1,6 @@
 4.2 Tristanian 2008.xx.xx
 - Re-enabled "Ranged critical Rating"
+- Added some missing patterns (Hodir healing enchants, mp5 metagem effect etc)
 ------------------------------------------------
 4.1 Tristanian 2008.10.14
 - Removed "/bs" slash command handler to avoid conflicts with other addons
