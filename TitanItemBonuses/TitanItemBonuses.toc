@@ -1,0 +1,8 @@
+## Interface: 30000
+## Title: Titan Panel [|cffeda55fItemBonuses|r] |cff00aa004.1.2.30000|r
+## Notes: Adds the ability to display bonuses from items you are wearing to Titan Panel
+## Author: Tristanian
+## SavedVariables: 
+## Dependencies: Titan, BonusScanner
+## Version: 4.1.2.30000
+TitanItemBonuses.xml

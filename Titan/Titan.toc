@@ -1,0 +1,29 @@
+## Interface: 30000
+## Title: Titan Panel |cff00aa004.1.2.30000|r
+## Notes: Adds a display bar on the top and/or bottom of the screen. Allows users to show and control information/launcher plugins.
+## Author: Titan Development Team 
+## X-Credits: TitanMod, Dark Imakuni, Adsertor, Titan Dev Team
+## SavedVariables: TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
+## Dependencies:
+## Version: 4.1.2.30000 (Revision 69)
+## OptionalDeps: Ace3, TabletLib, LibSharedMedia-3.0, LibQTip-1.0
+## X-Embeds: Ace3, TabletLib, LibSharedMedia-3.0, LibQTip-1.0
+## X-Category: Interface Enhancements
+## X-Website: http://www.titanpanel.org
+## X-Email: contact@titanpanel.org
+
+embeds.xml 
+
+LibDataBroker-1.1.lua
+
+Localization.xml
+TitanUtils.lua
+TitanVariables.lua
+TitanMenu.lua
+TitanPanelTemplate.xml
+TitanMovable.lua
+TitanTooltip.lua
+TitanPanel.xml
+TitanAutoHide.xml
+TitanAuxAutoHide.xml
+LDBToTitan.lua

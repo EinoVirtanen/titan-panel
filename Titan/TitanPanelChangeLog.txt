@@ -1,0 +1,1 @@
+A complete change history for Titan Panel since version 3.0.0.20000 is available at http://www.titanpanel.org/changes.html
