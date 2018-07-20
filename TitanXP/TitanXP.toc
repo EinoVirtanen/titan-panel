@@ -1,9 +1,9 @@
 ## Interface: 30000
-## Title: Titan Panel [|cffeda55fXP|r] |cff00aa004.1.3.30000|r
+## Title: Titan Panel [|cffeda55fXP|r] |cff00aa004.1.4.30000|r
 ## Notes: Adds information to Titan Panel about XP earned and time to level
 ## Author: Titan Development Team (http://www.titanpanel.org)
 ## SavedVariables: 
 ## OptionalDeps: 
 ## Dependencies: Titan
-## Version: 4.1.3.30000
+## Version: 4.1.4.30000
 TitanXP.xml

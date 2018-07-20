@@ -171,9 +171,9 @@ function TitanLocalizeEN()
      TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "Ignore ammo pouch slots";
      TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "Ignore shard bags";
      TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "Ignore profession bags";
-     TITAN_BAG_SHARD_BAG_NAMES = {"Soul Pouch","Small Soul Pouch","Box of Souls","Felcloth Bag","Core Felcloth Bag","Ebon Shadowbag"};
-     TITAN_BAG_AMMO_POUCH_NAMES = {"Clefthoof Hide Quiver", "Worg Hide Quiver", "Ancient Sinew Wrapped Lamina", "Quiver of a Thousand Feathers", "Knothide Quiver", "Harpy Hide Quiver", "Ribbly’s Quiver", "Quickdraw Quiver", "Heavy Quiver", "Quiver of the Night Watch", "Hunting Quiver", "Medium Quiver", "Light Leather Quiver", "Small Quiver", "Light Quiver", "Smuggler’s Ammo Pouch", "Knothide Ammo Pouch", "Netherscale Ammo Pouch", "Gnoll Skin Bandolier", "Ribbly’s Bandolier", "Thick Leather Ammo Pouch", "Heavy Leather Ammo Pouch", "Bandolier of the Night Watch", "Medium Shot Pouch", "Hunting Ammo Sack", "Small Leather Ammo Pouch", "Small Shot Pouch", "Small Ammo Pouch"};
-     TITAN_BAG_PROF_BAG_NAMES = {"Enchanted Mageweave Pouch","Enchanted Runecloth Bag","Big Bag of Enchantment","Enchanter's Satchel","Spellfire Bag","Khorium Toolbox","Fel Iron Toolbox","Heavy Toolbox","Gem Pouch","Bag of Jewels","Reinforced Mining Bag","Mining Sack","Leatherworker's Satchel","Bag of Many Hides","Herb Pouch","Cenarion Herb Bag","Satchel of Cenarius","Mycah's Botanical Bag"};
+     TITAN_BAG_SHARD_BAG_NAMES = {"Soul Pouch", "Small Soul Pouch", "Box of Souls", "Felcloth Bag", "Core Felcloth Bag", "Ebon Shadowbag", "Abyssal Bag"};
+     TITAN_BAG_AMMO_POUCH_NAMES = {"Clefthoof Hide Quiver", "Worg Hide Quiver", "Ancient Sinew Wrapped Lamina", "Nerubian Reinforced Quiver", "Quiver of a Thousand Feathers", "Knothide Quiver", "Harpy Hide Quiver", "Ribbly's Quiver", "Quickdraw Quiver", "Heavy Quiver", "Quiver of the Night Watch", "Hunting Quiver", "Medium Quiver", "Light Leather Quiver", "Small Quiver", "Light Quiver", "Smuggler's Ammo Pouch", "Dragonscale Ammo Pouch", "Knothide Ammo Pouch", "Netherscale Ammo Pouch", "Gnoll Skin Bandolier", "Ribbly's Bandolier", "Thick Leather Ammo Pouch", "Heavy Leather Ammo Pouch", "Bandolier of the Night Watch", "Medium Shot Pouch", "Hunting Ammo Sack", "Small Leather Ammo Pouch", "Small Shot Pouch", "Small Ammo Pouch"};
+     TITAN_BAG_PROF_BAG_NAMES = {"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Big Bag of Enchantment", "Enchanter's Satchel", "Mysterious Bag", "Spellfire Bag", "Khorium Toolbox", "Fel Iron Toolbox", "Heavy Toolbox", "Gem Pouch", "Bag of Jewels", "Reinforced Mining Bag", "Mining Sack", "Mammoth Mining Bag", "Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Scribe's Satchel", "Pack of Endless Pockets"};
 
      TITAN_BGMINIMAP_MENU_TEXT = "Battleground minimap"
      TITAN_BGMINIMAP_TOOLTIP = "Toggles battleground minimap"
@@ -352,6 +352,8 @@ function TitanLocalizeEN()
      TITAN_ITEMBONUSES_DISPLAY_NONE = "Display none";
      TITAN_ITEMBONUSES_SHORTDISPLAY = "Brief label text";
      TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn required";
+     TITAN_ITEMBONUSES_RATING_CONVERSION = "Display Ratings as points/percentage";
+		 TITAN_ITEMBONUSES_SHOWGEMS = "Display number of gem colors";
 
      TITAN_ITEMBONUSES_CAT_ATT = "Attributes";
      TITAN_ITEMBONUSES_CAT_RES = "Resistance";

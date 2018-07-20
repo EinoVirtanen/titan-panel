@@ -29,6 +29,7 @@ local memUsageSinceGC = {};
 local counter = 1; --counter for active addons
 local AceTimer = LibStub("AceTimer-3.0")
 local PerfTimer = nil;
+local _G = getfenv(0);
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -582,9 +583,9 @@ end
 -- DESC : Display slider tooltip
 -- **************************************************************************
 function TitanPanelPerfControlSlider_OnShow(self)     
-     getglobal(self:GetName().."Text"):SetText(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
-     getglobal(self:GetName().."High"):SetText(TITAN_PERFORMANCE_CONTROL_LOW);
-     getglobal(self:GetName().."Low"):SetText(TITAN_PERFORMANCE_CONTROL_HIGH);
+     _G[self:GetName().."Text"]:SetText(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
+     _G[self:GetName().."High"]:SetText(TITAN_PERFORMANCE_CONTROL_LOW);
+     _G[self:GetName().."Low"]:SetText(TITAN_PERFORMANCE_CONTROL_HIGH);
      self:SetMinMaxValues(1, 40);
      self:SetValueStep(1);
      self:SetValue(41 - TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
@@ -607,7 +608,7 @@ end
 -- VARS : arg1 = positive or negative change to apply
 -- **************************************************************************
 function TitanPanelPerfControlSlider_OnValueChanged(self, a1)
-     getglobal(self:GetName().."Text"):SetText(41 - self:GetValue());
+     _G[self:GetName().."Text"]:SetText(41 - self:GetValue());
      
      if a1 == -1 then
 		self:SetValue(self:GetValue() + 1);
@@ -653,7 +654,7 @@ end
 -- DESC : Create performance option frame
 -- **************************************************************************
 function TitanPanelPerfControlFrame_OnLoad(self)
-     getglobal(self:GetName().."Title"):SetText(TITAN_PERFORMANCE_CONTROL_TITLE);
+     _G[self:GetName().."Title"]:SetText(TITAN_PERFORMANCE_CONTROL_TITLE);
      self:SetBackdropBorderColor(1, 1, 1);
      self:SetBackdropColor(0, 0, 0, 1);
 end

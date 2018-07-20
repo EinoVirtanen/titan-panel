@@ -10,7 +10,7 @@ TITAN_REPAIR_ID = "Repair";
 Titan_Repair = {}
 local TPR = Titan_Repair
 local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0")
-
+local _G = getfenv(0);
 TPR.ITEM_STATUS = {};
 TPR.ITEM_BAG = {};
 
@@ -513,7 +513,7 @@ function TitanRepair_GetInventoryInformation(bag)
    else
       tit_debug_bis("Waiting for updating button text");
    end
-   local frame = getglobal("TitanPanelRepairButton")
+   local frame = _G["TitanPanelRepairButton"]
    TitanPanelButton_UpdateTooltip(frame);
    TitanRepairTooltip:Hide();
 end
@@ -583,7 +583,7 @@ function TitanRepair_GetEquipedInformation()
      tit_debug_bis("(equip) REPAIR_INDEX=" ..TPR.INDEX  .. "  min_index=" .. min_index);
 
    TitanPanelButton_UpdateButton(TITAN_REPAIR_ID);
-   local frame = getglobal("TitanPanelRepairButton")
+   local frame = _G["TitanPanelRepairButton"]
    TitanPanelButton_UpdateTooltip(frame);
    TitanRepairTooltip:Hide();
 end
@@ -641,7 +641,7 @@ function TitanRepair_GetStatus(index, bag)
 
       -- loop through the item tooltip to find the durability - current and max
       for i = 1, TitanRepairTooltip:NumLines() do
-         local field = getglobal("TitanRepairTooltipTextLeft" .. i);
+         local field = _G["TitanRepairTooltipTextLeft" .. i];
          if (field ~= nil) then
             local text = field:GetText();
             if (text) then

@@ -2,6 +2,7 @@ TITAN_PANEL_PLACE_TOP = 1;
 TITAN_PANEL_PLACE_BOTTOM = 2;
 
 local TitanMovableModule = LibStub("AceAddon-3.0"):NewAddon("TitanMovable", "AceHook-3.0", "AceTimer-3.0")
+local _G = getfenv(0);
 
 local TitanMovable = {};
 local TitanMovableData = {
@@ -75,9 +76,12 @@ function TitanMovableFrame_CheckFrames(position)
 		end
 		
 		-- Move WorldStateAlwaysUpFrame
-		frameTop = TitanMovableFrame_GetOffset(WorldStateAlwaysUpFrame, "TOP");
-		top = -15 + panelYOffset; 		
-		TitanMovableFrame_CheckTopFrame(frameTop, top, WorldStateAlwaysUpFrame:GetName());
+		local check = WorldFrame:IsProtected() -- check to ensure that the WorldFrame can be moved by insecure code
+		if not check then	
+			frameTop = TitanMovableFrame_GetOffset(WorldStateAlwaysUpFrame, "TOP");
+			top = -15 + panelYOffset; 		
+			TitanMovableFrame_CheckTopFrame(frameTop, top, WorldStateAlwaysUpFrame:GetName());
+		end
 
 	elseif (position == TITAN_PANEL_PLACE_BOTTOM) then
 
@@ -106,7 +110,7 @@ function TitanMovableFrame_MoveFrames(position, override)
 		for index, value in pairs(TitanMovable) do						
 			frameData = TitanMovableData[value];
 		if frameData then
-			frame = getglobal(frameData.frameName);
+			frame = _G[frameData.frameName];
 			frameName = frameData.frameName;
 			frameArchor = frameData.frameArchor;
 		end
@@ -219,7 +223,7 @@ function Titan_TicketStatusFrame_OnEvent(self, event, ...)
 		--GetGMTicket();
 	elseif ( event == "UPDATE_TICKET" ) then
 		local category = ...;
-		if ( category ) then		
+		if ( category and (not GMChatStatusFrame or not GMChatStatusFrame:IsShown()) ) then
 			--self:Show();
 			-- Compensate for firing an UPDATE_TICKET event
 			if not InCombatLockdown() then
@@ -229,7 +233,7 @@ function Titan_TicketStatusFrame_OnEvent(self, event, ...)
 					TemporaryEnchantFrame:SetPoint("TOPRIGHT", self:GetParent():GetName(), "TOPRIGHT", -205, 0 - self:GetHeight()); -- ATTN
 				end
 			end
-			refreshTime = GMTICKET_CHECK_INTERVAL;
+			--refreshTime = GMTICKET_CHECK_INTERVAL;
 		else
 			--self:Hide();			
 			if not InCombatLockdown() then

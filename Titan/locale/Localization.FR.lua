@@ -171,9 +171,9 @@ function TitanLocalizeFR()
 	TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "Ignorer les emplacements des sacs de munitions";
 	TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "Ignorer les emplacements des sacs de fragments d'\195\162me";
 	TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "Ignorer les emplacements des sacs sp\195\169cifiques aux m\195\169tiers";
-	TITAN_BAG_AMMO_POUCH_NAMES = {"Cartouchi\195\168re","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"};
-	TITAN_BAG_SHARD_BAG_NAMES = {"Petite bourse d'\195\162me","Bo\195\174te d'\195\162mes","Bourse d'\195\162me","Sac en gangr\195\169toffe","Ombresac d'\195\169b\195\168ne","Sac en gangr\195\169toffe du Magma"};
-	TITAN_BAG_PROF_BAG_NAMES = {"Bourse enchant\195\169e en tisse-mage","Sac enchant\195\169 en \195\169toffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Bourse d'herbes","Sac d'herbes c\195\169narien","Sacoche de C\195\169narius","Lourde bo\195\174te \195\160 outils","Bo\195\174te \195\160 outils en gangrefer","Bourse de gemmes","Sac de joyaux","Sac de mineur","Sac de mineur renforc\195\169","Sacoche d'artisan du cuir","Sac des nombreuses peaux","Sac de botanique de Mycah"};
+	TITAN_BAG_AMMO_POUCH_NAMES = {"Cartouchi\195\168re","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"}; -- how to find these items? partial search or full name?
+	TITAN_BAG_SHARD_BAG_NAMES = {"Petite bourse d'\195\162me","Bo\195\174te d'\195\162mes","Bourse d'\195\162me","Sac en gangr\195\169toffe","Ombresac d'\195\169b\195\168ne","Sac en gangr\195\169toffe du Magma", "Sac abyssal"};
+	TITAN_BAG_PROF_BAG_NAMES = {"Bourse enchant\195\169e en tisse-mage","Sac enchant\195\169 en \195\169toffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac mystérieux","Bourse d'herbes","Sac d'herbes c\195\169narien","Sacoche de C\195\169narius","Lourde bo\195\174te \195\160 outils","Bo\195\174te \195\160 outils en gangrefer","Boîte à outils en khorium","Bourse de gemmes","Sac de joyaux","Sac de mineur","Sac de mineur renforc\195\169","Sac de mineur colossal","Sacoche d'artisan du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur","Sac de botanique de Mycah","Sacoche de calligraphie","Sac des poches infinies"};
 
 	TITAN_BGMINIMAP_MENU_TEXT = "Minicarte du champ de bataille"
 	TITAN_BGMINIMAP_TOOLTIP = "Afficher/Cacher la minicarte du champ de bataille"

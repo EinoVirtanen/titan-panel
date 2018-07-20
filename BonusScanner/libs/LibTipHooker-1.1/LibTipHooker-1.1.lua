@@ -1,37 +1,36 @@
 ﻿--[[
-Name: TipHooker-1.0
+Name: LibTipHooker-1.1.lua
 Description: A Library for hooking tooltips.
-Revision: $Revision: 67029 $
-Author: Whitetooth@Cenarius (hotdogee@bahamut.twbbs.org)
-LastUpdate: $Date: 2008-03-30 01:22:17 -0400 (Sun, 30 Mar 2008) $
+Revision: $Revision: 2 $
+Author: Whitetooth
+Email: hotdogee [at] gmail [dot] com
+LastUpdate: $Date: 2008-12-30 12:03:42 +0000 (Tue, 30 Dec 2008) $
 Website:
 Documentation:
-SVN: $URL: svn://dev.wowace.com/wowace/trunk/TipHookerLib/TipHooker-1.0/TipHooker-1.0.lua $
-Dependencies: AceLibrary
-License: LGPL v2.1
+SVN: $URL $
+License: LGPL v3
 ]]
 
 -- This library is still in early development
 
 --[[ Tips for using TipHooker
 {
-This library provides tooltip hooks, mainly for use with tooltip modification, you can eazily append or modify text in a tooltip with TipHookerLib.
+This library provides tooltip hooks, mainly for use with item tooltip modification, you can easily append or modify text in a tooltip with TipHookerLib.
 If you need to not only modify the tooltip but also need to scan the tooltip for information, you should use other libraries with TipHookerLib.
-Bedcause TipHookerLib passes the real tooltip frame to your handler function,
+Because TipHookerLib passes the real tooltip frame to your handler function,
 which may already be modifided by other addons and may not be suited for scanning.
 For simple custom scaning you can use GratuityLib, it creates a custom tooltip and scan that for patterns.
-For a complete item scanning solution to stat scanning you can use ItemBonusLib, or my more light weight version: StatLogicLib.
+For a complete item scanning solution to stat scanning you can use ItemBonusLib or StatLogicLib.
 }
 --]]
 
 
-local MAJOR_VERSION = "TipHooker-1.0"
-local MINOR_VERSION = tonumber(("$Revision: 67029 $"):sub(12, -3))
+local MAJOR = "LibTipHooker-1.1"
+local MINOR = "$Revision: 2 $"
 
-if not AceLibrary then error(MAJOR_VERSION.." requires AceLibrary") end
-if not AceLibrary:IsNewVersion(MAJOR_VERSION, MINOR_VERSION) then return end
+local TipHooker = LibStub:NewLibrary(MAJOR, MINOR)
+if not TipHooker then return end
 
-local TipHooker = {}
 local VariablesLoaded
 
 -----------
@@ -181,7 +180,8 @@ local MethodList = {
 	},
 }
 
-local HandlerList = {}
+local HandlerList = TipHooker.HandlerList or {}
+TipHooker.HandlerList = HandlerList
 
 local Set = {
 	item = function(tooltip)
@@ -286,10 +286,14 @@ end
 ------------------
 -- OnEventFrame --
 ------------------
+if TipHooker.OnEventFrame then -- Check for old frame
+	TipHooker.OnEventFrame:UnregisterAllEvents()
+	TipHooker.OnEventFrame:SetScript("OnEvent", nil)
+end
+
 local OnEventFrame = CreateFrame("Frame")
 
 OnEventFrame:RegisterEvent("VARIABLES_LOADED")
---OnEventFrame:RegisterEvent("PLAYER_LOGIN")
 
 OnEventFrame:SetScript("OnEvent", function(self, event, ...)
 	print(event)
@@ -303,27 +307,6 @@ OnEventFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 TipHooker.OnEventFrame = OnEventFrame
-
-
-----------------
--- Activation --
-----------------
--- Called when a newer version is registered
-local function activate(self, oldLib)
-	if not oldLib then
-		print("not oldLib")
-		-- HandlerList
-		self.HandlerList = HandlerList
-	else
-		print("oldLib")
-		oldLib.OnEventFrame:UnregisterAllEvents()
-		oldLib.OnEventFrame:SetScript("OnEvent", nil)
-		if oldLib.HandlerList then
-			HandlerList = oldLib.HandlerList
-		end
-		self.HandlerList = HandlerList
-	end
-end
 
 
 --[[---------------------------------
@@ -412,6 +395,37 @@ function TipHooker:IsHooked(handler, tipType)
 	end
 end
 
-AceLibrary:Register(TipHooker, MAJOR_VERSION, MINOR_VERSION, activate)
+--[[---------------------------------
+{	:RegisterCustomTooltip(tipType,frameName)
+-------------------------------------
+-- Description
+	Unhooks handler from tooltip SetX methods
+-- Args
+	tipType
+	    string - tooltip that you want to hook:
+	        "item": Items
+	        "buff": Buff/Debuff
+	        "spell": Spells
+	        "talant": Talants
+	        "unit": Units
+	        "action": Action button
+	frameName
+	    string - name of your tooltip frame you want to be hooked
+-- Examples
+}
+-----------------------------------]]
+function TipHooker:RegisterCustomTooltip(tipType,frameName)
+	local tooltip = getglobal(frameName);
+	if(tooltip == nil) then
+		return;
+	end
+	print("InitializeHook("..tipType..") = "..frameName)
+	for _, methodName in ipairs(MethodList[tipType]) do
+		if type(tooltip[methodName]) == "function" then
+			hooksecurefunc(tooltip, methodName, Set[tipType])
+		end
+	end
+	tinsert(_G.TipHooker.SupportedTooltips, tooltip)
+end
 
-_G.TipHooker = AceLibrary("TipHooker-1.0")
+_G.TipHooker = TipHooker

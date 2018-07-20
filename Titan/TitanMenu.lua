@@ -1,9 +1,10 @@
 TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
+local _G = getfenv(0);
 
 function TitanRightClickMenu_OnLoad(self)
 	local id = TitanUtils_GetButtonIDFromMenu(self);
 	if (id) then	
-		local prepareFunction = getglobal("TitanPanelRightClickMenu_Prepare"..id.."Menu");
+		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"];
 		if (prepareFunction) then
 		 	UIDropDownMenu_Initialize(self, prepareFunction, "MENU");		 	
 		end
@@ -35,11 +36,11 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	-- fix for Right-Click menu on the DoubleBar	
 	local menu;	
    if self:GetName() == "TitanPanelBarButtonHider" then
-   menu = getglobal("TitanPanelBarButton".."RightClickMenu")
+   menu = _G["TitanPanelBarButton".."RightClickMenu"]
    elseif self:GetName() == "TitanPanelAuxBarButtonHider" then
-   menu = getglobal("TitanPanelAuxBarButton".."RightClickMenu")
+   menu = _G["TitanPanelAuxBarButton".."RightClickMenu"]
    else
-	 menu = getglobal(self:GetName().."RightClickMenu");	 
+	 menu = _G[self:GetName().."RightClickMenu"];
 	 end
 	 
 	if (  TITAN_PANEL_SELECTED == "Bar" and position == TITAN_PANEL_PLACE_TOP ) then
@@ -51,7 +52,7 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	end
 	
 	-- take UI Scale into consideration
-	local listFrame = getglobal("DropDownList1");
+	local listFrame = _G["DropDownList1"];
 	local listframeScale = listFrame:GetScale();
 	
 				local uiScale;
@@ -71,10 +72,9 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 
 	listFrame:SetScale(uiScale);
 	
-	TitanPanelToggleDropDownMenu(1, nil, menu, "TitanPanel" .. TITAN_PANEL_SELECTED .. "Button", TitanUtils_Max(x - 40, 0), 0, nil, self);
+	ToggleDropDownMenu(1, nil, menu, "TitanPanel" .. TITAN_PANEL_SELECTED .. "Button", TitanUtils_Max(x - 40, 0), 0, nil, self);
 	
-	-- Adjust menu position if it's off the screen/scaled
-	local listFrame = getglobal("DropDownList"..UIDROPDOWNMENU_MENU_LEVEL);	
+	local listFrame = _G["DropDownList"..UIDROPDOWNMENU_MENU_LEVEL];
 	local offscreenX, offscreenY = TitanUtils_GetOffscreen(listFrame);
 
 	if ( offscreenX == 1 ) then
@@ -85,7 +85,7 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 			listFrame:ClearAllPoints();
 			listFrame:SetPoint("BOTTOMRIGHT", "TitanPanel" .. TITAN_PANEL_SELECTED .. "Button", "TOPLEFT", x, 0);
 		end	
-	end	
+	end
 end
 
 function TitanPanelRightClickMenu_IsVisible()
@@ -111,7 +111,7 @@ function TitanPanelRightClickMenu_AddCommand(text, value, functionName, level)
 	info.text = text;
 	info.value = value;
 	info.func = function()
-	local callback = getglobal(functionName);
+	local callback = _G[functionName];
 -- callback must be a function else do nothing (spank developer)
 		if callback and type(callback)== "function" then 
 			callback(value)

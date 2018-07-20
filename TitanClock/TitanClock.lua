@@ -10,7 +10,7 @@ TITAN_CLOCK_ID = "Clock";
 local TITAN_CLOCK_FORMAT_12H = "12H";
 local TITAN_CLOCK_FORMAT_24H = "24H";
 local TITAN_CLOCK_FRAME_SHOW_TIME = 0.5;
-
+local _G = getfenv(0);
 -- ******************************** Variables *******************************
 local AceTimer = LibStub("AceTimer-3.0")
 local ClockTimer = nil;
@@ -58,7 +58,7 @@ end
 -- **************************************************************************
 function TitanPanelClockButton_OnShow()
 	if not ClockTimer then
-		ClockTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelClock", TitanPanelPluginHandle_OnUpdate, 2, {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL })
+		ClockTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelClock", TitanPanelPluginHandle_OnUpdate, 30, {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL })
 	end
 end
 
@@ -239,9 +239,9 @@ end
 -- DESC : Display slider tooltip options
 -- **************************************************************************
 function TitanPanelClockControlSlider_OnShow(self)
-     getglobal(self:GetName().."Text"):SetText(TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
-     getglobal(self:GetName().."High"):SetText(TITAN_CLOCK_CONTROL_LOW);
-     getglobal(self:GetName().."Low"):SetText(TITAN_CLOCK_CONTROL_HIGH);
+     _G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")));
+     _G[self:GetName().."High"]:SetText(TITAN_CLOCK_CONTROL_LOW);
+     _G[self:GetName().."Low"]:SetText(TITAN_CLOCK_CONTROL_HIGH);
      self:SetMinMaxValues(-12, 12);
      self:SetValueStep(0.5);
      self:SetValue(0 - TitanGetVar(TITAN_CLOCK_ID, "OffsetHour"));
@@ -288,7 +288,7 @@ end
 -- VARS : arg1 = positive or negative change to apply
 -- **************************************************************************
 function TitanPanelClockControlSlider_OnValueChangedWheel(self, a1)
-     getglobal(self:GetName().."Text"):SetText(TitanPanelClock_GetOffsetText(0 - self:GetValue()));
+     _G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(0 - self:GetValue()));
      local tempval = self:GetValue();     
      
      if a1 == -1 then     
@@ -315,7 +315,7 @@ end
 
 
 function TitanPanelClockControlSlider_OnValueChanged(self, a1)
-     getglobal(self:GetName().."Text"):SetText(TitanPanelClock_GetOffsetText(0 - self:GetValue()));          
+     _G[self:GetName().."Text"]:SetText(TitanPanelClock_GetOffsetText(0 - self:GetValue()));          
      TitanSetVar(TITAN_CLOCK_ID, "OffsetHour", 0 - self:GetValue());
      local realmName = GetCVar("realmName");
      if ( ServerTimeOffsets[realmName] ) then
@@ -403,7 +403,7 @@ end
 -- DESC : Create clock option frame
 -- **************************************************************************
 function TitanPanelClockControlFrame_OnLoad(self)
-     getglobal(self:GetName().."Title"):SetText(TITAN_CLOCK_CONTROL_TITLE);
+     _G[self:GetName().."Title"]:SetText(TITAN_CLOCK_CONTROL_TITLE);
      self:SetBackdropBorderColor(1, 1, 1);
      self:SetBackdropColor(0, 0, 0, 1);
 end

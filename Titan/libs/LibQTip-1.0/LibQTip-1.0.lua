@@ -1,37 +1,6 @@
---[[
-Copyright (c) 2008, LibQTip Development Team 
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without 
-modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, 
-      this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-      this list of conditions and the following disclaimer in the documentation 
-      and/or other materials provided with the distribution.
-    * Redistribution of a stand alone version is strictly prohibited without 
-      prior written authorization from the Lead of the LibQTip Development Team. 
-    * Neither the name of the LibQTip Development Team nor the names of its contributors 
-      may be used to endorse or promote products derived from this software without 
-      specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
---]]
-
 assert(LibStub, "LibQTip-1.0 requires LibStub")
-local MAJOR, MINOR = "LibQTip-1.0", 4
+
+local MAJOR, MINOR = "LibQTip-1.0", 6
 local LibQTip, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibQTip then return end -- No upgrade needed
 
@@ -39,19 +8,9 @@ if not LibQTip then return end -- No upgrade needed
 local TOOLTIP_PADDING = 10
 local CELL_MARGIN = 3
 
-local bgFrame = {
-	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-	tile = true,
-	tileSize = 16,
-	edgeSize = 16,
-	insets = {left = 5, right = 5, top = 5, bottom = 5}
-}
-
 ------------------------------------------------------------------------------
 -- Tables and locals
 ------------------------------------------------------------------------------
-
 LibQTip.frameMetatable = LibQTip.frameMetatable or {__index = CreateFrame("Frame")}
 
 LibQTip.tipPrototype = LibQTip.tipPrototype or setmetatable({}, LibQTip.frameMetatable)
@@ -66,8 +25,6 @@ LibQTip.cellMetatable = LibQTip.cellMetatable or { __index = LibQTip.cellPrototy
 LibQTip.activeTooltips = LibQTip.activeTooltips or {}
 LibQTip.tooltipHeap = LibQTip.tooltipHeap or {}
 
-LibQTip.frameHeap = LibQTip.frameHeap or {}
-
 local tipPrototype = LibQTip.tipPrototype
 local tipMetatable = LibQTip.tipMetatable
 
@@ -80,8 +37,6 @@ local cellMetatable = LibQTip.cellMetatable
 local activeTooltips = LibQTip.activeTooltips
 local tooltipHeap = LibQTip.tooltipHeap
 
-local frameHeap = LibQTip.frameHeap
-
 -- Tooltip private methods
 local InitializeTooltip, FinalizeTooltip, ResetTooltipSize, ResizeColspans
 local AcquireCell, ReleaseCell
@@ -90,6 +45,14 @@ local AcquireCell, ReleaseCell
 -- Public library API
 ------------------------------------------------------------------------------
 
+--- Create or retrieve the tooltip with the given key. 
+-- If additional arguments are passed, they are passed to :SetColumnLayout for the acquired tooltip.
+-- @name LibQTip:Acquire(key[, numColumns, column1Justification, column2justification, ...])
+-- @param key string or table - the tooltip key. Any value that can be used as a table key is accepted though you should try to provide unique keys to avoid conflicts. 
+-- Numbers and booleans should be avoided and strings should be carefully chosen to avoid namespace clashes - no "MyTooltip" - you have been warned! 
+-- @return tooltip Frame object - the acquired tooltip. 
+-- @usage Acquire a tooltip with at least 5 columns, justification : left, center, left, left, left
+-- <pre>local tip = LibStub('LibQTip-1.0'):Acquire('MyFooBarTooltip', 5, "LEFT", "CENTER")</pre>
 function LibQTip:Acquire(key, ...)
 	if key == nil then
 		error("attempt to use a nil key", 2)
@@ -129,28 +92,8 @@ function LibQTip:IterateTooltips()
 end
 
 ------------------------------------------------------------------------------
--- Frame heap
-------------------------------------------------------------------------------
-
-local function AcquireFrame(parent)
-	local frame = tremove(frameHeap) or CreateFrame("Frame")
-	frame:SetParent(parent)
-	return frame
-end
-
-local function ReleaseFrame(frame)
-	frame:Hide()
-	frame:SetParent(nil)
-	frame:ClearAllPoints()
-	tinsert(frameHeap, frame)
-end
-
-------------------------------------------------------------------------------
 -- CellProvider and Cell
 ------------------------------------------------------------------------------
-
--- Provider prototype
-
 function providerPrototype:AcquireCell(tooltip)
 	local cell = tremove(self.heap)
 	if not cell then
@@ -180,8 +123,6 @@ function providerPrototype:IterateCells()
 	return pairs(self.cells)
 end
 
--- Cell provider factory
-
 function LibQTip:CreateCellProvider(baseProvider)
 	local cellBaseMetatable, cellBasePrototype
 	if baseProvider and baseProvider.GetCellPrototype then
@@ -201,7 +142,6 @@ end
 ------------------------------------------------------------------------------
 -- Basic label provider
 ------------------------------------------------------------------------------
-
 if not LibQTip.LabelProvider then
 	LibQTip.LabelProvider, LibQTip.LabelPrototype = LibQTip:CreateCellProvider()
 end
@@ -227,7 +167,6 @@ end
 ------------------------------------------------------------------------------
 -- Helpers
 ------------------------------------------------------------------------------
-
 local function checkFont(font, level, silent)
 	if not font or type(font) ~= 'table' or type(font.IsObjectType) ~= 'function' or not font:IsObjectType("Font") then
 		if silent then
@@ -242,7 +181,7 @@ end
 local function checkJustification(justification, level, silent)
 	if justification ~= "LEFT" and justification ~= "CENTER" and justification ~= "RIGHT" then
 		if silent then
-			return false 
+			return false
 		else
 			error("invalid justification, must one of LEFT, CENTER or RIGHT, not: "..tostring(justification), level+1)
 		end
@@ -253,14 +192,13 @@ end
 ------------------------------------------------------------------------------
 -- Tooltip prototype
 ------------------------------------------------------------------------------
-
 function InitializeTooltip(self, key)
 	-- (Re)set frame settings
-	self:SetBackdrop(bgFrame)
-	self:SetBackdropColor(0.09, 0.09, 0.09)
-	self:SetBackdropBorderColor(1, 1, 1)
+	self:SetBackdrop(GameTooltip:GetBackdrop())
+	self:SetBackdropColor(GameTooltip:GetBackdropColor())
+	self:SetBackdropBorderColor(GameTooltip:GetBackdropBorderColor())
+	self:SetScale(GameTooltip:GetScale())
 	self:SetAlpha(0.9)
-	self:SetScale(1.0)	
 	self:SetFrameStrata("TOOLTIP")
 	self:SetClampedToScreen(false)
 
@@ -269,13 +207,26 @@ function InitializeTooltip(self, key)
 	self.columns = self.columns or {}
 	self.lines = self.lines or {}
 	self.colspans = self.colspans or {}
+	self.lineHeap = self.lineHeap or {}
+	self.columnHeap = self.columnHeap or {}
 
 	self.regularFont = GameTooltipText
 	self.headerFont = GameTooltipHeaderText
-	
+
+	self.labelProvider = labelProvider
+
 	self:SetScript('OnShow', ResizeColspans)
 
 	ResetTooltipSize(self)
+end
+
+function tipPrototype:SetDefaultProvider(myProvider)
+	if not myProvider then return end
+	self.labelProvider = myProvider
+end
+
+function tipPrototype:GetDefaultProvider()
+	return self.labelProvider
 end
 
 function tipPrototype:SetColumnLayout(numColumns, ...)
@@ -290,19 +241,52 @@ function tipPrototype:SetColumnLayout(numColumns, ...)
 		else
 			self:AddColumn(justification)
 		end
-	end	
+	end
+end
+
+function tipPrototype:AcquireLine(lineNum)
+	local line = self.lineHeap[lineNum]
+	if not line then
+		line = CreateFrame("Frame", nil, self)
+		line.cells = {}
+		self.lineHeap[lineNum] = line
+	end
+	return line
+end
+
+function tipPrototype:ReleaseLine(line)
+	for i, cell in pairs(line.cells) do
+		ReleaseCell(self, cell)
+	end
+	wipe(line.cells)
+	line:ClearAllPoints()
+	line:Hide()
+end
+
+function tipPrototype:AcquireColumn(colNum)
+	local column = self.columnHeap[colNum]
+	if not column then
+		column = CreateFrame("Frame", nil, self)
+		self.columnHeap[colNum] = column
+	end
+	return column
+end
+
+function tipPrototype:ReleaseColumn(column)
+	column:ClearAllPoints()
+	column:Hide()
 end
 
 function tipPrototype:AddColumn(justification)
 	justification = justification or "LEFT"
 	checkJustification(justification, 2)
 	local colNum = #self.columns + 1
-	local column = AcquireFrame(self)
+	local column = self:AcquireColumn(colNum)
 	column.justification = justification
 	column.width = 0
 	column:SetWidth(1)
-	column:SetPoint("TOP", self, "TOP", 0, -TOOLTIP_PADDING)
-	column:SetPoint("BOTTOM", self, "BOTTOM", 0, TOOLTIP_PADDING)
+	column:SetPoint("TOP", self)
+	column:SetPoint("BOTTOM", self)
 	if colNum > 1 then
 		column:SetPoint("LEFT", self.columns[colNum-1], "RIGHT", CELL_MARGIN, 0)
 		self.width = self.width + CELL_MARGIN
@@ -318,8 +302,7 @@ end
 function FinalizeTooltip(self)
 	self:Clear()
 	for i, column in ipairs(self.columns) do
-		column:Hide()
-		ReleaseFrame(column)
+		self:ReleaseColumn(column)
 		self.columns[i] = nil
 	end
 end
@@ -333,17 +316,12 @@ end
 
 function tipPrototype:Clear()
 	for i, line in ipairs(self.lines) do
-		for j, cell in ipairs(line.cells) do
-			ReleaseCell(self, cell)
-			line.cells[j] = nil
-		end
-		line:Hide()
-		ReleaseFrame(line)
+		self:ReleaseLine(line)
 		self.lines[i] = nil
 	end
 	for i, column in ipairs(self.columns) do
 		column.width = 0
-		column:SetWidth(0)
+		column:SetWidth(1)
 	end
 	wipe(self.colspans)
 	ResetTooltipSize(self)
@@ -368,7 +346,7 @@ local function EnlargeColumn(self, column, width)
 		self.width = self.width + width - column.width
 		self:SetWidth(self.width)
 		column.width = width
-		column:SetWidth(width)			
+		column:SetWidth(width)
 	end
 end
 
@@ -378,7 +356,7 @@ function ResizeColspans(self)
 	for colRange, width in pairs(self.colspans) do
 		local left, right = colRange:match("^(%d+)%-(%d+)$")
 		left, right = tonumber(left), tonumber(right)
-		for col = left, right-1 do 
+		for col = left, right-1 do
 			width = width - columns[col].width - CELL_MARGIN
 		end
 		EnlargeColumn(self, columns[right], width)
@@ -389,7 +367,7 @@ end
 function AcquireCell(self, provider)
 	local cell = provider:AcquireCell(self)
 	cell:SetParent(self)
-	cell:SetFrameLevel(self:GetFrameLevel()+1)	
+	cell:SetFrameLevel(self:GetFrameLevel()+1)
 	return cell
 end
 
@@ -406,7 +384,7 @@ end
 local function _SetCell(self, lineNum, colNum, value, font, justification, colSpan, provider, ...)
 	local line = self.lines[lineNum]
 	local cells = line.cells
-	
+
 	-- Unset: be quick
 	if value == nil then
 		local cell = cells[colNum]
@@ -439,8 +417,8 @@ local function _SetCell(self, lineNum, colNum, value, font, justification, colSp
 			cells[colNum] = nil
 		end
 	else
-		-- Creating a new cell, use meaning full defaults
-		provider = provider or labelProvider
+		-- Creating a new cell, use meaningful defaults
+		provider = provider or self.labelProvider
 		font = font or self.regularFont
 		justification = justification or self.columns[colNum].justification or "LEFT"
 		colSpan = colSpan or 1
@@ -471,26 +449,24 @@ local function _SetCell(self, lineNum, colNum, value, font, justification, colSp
 		cells[i] = false
 	end
 
-	-- Create the cell and anchor it
+	-- Create the cell
 	if not cell then
 		cell = AcquireCell(self, provider)
-		cell:SetPoint("LEFT", self.columns[colNum], "LEFT", 0, 0)
-		cell:SetPoint("TOP", line, "TOP", 0, 0)
-		cell:SetPoint("BOTTOM", line, "BOTTOM", 0, 0)
 		cells[colNum] = cell
 	end
-	cell:SetPoint("RIGHT", self.columns[rightColNum], "RIGHT", 0, 0)
 	
+	-- Anchor the cell
+	cell:SetPoint("LEFT", self.columns[colNum])
+	cell:SetPoint("RIGHT", self.columns[rightColNum])
+	cell:SetPoint("TOP", line)
+	cell:SetPoint("BOTTOM", line)
+
 	-- Store the cell settings directly into the cell
-	-- That's a bit risky but is is really cheap compared to other ways to do it
+	-- That's a bit risky but is really cheap compared to other ways to do it
 	cell._provider, cell._font, cell._justification, cell._colSpan = provider, font, justification, colSpan
 
 	-- Setup the cell content
-	local width, height = cell:SetupCell(tooltip, value, justification, font, ...)
-
-	-- Enforce cell size
-	cell:SetWidth(width)
-	cell:SetHeight(height)
+	local width, height = cell:SetupCell(self, value, justification, font, ...)
 	cell:Show()
 
 	if colSpan > 1 then
@@ -509,7 +485,7 @@ local function _SetCell(self, lineNum, colNum, value, font, justification, colSp
 		line.height = height
 		line:SetHeight(height)
 	end
-	
+
 	if rightColNum < tooltipWidth then
 		return lineNum, rightColNum+1
 	else
@@ -521,8 +497,8 @@ local function CreateLine(self, font, ...)
 	if #self.columns == 0 then
 		error("column layout should be defined before adding line", 3)
 	end
-	local line = AcquireFrame(self)
 	local lineNum = #self.lines + 1
+	local line = self:AcquireLine(lineNum)
 	line:SetPoint('LEFT', self, 'LEFT', TOOLTIP_PADDING, 0)
 	line:SetPoint('RIGHT', self, 'RIGHT', -TOOLTIP_PADDING, 0)
 	if lineNum > 1 then
@@ -535,14 +511,14 @@ local function CreateLine(self, font, ...)
 	self.lines[lineNum] = line
 	line.cells = line.cells or {}
 	line.height = 0
-	line:SetHeight(0)
+	line:SetHeight(1)
 	line:Show()
-	
+
 	local colNum = 1
 	for i = 1, #self.columns do
 		local value = select(i, ...)
 		if value ~= nil then
-			lineNum, colNum = _SetCell(self, lineNum, i, value, font, nil, 1, labelProvider)
+			lineNum, colNum = _SetCell(self, lineNum, i, value, font, nil, 1, self.labelProvider)
 		end
 	end
 	return lineNum, colNum
@@ -598,7 +574,7 @@ function tipPrototype:GetLineCount() return #self.lines end
 function tipPrototype:GetColumnCount() return #self.columns end
 
 ------------------------------------------------------------------------------
--- "Smart" Anchoring (work in progress)
+-- "Smart" Anchoring
 ------------------------------------------------------------------------------
 local function GetTipAnchor(frame)
 	local x,y = frame:GetCenter()

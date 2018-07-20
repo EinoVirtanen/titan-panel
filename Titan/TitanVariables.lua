@@ -4,7 +4,7 @@ TitanPlayerSettings = nil;
 TitanPluginSettings = nil;
 TitanPanelSettings = nil;
 
-TITAN_VERSION = "4.1.3.30000";
+TITAN_VERSION = "4.1.4.30000";
 
 local _G = getfenv(0);
 
@@ -40,7 +40,7 @@ function TitanVariables_HandleLDB()
 		 		plugin = TitanUtils_GetPlugin(id);		 			
 		 		  if plugin.ldb == "launcher" and TitanGetVar(id, "DisplayOnRightSide") then
 			    	  local button = TitanUtils_GetButton(id);
-			    		local buttonText = getglobal(button:GetName().."Text");
+			    		local buttonText = _G[button:GetName().."Text"];
 			    		if not TitanGetVar(id, "ShowIcon") then
 						  	TitanToggleVar(id, "ShowIcon");	
 						  end
@@ -64,11 +64,11 @@ function TitanVariables_HandleLDB()
 							  end
 					elseif plugin.ldb == "launcher" and not TitanGetVar(id, "DisplayOnRightSide") then
 						local button = TitanUtils_GetButton(id);
-			    	local buttonText = getglobal(button:GetName().."Text");
+			    	local buttonText = _G[button:GetName().."Text"];
 			    		if not buttonText then
 			    			TitanPlugins[id].buttonTextFunction = "TitanLDBShowText";
 								button:CreateFontString("TitanPanel"..id.."ButtonText", "OVERLAY", "GameFontNormalSmall")
-								buttonText = getglobal(button:GetName().."Text");
+								buttonText = _G[button:GetName().."Text"];
 								buttonText:SetJustifyH("LEFT");
 								-- set font for the fontstring
 								local currentfont = media:Fetch("font", TitanPanelGetVar("FontName"))
@@ -279,7 +279,7 @@ local TitanCopyPanelSettings = nil;
 				newfont = media:Fetch("font", TitanPanelGetVar("FontName"))
 					for index, id in pairs(TitanPluginsIndex) do
 						local button = TitanUtils_GetButton(id);
-						local buttonText = getglobal(button:GetName().."Text");
+						local buttonText = _G[button:GetName().."Text"];
 							if buttonText then
 								buttonText:SetFont(newfont, 10);
 							end
@@ -287,7 +287,7 @@ local TitanCopyPanelSettings = nil;
 						local childbuttons = {button:GetChildren()};
 							for _, child in ipairs(childbuttons) do
 			  				if child then
-			  					local childbuttonText = getglobal(child:GetName().."Text");
+			  					local childbuttonText = _G[child:GetName().."Text"];
 			  						if childbuttonText then
 			  							childbuttonText:SetFont(newfont, 10);
 			  						end

@@ -1,5 +1,5 @@
 ﻿-- Version : Traditional Chinese
--- Translated by Yeachan .Special thanks to Juha.
+-- Translation supplied by Juha,added by yeachan.
 function TitanLocalizeTW()
      TITAN_DEBUG = "<Titan>";
 	   TITAN_INFO = "<Titan>"
@@ -45,7 +45,7 @@ function TitanLocalizeTW()
 	
     -- general panel locale
 	   TITAN_PANEL = "泰坦面版";
-	   TITAN_PANEL_VERSION_INFO = "|cffffffff 作者 |cffBB33BBTitan 開發團隊".." |cffffffff(HonorGoG, jaketodd422, joejanko, Lothayer, Tristanian, oXidFoX)";
+	   TITAN_PANEL_VERSION_INFO = "|cffffffff 作者 |cffBB33BBTitan 開發團隊".." |cffffffff(HonorGoG, jaketodd422, joejanko, Lothayer, Tristanian, oXidFoX, Yeachan)";
 	   TITAN_PANEL_MENU_TITLE = "泰坦面版";
 	   TITAN_PANEL_MENU_HIDE = "隱藏";
 	   TITAN_PANEL_MENU_CUSTOMIZE = "自訂";
@@ -173,9 +173,9 @@ function TitanLocalizeTW()
 	   TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "忽略彈藥袋的空間";
 	   TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "忽略靈魂碎片包空間";
 	   TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "忽略專業背包空間";
-	   TITAN_BAG_SHARD_BAG_NAMES = {"靈魂", "惡魔布包", "熔核惡魔布包", "黑檀暗影包", "暗影包"};
-	   TITAN_BAG_AMMO_POUCH_NAMES = {"彈藥", "箭袋", "彈藥袋", "子彈", "飛鏢"};
-	   TITAN_BAG_PROF_BAG_NAMES = {"附魔魔紋包", "附魔符文布背包", "附魔大背包", "附魔師的背包", "魔焰包", "克銀工具箱", "魔鐵工具箱", "沉重的工具箱", "寶石袋", "寶石包", "強化礦石包", "採礦包", "製皮師的背包", "拼接皮包", "草藥袋", "塞納里奧草藥包", "塞納留斯的背包"};
+	   TITAN_BAG_SHARD_BAG_NAMES = {"靈魂袋", "小靈魂袋", "靈魂盒", "惡魔布包", "熔核惡魔布包", "黑檀暗影包", "深淵包"};
+     TITAN_BAG_AMMO_POUCH_NAMES = {"裂蹄皮箭袋", "座狼皮箭袋", "龍筋箭袋", "奈幽強化箭袋", "千羽箭袋", "境外皮箭袋", "鷹身人皮箭袋", "雷布里的箭袋", "快捷箭袋", "重型箭袋", "守夜人箭袋", "狩獵箭袋", "中型箭袋", "輕皮箭袋", "小箭袋", "輕型箭袋", "走私者彈藥包", "境外皮彈藥包", "虛空鱗彈藥袋", "豺狼人皮彈藥包", "雷布里的油布包", "厚皮彈藥包", "重皮彈藥包", "守夜人的彈藥包", "中型彈藥袋", "獵槍彈藥包", "皮質小彈藥包", "小型彈藥袋", "小型彈藥包"};
+	   TITAN_BAG_PROF_BAG_NAMES = {"附魔魔紋包", "附魔符文布背包", "附魔大背包", "附魔師的背包", "詭秘包", "魔焰包", "克銀工具箱", "魔鐵工具箱", "沉重的工具箱", "寶石袋", "寶石包", "強化礦石包", "採礦包", "長毛象礦石包", "製皮師的背包", "拼接皮包", "猎户的旅行背包", "草藥袋", "塞納里奧草藥包", "塞納留斯的背包", "麥卡的植物袋", "抄寫員背袋", "無盡口袋包"};
 	
 	   TITAN_BGMINIMAP_MENU_TEXT = "戰場迷你地圖"
 	   TITAN_BGMINIMAP_TOOLTIP = "開關 戰場迷你地圖"
@@ -319,16 +319,16 @@ function TitanLocalizeTW()
 	   TITAN_XP_MENU_TEXT = "經驗值系統(EXP)";
 	   TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL = "顯示 EXP/小時 這個等級";
 	   TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION = "顯示 EXP/小時 這個階段";
-     TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP = "顯示更多訊息";
+     TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP = "顯示升級尚須的休息/EXP";
      TITAN_XP_MENU_SIMPLE_BUTTON_TITLE = "按鈕";
-     TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "顯示剩餘經驗";
-     TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP = "顯示升級所需經驗";
-     TITAN_XP_MENU_SIMPLE_BUTTON_KILLS = "顯示升級所需的預估擊殺數";
-     TITAN_XP_MENU_RESET_SESSION = "重置連接時間";
-     TITAN_XP_MENU_REFRESH_PLAYED = "刷新計時器";
+     TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "顯示休息的經驗值";
+     TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP = "顯示升級還需要的 EXP";
+     TITAN_XP_MENU_SIMPLE_BUTTON_KILLS = "顯示升級還需要的預計擊殺數";
+     TITAN_XP_MENU_RESET_SESSION = "重設經驗值統計";
+     TITAN_XP_MENU_REFRESH_PLAYED = "更新時間";
      TITAN_XP_UPDATE_PENDING = "更新中...";
      TITAN_XP_UNKNOWN = "未知";
-     TITAN_XP_KILLS_LABEL = "升級所需擊殺數 (基於最後一個的經驗 %d): ";
+     TITAN_XP_KILLS_LABEL = "升級還需的擊殺數(上次獲得 %d EXP): ";
      TITAN_XP_KILLS_LABEL_SHORT = "預估擊殺數: ";
 	
 	   TITAN_REGEN_MENU_TEXT = "角色恢復速度"
@@ -353,6 +353,8 @@ function TitanLocalizeTW()
 	   TITAN_ITEMBONUSES_DISPLAY_NONE = "不顯示";
 	   TITAN_ITEMBONUSES_SHORTDISPLAY = "顯示摘要";
 	   TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "需要 BonusScanner 插件";
+	   TITAN_ITEMBONUSES_RATING_CONVERSION = "顯示為等級點數/百分比";
+     TITAN_ITEMBONUSES_SHOWGEMS = "顯示各類顏色寶石數目";
 
 	   TITAN_ITEMBONUSES_CAT_ATT = "屬性";
 	   TITAN_ITEMBONUSES_CAT_RES = "抗性";

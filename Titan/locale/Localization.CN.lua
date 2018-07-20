@@ -1,5 +1,7 @@
 ﻿-- Version : Simplified Chinese
 -- Translated by Yeachan
+-- Email:yeachan@live.com
+
 function TitanLocalizeCN()
      TITAN_DEBUG = "<Titan>";
      TITAN_INFO = "<Titan>"
@@ -173,9 +175,9 @@ function TitanLocalizeCN()
      TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "忽略弹药包空间";
      TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "忽略灵魂袋空间";
      TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "忽略各专业背包空间";
-     TITAN_BAG_SHARD_BAG_NAMES = {"灵魂袋","小灵魂袋","灵魂箱","恶魔布包","熔火恶魔布包","黑色暗影背包"};
-     TITAN_BAG_AMMO_POUCH_NAMES = {"裂蹄牛皮箭袋", "座狼皮箭袋", "龙筋箭袋", "千羽箭袋", "结缔皮箭袋", "鹰身人皮箭袋", "雷布里的箭袋", "快捷箭袋", "重型箭袋", "守夜人箭袋", "狩猎箭袋", "中型箭袋", "轻皮箭袋", "小箭袋", "轻型箭袋", "走私者的弹药包", "结缔皮弹药包", "虚空鳞片弹药包", "豺狼人皮弹药包", "厚皮弹药包", "重皮弹药包", "守夜人的弹药包", "中型弹药包", "猎枪弹药包", "轻皮弹药包", "小型弹药包"};
-     TITAN_BAG_PROF_BAG_NAMES = {"魔化魔纹布包","魔化符文布包","大附魔袋","附魔师之袋","魔焰背包","氪金工具箱","魔铁工具","重工具箱","宝石袋","珠宝袋","加固矿工袋","矿物包","制皮匠的背包","大皮袋","草药袋","塞纳里奥草药包","塞纳留斯之袋","麦卡的草药包"};
+     TITAN_BAG_SHARD_BAG_NAMES = {"灵魂袋", "小灵魂袋", "灵魂箱", "恶魔布包", "熔火恶魔布包", "黑色暗影背包", "深渊背包"};
+     TITAN_BAG_AMMO_POUCH_NAMES = {"裂蹄牛皮箭袋", "座狼皮箭袋", "龙筋箭袋", "蛛魔强固箭袋", "千羽箭袋", "结缔皮箭袋", "鹰身人皮箭袋", "雷布里的箭袋", "快捷箭袋", "重型箭袋", "守夜人箭袋", "狩猎箭袋", "中型箭袋", "轻皮箭袋", "小箭袋", "轻型箭袋", "走私者的弹药包", "龙鳞弹药包", "结缔皮弹药包", "虚空鳞片弹药包", "豺狼人皮弹药包", "厚皮弹药包", "重皮弹药包", "守夜人的弹药包", "中型弹药包", "猎枪弹药包", "轻皮弹药包", "小型弹药包"};
+     TITAN_BAG_PROF_BAG_NAMES = {"魔化魔纹布包", "魔化符文布包", "大附魔袋", "附魔师之袋", "神秘背包", "魔焰背包", "氪金工具箱", "魔铁工具", "重工具箱", "宝石袋", "珠宝袋", "加固矿工袋", "矿物包", "猛犸皮矿石包", "制皮匠的背包", "大皮袋", "猎户的旅行背包", "草药袋", "塞纳里奥草药包", "塞纳留斯之袋", "麦卡的草药包", "抄写员的背包", "无尽口袋"};
 
      TITAN_BGMINIMAP_MENU_TEXT = "战场作战地图"
      TITAN_BGMINIMAP_TOOLTIP = "打开战场作战地图"
@@ -308,9 +310,9 @@ function TitanLocalizeCN()
      TITAN_XP_TOOLTIP_TOTAL_TIME = "总共游戏时间: ";
      TITAN_XP_TOOLTIP_LEVEL_TIME = "当前等级的游戏时间: ";
      TITAN_XP_TOOLTIP_SESSION_TIME = "本次连接游戏时间: ";
-     TITAN_XP_TOOLTIP_TOTAL_XP = "Total XP required this level: ";
+     TITAN_XP_TOOLTIP_TOTAL_XP = "当前级别总经验: ";
      TITAN_XP_TOOLTIP_LEVEL_XP = "当前等级所获经验: ";
-     TITAN_XP_TOOLTIP_TOLEVEL_XP = "XP needed to level: ";
+     TITAN_XP_TOOLTIP_TOLEVEL_XP = "升级所需经验: ";
      TITAN_XP_TOOLTIP_SESSION_XP = "本次连接所获经验: ";
      TITAN_XP_TOOLTIP_XPHR_LEVEL = "经验/小时 当前级别: ";
      TITAN_XP_TOOLTIP_XPHR_SESSION = "经验/小时 本次连接: ";     
@@ -321,7 +323,7 @@ function TitanLocalizeCN()
      TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION = "显示本次连接 经验/小时";
      TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP = "更多信息显示";
      TITAN_XP_MENU_SIMPLE_BUTTON_TITLE = "按钮";
-     TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "显示剩余经验";
+     TITAN_XP_MENU_SIMPLE_BUTTON_RESTED = "显示双倍的经验值";
      TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP = "显示升级所需经验";
      TITAN_XP_MENU_SIMPLE_BUTTON_KILLS = "显示升级所需的预估击杀数";
      TITAN_XP_MENU_RESET_SESSION = "重置连接时间";
@@ -353,6 +355,8 @@ function TitanLocalizeCN()
      TITAN_ITEMBONUSES_DISPLAY_NONE = "不显示任何属性";
      TITAN_ITEMBONUSES_SHORTDISPLAY = "显示摘要";
      TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "需要BonusScanner插件";
+     TITAN_ITEMBONUSES_RATING_CONVERSION = "显示为等级点数/百分比";
+     TITAN_ITEMBONUSES_SHOWGEMS = "显示各颜色宝石数目";
 
      TITAN_ITEMBONUSES_CAT_ATT = "属性";
      TITAN_ITEMBONUSES_CAT_RES = "抗性";

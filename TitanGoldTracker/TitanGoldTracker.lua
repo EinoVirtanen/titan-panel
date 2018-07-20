@@ -58,9 +58,9 @@ local GOLDTRACKER_SESSIONSTART;
 local REMEMBER_VIEWALL;
 local REMEMBER_SORTBYNAME;
 local REMEMBER_SHOWGPH;
-local AceTimer = LibStub("AceTimer-3.0")
-local TitanGoldTracker = LibStub("AceAddon-3.0"):NewAddon("TitanGoldTracker", "AceHook-3.0")
+local TitanGoldTracker = LibStub("AceAddon-3.0"):NewAddon("TitanGoldTracker", "AceHook-3.0", "AceTimer-3.0")
 local GoldTrackerTimer = nil;
+local _G = getfenv(0);
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -100,8 +100,8 @@ end
 -- DESC : Create repeating timer when plugin is visible
 -- **************************************************************************
 function TitanPanelGoldTrackerButton_OnShow()
-	if not GoldTrackerTimer and GoldArray and GoldArray["DISPLAYGPH"] then
-		GoldTrackerTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelGoldTracker", TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })		
+	if not GoldTrackerTimer and GoldArray and GoldArray["DISPLAYGPH"] then		
+		GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })
 	end
 end
 
@@ -109,8 +109,8 @@ end
 -- NAME : TitanPanelGoldTrackerButton_OnHide()
 -- DESC : Destroy repeating timer when plugin is hidden
 -- **************************************************************************
-function TitanPanelGoldTrackerButton_OnHide()
-	AceTimer.CancelTimer("TitanPanelGoldTracker", GoldTrackerTimer, true)
+function TitanPanelGoldTrackerButton_OnHide()	
+	TitanGoldTracker:CancelTimer(GoldTrackerTimer, true)
 	GoldTrackerTimer = nil;     
 end
 
@@ -152,7 +152,7 @@ end
 function TitanPanelGoldTrackerButton_GetTooltipText()
      -- the following code will parse the database and then display all members from the same faction/server
      -- to the user
-     
+          
      local server = GetCVar("realmName").."::"..UnitFactionGroup("Player");
      GoldArray[GOLDTRACKER_INDEX] = TitanPanelGoldTracker_ParseArray(GoldArray[GOLDTRACKER_INDEX]);
     local currentMoneyRichText = ""; -- initialize the variable to hold the array
@@ -342,7 +342,7 @@ function TitanPanelRightClickMenu_PrepareGoldTrackerMenu()
      local info = {};
      info.text = TITAN_GOLDTRACKER_CLEAR_DATA_TEXT;
      info.func = function () 
-     local frame = getglobal("TitanPanelGoldTrackerButton")     
+     local frame = _G["TitanPanelGoldTrackerButton"]
      TitanPanelGoldTrackerButton_ClearData(frame)
       end
      UIDropDownMenu_AddButton(info);
@@ -519,9 +519,9 @@ end
 function TitanPanelGoldTrackerGPH_Toggle()
      GoldArray["DISPLAYGPH"] = not GoldArray["DISPLAYGPH"];
      if not GoldTrackerTimer and GoldArray["DISPLAYGPH"] then
-			GoldTrackerTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelGoldTracker", TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })
+			GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })
 		 elseif GoldTrackerTimer and not GoldArray["DISPLAYGPH"] then
-		 	AceTimer.CancelTimer("TitanPanelGoldTracker", GoldTrackerTimer, true)
+		 	TitanGoldTracker:CancelTimer(GoldTrackerTimer, true)
 			GoldTrackerTimer = nil;     
 		end
 end

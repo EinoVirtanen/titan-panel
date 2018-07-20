@@ -13,7 +13,7 @@ TitanLootMethod["roundrobin"] = {text = TITAN_LOOTTYPE_ROUND_ROBIN};
 TitanLootMethod["master"] = {text = TITAN_LOOTTYPE_MASTER_LOOTER};
 TitanLootMethod["group"] = {text = TITAN_LOOTTYPE_GROUP_LOOT};
 TitanLootMethod["needbeforegreed"] = {text = TITAN_LOOTTYPE_NEED_BEFORE_GREED};
-
+local _G = getfenv(0);
 -- ******************************** Variables *******************************
 
 -- ******************************** Functions *******************************
@@ -79,7 +79,7 @@ function TitanPanelLootTypeButton_GetTooltipText()
      if (GetNumPartyMembers() > 0) or (GetNumRaidMembers() > 0) then
           local lootTypeText = TitanLootMethod[GetLootMethod()].text;
           local lootThreshold = GetLootThreshold();
-          local itemQualityDesc = getglobal("ITEM_QUALITY"..lootThreshold.."_DESC");
+          local itemQualityDesc = _G["ITEM_QUALITY"..lootThreshold.."_DESC"];
           local color = ITEM_QUALITY_COLORS[lootThreshold];
           return ""..
                LOOT_METHOD..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..

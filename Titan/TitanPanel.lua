@@ -629,7 +629,7 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 				if newfont~= "Fonts\\FRIZQT__.TTF" then
 					for index, id in pairs(TitanPluginsIndex) do
 						local button = TitanUtils_GetButton(id);
-						local buttonText = getglobal(button:GetName().."Text");
+						local buttonText = _G[button:GetName().."Text"];
 							if buttonText then
 								buttonText:SetFont(newfont, 10);
 							end
@@ -637,7 +637,7 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 						local childbuttons = {button:GetChildren()};
 							for _, child in ipairs(childbuttons) do
 			  				if child then
-			  					local childbuttonText = getglobal(child:GetName().."Text");
+			  					local childbuttonText = _G[child:GetName().."Text"];
 			  						if childbuttonText then
 			  							childbuttonText:SetFont(newfont, 10);
 			  						end
@@ -774,7 +774,7 @@ function TitanPanelBarButtonHider_OnEnter(frame)
 		 AceTimer.CancelAllTimers("TitanAutoHider")
 
 	if (TitanPanelGetVar("AutoHide") or TitanPanelGetVar("AuxAutoHide")) then
-		local frname = getglobal(frame)
+		local frname = _G[frame]
 		
 		
 		if (frame == "TitanPanelBarButton" and TitanPanelBarButton.hide == 1) then
@@ -1030,7 +1030,7 @@ local plugin, index, id;
 		 			if plugin.ldb == "launcher" and not TitanGetVar(id, "DisplayOnRightSide") then
 		 				TitanToggleVar(id, "DisplayOnRightSide");
 		 				  local button = TitanUtils_GetButton(id);
-			    		local buttonText = getglobal(button:GetName().."Text");
+			    		local buttonText = _G[button:GetName().."Text"];
 			    		if not TitanGetVar(id, "ShowIcon") then
 						  	TitanToggleVar(id, "ShowIcon");	
 						  end
@@ -1083,7 +1083,7 @@ function TitanPanelBarButton_DisplayBarsWanted()
 end
 
 function TitanPanelBarButton_Show(frame, position)
-	local frName = getglobal(frame);
+	local frName = _G[frame];
 	local barnumber = TitanUtils_GetDoubleBar(TitanPanelGetVar("BothBars"), position);
 
 	if (position == TITAN_PANEL_PLACE_TOP) then
@@ -1101,7 +1101,7 @@ end
 
 function TitanPanelBarButton_Hide(frame, position)
 if TITAN_PANEL_MOVING == 1 then return end
-	local frName = getglobal(frame);
+	local frName = _G[frame];
 	local barnumber = TitanUtils_GetDoubleBar(TitanPanelGetVar("BothBars"), position);
 
 	if frName ~= nil then
@@ -1146,7 +1146,7 @@ function TitanPanel_InitPanelBarButton()
 end
 
 function TitanPanel_SetPosition(frame, position)
-	local frName = getglobal(frame);
+	local frName = _G[frame];
 	if (position == TITAN_PANEL_PLACE_TOP) then
 		if frame == "TitanPanelBarButton" then
 			TitanPanelBackground12:ClearAllPoints();
@@ -1167,7 +1167,7 @@ function TitanPanel_SetPosition(frame, position)
 end
 
 function TitanPanel_SetTransparent(frame, position)
-	local frName = getglobal(frame);
+	local frName = _G[frame];
 	local topBars = TitanUtils_GetDoubleBar(TitanPanelGetVar("BothBars"), TITAN_PANEL_PLACE_TOP);
 	local bottomBars = TitanUtils_GetDoubleBar(TitanPanelGetVar("BothBars"), TITAN_PANEL_PLACE_BOTTOM);
 	
@@ -1193,35 +1193,35 @@ function TitanPanel_SetTransparent(frame, position)
 end
 
 function TitanPanel_SetTexture(frame, position)
-	local frName = getglobal(frame);
+	local frName = _G[frame];
 	local barnumber = TitanUtils_GetDoubleBar(TitanPanelGetVar("BothBars"), position);
 	
 	if frame == "TitanPanelBarButton" then
 		local pos = TitanUtils_Ternary(position == TITAN_PANEL_PLACE_TOP, "Top", "Bottom");
 		for i = 0, 11 do
-			getglobal("TitanPanelBackground"..i):SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground"..pos..math.fmod(i, 2));
+			_G["TitanPanelBackground"..i]:SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground"..pos..math.fmod(i, 2));
 		end
 		for i = 12, 22 do
 			if barnumber == 2 then
 				TitanPanelBarButtonHider:SetHeight(48);
-				getglobal("TitanPanelBackground"..i):SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground"..pos..math.fmod(i, 2));
+				_G["TitanPanelBackground"..i]:SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground"..pos..math.fmod(i, 2));
 			else
 				TitanPanelBarButtonHider:SetHeight(24);
-				getglobal("TitanPanelBackground"..i):SetTexture();
+				_G["TitanPanelBackground"..i]:SetTexture();
 			end
 		end
 	else
 		local pos = TitanUtils_Ternary(position == TITAN_PANEL_PLACE_BOTTOM, "Top", "Bottom");
 		for i = 0, 11 do
-			getglobal("TitanPanelBackgroundAux"..i):SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground".."Bottom"..math.fmod(i, 2));
+			_G["TitanPanelBackgroundAux"..i]:SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground".."Bottom"..math.fmod(i, 2));
 		end
 		for i = 12, 22 do
 			if barnumber == 2 then
 				TitanPanelAuxBarButtonHider:SetHeight(48);
-				getglobal("TitanPanelBackgroundAux"..i):SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground".."Bottom"..math.fmod(i, 2));
+				_G["TitanPanelBackgroundAux"..i]:SetTexture(TitanPanelGetVar("TexturePath").."TitanPanelBackground".."Bottom"..math.fmod(i, 2));
 			else
 				TitanPanelAuxBarButtonHider:SetHeight(24);
-				getglobal("TitanPanelBackgroundAux"..i):SetTexture();
+				_G["TitanPanelBackgroundAux"..i]:SetTexture();
 			end
 		end
 	end
@@ -1282,7 +1282,7 @@ function TitanPanel_InitPanelButtons()
 	--for index, id in pairs(TitanPanelSettings.Buttons) do 
 	for i = 1, table.maxn(TitanPanelSettings.Buttons) do 
 	
-		id = TitanPanelSettings.Buttons[i];
+		local id = TitanPanelSettings.Buttons[i];
 		if ( TitanUtils_IsPluginRegistered(id) ) then
 			local i = TitanPanel_GetButtonNumber(id);
 			
@@ -1839,7 +1839,7 @@ function TitanPanel_MainMenu(self)
 	local plugin;
 	--local frame = this:GetName();
 	local frame = self:GetParent():GetName();
-	--local frname = getglobal(frame);
+	--local frname = _G[frame];
 
 	TitanPanelRightClickMenu_AddTitle(TITAN_PANEL_MENU_TITLE);
 
@@ -1959,7 +1959,7 @@ if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then
 			TitanPanelSetVar("FontName", v);
 			for index, id in pairs(TitanPluginsIndex) do
 			local button = TitanUtils_GetButton(id);
-			local buttonText = getglobal(button:GetName().."Text");
+			local buttonText = _G[button:GetName().."Text"];
 				if buttonText then
 					buttonText:SetFont(newfont, 10);
 				end
@@ -1967,7 +1967,7 @@ if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then
 			local childbuttons = {button:GetChildren()};
 			for _, child in ipairs(childbuttons) do
 			  if child then
-			  	local childbuttonText = getglobal(child:GetName().."Text");
+			  	local childbuttonText = _G[child:GetName().."Text"];
 			  		if childbuttonText then
 			  			childbuttonText:SetFont(newfont, 10);
 			  		end
@@ -2499,7 +2499,7 @@ function TitanPanel_PlayerSettingsMenu()
 				info.text = TITAN_PANEL_MENU_LDB_SIDE;
 				info.func = function ()
 				  local button = TitanUtils_GetButton(id);
-					local buttonText = getglobal(button:GetName().."Text");
+					local buttonText = _G[button:GetName().."Text"];
 							if not TitanGetVar(id, "ShowIcon") then
 						  	TitanToggleVar(id, "ShowIcon");	
 						  end
@@ -2525,7 +2525,7 @@ function TitanPanel_PlayerSettingsMenu()
 					else
 						TitanPlugins[id].buttonTextFunction = "TitanLDBShowText";
 						button:CreateFontString("TitanPanel"..id.."ButtonText", "OVERLAY", "GameFontNormalSmall")
-						buttonText = getglobal(button:GetName().."Text");
+						buttonText = _G[button:GetName().."Text"];
 						buttonText:SetJustifyH("LEFT");
 						-- set font for the fontstring
 						local currentfont = media:Fetch("font", TitanPanelGetVar("FontName"))
@@ -2594,7 +2594,7 @@ function TitanPanel_BuildOtherPluginsMenu()
 	local checked;
 	local plugin;
 	--local frame = this:GetName();
-	--local frname = getglobal(frame);
+	--local frname = _G[frame];
 
 	for index, id in pairs(TitanPluginsIndex) do
 		plugin = TitanUtils_GetPlugin(id);

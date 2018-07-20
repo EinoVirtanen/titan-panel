@@ -9,6 +9,8 @@
 local TITAN_COORDS_ID = "Coords";
 local OFFSET_X = 0.0022;
 local OFFSET_Y = -0.0262;
+local cachedX = 0
+local cachedY = 0
 
 -- ******************************** Variables *******************************
 local AceTimer = LibStub("AceTimer-3.0")
@@ -72,10 +74,13 @@ end
 -- DESC : Calculate coordinates and then display data on button
 -- VARS : id = button ID
 -- **************************************************************************
-function TitanPanelCoordsButton_GetButtonText(id)
+function TitanPanelCoordsButton_GetButtonText(id)		 
      local button, id = TitanUtils_GetButton(id, true);
 
      button.px, button.py = GetPlayerMapPosition("player");
+     -- cache coordinates for update checking later on
+     cachedX = button.px;
+     cachedY = button.py;
      if button.px == nil then button.px = 0 end
      if button.py == nil then button.py = 0 end
      local locationText = "";
@@ -166,8 +171,16 @@ function TitanPanelCoordsButton_OnEvent(self, event, ...)
           SetMapToCurrentZone();
      end
      TitanPanelCoordsButton_UpdateZoneInfo(self);
-     TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_ALL});     
+     TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_ALL});
      TitanPanelCoords_HandleUpdater();
+end
+
+-- function to throttle down unnecessary updates
+function TitanPanelCoordsButton_CheckForUpdate()
+	local tempx, tempy = GetPlayerMapPosition("player");
+		if tempx ~= cachedX or tempy ~= cachedY then
+			TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_BUTTON});
+		end
 end
 
 -- **************************************************************************
@@ -181,8 +194,8 @@ function TitanPanelCoords_HandleUpdater()
 		AceTimer.CancelTimer("TitanPanelCoords", CoordsTimer, true)
 		CoordsTimer = nil;
 	else
-		if TitanPanelCoordsButton:IsVisible() and not CoordsTimer then		
-		 CoordsTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelCoords", TitanPanelPluginHandle_OnUpdate, 0.5, {TITAN_COORDS_ID, TITAN_PANEL_UPDATE_BUTTON })
+		if TitanPanelCoordsButton:IsVisible() and not CoordsTimer then		 
+		 CoordsTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelCoords", TitanPanelCoordsButton_CheckForUpdate, 0.5)
 		end
 	end
 
@@ -251,6 +264,7 @@ function TitanPanelRightClickMenu_PrepareCoordsMenu()
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", 1);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
+     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
      end
      info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1");
      UIDropDownMenu_AddButton(info);
@@ -261,6 +275,7 @@ function TitanPanelRightClickMenu_PrepareCoordsMenu()
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", 1);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
+     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
      end
      info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2");
      UIDropDownMenu_AddButton(info);
@@ -271,6 +286,7 @@ function TitanPanelRightClickMenu_PrepareCoordsMenu()
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
      TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", 1);
+     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
      end
      info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3");
      UIDropDownMenu_AddButton(info);

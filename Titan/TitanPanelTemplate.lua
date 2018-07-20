@@ -16,6 +16,7 @@ TITAN_PANEL_UPDATE_ALL = 3;
 -- Library instances
 local AceTimer = LibStub("AceTimer-3.0")
 local LibQTip = LibStub("LibQTip-1.0")
+local _G = getfenv(0);
 
 function TitanOptionSlider_TooltipText(text, value) 
 	return text .. GREEN_FONT_COLOR_CODE .. value .. FONT_COLOR_CODE_CLOSE;
@@ -59,7 +60,7 @@ if table and type(table) == "table" and table[2] then updateType = table[2] end
 
 -- id is required
 	if (id) then
-  	local Titanpluginframe = getglobal ("TitanPanel"..id.."Button");
+  	local Titanpluginframe = _G["TitanPanel"..id.."Button"];
 
 			if (updateType == TITAN_PANEL_UPDATE_BUTTON) or (updateType == TITAN_PANEL_UPDATE_ALL) then
  				TitanPanelButton_UpdateButton(id);
@@ -77,9 +78,9 @@ end
 function TitanPanelDetectPluginMethod(id, isChildButton)
 -- Script handlers for button movement
 if not id then return end
-local TitanPluginframe = getglobal("TitanPanel"..id.."Button");
+local TitanPluginframe = _G["TitanPanel"..id.."Button"];
 	if isChildButton then
-    TitanPluginframe = getglobal(id);
+    TitanPluginframe = _G[id];
   end
 		
 	TitanPluginframe:SetScript("OnDragStart", function(self)
@@ -122,7 +123,7 @@ local id = nil;
 	
 	if (id) then
 		local controlFrame = TitanUtils_GetControlFrame(id);
-		local rightClickMenu = getglobal("TitanPanelRightClickMenu");
+		local rightClickMenu = _G["TitanPanelRightClickMenu"];
 	
 		if (button == "LeftButton") then
 			local isControlFrameShown;
@@ -271,8 +272,8 @@ end
 function TitanPanelButton_SetButtonText(id) 
 	if (id and TitanUtils_IsPluginRegistered(id)) then
 		local button = TitanUtils_GetButton(id);
-		local buttonText = getglobal(button:GetName().."Text");
-		local buttonTextFunction = getglobal(TitanUtils_GetPlugin(id).buttonTextFunction);
+		local buttonText = _G[button:GetName().."Text"];
+		local buttonTextFunction = _G[TitanUtils_GetPlugin(id).buttonTextFunction];
 		if (buttonTextFunction) then
 			local label1, value1, label2, value2, label3, value3, label4, value4 = buttonTextFunction(id);	
 			local text = "";
@@ -311,10 +312,10 @@ function TitanPanelButton_SetButtonText(id)
 end
 
 -- id is required
-function TitanPanelButton_SetButtonIcon(id) 	
+function TitanPanelButton_SetButtonIcon(id, iconCoords, iconR, iconG, iconB) 	
 	if (id and TitanUtils_IsPluginRegistered(id)) then
 		local button = TitanUtils_GetButton(id);
-		local icon = getglobal(button:GetName().."Icon");			
+		local icon = _G[button:GetName().."Icon"];
 		local iconTexture = TitanUtils_GetPlugin(id).icon;
 		local iconWidth = TitanUtils_GetPlugin(id).iconWidth;
 		
@@ -324,6 +325,15 @@ function TitanPanelButton_SetButtonIcon(id)
 		if (iconWidth) and icon then
 			icon:SetWidth(iconWidth);
 		end
+		
+		-- support for iconCoords, iconR, iconG, iconB attributes		
+		if iconCoords and icon then
+			icon:SetTexCoord(unpack(iconCoords))
+		end		
+		if iconR and iconG and iconB and icon then
+			icon:SetVertexColor(iconR, iconG, iconB)
+		end
+		
 	end
 end
 
@@ -331,7 +341,7 @@ end
 function TitanPanelButton_SetTextButtonWidth(id, setButtonWidth) 
 	if (id) then
 		local button = TitanUtils_GetButton(id);
-		local text = getglobal(button:GetName().."Text");
+		local text = _G[button:GetName().."Text"];
 		if ( setButtonWidth or
 				button:GetWidth() == 0 or 
 				button:GetWidth() - text:GetWidth() > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE or 
@@ -346,7 +356,7 @@ end
 function TitanPanelButton_SetIconButtonWidth(id) 
 	if (id) then
 		local button = TitanUtils_GetButton(id);
-		local icon = getglobal(button:GetName().."Icon");	
+		local icon = _G[button:GetName().."Icon"];
 		if ( TitanUtils_GetPlugin(id).iconButtonWidth ) then
 			button:SetWidth(TitanUtils_GetPlugin(id).iconButtonWidth);
 		end		
@@ -357,8 +367,8 @@ end
 function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth) 
 	if (id) then
 		local button = TitanUtils_GetButton(id);
-		local text = getglobal(button:GetName().."Text");
-		local icon = getglobal(button:GetName().."Icon");	
+		local text = _G[button:GetName().."Text"];
+		local icon = _G[button:GetName().."Icon"];
 		local iconWidth, iconButtonWidth, newButtonWidth;
 		
 		-- Get icon button width
@@ -405,7 +415,7 @@ if not self:GetName() then return end
 			TitanTooltip_SetPanelTooltip(self, id);
 		elseif ( plugin.tooltipTitle ) then
 			self.tooltipTitle = plugin.tooltipTitle;			
-			local tooltipTextFunc = getglobal(plugin.tooltipTextFunction);
+			local tooltipTextFunc = _G[plugin.tooltipTextFunction];
 			if ( tooltipTextFunc ) then
 				self.tooltipText = tooltipTextFunc();
 			end
@@ -423,8 +433,8 @@ function TitanPanelButton_GetType(id)
 	local button = TitanUtils_GetButton(id);
 	local type;
 	if button then
-		local text = getglobal(button:GetName().."Text");
-		local icon = getglobal(button:GetName().."Icon");
+		local text = _G[button:GetName().."Text"];
+		local icon = _G[button:GetName().."Icon"];
 
 		if (text and icon) then
 			type = TITAN_PANEL_BUTTON_TYPE_COMBO;
@@ -477,7 +487,7 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 	end	
 	  local i,j;
 	  for i, j in pairs(TitanPanelSettings.Buttons) do
-	  local pluginid = getglobal("TitanPanel"..TitanPanelSettings.Buttons[i].."Button");
+	  local pluginid = _G["TitanPanel"..TitanPanelSettings.Buttons[i].."Button"];
 	  pluginid:ClearAllPoints();
 	  end
 		frname:StartMoving();
@@ -487,7 +497,7 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 				TitanPanelRightClickMenu_Close();
 			end
 		if AceLibrary:HasInstance("Dewdrop-2.0") then AceLibrary("Dewdrop-2.0"):Close() end
-		if AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end
+		if AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end		
 		GameTooltip:Hide();
 		-- LibQTip-1.0 support code
 		local key, tip
@@ -528,7 +538,7 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 		
 		local i,j;
 	  for i, j in pairs(TitanPanelSettings.Buttons) do
-	  local pluginid = getglobal("TitanPanel"..TitanPanelSettings.Buttons[i].."Button");
+	  local pluginid = _G["TitanPanel"..TitanPanelSettings.Buttons[i].."Button"];
 	  	if (MouseIsOver(pluginid)) and frname ~= pluginid then
 	  		TITAN_PANEL_DROPOFF_ADDON = TitanPanelSettings.Buttons[i];	  		
 	  	end

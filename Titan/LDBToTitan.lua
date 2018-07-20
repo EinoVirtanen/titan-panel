@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (bandit@planetcnc.com)     --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.2 Beta October 26th, 2008               --
+--   Latest version: 2.4 Beta January 9th, 2009                --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -140,14 +140,14 @@ end
 
 function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 --DEFAULT_CHAT_FRAME:AddMessage("LDB:"..name..".".. event.. " is fired.")
-local TitanPluginframe = getglobal("TitanPanel".."LDBT_"..name.."Button");
+local TitanPluginframe = _G["TitanPanel".."LDBT_"..name.."Button"];
 	
 	-- This implementation will work fine for a static tooltip
 	-- but may have implications for dynamic ones
 	-- so for now, we'll only set it once (no callback) and see what happens
 	
 	if event:find("tooltip") and not event:find("OnTooltipShow") then		
-       local pluginframe = getglobal(obj.tooltip) or obj.tooltip
+       local pluginframe = _G[obj.tooltip] or obj.tooltip
 			  if pluginframe then
 			 		TitanPluginframe:SetScript("OnEnter", function(self)
 			 		  TitanPanelButton_OnEnter(self);
@@ -240,13 +240,17 @@ local TitanPluginframe = getglobal("TitanPanel".."LDBT_"..name.."Button");
 					Tablet:SetFontSizePercent(TitanPluginframe, TitanPanelGetVar("TooltipFont"))
 				elseif TitanPanelGetVar("DisableTooltipFont") and Tablet:GetFontSizePercent(TitanPluginframe)~=1 then
 					Tablet:SetFontSizePercent(TitanPluginframe, 1)
-				end
+				end				
+			end
+		-- set original tooltip scale for GameTooltip
+			if not TitanPanelGetVar("DisableTooltipFont") then
+				TitanTooltipOrigScale = GameTooltip:GetScale();
 			end
 			-- call OnEnter on LDB Object
 			if TITAN_PANEL_MOVING == 0 and func then
 				func(self)
 			end
-			TitanPanelButton_OnEnter(self);
+			TitanPanelButton_OnEnter(self);			
 			-- LibQTip-1.0 support code
 			local tt = nil
 			local key, tip
@@ -356,6 +360,16 @@ function LDBToTitan:TitanLDBIconUpdate(_, name,  attr, value, dataobj)
  TitanPlugins["LDBT_"..name].icon = value;
  TitanPanelButton_SetButtonIcon("LDBT_"..name);
  end
+ 
+ -- support for iconCoords, iconR, iconG, iconB attributes
+ if attr == "iconCoords" then
+ 	TitanPanelButton_SetButtonIcon("LDBT_"..name, value);
+ end
+ 
+ if attr == "iconR" or attr == "iconB" or attr == "iconG" then 
+ 	TitanPanelButton_SetButtonIcon("LDBT_"..name, nil, dataobj.iconR, dataobj.iconG, dataobj.iconB);
+ end
+  
 end
 
 
@@ -426,6 +440,21 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
        end
        ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_icon", "TitanLDBIconUpdate")
        
+       -- support for iconCoords, iconR, iconG, iconB attributes
+       -- Due to the callbacks being fired these can easily affect performance, BEWARE when using them !
+       
+       if obj.iconCoords then
+       self:TitanLDBIconUpdate(nil, name, "iconCoords", obj.iconCoords, obj)
+       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconCoords", "TitanLDBIconUpdate")
+       end
+       
+       if obj.iconR and obj.iconG and obj.iconB then
+       self:TitanLDBIconUpdate(nil, name, "iconR", obj.iconR, obj)
+       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconR", "TitanLDBIconUpdate")
+       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconG", "TitanLDBIconUpdate")
+       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconB", "TitanLDBIconUpdate")
+       end
+                            
        -- tooltip > OnEnter > OnTooltipShow > 
        if obj.tooltip then       
        self:TitanLDBHandleScripts("tooltip", name, nil, obj.tooltip, obj)

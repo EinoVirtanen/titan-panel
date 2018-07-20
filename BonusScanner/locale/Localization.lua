@@ -9,6 +9,7 @@ L["BONUSSCANNER_NAMES"] = {
 	SPI 		= "Spirit",
 	ARMOR 	= "Armor",
 
+
 --Resistances
 	ARCANERES = "Arcane Resistance",	
 	FIRERES 	= "Fire Resistance",
@@ -33,6 +34,11 @@ L["BONUSSCANNER_NAMES"] = {
 	DMGWPN = "Increased Melee Damage", 
 	RANGEDDMG = "Ranged Weapon Damage",
 	ARMORPEN = "Armor Penetration Rating",
+
+-- DPS
+	DPSMAIN = "Main Weapon(s) DPS",
+	DPSRANGED = "Ranged Weapon DPS",
+	DPSTHROWN = "Thrown Weapon DPS",
 
 --Attack Power
 	ATTACKPOWER	= "Attack Power",
@@ -133,13 +139,13 @@ L["BONUSSCANNER_PATTERNS_PASSIVE"] = {
   { pattern = "Increases frost spell power by (%d+)%.", effect = "FROSTDMG" }, 
   { pattern = "Increases holy spell power by (%d+)%.", effect = "HOLYDMG" }, 
   { pattern = "Increases nature spell power by (%d+)%.", effect = "NATUREDMG" },
-	--{ pattern = "Increases damage and healing done by magical spells and effects slightly%.", effect = {"HEAL", "DMG"}, value = {6, 6} },
+	{ pattern = "Increases spell power slightly%.", effect = "SPELLPOW", value = 6 },
 	{ pattern = "Increases damage done to Undead by magical spells and effects by up to (%d+)", effect = "DMGUNDEAD" },
 	
 	-- Multibonus Equip patterns
-	{ pattern = "Increases spell power of all party members within %d+ yards by up to (%d+)%.", effect = "SPELLPOW" },
+	{ pattern = "Increases spell power of all party members within %d+ yards by up to (%d+)%.", effect = "SPELLPOW" },	
+	{ pattern = "Increases your pet's resistances by 130 and increases your spell power by (%d+)%.", effect = "SPELLPOW" }, -- Void Star Talisman
 	--{ pattern = "Increases healing done by up to (%d+) and damage done by up to (%d+) for all magical spells and effects%.", effect = {"HEAL","DMG"} },
-	--{ pattern = "Increases your pet's resistances by 130 and increases your spell damage by up to (%d+)%.", effect = "DMG" }, -- Void Star Talisman
 	--{ pattern = "Increases your spell damage by up to (%d+) and your healing by up to (%d+)%.", effect = {"DMG","HEAL"} },
 	--{ pattern = "Increases healing done by magical spells and effects of all party members within %d+ yards by up to (%d+)%. ", effect = "HEAL" },
 	--{ pattern = "Increases damage and healing done by magical spells and effects of all party members within %d+ yards by up to (%d+)%.", effect = {"HEAL", "DMG"} },
@@ -307,17 +313,21 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+25 Spell Power and %+2%% Intellect", effect = {"SPELLPOW", "PERCINT"}, value = {25, 2} },	
 	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
-	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6}  },
+	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
+	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
 	
 -- rest of custom patterns
+  { pattern = "Increases attack power by (%d+) in Cat, Bear, Dire Bear, and Moonkin forms only%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
 	{ pattern = "Reinforced %(%+(%d+) Armor%)", effect = "ARMOR" },
+	{ pattern = "%+2%% Threat and 10 Parry Rating", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 	{ pattern = "%+(%d+)%% Threat", effect = "THREATINCREASE" },
 	{ pattern = "Scope %(%+(%d+) Critical Strike Rating%)", effect = "CRIT" },
 	{ pattern = "Scope %(%+(%d+) Damage%)", effect = "RANGEDDMG" },
 	{ pattern = "Subtlety", effect = "THREATREDUCTION", value = 2 },
 	
-	{ pattern = "Vitality 2", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
+	{ pattern = "Tuskar's Vitality", effect = "STA", value = 15 },
+	{ pattern = "Greater Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
 	{ pattern = "Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
 	{ pattern = "Accuracy", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
 	{ pattern = "Titanium Weapon Chain", effect = "TOHIT", value = 28 },	
@@ -325,7 +335,10 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Soulfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Sunfire", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
 	{ pattern = "Savagery", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "Surefooted", effect = {"TOHIT", "SNARERESIST"}, value = {10, 5} }
+	{ pattern = "Scourgebane", effect = "ATTACKPOWERUNDEAD", value = 140 },
+	{ pattern = "Surefooted", effect = {"TOHIT", "CRIT"}, value = {10, 10} },
+	{ pattern = "Wisdom", effect = { "THREATREDUCTION", "SPI"}, value = {2, 10} },
+	{ pattern = "Gatherer", effect = { "HERBALISM", "MINING", "SKINNING"}, value = {5, 5, 5} }
 };
 
 -- localized strings

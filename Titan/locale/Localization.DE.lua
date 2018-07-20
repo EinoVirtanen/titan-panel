@@ -354,6 +354,8 @@ function TitanLocalizeDE()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Keine Anzeige";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Kurze Beschriftung";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn wird ben\195\182tigt";
+	TITAN_ITEMBONUSES_RATING_CONVERSION = "Zeigen Sie Bewertungen als Punkte/Prozentsatz";
+	TITAN_ITEMBONUSES_SHOWGEMS = "Anzeige Zahl der Edelsteinfarben";
 	
 	TITAN_ITEMBONUSES_CAT_ATT = "Attribute";
 	TITAN_ITEMBONUSES_CAT_RES = "Widerstand";

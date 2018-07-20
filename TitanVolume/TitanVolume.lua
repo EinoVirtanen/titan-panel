@@ -1,6 +1,7 @@
 local TITAN_VOLUME_ID = "Volume";
 local TITAN_VOLUME_FRAME_SHOW_TIME = 0.5;
 local TITAN_VOLUME_ARTWORK_PATH = "Interface\\AddOns\\TitanVolume\\Artwork\\";
+local _G = getfenv(0);
 
 function TitanPanelVolumeButton_OnLoad(self)
 	self.registry = { 
@@ -69,9 +70,9 @@ function TitanPanelMasterVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelMasterVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_MasterVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_MasterVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("Sound_MasterVolume"));
@@ -90,7 +91,7 @@ function TitanPanelMasterVolumeControlSlider_OnShow(self)
 end
 
 function TitanPanelMasterVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 		
 	SetCVar("Sound_MasterVolume", 1 - self:GetValue());
 	TitanSetVar(TITAN_VOLUME_ID, "VolumeMaster", 1 - self:GetValue())
@@ -131,16 +132,16 @@ function TitanPanelMusicVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelMusicVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_MusicVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_MusicVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("Sound_MusicVolume"));
 end
 
 function TitanPanelMusicVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 
 	SetCVar("Sound_MusicVolume", 1 - self:GetValue());
 	TitanSetVar(TITAN_VOLUME_ID, "VolumeMusic", 1 - self:GetValue())
@@ -167,16 +168,16 @@ function TitanPanelSoundVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelSoundVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_SFXVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_SFXVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("Sound_SFXVolume"));
 end
 
 function TitanPanelSoundVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 	
 	SetCVar("Sound_SFXVolume", 1 - self:GetValue());
 	TitanSetVar(TITAN_VOLUME_ID, "VolumeSFX", 1 - self:GetValue())
@@ -203,16 +204,16 @@ function TitanPanelAmbienceVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelAmbienceVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_AmbienceVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("Sound_AmbienceVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("Sound_AmbienceVolume"));
 end
 
 function TitanPanelAmbienceVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 local tempval = self:GetValue();
 	
 	SetCVar("Sound_AmbienceVolume", 1 - self:GetValue());
@@ -244,16 +245,16 @@ function TitanPanelMicrophoneVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelMicrophoneVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("OutboundChatVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("OutboundChatVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(-1.50, 0.75);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("OutboundChatVolume"));
 end
 
 function TitanPanelMicrophoneVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 	
 	SetCVar("OutboundChatVolume", 1 - self:GetValue());
 	TitanSetVar(TITAN_VOLUME_ID, "VolumeOutboundChat", 1 - self:GetValue())
@@ -280,16 +281,16 @@ function TitanPanelSpeakerVolumeControlSlider_OnLeave(self)
 end
 
 function TitanPanelSpeakerVolumeControlSlider_OnShow(self)        
-	getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(GetCVar("InboundChatVolume")));
-	getglobal(self:GetName().."High"):SetText(TITAN_VOLUME_CONTROL_LOW);
-	getglobal(self:GetName().."Low"):SetText(TITAN_VOLUME_CONTROL_HIGH);
+	_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(GetCVar("InboundChatVolume")));
+	_G[self:GetName().."High"]:SetText(TITAN_VOLUME_CONTROL_LOW);
+	_G[self:GetName().."Low"]:SetText(TITAN_VOLUME_CONTROL_HIGH);
 	self:SetMinMaxValues(0, 1);
 	self:SetValueStep(0.01);
 	self:SetValue(1 - GetCVar("InboundChatVolume"));
 end
 
 function TitanPanelSpeakerVolumeControlSlider_OnValueChanged(self, a1)
-getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
+_G[self:GetName().."Text"]:SetText(TitanPanelVolume_GetVolumeText(1 - self:GetValue()));
 	
 	SetCVar("InboundChatVolume", 1 - self:GetValue());
 	TitanSetVar(TITAN_VOLUME_ID, "VolumeInboundChat", 1 - self:GetValue())
@@ -302,13 +303,13 @@ getglobal(self:GetName().."Text"):SetText(TitanPanelVolume_GetVolumeText(1 - sel
 end
 
 function TitanPanelVolumeControlFrame_OnLoad(self)
-	getglobal(self:GetName().."Title"):SetText(TITAN_VOLUME_CONTROL_TITLE);
-	getglobal(self:GetName().."MasterTitle"):SetText(TITAN_VOLUME_MASTER_CONTROL_TITLE);
-	getglobal(self:GetName().."MusicTitle"):SetText(TITAN_VOLUME_MUSIC_CONTROL_TITLE);
-	getglobal(self:GetName().."SoundTitle"):SetText(TITAN_VOLUME_SOUND_CONTROL_TITLE);
-	getglobal(self:GetName().."AmbienceTitle"):SetText(TITAN_VOLUME_AMBIENCE_CONTROL_TITLE);
-	getglobal(self:GetName().."MicrophoneTitle"):SetText(TITAN_VOLUME_MICROPHONE_CONTROL_TITLE);
-	getglobal(self:GetName().."SpeakerTitle"):SetText(TITAN_VOLUME_SPEAKER_CONTROL_TITLE);
+	_G[self:GetName().."Title"]:SetText(TITAN_VOLUME_CONTROL_TITLE);
+	_G[self:GetName().."MasterTitle"]:SetText(TITAN_VOLUME_MASTER_CONTROL_TITLE);
+	_G[self:GetName().."MusicTitle"]:SetText(TITAN_VOLUME_MUSIC_CONTROL_TITLE);
+	_G[self:GetName().."SoundTitle"]:SetText(TITAN_VOLUME_SOUND_CONTROL_TITLE);
+	_G[self:GetName().."AmbienceTitle"]:SetText(TITAN_VOLUME_AMBIENCE_CONTROL_TITLE);
+	_G[self:GetName().."MicrophoneTitle"]:SetText(TITAN_VOLUME_MICROPHONE_CONTROL_TITLE);
+	_G[self:GetName().."SpeakerTitle"]:SetText(TITAN_VOLUME_SPEAKER_CONTROL_TITLE);
 	self:SetBackdropBorderColor(1, 1, 1);
 	self:SetBackdropColor(0, 0, 0, 1);
 end
@@ -318,7 +319,7 @@ function TitanPanelVolumeControlFrame_OnUpdate(self, elapsed)
 end
 
 function TitanPanelVolume_SetVolumeIcon()
-	local icon = getglobal("TitanPanelVolumeButtonIcon");
+	local icon = _G["TitanPanelVolumeButtonIcon"];
 	local masterVolume = tonumber(GetCVar("Sound_MasterVolume"));
 	if (masterVolume <= 0) then
 		icon:SetTexture(TITAN_VOLUME_ARTWORK_PATH.."TitanVolumeMute");

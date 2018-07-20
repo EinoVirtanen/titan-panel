@@ -8,6 +8,7 @@ TITAN_PANEL_NONMOVABLE_PLUGINS = {"AutoHide", "AuxAutoHide"};
 
 TitanPlugins = {};
 TitanPluginsIndex = {};
+local _G = getfenv(0);
 
 function TitanDebug(debug_message)
 	-- Default green color
@@ -80,7 +81,7 @@ end
 
 function TitanUtils_CloseAllControlFrames()
 	for index, value in pairs(TitanPlugins) do
-		local frame = getglobal("TitanPanel"..index.."ControlFrame");
+		local frame = _G["TitanPanel"..index.."ControlFrame"];
 		if (frame and frame:IsVisible()) then
 			frame:Hide();
 		end
@@ -89,7 +90,7 @@ end
 
 function TitanUtils_IsAnyControlFrameVisible()
 	for index, value in TitanPlugins do
-		local frame = getglobal("TitanPanel"..index.."ControlFrame");
+		local frame = _G["TitanPanel"..index.."ControlFrame"];
 		if (frame:IsVisible()) then
 			return true;
 		end
@@ -186,7 +187,7 @@ end
 
 function TitanUtils_GetButton(id)
 	if (id) then
-		return getglobal("TitanPanel"..id.."Button"), id;
+		return _G["TitanPanel"..id.."Button"], id;
 	else
 		return nil, nil;
 	end
@@ -202,7 +203,7 @@ function TitanUtils_GetButtonID(name)
 end
 
 function TitanUtils_GetParentButtonID(name)
-	local frame = TitanUtils_Ternary(name, getglobal(name), nil);
+	local frame = TitanUtils_Ternary(name, _G[name], nil);
 
 	if ( frame and frame:GetParent() ) then
 		return TitanUtils_GetButtonID(frame:GetParent():GetName());
@@ -227,7 +228,7 @@ end
 
 function TitanUtils_GetControlFrame(id)
 	if (id) then
-		return getglobal("TitanPanel"..id.."ControlFrame");
+		return _G["TitanPanel"..id.."ControlFrame"];
 	else
 		return nil;
 	end
@@ -595,166 +596,6 @@ function TitanUtils_GetOffscreen(frame)
 	return offscreenX, offscreenY;
 end
 
--- There's obvious bug in Blizzard code to handle the drop down menu offscreen cases.
--- I overwrote this function in order to do it right
-function TitanPanelToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList, button)
-	if ( not level ) then
-		level = 1;
-	end
-	UIDROPDOWNMENU_MENU_LEVEL = level;
-	UIDROPDOWNMENU_MENU_VALUE = value;
-	local listFrame = getglobal("DropDownList"..level);
-	local listFrameName = "DropDownList"..level;
-	local tempFrame;
-	local point, relativePoint, relativeTo;
-	if ( not dropDownFrame ) then
-		tempFrame = button:GetParent();
-	else
-		tempFrame = dropDownFrame;
-	end
-	if ( listFrame:IsVisible() and (UIDROPDOWNMENU_OPEN_MENU == tempFrame:GetName()) ) then
-		listFrame:Hide();
-	else
-		-- Hide the listframe anyways since it is redrawn OnShow() 
-		listFrame:Hide();
-		
-		-- Frame to anchor the dropdown menu to
-		local anchorFrame;
-
-		-- Display stuff
-		-- Level specific stuff
-		if ( level == 1 ) then
-			if ( not dropDownFrame ) then
-				dropDownFrame = button:GetParent();
-			end
-			UIDROPDOWNMENU_OPEN_MENU = dropDownFrame:GetName();
-			listFrame:ClearAllPoints();
-			-- If there's no specified anchorName then use left side of the dropdown menu
-			if ( not anchorName ) then
-				-- See if the anchor was set manually using setanchor
-				if ( dropDownFrame.xOffset ) then
-					xOffset = dropDownFrame.xOffset;
-				end
-				if ( dropDownFrame.yOffset ) then
-					yOffset = dropDownFrame.yOffset;
-				end
-				if ( dropDownFrame.point ) then
-					point = dropDownFrame.point;
-				end
-				if ( dropDownFrame.relativeTo ) then
-					relativeTo = dropDownFrame.relativeTo;
-				else
-					relativeTo = UIDROPDOWNMENU_OPEN_MENU.."Left";
-				end
-				if ( dropDownFrame.relativePoint ) then
-					relativePoint = dropDownFrame.relativePoint;
-				end
-			elseif ( anchorName == "cursor" ) then
-				relativeTo = "UIParent";
-				local cursorX, cursorY = GetCursorPosition();
-				if ( not xOffset ) then
-					xOffset = 0;
-				end
-				if ( not yOffset ) then
-					yOffset = 0;
-				end
-				xOffset = cursorX + xOffset;
-				yOffset = cursorY + yOffset;
-			else
-				relativeTo = anchorName;
-			end
-			if ( not xOffset or not yOffset ) then
-				xOffset = 8;
-				yOffset = 22;
-			end
-			if ( not point ) then
-				point = "TOPLEFT";
-			end
-			if ( not relativePoint ) then
-				relativePoint = "BOTTOMLEFT";
-			end
-			listFrame:SetPoint(point, relativeTo, relativePoint, xOffset, yOffset);
-		else
-			if ( not dropDownFrame ) then
-				dropDownFrame = getglobal(UIDROPDOWNMENU_OPEN_MENU);
-			end
-			listFrame:ClearAllPoints();
-			-- If this is a dropdown button, not the arrow anchor it to itself
-			if ( strsub(button:GetParent():GetName(), 0,12) == "DropDownList" and strlen(button:GetParent():GetName()) == 13 ) then
-				anchorFrame = button:GetName();
-			else
-				anchorFrame = button:GetParent():GetName();
-			end
-			listFrame:SetPoint("TOPLEFT", anchorFrame, "TOPRIGHT", 0, 0);
-		end
-		
-		-- Change list box appearance depending on display mode
-		if ( dropDownFrame and dropDownFrame.displayMode == "MENU" ) then
-			getglobal(listFrameName.."Backdrop"):Hide();
-			getglobal(listFrameName.."MenuBackdrop"):Show();
-		else
-			getglobal(listFrameName.."Backdrop"):Show();
-			getglobal(listFrameName.."MenuBackdrop"):Hide();
-		end
-
-		UIDropDownMenu_Initialize(dropDownFrame, dropDownFrame.initialize, nil, level);
-		-- If no items in the drop down don't show it
-		if ( listFrame.numButtons == 0 ) then
-			return;
-		end
-
-
-		-- Check to see if the dropdownlist is off the screen, if it is anchor it to the top of the dropdown button
-		-- I overwrote this part to fix Blizzard's offscreen bug
-		listFrame:Show();
-		local offscreenX, offscreenY = TitanUtils_GetOffscreen(listFrame);
-		offscreenX = TitanUtils_Ternary(offscreenX == 0, nil, 1);
-		offscreenY = TitanUtils_Ternary(offscreenY == 0, nil, 1);
-		
-		--  If level 1 can only go off the bottom of the screen
-		if ( level == 1 ) then
-			if ( offscreenY ) then
-				listFrame:ClearAllPoints();
-				if ( anchorName == "cursor" ) then
-					listFrame:SetPoint("BOTTOMLEFT", relativeTo, "BOTTOMLEFT", xOffset, yOffset);
-				else
-					listFrame:SetPoint("BOTTOMLEFT", relativeTo, "TOPLEFT", xOffset, -yOffset);
-				end
-			end
-
-		else
-			local anchorPoint, relativePoint, offsetX, offsetY;
-			if ( offscreenY ) then
-				if ( offscreenX ) then
-					anchorPoint = "BOTTOMRIGHT";
-					relativePoint = "BOTTOMLEFT";
-					offsetX = 0;
-					offsetY = -14;
-				else
-					anchorPoint = "BOTTOMLEFT";
-					relativePoint = "BOTTOMRIGHT";
-					offsetX = 0;
-					offsetY = -14;
-				end
-			else
-				if ( offscreenX ) then
-					anchorPoint = "TOPRIGHT";
-					relativePoint = "TOPLEFT";
-					offsetX = 0;
-					offsetY = 14;
-				else
-					anchorPoint = "TOPLEFT";
-					relativePoint = "TOPRIGHT";
-					offsetX = 0;
-					offsetY = 14;
-				end
-			end
-			listFrame:ClearAllPoints();
-			listFrame:SetPoint(anchorPoint, anchorFrame, relativePoint, offsetX, offsetY);
-		end
-	end
-end
-
 
 function TitanUtils_FindInventoryItemWithText(name, description)
 	local bagNum;
@@ -767,7 +608,7 @@ function TitanUtils_FindInventoryItemWithText(name, description)
 			local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
 			--Loop through tooltip
 			for i = 1, 15, 1 do
-				local field = getglobal("TitanPanelTooltipTextLeft" .. i);
+				local field = _G["TitanPanelTooltipTextLeft" .. i];
 				if (field ~= nil) then
 					local text = field:GetText();
 					if (i == 1) then
@@ -808,7 +649,7 @@ function TitanUtils_FindInventoryItemWithTextAndSlot(name, description, slotnum)
                local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
                --Loop through tooltip
                for i = 1, 15, 1 do
-                    local field = getglobal("TitanPanelTooltipTextLeft" .. i);
+                    local field = _G["TitanPanelTooltipTextLeft" .. i];
                     if (field ~= nil) then
                          local text = field:GetText();
                          if ((i == 1) and (slotnum > 2)) then

@@ -34,6 +34,11 @@ L["BONUSSCANNER_NAMES"] = {
 	DMGWPN 			= "Augmentation de d\195\169\g\195\162ts en m\195\170l\195\169e ", -- Might of Cenarius etc.
 	RANGEDDMG 		= "D\195\169\g\195\162ts de l'arme \195\160 distance ",
 	ARMORPEN 		= "P\195\169n\195\169tration d'armure ",
+	
+-- DPS
+	DPSMAIN = "Main Weapon(s) DPS",
+	DPSRANGED = "Ranged Weapon DPS",
+	DPSTHROWN = "Thrown Weapon DPS",
 
 --Attack Power
 	ATTACKPOWER		= "Puissance d'attaque ",
@@ -303,6 +308,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
 
 -- rest of custom patterns
+	{ pattern = "Augmente de (%d+) la puissance d'attaque pour les formes de f\195\169lin, d'ours, d'ours redoutable et de s\195\169l\195\169nien uniquement%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
 	{ pattern = "Renforc\195\169 %(%+(%d+) Armure%)", effect = "ARMOR" }, -- bonus des Renforts d'armure
 	{ pattern = "%+(%d+)%% Threat", effect = "THREATINCREASE" },

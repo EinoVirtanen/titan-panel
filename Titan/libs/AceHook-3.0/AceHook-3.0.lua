@@ -1,5 +1,8 @@
---[[ $Id: AceHook-3.0.lua 625 2008-04-13 10:09:12Z nevcairiel $ ]]
-local ACEHOOK_MAJOR, ACEHOOK_MINOR = "AceHook-3.0", 4
+--- Safe Hooking/Unhooking of functions, methods and frame scripts.
+-- @class file
+-- @name AceHook-3.0
+-- @release $Id: AceHook-3.0.lua 721 2009-01-04 12:39:04Z nevcairiel $
+local ACEHOOK_MAJOR, ACEHOOK_MINOR = "AceHook-3.0", 5
 local AceHook, oldminor = LibStub:NewLibrary(ACEHOOK_MAJOR, ACEHOOK_MINOR)
 
 if not AceHook then return end -- No upgrade needed
@@ -205,15 +208,21 @@ function hook(self, obj, method, handler, script, secure, raw, forceSecure, usag
 		registry[self][obj][method] = uid
 
 		if not secure then
-			if script then
-				obj:SetScript(method, uid)
-			else
-				obj[method] = uid
-			end
 			self.hooks[obj][method] = orig
-		else
-			if script then
+		end
+		
+		if script then
+			-- If the script is empty before, HookScript will not work, so use SetScript instead
+			-- This will make the hook insecure, but shouldnt matter, since it was empty before. 
+			-- It does not taint the full frame.
+			if not secure or orig == donothing then
+				obj:SetScript(method, uid)
+			elseif secure then
 				obj:HookScript(method, uid)
+			end
+		else
+			if not secure then
+				obj[method] = uid
 			else
 				hooksecurefunc(obj, method, uid)
 			end

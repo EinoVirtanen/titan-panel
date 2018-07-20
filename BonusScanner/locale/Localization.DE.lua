@@ -34,7 +34,12 @@ L["BONUSSCANNER_NAMES"] = {
 	RESILIENCE = "Abhärtungswertung", 
 	DMGWPN = "Waffenschaden", 
 	RANGEDDMG = "Distanzschaden", 
-	ARMORPEN = "Ignorierte Rüstung",
+	ARMORPEN = "Rüstungsdurchschlagwertung",
+	
+-- DPS
+	DPSMAIN = "Main Weapon(s) DPS",
+	DPSRANGED = "Ranged Weapon DPS",
+	DPSTHROWN = "Thrown Weapon DPS",
 
 --Attack Power
 	ATTACKPOWER	= "Angriffskraft",
@@ -63,7 +68,7 @@ L["BONUSSCANNER_NAMES"] = {
 	NATUREDMG 	= "Naturschaden",
 	SHADOWDMG 	= "Schattenschaden",
 	SPELLPEN 	= "Zauberdurchschlagskraft",
-	SPELLPOW = "Spell Power", 
+	SPELLPOW = "Zaubermacht", 
 
 --Regen
 	HEALTHREG 	= "Lebensregeneration",
@@ -124,37 +129,34 @@ L["BONUSSCANNER_PATTERNS_PASSIVE"] = {
 --Crit
 	{ pattern = "Erhöht Eure kritische Trefferwertung um (%d+)%.", effect = "CRIT" },
 	{ pattern = "Erhöht kritische Trefferwertung um (%d+)%.", effect = "CRIT" }, 
-	{ pattern = "Erhöht kritische Nahkampftrefferwertung um (%d+)%.", effect = "CRIT" },
-	{ pattern = "Erhöht Eure kritische Zaubertrefferwertung um (%d+)%.", effect = "SPELLCRIT" },
-	{ pattern = "Erhöht kritische Zaubertrefferwertung um (%d+)%.", effect = "SPELLCRIT" },
+	{ pattern = "Erhöht kritische Nahkampftrefferwertung um (%d+)%.", effect = "CRIT" },	
 	{ pattern = "Erhöht Eure kritische Distanztrefferwertung um (%d+)%.", effect = "RANGEDCRIT" },
 
---Damage/Heal
+--Damage/Heal/Spell Power
+	{ pattern = "Erhöht die Zaubermacht um (%d+)%.", effect = "SPELLPOW" },
+	{ pattern = "Erhöht Zaubermacht um (%d+)%.", effect = "SPELLPOW" }, 
 	{ pattern = "Erhöht durch Arkanzauber und Arkaneffekte zugefügten Schaden um bis zu (%d+)%.", effect = "ARCANEDMG" },
 	{ pattern = "Erhöht durch Feuerzauber und Feuereffekte zugefügten Schaden um bis zu (%d+)%.", effect = "FIREDMG" },
 	{ pattern = "Erhöht durch Frostzauber und Frosteffekte zugefügten Schaden um bis zu (%d+)%.", effect = "FROSTDMG" },
 	{ pattern = "Erhöht durch Heiligzauber und Heiligeffekte zugefügten Schaden um bis zu (%d+)%.", effect = "HOLYDMG" },
 	{ pattern = "Erhöht durch Naturzauber und Natureffekte zugefügten Schaden um bis zu (%d+)%.", effect = "NATUREDMG" },
-	{ pattern = "Erhöht durch Schattenzauber und Schatteneffekte zugefügten Schaden um bis zu (%d+)%.", effect = "SHADOWDMG" },
-	{ pattern = "Erhöht durch Zauber und Effekte verursachte Heilung um bis zu (%d+)%.", effect = "HEAL" },
-	{ pattern = "Erhöht durch Zauber und magische Effekte zugefügten Schaden und Heilung um bis zu (%d+)%.", effect = {"HEAL", "DMG"} },
-	{ pattern = "Erhöht durch Zauber und magische Effekte verursachten Schaden und Heilung um bis zu (%d+)%.", effect = {"HEAL", "DMG"} },
-	{ pattern = "Erhöht durch Zauber und magische Effekte verursachten Schaden und Heilung leicht%.", effect = {"HEAL", "DMG"}, value = {6, 6} },
+	{ pattern = "Erhöht durch Schattenzauber und Schatteneffekte zugefügten Schaden um bis zu (%d+)%.", effect = "SHADOWDMG" },	
 	{ pattern = "Erhöht den durch magische Zauber und magische Effekte zugefügten Schaden gegen Untote um bis zu (%d+)%.", effect = "DMGUNDEAD" },
 	
 -- Multibonus Equip patterns
   { pattern = "Erhöht durch sämtliche Zauber und magische Effekte verursachte Heilung um bis zu (%d+) und den verursachten Schaden um bis zu (%d+)%.", effect = {"HEAL","DMG"} },
-	{ pattern = "Erhöht die Widerstände Eures Begleiters um 130 und Euren Zauberschaden um bis zu (%d+)%.", effect = "DMG" }, -- Void Star Talisman
+	{ pattern = "Erhöht die Widerstände Eures Begleiters um 130 und Euren Zaubermacht um bis zu (%d+)%.", effect = "SPELLPOW" }, -- Void Star Talisman
 	{ pattern = "Erhöht Euren Zauberschaden um bis zu (%d+) und Eure Heilung um bis zu (%d+)%.", effect = {"DMG","HEAL"} },
 	{ pattern = "Erhöht durch Zauber und magische Effekte verursachte Heilung aller Gruppenmitglieder, die sich im Umkreis von %d+ Metern befinden, um bis zu (%d+)%.", effect = "HEAL" },
 	{ pattern = "Erhöht durch Zauber und magische Effekte verursachte Schaden und Heilung aller Gruppenmitglieder, die sich im Umkreis von %d+ Metern befinden, um bis zu (%d+)%.", effect = {"HEAL", "DMG"} },
 	{ pattern = "Stellt alle 5 Sek. (%d+) Mana bei allen Gruppenmitgliedern, die sich im Umkreis von %d+ Metern befinden, wieder her.", effect = "MANAREG" },
-	{ pattern = "Erhöht die kritische Zaubertrefferwertung aller Gruppenmitglieder innerhalb von %d+ Metern um (%d+)%.", effect = "SPELLCRIT" },
+	{ pattern = "Erhöht die kritische Trefferwertung aller Gruppenmitglieder innerhalb von %d+ Metern um (%d+)%.", effect = "CRIT" },
 	{ pattern = "Verbessert Verteidigungswertung um (%d+), Schattenwiderstand um (%d+) sowie Eure normale Gesundheitsregeneration um (%d+)%.", effect = {"DEFENSE", "SHADOWRES", "HEALTHREG"} },
 	
 	
 --Attack power
 	{ pattern = "Erhöht die Angriffskraft um (%d+)%.", effect = "ATTACKPOWER" },
+	{ pattern = "Erhöht Angriffskraft um (%d+)%.", effect = "ATTACKPOWER" },
 	{ pattern = "Verbessert Eure Angriffskraft um (%d+)%.", effect = "ATTACKPOWER" },
 	{ pattern = "Erhöht die Nahkampf- und Distanzangriffskraft um (%d+)%.", effect = {"ATTACKPOWER","RANGEDATTACKPOWER"} }, -- Andonisus, Reaper of Souls pattern
 	{ pattern = "+(%d+) Distanzangriffskraft.", effect = "RANGEDATTACKPOWER" },
@@ -170,18 +172,16 @@ L["BONUSSCANNER_PATTERNS_PASSIVE"] = {
 	
 --Hit
 	{ pattern = "Erhöht Eure Trefferwertung um (%d+)%.", effect = "TOHIT" },
-	{ pattern = "Erhöht Trefferwertung um (%d+)%.", effect = "TOHIT" }, 
-	{ pattern = "Erhöht Eure Zaubertrefferwertung um (%d+)%.", effect = "SPELLTOHIT" },
-	{ pattern = "Erhöht Zaubertrefferwertung um (%d+)%.", effect = "SPELLTOHIT" },
+	{ pattern = "Erhöht Trefferwertung um (%d+)%.", effect = "TOHIT" }, 	
 	
 --Haste
-	{ pattern = "Erhöht Tempowertung um (%d+)%.", effect = "HASTE" },
-	{ pattern = "Erhöht Zaubertempowertung um (%d+)%.", effect = "SPELLH" },
+	{ pattern = "Erhöht Tempowertung um (%d+)%.", effect = "HASTE" },	
 	
 --Penetration
 	{ pattern = "Reduziert die Magiewiderstände der Ziele Eurer Zauber um (%d+)%.", effect = "SPELLPEN" },
 	{ pattern = "Erhöht Eure Zauberdurchschlagskraft um (%d+)%.", effect = "SPELLPEN" },
-	{ pattern = "Eure Angriffe ignorieren (%d+) Rüstung Eures Gegners%.", effect = "ARMORPEN" }
+	{ pattern = "Eure Angriffe ignorieren (%d+) Rüstung Eures Gegners%.", effect = "ARMORPEN" },
+	{ pattern = "Erhöht Eure Rüstungsdurchschlagwertung um (%d+)%.", effect = "ARMORPEN" },
 	
 };
 
@@ -213,15 +213,12 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Waffenschaden"] = "DMGWPN",
 	
 	-- TBC Patterns Generic/Gems/Sockets
-	
-	["Kritische Zaubertrefferwertung"] = "SPELLCRIT",
-	["Zaubertrefferwertung"]= "SPELLTOHIT",
-	["Zauberkraft"] = {"HEAL", "DMG"},
+				
 	["Kritische Trefferwertung"] = "CRIT",
+	["kritische Trefferwertung"] = "CRIT",
 	["Zauberdurchschlagskraft"] = "SPELLPEN",
 	["Verteidigungswertung"] = "DEFENSE",
-	["Tempowertung"] = "HASTE",
-	["Zaubertempowertung"] = "SPELLH",
+	["Tempowertung"] = "HASTE",	
 	["Mana Per 5 sec"] = "MANAREG",
 	["mana per 5 sec"] = "MANAREG",
 	["Mana per 5 Sec"] = "MANAREG",
@@ -232,8 +229,7 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Ausweichwertung"] 		= "DODGE",
 	["Parierwertung"] = "PARRY",
 	["Abhärtungswertung"] = "RESILIENCE",
-	["Nahkampfschaden"] = "DMGWPN",
-	["Schadenszauber"] = "DMG",
+	["Nahkampfschaden"] = "DMGWPN",	
 	["Waffenkundewertung"] = "EXPERTISE",
 	
 	-- End TBC Patterns
@@ -244,7 +240,6 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Blockwertung"]		= "BLOCK",
 	["Trefferchance"] 		= "TOHIT",
 	["Trefferwertung"] = "TOHIT",	
-	["Zaubertrefferchance"]		= "SPELLTOHIT",
 	["Distanzangriffskraft"]	= "RANGEDATTACKPOWER",
 	["distanzangriffskraft"]	= "RANGEDATTACKPOWER", -- Experimental for TBC
 	["Gesundheit alle 5 Sek"]	= "HEALTHREG",
@@ -254,11 +249,10 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Erhöht Heilung"] 	= "HEAL",
 	["Mana Regen"] = "MANAREG",
 	["Manaregeneration"] = "MANAREG",
-	--multivalue
-	["Zauberschaden"]	= {"HEAL", "DMG"},
+	--multivalue	
+	["Zaubermacht"]	= "SPELLPOW",
 	--/multivalue
-	["Kritischer Treffer"]	= "CRIT",
-	["Zauberschaden erhöhen"]		= "DMG",
+	["Kritischer Treffer"]	= "CRIT",	
 	["Gesundheit"]		= "HEALTH",
 	["HP"]			= "HEALTH",
 	["GP"]			= "HEALTH",
@@ -266,7 +260,10 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Rüstung"]		= "ARMOR",
 	["Verstärkte Rüstung"]	= "ARMOR",
 	["Abhärtung"]	= "RESILIENCE",
-	["Distanztrefferwertung"] = "RANGEDHIT"
+	["Distanztrefferwertung"] = "RANGEDHIT",
+	
+	-- Patterns for color coded/special lines
+	["erhöhter kritischer Schaden"] = "INCRCRITDMG",
 };	
 
 -- next we try to match against one pattern of stage 1 and one pattern of stage 2 and concatenate the effect strings
@@ -290,32 +287,25 @@ L["BONUSSCANNER_PATTERNS_GENERIC_STAGE2"] = {
 L["BONUSSCANNER_PATTERNS_OTHER"] = {
 
 -- mage/warlock ZG patterns
--- Aldor/Scryer enchants that cannot be handled any other way
-	{ pattern = "%+18 Heilung und Zauberschaden%s/%s%+8 Zaubertrefferwertung", effect = {"DMG", "HEAL", "SPELLTOHIT" }, value = {18, 18, 8} },
-	{ pattern = "%+18 Heilung und Zauberschaden%s/%s%+10 Ausdauer", effect = {"DMG", "HEAL", "STA" }, value = {18, 18, 10} },
-  { pattern = "%+15 Kritische Zaubertrefferwertung und %+12 Zauberschaden und Heilung", effect = {"SPELLCRIT", "HEAL", "DMG" }, value = {15, 12, 12} },
+-- Aldor/Scryer enchants that cannot be handled any other way	
 	{ pattern = "%+15 Ausweichwertung und Verteidigungswertung %+10", effect = {"DODGE", "DEFENSE"}, value = {15, 10} },
 	
--- special patterns that cannot be handled any other way	
-	{ pattern = "%+(%d+) Heilung und Zauberschaden", effect = {"DMG", "HEAL"} },
-	{ pattern = "%+(%d+) Schaden und Heilzauber", effect = {"DMG", "HEAL"} },
-	{ pattern = "%+(%d+) Zauberschaden und Heilung", effect = {"DMG", "HEAL"} },
-	{ pattern = "%+(%d+) Schadenszauber und Heilzauber", effect = {"DMG", "HEAL"} },
-	{ pattern = "%+(%d+) Schadens- und Heilzauber", effect = {"DMG", "HEAL"} },
 	
--- special metagem patterns
+-- special patterns that cannot be handled any other way	
   { pattern = "+12 Beweglichkeit und um 3%% erhöhter kritischer Schaden", effect = {"AGI","INCRCRITDMG"}, value = {12, 3} },
-  { pattern = "%+26 Heilung %+9 Zauberschaden und 2%% verringerte Bedrohung", effect = {"HEAL", "DMG", "THREATREDUCTION"}, value = {26, 9, 2} },
-  { pattern = "+12 Kritische Zaubertrefferwertung und um 3%% erhöhter kritischer Schaden", effect = {"SPELLCRIT", "INCRCRITDMG"}, value = {12, 3} },
-  { pattern = "+14 Kritische Zaubertrefferwertung und 1%% Zauberreflexion", effect = {"SPELLCRIT", "SPELLREFLECT"}, value = {14, 1} },
+  { pattern = "+21 Beweglichkeit und um 3%% erhöhter kritischer Schaden", effect = {"AGI","INCRCRITDMG"}, value = {21, 3} },
+  { pattern = "+12 Kritische Trefferwertung und um 3%% erhöhter kritischer Schaden", effect = {"CRIT", "INCRCRITDMG"}, value = {12, 3} },
+  { pattern = "+21 Kritische Trefferwertung und um 3%% erhöhter kritischer Schaden", effect = {"CRIT", "INCRCRITDMG"}, value = {21, 3} },
+  { pattern = "+14 Kritische Trefferwertung und 1%% Zauberreflexion", effect = {"CRIT", "SPELLREFLECT"}, value = {14, 1} },
   { pattern = "+12 Kritische Trefferwertung und 5%% Widerstand gegen Bewegungseinschränkung", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },
   { pattern = "+14 Zauberschaden und 5%% Betäubungswiderstand", effect = {"DMG", "STUNRESIST"}, value = {14, 5} },
   { pattern = "+24 Angriffskraft und 5%% Betäubungswiderstand", effect = {"ATTACKPOWER", "STUNRESIST"}, value = {24, 5} },
   { pattern = "+18 Ausdauer und 5%% Betäubungswiderstand", effect = {"STA", "STUNRESIST"}, value = {18, 5} },
-  { pattern = "%+14 Zauberschaden und %+2%% Intelligenz", effect = {"DMG", "PERCINT"}, value = {14, 2} },
+  { pattern = "%+14 Zaubermacht und %+2%% Intelligenz", effect = {"SPELLPOW", "PERCINT"}, value = {14, 2} },
   { pattern = "%+12 Verteidigungswertung und %+10%% Blockwert des Schildes", effect = {"DEFENSE", "PERCBLOCKVALUE"}, value = {12, 10} },
 
 --rest of custom patterns
+  { pattern = "Erhöht die Angriffskraft um (%d+) nur in Katzen%-, Bären%-, Terrorbären%- und Mondkingestalt%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Manaregeneration (%d+) pro 5 Sek", effect = "MANAREG" },
 	{ pattern = "Manaregeneration (%d+) per 5 Sek", effect = "MANAREG" },
 	{ pattern = "alle 5 Sek%. (%d+) Mana", effect = "MANAREG" },
@@ -324,8 +314,10 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+(%d+)%% Bedrohung", effect = "THREATINCREASE" },
 	{ pattern = "Zielfernrohr %(%+(%d+) Schaden%)", effect = "RANGEDDMG" },
 	{ pattern = "Feingefühl", effect = "THREATREDUCTION", value = 2 },
-	
+		
 	{ pattern = "Vitalität", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
+	{ pattern = "Eiswandler", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
+	{ pattern = "Präzision", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
 	{ pattern = "Seelenfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Sonnenfeuer", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
 	{ pattern = "Unbändigkeit", effect = "ATTACKPOWER", value = 70 },	
