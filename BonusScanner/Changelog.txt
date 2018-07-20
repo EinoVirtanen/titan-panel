@@ -1,3 +1,9 @@
+4.9 Tristanian 2009.04.24
+- Implemented a 1 second delay when scanning a target via the /bscan target slash command to ensure gear is properly parsed and 
+bonuses are properly counted.
+- Updated Korean and Chinese localization.
+- Removed ranged slot calculation from average item level.
+------------------------------------------------
 4.8 Tristanian 2009.04.14
 - Updated TOC to 30100 (WoW 3.1)
 - Added an obscure spell power pattern found on certain items, on the new emblem rewards.

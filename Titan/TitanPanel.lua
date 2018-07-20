@@ -1,6 +1,7 @@
 local TITAN_PANEL_ICON_SPACING = 4;
 local TITAN_PANEL_INITIAL_PLUGINS = {"Coords", "XP", "GoldTracker", "Clock", "Volume", "AutoHide", "Bag", "AuxAutoHide", "Repair"};
 local TITAN_PANEL_INITIAL_PLUGIN_LOCATION = {"Bar", "Bar", "Bar", "Bar", "Bar", "Bar", "Bar", "AuxBar", "Bar"};
+local StrataTypes = {"BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG"}
 TITAN_PANEL_BUTTONS_PLUGIN_CATEGORY = {"General","Combat","Information","Interface","Profession"}
 
 local TITAN_PANEL_FROM_TOP = -25;
@@ -9,8 +10,6 @@ local TITAN_PANEL_FROM_BOTTOM_MAIN = 1;
 local TITAN_PANEL_FROM_TOP_MAIN = 1;
 local TITAN_PANEL_BUTTONS_ALIGN_LEFT = 1;
 local TITAN_PANEL_BUTTONS_ALIGN_CENTER = 2;
---local TITAN_PANEL_BUTTONS_ALIGN_RIGHT = 3;
-
 local TITAN_PANEL_BARS_SINGLE = 1;
 local TITAN_PANEL_BARS_DOUBLE = 2;
 
@@ -19,7 +18,6 @@ TITAN_PANEL_SELECTED = "Bar";
 
 TITAN_PANEL_MOVE_ADDON = nil;
 TITAN_PANEL_DROPOFF_ADDON = nil;
---TITAN_PANEL_NEXT_ADDON = nil;
 TITAN_PANEL_MOVING = 0;
 
 local _G = getfenv(0);
@@ -41,62 +39,30 @@ local AceConfig = LibStub("AceConfig-3.0")
 local Dewdrop = nil
 if AceLibrary:HasInstance("Dewdrop-2.0") then Dewdrop = AceLibrary("Dewdrop-2.0") end
 
--- Titan Default Saved Vars
-TITAN_PANEL_SAVED_VARIABLES = {
-	Buttons = TITAN_PANEL_INITIAL_PLUGINS,
-	Location = TITAN_PANEL_INITIAL_PLUGIN_LOCATION,
-	TexturePath = "Interface\\AddOns\\Titan\\Artwork\\",
-	Transparency = 0.7,
-	AuxTransparency = 0.7,
-	Scale = 1,
-	ButtonSpacing = 20,
-	TooltipTrans = 1,
-	TooltipFont = 1,
-	DisableTooltipFont = 1,
-	FontName = "Friz Quadrata TT",
-	ScreenAdjust = false,
-	LogAdjust = false,
-	MinimapAdjust = false,
-	AutoHide = false,
-	Position = TITAN_PANEL_PLACE_TOP,
-	DoubleBar = TITAN_PANEL_BARS_SINGLE,
-	ButtonAlign = TITAN_PANEL_BUTTONS_ALIGN_LEFT,
-	BothBars = false,
-	AuxScreenAdjust = false,
-	AuxAutoHide = false,
-	AuxDoubleBar = TITAN_PANEL_BARS_SINGLE,
-	AuxButtonAlign = TITAN_PANEL_BUTTONS_ALIGN_LEFT,
-	LockButtons = false,
-	VersionShown = 1,
-	LDBSuffix = false,
-	ToolTipsShown = 1,
-	HideTipsInCombat = false,
-	CastingBar = false
-};
 
--- Titan Addon metadata local funcs
+-- Titan local helper funcs
 local function TitanPanel_GetAuthor()
-	return GetAddOnMetadata("Titan", "Author") or "N/A";
+	return GetAddOnMetadata("Titan", "Author") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetCredits()
-	return GetAddOnMetadata("Titan", "X-Credits") or "N/A";
+	return GetAddOnMetadata("Titan", "X-Credits") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetCategory()
-	return GetAddOnMetadata("Titan", "X-Category") or "N/A";
+	return GetAddOnMetadata("Titan", "X-Category") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetEmail()
-	return GetAddOnMetadata("Titan", "X-Email") or "N/A";
+	return GetAddOnMetadata("Titan", "X-Email") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetWebsite()
-	return GetAddOnMetadata("Titan", "X-Website") or "N/A";
+	return GetAddOnMetadata("Titan", "X-Website") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetVersion()
-	return tostring(GetAddOnMetadata("Titan", "Version")) or "N/A"
+	return tostring(GetAddOnMetadata("Titan", "Version")) or L["TITAN_NA"];
 end
 
 local function TitanAdjustPanelScale(scale)		
@@ -111,6 +77,54 @@ local function TitanAdjustPanelScale(scale)
 		TitanMovableFrame_AdjustBlizzardFrames();		
 		AceTimer.CancelAllTimers("TitanPanelScale");
 end
+
+local function TitanSetPanelFont(fontname, fontsize)
+-- a couple of arg checks to avoid unpleasant things...
+if not fontname then fontname = "Friz Quadrata TT" end
+if not fontsize then fontsize = 10 end
+local index,id;
+local newfont = media:Fetch("font", fontname)
+	for index, id in pairs(TitanPluginsIndex) do
+		local button = TitanUtils_GetButton(id);
+		local buttonText = _G[button:GetName().."Text"];
+			if buttonText then
+				buttonText:SetFont(newfont, fontsize);
+			end
+			-- account for plugins with child buttons
+			local childbuttons = {button:GetChildren()};
+			for _, child in ipairs(childbuttons) do
+				if child then
+					local childbuttonText = _G[child:GetName().."Text"];
+						if childbuttonText then
+							childbuttonText:SetFont(newfont, fontsize);
+						end
+				end
+			end
+	end
+	TitanPanel_RefreshPanelButtons();
+end
+
+local function TitanSetPanelStrata(value)
+-- obligatory check
+if not value then value = "DIALOG" end
+local index, id;
+local indexpos = 5 -- DIALOG
+TitanPanelBarButton:SetFrameStrata(value)
+TitanPanelAuxBarButton:SetFrameStrata(value)
+
+	for index in ipairs(StrataTypes) do
+	 if value == StrataTypes[index] then
+	 	indexpos = index
+	 	break
+	 end
+	end
+
+	for index, id in pairs(TitanPluginsIndex) do
+		local button = TitanUtils_GetButton(id);
+		button:SetFrameStrata(StrataTypes[indexpos + 1])
+	end
+end
+
 
 -- Titan AceConfigDialog-3.0 init tables
 
@@ -131,7 +145,7 @@ local options = {
 		confversiondesc = {
 			order = 1,
 			type = "description",			
-			name = "|cffffd700".."Version"..": "..GREEN_FONT_COLOR_CODE..TitanPanel_GetVersion(),
+			name = "|cffffd700".."Version"..": ".._G["GREEN_FONT_COLOR_CODE"]..TitanPanel_GetVersion(),
 			cmdHidden = true
 		},
 		confauthordesc = {
@@ -143,25 +157,25 @@ local options = {
 		confcreditsdesc = {
 			order = 3,
 			type = "description",
-			name = "|cffffd700".."Credits"..": "..HIGHLIGHT_FONT_COLOR_CODE..TitanPanel_GetCredits(),
+			name = "|cffffd700".."Credits"..": ".._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetCredits(),
 			cmdHidden = true
 		},
 		confcatdesc = {
 			order = 4,
 			type = "description",
-			name = "|cffffd700".."Category"..": "..HIGHLIGHT_FONT_COLOR_CODE..TitanPanel_GetCategory(),
+			name = "|cffffd700".."Category"..": ".._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetCategory(),
 			cmdHidden = true
 		},
 		confemaildesc = {
 			order = 5,
 			type = "description",
-			name = "|cffffd700".."Email"..": "..HIGHLIGHT_FONT_COLOR_CODE..TitanPanel_GetEmail(),
+			name = "|cffffd700".."Email"..": ".._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetEmail(),
 			cmdHidden = true
 		},
 		confwebsitedesc = {
 			order = 6,
 			type = "description",
-			name = "|cffffd700".."Website"..": "..HIGHLIGHT_FONT_COLOR_CODE..TitanPanel_GetWebsite(),
+			name = "|cffffd700".."Website"..": ".._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetWebsite(),
 			cmdHidden = true
 		},
 	 }
@@ -447,8 +461,7 @@ name = "Titan "..L["TITAN_UISCALE_MENU_TEXT"],
 							get = function() return TitanPanelGetVar("Scale") end,
 							set = function(_, a)
 								if not InCombatLockdown() then 
-							  	TitanPanelSetVar("Scale", a);
-									local TitanPanelScaleTimer = nil;
+							  	TitanPanelSetVar("Scale", a);									
 									AceTimer.CancelAllTimers("TitanPanelScale");
 									TitanUIScaleTimer = AceTimer.ScheduleTimer("TitanPanelScale", TitanAdjustPanelScale, 1, a);
 								end
@@ -489,6 +502,50 @@ name = "Titan "..L["TITAN_UISCALE_MENU_TEXT"],
 							set = function()
 								TitanPanelToggleVar("DisableTooltipFont");
 							end,
+						},
+						fontselection = {
+							name = L["TITAN_PANEL_MENU_LSM_FONTS"],
+							desc = L["TITAN_PANEL_MENU_LSM_FONTS_DESC"],
+							order = 7, type = "select",
+							dialogControl = "LSM30_Font",
+							get = function()
+								return TitanPanelGetVar("FontName")
+							end,
+							set = function(_, v)
+								TitanPanelSetVar("FontName", v)
+								TitanSetPanelFont(v, TitanPanelGetVar("FontSize"))
+							end,
+							values = AceGUIWidgetLSMlists.font,
+						},
+						fontsize = {
+							name = L["TITAN_PANEL_MENU_FONT_SIZE"],
+							desc = L["TITAN_PANEL_MENU_FONT_SIZE_DESC"],
+							order = 8, type = "range",
+							min = 7, max = 15, step = 1,
+							get = function() return TitanPanelGetVar("FontSize") end,
+							set = function(_, v)
+								TitanPanelSetVar("FontSize", v);
+								TitanSetPanelFont(TitanPanelGetVar("FontName"), v)
+							end,
+						},
+						panelstrata = {
+							name = L["TITAN_PANEL_MENU_FRAME_STRATA"],
+							desc = L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"],
+							order = 9, type = "select",
+							get = function()								
+								return TitanPanelGetVar("FrameStrata")
+							end,
+							set = function(_, v)
+								TitanPanelSetVar("FrameStrata", v)
+								TitanSetPanelStrata(v)
+							end,
+							values = {							
+							["LOW"] = "LOW",
+							["MEDIUM"] = "MEDIUM",
+							["HIGH"] = "HIGH",
+							["DIALOG"] = "DIALOG",
+							["FULLSCREEN"] = "FULLSCREEN",
+							},
 						},
    }
  }
@@ -556,7 +613,7 @@ function TitanPanel_RegisterSlashCmd(cmd)
 		
 			DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_RESP3"]);
 		else
-	  	DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"]);
+	  	DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"]);
 		end
   return;
   end
@@ -582,7 +639,7 @@ function TitanPanel_RegisterSlashCmd(cmd)
   return;
   end
   --display help text on slash commands
-   DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE..L["TITAN_PANEL"].." "..GREEN_FONT_COLOR_CODE..TitanPanel_GetVersion()..LIGHTYELLOW_FONT_COLOR_CODE..L["TITAN_PANEL_VERSION_INFO"]);
+   DEFAULT_CHAT_FRAME:AddMessage(_G["LIGHTYELLOW_FONT_COLOR_CODE"]..L["TITAN_PANEL"].." ".._G["GREEN_FONT_COLOR_CODE"]..TitanPanel_GetVersion().._G["LIGHTYELLOW_FONT_COLOR_CODE"]..L["TITAN_PANEL_VERSION_INFO"]);
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING2"]);
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING3"]);
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING4"]);
@@ -657,37 +714,22 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			TitanPanel_InitPanelButtons();
 			
 			-- Init panel font
-			local isfontvalid, newfont, index, id;
+			local isfontvalid;
 			isfontvalid = media:IsValid("font", TitanPanelGetVar("FontName"))
 			if isfontvalid then
-				newfont = media:Fetch("font", TitanPanelGetVar("FontName"))
-				if newfont~= "Fonts\\FRIZQT__.TTF" then
-					for index, id in pairs(TitanPluginsIndex) do
-						local button = TitanUtils_GetButton(id);
-						local buttonText = _G[button:GetName().."Text"];
-							if buttonText then
-								buttonText:SetFont(newfont, 10);
-							end
-							-- account for plugins with child buttons
-						local childbuttons = {button:GetChildren()};
-							for _, child in ipairs(childbuttons) do
-			  				if child then
-			  					local childbuttonText = _G[child:GetName().."Text"];
-			  						if childbuttonText then
-			  							childbuttonText:SetFont(newfont, 10);
-			  						end
-			  				end
-			  			end
-					end
-				end
+				TitanSetPanelFont(TitanPanelGetVar("FontName"), TitanPanelGetVar("FontSize"))
 			else
-				-- if the selected font is not valid, revert to default
+				-- if the selected font is not valid, revert to default (Friz Quadrata TT)
 				TitanPanelSetVar("FontName", "Friz Quadrata TT");
+				TitanSetPanelFont("Friz Quadrata TT", TitanPanelGetVar("FontSize"))
 			end
-	
+			
+			-- Init panel frame strata
+			TitanSetPanelStrata(TitanPanelGetVar("FrameStrata"))
+			
 			-- Adjust initial frame position			
 			TitanPanel_SetTransparent("TitanPanelBarButtonHider", TitanPanelGetVar("Position"));
-			self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+			
 		elseif event == "CVAR_UPDATE" then		
 			if arg1 == "USE_UISCALE" or arg1 == "WINDOWED_MODE" then
 				if (TitanPlayerSettings and TitanPanelGetVar("Scale")) then								  
@@ -1244,11 +1286,11 @@ end
 function TitanPanel_InitPanelButtons()
 	local button, leftButton, rightButton, leftAuxButton, rightAuxButton, leftDoubleButton, rightDoubleButton, leftAuxDoubleButton, rightAuxDoubleButton;
 	local nextLeft, nextAuxLeft
-	local leftside, auxleftside;
-	newButtons = {};
-	newLocations = {};
+	local leftside, auxleftside;	
 	local scale = TitanPanelGetVar("Scale");
 	local isClockOnRightSide;
+	newButtons = {};
+	newLocations = {};
 	
 	if not TITAN_PANEL_MOVE_ADDON then
 		TitanPanelBarButton_DisplayBarsWanted();
@@ -1723,7 +1765,7 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 		TitanPanelSettings.Buttons = newButtons;
 		TitanPanelSettings.Location = newLocations;
 		TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
-		DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..data.."|r");
+		DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..data.."|r");
 		self:Hide();
 		StaticPopup_Show("TITAN_RELOADUI");
 	end,
@@ -1758,7 +1800,7 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 			TitanPanelSettings.Buttons = newButtons;
 			TitanPanelSettings.Location = newLocations;
 			TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
-			DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..concprofileName.."|r");
+			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..concprofileName.."|r");
 			self:Hide();
 			StaticPopup_Show("TITAN_RELOADUI");
 		end
@@ -1793,7 +1835,7 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 			TitanPanelSettings.Buttons = newButtons;
 			TitanPanelSettings.Location = newLocations;
 			TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
-			DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..concprofileName.."|r");			
+			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"].."|cffff8c00"..concprofileName.."|r");			
 		end
 		parent:Hide();
 		StaticPopup_Show("TITAN_RELOADUI");
@@ -1897,20 +1939,6 @@ function TitanPanel_MainMenu(self)
 		UIDropDownMenu_AddButton(info);
 	end
 	
-	-- global font setting
-	info = {};
-	info.text = L["TITAN_PANEL_MENU_FONT"];
-	info.value = "Font";
-	info.hasArrow = 1;
-	UIDropDownMenu_AddButton(info);
-	
-	-- texture settings option menu
-	info = {};
-	info.text = L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"];
-	info.value = "SkinSettings";
-	info.func = function() InterfaceOptionsFrame_OpenToCategory("Titan "..L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"]) end
-	UIDropDownMenu_AddButton(info);
-	
 	-- panel control menu
 	info = {};
 	info.text = L["TITAN_UISCALE_MENU_TEXT"];
@@ -1925,6 +1953,13 @@ function TitanPanel_MainMenu(self)
 	info.func = function() InterfaceOptionsFrame_OpenToCategory("Titan "..L["TITAN_TRANS_MENU_TEXT_SHORT"]) end
 	UIDropDownMenu_AddButton(info);
 	
+	-- texture settings option menu
+	info = {};
+	info.text = L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"];
+	info.value = "SkinSettings";
+	info.func = function() InterfaceOptionsFrame_OpenToCategory("Titan "..L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"]) end
+	UIDropDownMenu_AddButton(info);
+	
 	TitanPanelRightClickMenu_AddSpacer();
 	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILES"]);
 	
@@ -1937,7 +1972,7 @@ function TitanPanel_MainMenu(self)
 	if InCombatLockdown() then
 		info.disabled = 1;
 		info.hasArrow = nil;
-		info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+		info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 		end
 	UIDropDownMenu_AddButton(info);
 	
@@ -1949,7 +1984,7 @@ function TitanPanel_MainMenu(self)
 	-- lock this menu in combat
 	if InCombatLockdown() then
 		info.disabled = 1;
-		info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+		info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 		end
 	UIDropDownMenu_AddButton(info);
 	
@@ -1958,40 +1993,6 @@ end
 function TitanPanel_OptionsMenu()
 	local info = {};
 	
--- global font setting
-if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then	
-	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_LSM_FONTS"], UIDROPDOWNMENU_MENU_LEVEL);
-	local k,v,index,id;	
-	for k,v in pairs(media:List("font")) do	  
-		info.text = v;
-		info.value = k;		
-		info.checked = (TitanPanelGetVar("FontName") == v);		
-		info.func = function()
-			local newfont = media:Fetch("font", v)
-			TitanPanelSetVar("FontName", v);
-		  for index, id in pairs(TitanPluginsIndex) do
-			local button = TitanUtils_GetButton(id);
-			local buttonText = _G[button:GetName().."Text"];
-				if buttonText then
-					buttonText:SetFont(newfont, 10);
-				end
-			-- account for plugins with child buttons
-			local childbuttons = {button:GetChildren()};
-			for _, child in ipairs(childbuttons) do
-			  if child then
-			  	local childbuttonText = _G[child:GetName().."Text"];
-			  		if childbuttonText then
-			  			childbuttonText:SetFont(newfont, 10);
-			  		end
-			  end
-			end
-		  end
-			TitanPanel_RefreshPanelButtons();
-	  end
-		UIDropDownMenu_AddButton(info,UIDROPDOWNMENU_MENU_LEVEL);
-	end
-end
-
 	if ( UIDROPDOWNMENU_MENU_VALUE == "OptionsAux" ) then
    -- Panel Category	
 	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS_PANEL"], UIDROPDOWNMENU_MENU_LEVEL)
@@ -2011,7 +2012,7 @@ end
 			-- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Lock buttons
@@ -2030,12 +2031,12 @@ end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Reset Panel to default
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_RESET"].." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.text = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
 		info.func = TitanPanel_ResetToDefault;
 				-- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Bars Category
@@ -2051,7 +2052,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	  -- Display both bars
@@ -2063,7 +2064,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Double Bar
@@ -2075,7 +2076,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Tooltips Category
@@ -2107,7 +2108,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Disable Minimap Adjust
@@ -2126,14 +2127,14 @@ end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
 		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
 		info.checked = TitanPanelGetVar("CastingBar");
 		info.keepShownOnClick = 1;
 		   -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Data Broker
@@ -2172,7 +2173,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Lock buttons
@@ -2191,12 +2192,12 @@ end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Reset Panel to default
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_RESET"].." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.text = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
 		info.func = TitanPanel_ResetToDefault;
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Bars Category
@@ -2212,7 +2213,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	  -- Display both bars
@@ -2224,7 +2225,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Double Bar
@@ -2236,7 +2237,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Tooltips Category
@@ -2268,7 +2269,7 @@ end
 		    -- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
-				info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Disable Minimap Adjust
@@ -2287,14 +2288,14 @@ end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
 		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
 		info.checked = TitanPanelGetVar("CastingBar");
 		info.keepShownOnClick = 1;
 		   -- lock this item in combat
 			 if InCombatLockdown() then
 			 info.disabled = 1;
-			 info.text = info.text.." "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+			 info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 			 end
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Data Broker
@@ -2415,7 +2416,7 @@ function TitanPanel_PlayerSettingsMenu()
 					TitanSettings.Players[info.value] = nil;
 					local tempstring = string.find (index, "@");
 					local profname =  string.sub(index, 1, tempstring-1);
-					DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_PROFILE"].."|cffff8c00"..profname.."|r"..L["TITAN_PANEL_MENU_PROFILE_DELETED"]);
+					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE"].."|cffff8c00"..profname.."|r"..L["TITAN_PANEL_MENU_PROFILE_DELETED"]);
 					if (TitanPanelRightClickMenu_IsVisible()) then
 							TitanPanelRightClickMenu_Close();
 					end
@@ -2544,7 +2545,7 @@ function TitanPanel_PlayerSettingsMenu()
 						buttonText:SetJustifyH("LEFT");
 						-- set font for the fontstring
 						local currentfont = media:Fetch("font", TitanPanelGetVar("FontName"))
-							buttonText:SetFont(currentfont, 10);
+							buttonText:SetFont(currentfont, TitanPanelGetVar("FontSize"));
 							local index;
 							local found = nil;
 							for index, _ in ipairs(TITAN_PANEL_NONMOVABLE_PLUGINS) do
@@ -2588,7 +2589,7 @@ function TitanPanel_SettingsSelectionMenu()
 				local serverName = GetCVar("realmName");
 				local profilevalue = playerName.."@"..serverName
 				if info.value == profilevalue then
-				  DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_ERROR_PROF_DELCURRENT"]);
+				  DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_ERROR_PROF_DELCURRENT"]);
 				  if (TitanPanelRightClickMenu_IsVisible()) then
 							TitanPanelRightClickMenu_Close();
 					end
@@ -2597,7 +2598,7 @@ function TitanPanel_SettingsSelectionMenu()
 			  
 				if TitanSettings.Players[info.value] then
 					TitanSettings.Players[info.value] = nil;
-					DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_TITLE"]..FONT_COLOR_CODE_CLOSE..": "..L["TITAN_PANEL_MENU_PROFILE"].."|cffff8c00"..info.value.."|r"..L["TITAN_PANEL_MENU_PROFILE_DELETED"]);
+					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE"].."|cffff8c00"..info.value.."|r"..L["TITAN_PANEL_MENU_PROFILE_DELETED"]);
 					if (TitanPanelRightClickMenu_IsVisible()) then
 							TitanPanelRightClickMenu_Close();
 					end

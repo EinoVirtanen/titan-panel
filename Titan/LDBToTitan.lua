@@ -4,9 +4,9 @@
 --   registration and communication of LDB plugins with        --
 --   Titan Panel (work in progress);                           --
 --                                                             --
---   By Tristanian aka "TristTitan" (bandit@planetcnc.com)     --
+--   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.5 Beta February 23rd, 2009              --
+--   Latest version: 2.6 Beta April 21st, 2009                 --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -545,16 +545,28 @@ newTitanFrame.registry = {
     TitanPanelButton_OnLoad(newTitanFrame);
     
     -- Syncronize Plugins that were created after PLAYER_LOGIN
-    if TitanPluginSettings then
+    if TitanPluginSettings then    
 			TitanVariables_SyncPluginSettings();
 			TitanVariables_HandleLDB();
+			-- set plugin font
 			local newfont, index, id;
 			newfont = media:Fetch("font", TitanPanelGetVar("FontName"))					
 			local button = TitanUtils_GetButton(idTitan);
 			local buttonText = _G[button:GetName().."Text"];
 				if buttonText then
-					buttonText:SetFont(newfont, 10);
+					buttonText:SetFont(newfont, TitanPanelGetVar("FontSize"));
 				end
+			-- set plugin strata
+			local StrataTypes = {"BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG"}
+			local indexpos = 5 -- DIALOG
+			local currentstrata = TitanPanelGetVar("FrameStrata")
+			for index in ipairs(StrataTypes) do
+	 			if currentstrata == StrataTypes[index] then
+	 				indexpos = index
+	 				break
+	 			end
+			end
+			button:SetFrameStrata(StrataTypes[indexpos + 1])
 		
 		-- Add plugins created after PLAYER_ENTERING_WORLD to the bar (if they were shown on last logout)
 		local i

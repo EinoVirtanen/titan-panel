@@ -7,11 +7,13 @@
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
 ## X-Category: Inventory
-## X-Email: bandit@planetcnc.com
+## X-Email: tristanian@live.com
 ## SavedVariables: BonusScannerBrokerConfig
 ## Version: 1.1
 
 embeds.xml
 locale\locale-enUS.lua
 locale\locale-esES.lua
+locale\locale-zhCN.lua
+locale\locale-zhTW.lua
 Broker_BonusScanner.lua

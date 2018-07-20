@@ -100,7 +100,7 @@ L["TITAN_PANEL_MENU_CASTINGBAR"] = "Move casting bar";
 L["TITAN_PANEL_MENU_RESET"] = "Reset Panel to Default";
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";     
 L["TITAN_PANEL_MENU_FONT"] = "Font";
-L["TITAN_PANEL_MENU_LSM_FONTS"] = "LibSharedMedia Fonts"
+L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
 L["TITAN_PANEL_MENU_ENABLED"] = "Enabled";
 L["TITAN_PANEL_MENU_DISABLED"] = "Disabled";
      
@@ -146,6 +146,11 @@ L["TITAN_SKINS_REMOVE_BUTTON_DESC"] = "Removes the selected skin from the list o
 L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes:|r When adding a new skin, please ensure that a folder containing your custom artwork has been created prior to loading 'World of Warcraft' and the path entered here corresponds to it exactly (paths are case sensitive and always end with an '\\' character).";
 L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Reset to Defaults";
 L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resets the skin list to the default, build-in skins.";
+L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
+L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
+L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
+L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
+L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
 -- /end localization strings for AceConfigDialog-3.0
      
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Toggles panel auto-hide on/off";
@@ -177,7 +182,7 @@ L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignore shard bags";
 L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignore profession bags";
 L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Soul Pouch", "Small Soul Pouch", "Box of Souls", "Felcloth Bag", "Core Felcloth Bag", "Ebon Shadowbag", "Abyssal Bag"};
 L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Clefthoof Hide Quiver", "Worg Hide Quiver", "Ancient Sinew Wrapped Lamina", "Nerubian Reinforced Quiver", "Quiver of a Thousand Feathers", "Knothide Quiver", "Harpy Hide Quiver", "Ribbly's Quiver", "Quickdraw Quiver", "Heavy Quiver", "Quiver of the Night Watch", "Hunting Quiver", "Medium Quiver", "Light Leather Quiver", "Small Quiver", "Light Quiver", "Smuggler's Ammo Pouch", "Dragonscale Ammo Pouch", "Knothide Ammo Pouch", "Netherscale Ammo Pouch", "Gnoll Skin Bandolier", "Ribbly's Bandolier", "Thick Leather Ammo Pouch", "Heavy Leather Ammo Pouch", "Bandolier of the Night Watch", "Medium Shot Pouch", "Hunting Ammo Sack", "Small Leather Ammo Pouch", "Small Shot Pouch", "Small Ammo Pouch"};
-L["TITAN_BAG_PROF_BAG_NAMES"] = {"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Big Bag of Enchantment", "Enchanter's Satchel", "Mysterious Bag", "Spellfire Bag", "Khorium Toolbox", "Fel Iron Toolbox", "Heavy Toolbox", "Gem Pouch", "Bag of Jewels", "Reinforced Mining Bag", "Mining Sack", "Mammoth Mining Bag", "Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Scribe's Satchel", "Pack of Endless Pockets"};
+L["TITAN_BAG_PROF_BAG_NAMES"] = {"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Big Bag of Enchantment", "Enchanter's Satchel", "Mysterious Bag", "Spellfire Bag", "Khorium Toolbox", "Fel Iron Toolbox", "Heavy Toolbox", "Gem Pouch", "Bag of Jewels", "Reinforced Mining Bag", "Mining Sack", "Mammoth Mining Bag", "Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Scribe's Satchel", "Pack of Endless Pockets", "Titanium Toolbox", "Emerald Bag"};
 
 L["TITAN_BGMINIMAP_MENU_TEXT"] = "Battleground minimap"
 L["TITAN_BGMINIMAP_TOOLTIP"] = "Toggles battleground minimap"

@@ -255,8 +255,8 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["每5秒生命值"]	= "HEALTHREG",
 	["每5秒生命值"]	= "HEALTHREG",
 	["治疗"] = "HEAL",
---["治疗法术"] 	= "HEAL",   noneed
---["Increased Healing"] 	= "HEAL",  noneed
+  ["治疗法术"] 	= "HEAL",   --no need
+  ["提高治疗效果"] 	= "HEAL",  --no need
   ["每5秒法力"] 	= "MANAREG",
 	["法力回复"]		= "MANAREG",
 	["爆击"]		= "CRIT",
@@ -273,7 +273,7 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["威胁"] = "THREATREDUCTION", --not sure
 	["爆击伤害"] = "INCRCRITDMG",
 	["法术反射"] = "SPELLREFLECT",
---["抵抗昏迷"] = "STUNRESIST",
+  ["抵抗昏迷"] = "STUNRESIST",
 --["Stun Resist"] = "STUNRESIST",
 	["赌牌格挡值"] = "PERCBLOCKVALUE",
 	["由物品获得的护甲值提高"] = "PERCARMOR",
@@ -318,7 +318,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
   { pattern = "%+61 法术强度，每5秒法力回复%+6", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
 	
 -- rest of custom patterns
-  --{ pattern = "在猎豹、熊、巨熊和枭兽形态下的攻击强度提高(%d+)点。", effect = "ATTACKPOWERFERAL" },
+  { pattern = "在猎豹、熊、巨熊和枭兽形态下的攻击强度提高(%d+)点。", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "每5秒恢复(%d+)点法力值", effect = "MANAREG" },
 	{ pattern = "%+(%d+)护甲", effect = "ARMOR" },
 	{ pattern = "%+2%% 威胁，%+10 招架等级", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
@@ -366,7 +366,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] = " 爆击率";
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " 躲闪/招架";
 L["BONUSSCANNER_SPECIAL3_LABEL"] = " 近战";
 L["BONUSSCANNER_SPECIAL4_LABEL"] = " 法术";
-L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " 远程/法术";
 L["BONUSSCANNER_ITEMID_LABEL"] = "物品 ID: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "物品等级: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "附魔 ID: |cffffffff";
@@ -376,9 +376,9 @@ L["BONUSSCANNER_GEM3ID_LABEL"] = "宝石3 ID: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] = "红";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "蓝";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "黄";
-L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
-L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Changes will take effect after the UI has been reloaded.";
-L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";
+L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "平均物品等级";
+L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "更改会在插件重载后生效.";
+L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB 模块 ";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] = "属性";
 L["BONUSSCANNER_CAT_RES"] = "抗性";
@@ -403,7 +403,7 @@ L["BONUSSCANNER_SLASH_STRING12a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffff�
 L["BONUSSCANNER_SLASH_STRING13"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itemextend: [";
 L["BONUSSCANNER_SLASH_STRING13a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffff在提示上显示物品的附魔和宝石ID.";
 L["BONUSSCANNER_SLASH_STRING15"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."broker: [";
-L["BONUSSCANNER_SLASH_STRING15a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffToggles the state of the LDB plugin, used to display gear bonuses for the current character.";
+L["BONUSSCANNER_SLASH_STRING15a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffff 控制 LDB 插件的状态，其用来显示角色的统计信息.";
 L["BONUSSCANNER_SLASH_STRING11"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."clearcache: |cffffffff清除缓存.";
 L["BONUSSCANNER_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target: |cffffffff显示你目标的加成统计(必须在距离内).";
 L["BONUSSCANNER_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target <player>: |cffffffff把你当前目标的加成数据密语给指定人.";

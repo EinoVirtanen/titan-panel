@@ -101,7 +101,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "R\195\169initialiser Titan Panel";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Param\195\168tres du skin";
 	L["TITAN_PANEL_MENU_FONT"] = "Police";
-	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Polices LibSharedMedia"
+	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activ\195\169";
 	L["TITAN_PANEL_MENU_DISABLED"] = "D\195\169sactiv\195\169";
 
@@ -147,6 +147,11 @@ if not L then return end
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes :|r Lors de l'ajout d'un nouveau skin, assurez-vous que le dossier contenant votre artwork a bien \195\169t\195\169 cr\195\169\195\169 avant de charger 'World of Warcraft' et que le chemin entr\195\169 ici y corresponde exactement (les chemins sont sensibles \195\160 la casse et se terminent toujours par '\\' ).";
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "R\195\169init. la liste";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "R\195\169initialise la liste de skin aux skins int\195\169gr\195\169s.";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage auto du panneau on/off";

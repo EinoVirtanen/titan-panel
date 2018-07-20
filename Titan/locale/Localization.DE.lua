@@ -101,7 +101,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "Einstellungen zur\195\188cksetzen";
   L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Oberflaecheneinstellungen"; --SENSITY
   L["TITAN_PANEL_MENU_FONT"] = "Font";
-  L["TITAN_PANEL_MENU_LSM_FONTS"] = "LibSharedMedia Fonts"
+  L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
   L["TITAN_PANEL_MENU_ENABLED"] = "Ein"; --SENSITY
 	L["TITAN_PANEL_MENU_DISABLED"] = "Aus"; --SENSITY
 	
@@ -147,6 +147,11 @@ if not L then return end
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes:|r Beim Hinzufuegen einer neuen Skin sicherstellen, dass ein entsprechender Ordner VOR dem Laden von 'World of Warcraft' erstellt wurde und der eingegebene Speicherort exakt damit uebereinstimmt (Gross-/Kleinschreibung beachten und Endung mit '\\' Zeichen)."; --SENSITY
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Reset to Defaults";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resets the skin list to the default, build-in skins.";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Leiste automatisch ausblenden";

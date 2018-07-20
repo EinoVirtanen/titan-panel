@@ -1,11 +1,10 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.8
+-- BonusScanner Continued v4.9
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
--- Updated for WoW 3.0 by Tristanian <bandit@planetcnc.com>
+-- Updated for WoW 3.0 by Tristanian <tristanian@live.com>
 -- get the latest version here:
--- http://wowui.incgamers.com/ui.php?id=4613 (WoWUI)
 -- http://www.wowinterface.com/downloads/info7919 (WoWI)
 -------------------------------------------------- 
 
@@ -16,7 +15,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.8";
+local BONUSSCANNER_VERSION = "4.9";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -1079,12 +1078,12 @@ end --end function ProcessTooltip
 
 
 function BonusScanner:OnEvent(self, event, a1, ...)
-	 
+	 		 	
     BonusScanner:Debug(event);
 
     if (event == "UNIT_INVENTORY_CHANGED") and BonusScanner.active and (a1 == "player") then    		
 		  AceTimer.CancelAllTimers("BonusScanner")
-			AceTimer.ScheduleTimer("BonusScanner", BonusScanner_OnUpdate, 2)		
+			AceTimer.ScheduleTimer("BonusScanner", BonusScanner_OnUpdate, 2)
 			return;
     end
     
@@ -1098,8 +1097,8 @@ function BonusScanner:OnEvent(self, event, a1, ...)
 	if event == "PLAYER_LEAVING_WORLD" then
 		self:UnregisterEvent("UNIT_INVENTORY_CHANGED");
 		return;
-  end	
-    
+  end
+      
   if event == "ADDON_LOADED" and a1 == "BonusScanner" then
         if not BonusScannerConfig then 
         -- initialize default configuration
@@ -1133,6 +1132,37 @@ end
 function BonusScanner_OnUpdate()
 	BonusScanner.bonuses, BonusScanner.bonuses_details, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue, BonusScanner.AverageiLvl = BonusScanner:ScanEquipment("player"); -- scan the equiped items
 	BonusScanner_Update();	  -- call the update function (for the mods using this library)	
+end
+
+function BonusScanner_ScanUnitInventory()
+local name = GetUnitName("target")
+	
+	-- if target was deselected display a message and return
+	if not name then
+		DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_SELTAR_LABEL"]);
+		return;
+	end
+
+  	local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue, AverageiLvl = BonusScanner:ScanEquipment("target"); -- scan the equiped items
+			
+			-- if bonuses exists (Todo:  Figure out whether bonuses is empty) then continue
+			-- also check if the target is within inspection range
+		if (CheckInteractDistance("target", 1)) then
+			if UnitIsPlayer("target") and CanInspect("target") then					
+				if (WhisperParam) then
+					SendChatMessage(L["BONUSSCANNER_IBONUS_LABEL"]..name..", ".._G["LEVEL"].." "..UnitLevel("target").." "..UnitClass("target"),"WHISPER",nil,WhisperParam)
+					SendChatMessage(L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": "..AverageiLvl, "WHISPER", nil, WhisperParam)				
+				else
+					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_IBONUS_LABEL"].."|cffffd200"..name.."|r"..LIGHTYELLOW_FONT_COLOR_CODE..", ".._G["LEVEL"].." "..UnitLevel("target").." "..ClassColorise(select(2,UnitClass("target")), UnitClass("target") ));
+					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": ".."|cffffd200"..AverageiLvl.."|r")
+				end
+				BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);			
+			else
+				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_INVALIDTAR_LABEL"]);
+			end
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("|cffffd200"..name.. LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_OOR_LABEL"]);
+		end --end CheckInteractDistance
 end
 
 function BonusScanner:ScanEquipment(target)
@@ -1214,8 +1244,8 @@ end --end for
 
 -- Handle item Levels
 for i,k in pairs (itemLevels) do
- -- ignore Tabard and Shirt item levels
-	if i ~= "Tabard" and i ~= "Shirt" then
+ -- ignore Tabard, Shirt and Ranged item levels
+	if i ~= "Tabard" and i ~= "Shirt" and i ~= "Ranged" then
 		if i == "MainHand" and not itemLevels["SecondaryHand"] then
 			totalLevel = totalLevel + k * 2;
 		else
@@ -1224,7 +1254,7 @@ for i,k in pairs (itemLevels) do
 	end
 end
 
-BonusScanner.temp.AverageiLvl = tonumber(format("%.2f", totalLevel / (#BonusScanner.slots - 2))) -- ignore Tabard and Shirt slots
+BonusScanner.temp.AverageiLvl = tonumber(format("%.2f", totalLevel / (#BonusScanner.slots - 3))) -- ignore Tabard, Shirt and Ranged slots
 
 -- Phase 2: Check if an item is part of a set, if it is, scan the tooltip to ensure set bonuses are picked up
 -- if the item is not part of a set, use the cached bonuses if any
@@ -1766,31 +1796,10 @@ IsItem=nil;
   	end
   	if (string.lower(cmd) == "target") then
 		local name  = GetUnitName("target");
-		if (name) then		
-			NotifyInspect("target");  
-			local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue, AverageiLvl = BonusScanner:ScanEquipment("target"); -- scan the equiped items
-			
-			-- if bonuses exists (Todo:  Figure out whether bonuses is empty) then continue
-			-- also check if the target is within inspection range
-		if (CheckInteractDistance("target", 1)) then
-			if UnitIsPlayer("target") and CanInspect("target") then
-					
-				if (WhisperParam) then
-				SendChatMessage(L["BONUSSCANNER_IBONUS_LABEL"]..name..", ".._G["LEVEL"].." "..UnitLevel("target").." "..UnitClass("target"),"WHISPER",nil,WhisperParam)
-				SendChatMessage(L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": "..AverageiLvl, "WHISPER", nil, WhisperParam)				
-				else
-				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_IBONUS_LABEL"].."|cffffd200"..name.."|r"..LIGHTYELLOW_FONT_COLOR_CODE..", ".._G["LEVEL"].." "..UnitLevel("target").." "..ClassColorise(select(2,UnitClass("target")), UnitClass("target") ));
-				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": ".."|cffffd200"..AverageiLvl.."|r")
-				end
-				BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);
-			
-			else
-			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_INVALIDTAR_LABEL"]);
-			end
-		else
-		DEFAULT_CHAT_FRAME:AddMessage("|cffffd200"..name.. LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_OOR_LABEL"]);
-		end --end CheckInteractDistance
-				
+		if (name) then
+			NotifyInspect("target");
+			AceTimer.CancelAllTimers("BonusScanner_ScanUnitInventory")
+			AceTimer.ScheduleTimer("BonusScanner_ScanUnitInventory", BonusScanner_ScanUnitInventory, 1)
 		else
 			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_SELTAR_LABEL"]);
 		end --end if (name)
@@ -1990,7 +1999,7 @@ end --end function
 local BSFrame = CreateFrame("Frame", "BonusScannerFrame")
 BSFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 BSFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
-BSFrame:RegisterEvent("ADDON_LOADED");	
+BSFrame:RegisterEvent("ADDON_LOADED");
 
 BSFrame:SetScript("OnEvent", function(_, event, ...)
 	BonusScanner:OnEvent(BSFrame, event, ...)	

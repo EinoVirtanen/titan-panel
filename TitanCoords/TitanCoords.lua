@@ -169,9 +169,9 @@ end
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
 function TitanPanelCoordsButton_OnEvent(self, event, ...)
-     if event == "ZONE_CHANGED_NEW_AREA" then
-          SetMapToCurrentZone();
-     end
+     --if event == "ZONE_CHANGED_NEW_AREA" then
+          --SetMapToCurrentZone();
+     --end
      if event == "PLAYER_ENTERING_WORLD" then
      			if not TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
 						MinimapBorderTop:Hide()
@@ -182,6 +182,7 @@ function TitanPanelCoordsButton_OnEvent(self, event, ...)
 						TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
 					end
      end
+     SetMapToCurrentZone();
      TitanPanelCoordsButton_UpdateZoneInfo(self);
      TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_ALL});
      TitanPanelCoords_HandleUpdater();
@@ -200,8 +201,8 @@ end
 -- DESC : Check to see if you are inside an instance
 -- **************************************************************************
 function TitanPanelCoords_HandleUpdater()	
-		if TitanPanelCoordsButton:IsVisible() and not CoordsTimer then		 
-		 CoordsTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelCoords", TitanPanelCoordsButton_CheckForUpdate, 0.5)
+		if TitanPanelCoordsButton:IsVisible() and not CoordsTimer then
+		 CoordsTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelCoords", TitanPanelCoordsButton_CheckForUpdate, 0.5)		 
 		end
 end
 

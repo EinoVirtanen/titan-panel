@@ -101,7 +101,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "Сброс панели на стандарт";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Настройки шкурки";	
 	L["TITAN_PANEL_MENU_FONT"] = "Шрифт";
-	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Шрифты LibSharedMedia"
+	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Включен";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Отключен";
 	
@@ -147,6 +147,11 @@ if not L then return end
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Совет:|r Добавляя новую шкурку, пожалуйста убедитесь, что папка, содержащая ваши художественные работы, была создана до загрузки 'World of Warcraft', и путь, введенный здесь, полностью соответствует реальному пути (пути вводите с учетом регистра и всегда заканчивайте '\\' символами).";
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Сброс на стандартные значения";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Сбросить список шкурок на стандартное значение.";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
 	-- /end localization strings for AceConfigDialog-3.0
 	
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Авто-скрытие панели вкл/выкл";

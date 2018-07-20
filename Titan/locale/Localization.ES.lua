@@ -101,7 +101,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "Ajustes por defecto del Panel";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";
 	L["TITAN_PANEL_MENU_FONT"] = "Fuente";
-	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Fuentes LibSharedMedia"
+	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Fuente del Panel"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activado";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Desactivado";
 	
@@ -129,7 +129,7 @@ if not L then return end
 	L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Desactiva el control de la escala de los tooltips en Titan Panel.";
 	L["TITAN_SKINS_MAIN_DESC"] = "Gestiona varios skins para las barras Titan.";
 	L["TITAN_SKINS_LIST_TITLE"] = "Lista de skins";
-	L["TITAN_SKINS_SET_DESC"] = "Elije que skin quieres para las barras Titan.";
+	L["TITAN_SKINS_SET_DESC"] = "Elige que skin quieres para las barras Titan.";
 	L["TITAN_SKINS_SET_HEADER"] = "Establece skin del panel";
 	L["TITAN_SKINS_NEW_HEADER"] = "Añadir nuevo skin";
 	L["TITAN_SKINS_NAME_TITLE"] = "Nombre de skin";
@@ -141,12 +141,17 @@ if not L then return end
 	L["TITAN_SKINS_ADD_HEADER"] = "Añadir skin";
 	L["TITAN_SKINS_ADD_DESC"] = "Añade un nuevo skin a la lista de skins disponibles para el Panel.";
 	L["TITAN_SKINS_REMOVE_HEADER"] = "Eliminar skin";
-	L["TITAN_SKINS_REMOVE_DESC"] = "Elije un skin para eliminar de la lista de skins disponibles para el Panel.";
+	L["TITAN_SKINS_REMOVE_DESC"] = "Elige un skin para eliminar de la lista de skins disponibles para el Panel.";
 	L["TITAN_SKINS_REMOVE_BUTTON"] = "Eliminar";
 	L["TITAN_SKINS_REMOVE_BUTTON_DESC"] = "Elimina el skin selecionado de la lista de skins disponibles para el Panel.";
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Notas:|r Al añadir un nuevo skin, por favor asegurate de que el directorio que contiene tus imágenes personalizadas ha sido creado antes de cargar 'World of Warcraft' y que la ruta introducida corresponde a ese directorio exactamente (las rutas son sensibles a mayúsculas y minúsculas y siempre acaban con el carácter '\\')..";
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Resetear lista";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resetea la lista de skins a sus valores por defecto, los skins incluidos de serie.";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Elige el tipo de letra utilizado por los diferentes plugins en las barras Titan.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Tamaño de la fuente";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Establece el tamaño para el tipo de letra del Panel.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Frame Strata del Panel";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Establece la prioridad de visionado de las Barras Titan.";
 	-- /end localization strings for AceConfigDialog-3.0
 	
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Activar/Desactivar botón auto-ocultar";

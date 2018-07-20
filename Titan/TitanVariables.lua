@@ -6,7 +6,42 @@ TitanPanelSettings = nil;
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-
+local media = LibStub("LibSharedMedia-3.0")
+-- Titan Panel Default SavedVars Table
+local TITAN_PANEL_SAVED_VARIABLES = {
+	Buttons = {"Coords", "XP", "GoldTracker", "Clock", "Volume", "AutoHide", "Bag", "AuxAutoHide", "Repair"},
+	Location = {"Bar", "Bar", "Bar", "Bar", "Bar", "Bar", "Bar", "AuxBar", "Bar"},
+	TexturePath = "Interface\\AddOns\\Titan\\Artwork\\",
+	Transparency = 0.7,
+	AuxTransparency = 0.7,
+	Scale = 1,
+	ButtonSpacing = 20,
+	TooltipTrans = 1,
+	TooltipFont = 1,
+	DisableTooltipFont = 1,
+	FontName = "Friz Quadrata TT",
+	FrameStrata = "DIALOG",
+	FontSize = 10,
+	ScreenAdjust = false,
+	LogAdjust = false,
+	MinimapAdjust = false,
+	AutoHide = false,
+	Position = 1,
+	DoubleBar = 1,
+	ButtonAlign = 1,
+	BothBars = false,
+	AuxScreenAdjust = false,
+	AuxAutoHide = false,
+	AuxDoubleBar = 1,
+	AuxButtonAlign = 1,
+	LockButtons = false,
+	VersionShown = 1,
+	LDBSuffix = false,
+	ToolTipsShown = 1,
+	HideTipsInCombat = false,
+	CastingBar = false
+};
+-- Set Titan Version var for backwards compatibility
 TITAN_VERSION = GetAddOnMetadata("Titan", "Version") or L["TITAN_NA"]
 -- trim version if exists
 local fullversion = GetAddOnMetadata("Titan", "Version")
@@ -17,8 +52,6 @@ if fullversion then
 	end
 end
 
--- LSM 3.0 registration
-local media = LibStub("LibSharedMedia-3.0")
 
 function TitanVariables_InitTitanSettings()
 	if (not TitanSettings) then
@@ -81,7 +114,7 @@ function TitanVariables_HandleLDB()
 								buttonText:SetJustifyH("LEFT");
 								-- set font for the fontstring
 								local currentfont = media:Fetch("font", TitanPanelGetVar("FontName"))
-								buttonText:SetFont(currentfont, 10);
+								buttonText:SetFont(currentfont, TitanPanelGetVar("FontSize"));
 								local index;
 								local found = nil;
 									for index, _ in ipairs(TITAN_PANEL_NONMOVABLE_PLUGINS) do
@@ -290,7 +323,7 @@ local TitanCopyPanelSettings = nil;
 						local button = TitanUtils_GetButton(id);
 						local buttonText = _G[button:GetName().."Text"];
 							if buttonText then
-								buttonText:SetFont(newfont, 10);
+								buttonText:SetFont(newfont, TitanPanelGetVar("FontSize"));
 							end
 							-- account for plugins with child buttons
 						local childbuttons = {button:GetChildren()};
@@ -298,14 +331,35 @@ local TitanCopyPanelSettings = nil;
 			  				if child then
 			  					local childbuttonText = _G[child:GetName().."Text"];
 			  						if childbuttonText then
-			  							childbuttonText:SetFont(newfont, 10);
+			  							childbuttonText:SetFont(newfont, TitanPanelGetVar("FontSize"));
 			  						end
 			  				end
 			  			end
 					end
 					TitanPanel_RefreshPanelButtons();				
 			end
-			
+	
+	-- set panel frame strata
+	local StrataTypes = {"BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG"}
+	local index, id;
+	local indexpos = 5 -- DIALOG
+	local currentstrata = TitanPanelGetVar("FrameStrata")
+	TitanPanelBarButton:SetFrameStrata(currentstrata)
+	TitanPanelAuxBarButton:SetFrameStrata(currentstrata)
+
+	for index in ipairs(StrataTypes) do
+	 if currentstrata == StrataTypes[index] then
+	 	indexpos = index
+	 	break
+	 end
+	end
+
+	for index, id in pairs(TitanPluginsIndex) do
+		local button = TitanUtils_GetButton(id);
+		button:SetFrameStrata(StrataTypes[indexpos + 1])
+	end
+	
+	
 	if (TitanPanelGetVar("AutoHide")) then
 		TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
 	end
