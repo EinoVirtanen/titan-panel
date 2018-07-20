@@ -355,6 +355,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] = "Edelstein3 ID: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] = "Rot";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "Blau";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "Gelb";
+L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] = "Attribute";
 L["BONUSSCANNER_CAT_RES"] = "Widerstand";

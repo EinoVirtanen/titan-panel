@@ -2,10 +2,10 @@ TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
 local _G = getfenv(0);
 
 function TitanRightClickMenu_OnLoad(self)
-	local id = TitanUtils_GetButtonIDFromMenu(self);
+	local id = TitanUtils_GetButtonIDFromMenu(self);	
 	if (id) then	
 		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"];
-		if (prepareFunction) then
+		if prepareFunction and type(prepareFunction) == "function" then
 		 	UIDropDownMenu_Initialize(self, prepareFunction, "MENU");		 	
 		end
 	end

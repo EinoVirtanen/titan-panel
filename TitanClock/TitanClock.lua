@@ -426,19 +426,19 @@ function TitanPanelRightClickMenu_PrepareClockMenu()
      
      local info = {};
      info.text = TITAN_CLOCK_MENU_LOCAL_TIME;
-     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Local") end
+     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Local") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
      info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Local" end
      UIDropDownMenu_AddButton(info);
      
      info = {};     
      info.text = TITAN_CLOCK_MENU_SERVER_TIME;
-     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Server") end
+     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "Server") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
      info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" end
      UIDropDownMenu_AddButton(info);
      
      info = {};     
      info.text = TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME;
-     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjusted") end
+     info.func = function() TitanSetVar(TITAN_CLOCK_ID, "TimeMode", "ServerAdjusted") TitanPanelButton_UpdateButton(TITAN_CLOCK_ID) end
      info.checked = function() return TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "ServerAdjusted" end
      UIDropDownMenu_AddButton(info);
      

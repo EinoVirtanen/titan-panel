@@ -460,7 +460,7 @@ function TitanRepair_GetInventoryInformation(bag)
    local min_val = 0;
    local min_max = 0;
 
-   TitanRepairTooltip:SetOwner(WorldFrame, "ANCHOR_NONE");
+   TitanRepairTooltip:SetOwner(UIParent, "ANCHOR_NONE");
 
    if (bag > 4) then -- should never get true though, bag > 4 are for the bank's bags
       return;
@@ -538,7 +538,7 @@ function TitanRepair_GetEquipedInformation()
      local min_index = 0;
      TPR.EquipedMinIndex = 0;
 
-     TitanRepairTooltip:SetOwner(WorldFrame, "ANCHOR_NONE");
+     TitanRepairTooltip:SetOwner(UIParent, "ANCHOR_NONE");
 
      for index, value in pairs(INVENTORY_ALERT_STATUS_SLOTS) do -- index begins from 1
 
@@ -1253,7 +1253,7 @@ end
 -- NAME : TitanRepair_ShowDurabilityFrame()
 -- DESC : <research>
 -- **************************************************************************
-function TitanRepair_DurabilityFrame()   
+function TitanRepair_DurabilityFrame()
    if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then
    	if not DurabilityFrame:IsVisible() then      
     	DurabilityFrame:Show()
@@ -1367,7 +1367,7 @@ end
 function TitanRepair_GetRepairInvCost()
    local result = 0;
    local bag;
-   TitanRepairTooltip:SetOwner(WorldFrame, "ANCHOR_NONE");
+   TitanRepairTooltip:SetOwner(UIParent, "ANCHOR_NONE");
 
    for bag = 0, 4 do
       for slot = 1, GetContainerNumSlots(bag) do
@@ -1383,4 +1383,5 @@ function TitanRepair_GetRepairInvCost()
 end
 
 -- Hooks
-TitanRepairModule:SecureHook("DurabilityFrame_SetAlerts", TitanRepair_DurabilityFrame)
+--TitanRepairModule:SecureHook("DurabilityFrame_SetAlerts", TitanRepair_DurabilityFrame)
+TitanRepairModule:SecureHook(DurabilityFrame, "Show", TitanRepair_DurabilityFrame)

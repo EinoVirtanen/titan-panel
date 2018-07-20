@@ -17,6 +17,7 @@ TITAN_PANEL_UPDATE_ALL = 3;
 local AceTimer = LibStub("AceTimer-3.0")
 local LibQTip = LibStub("LibQTip-1.0")
 local _G = getfenv(0);
+local InCombatLockdown	= _G.InCombatLockdown;
 
 function TitanOptionSlider_TooltipText(text, value) 
 	return text .. GREEN_FONT_COLOR_CODE .. value .. FONT_COLOR_CODE_CLOSE;

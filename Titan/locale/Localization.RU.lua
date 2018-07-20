@@ -159,6 +159,7 @@ function TitanLocalizeRU()
 	TITAN_AMMO_MENU_TEXT = "Боеприпасы/Броски";
 	TITAN_AMMO_BUTTON_NOAMMO = "Нет боеприпасов";
 	TITAN_AMMO_MENU_REFRESH = "Обновление отображения";
+	TITAN_AMMO_BULLET_NAME = "Show ammo name";
 	
 	TITAN_BAG_FORMAT = "%d/%d";
 	TITAN_BAG_BUTTON_LABEL = "Сумки: ";
@@ -244,12 +245,12 @@ function TitanLocalizeRU()
 	TITAN_LATENCY_MENU_TEXT = "Пинг";
 	
 	TITAN_LOOTTYPE_BUTTON_LABEL = "Добыча: ";
-	TITAN_LOOTTYPE_FREE_FOR_ALL = "каждый за себя";
-	TITAN_LOOTTYPE_ROUND_ROBIN = "по очереди";
-	TITAN_LOOTTYPE_MASTER_LOOTER = "ответственный за добычу";
-	TITAN_LOOTTYPE_GROUP_LOOT = "групповая очередь";
-	TITAN_LOOTTYPE_NEED_BEFORE_GREED = "'Нужно' перед 'Не откажусь'";
-	TITAN_LOOTTYPE_TOOLTIP = "Инфо о Типе добычи";
+	TITAN_LOOTTYPE_FREE_FOR_ALL = "Каждый за себя";
+	TITAN_LOOTTYPE_ROUND_ROBIN = "По очереди";
+	TITAN_LOOTTYPE_MASTER_LOOTER = "Ответственный за добычу";
+	TITAN_LOOTTYPE_GROUP_LOOT = "Групповая очередь";
+	TITAN_LOOTTYPE_NEED_BEFORE_GREED = "Приоритет по нужности";
+	TITAN_LOOTTYPE_TOOLTIP = "Информация о типе добычи";
 	TITAN_LOOTTYPE_MENU_TEXT = "Тип добычи";
 	TITAN_LOOTTYPE_RANDOM_ROLL_LABEL = "Случайный ролл";
 	TITAN_LOOTTYPE_TOOLTIP_HINT1 = "Совет: ЛКМ для случайного рола.";
@@ -352,6 +353,7 @@ function TitanLocalizeRU()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Показывать отсутствие";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Сокращенный текст";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "Необходим аддон BonusScanner";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
 	TITAN_ITEMBONUSES_RATING_CONVERSION = "Отображать рейтинг как очки/проценты";
 	TITAN_ITEMBONUSES_SHOWGEMS = "Отображать количество цветов самоцветов";
 

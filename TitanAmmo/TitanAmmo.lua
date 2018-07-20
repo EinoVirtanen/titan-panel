@@ -20,6 +20,7 @@ local count = 0;
 local isThrown = nil;
 local isAmmo = nil;
 local currentlink = "";
+local AmmoName = "";
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -40,6 +41,7 @@ function TitanPanelAmmoButton_OnLoad(self)
                ShowIcon = 1,
                ShowLabelText = 1,
                ShowColoredText = 1,
+               ShowAmmoName = false,
           }
      };     
 
@@ -96,9 +98,11 @@ function TitanPanelAmmoButton_UNIT_INVENTORY_CHANGED(arg1, ...)
  	TitanPanelAmmoUpdateDisplay(); 	
  	if isAmmo then
   		if GetInventoryItemLink("player", ammoSlotID) then
-				count = GetInventoryItemCount("player", ammoSlotID) or count				
+				count = GetInventoryItemCount("player", ammoSlotID) or count
+				AmmoName = GetItemInfo(GetInventoryItemLink("player", ammoSlotID)) or _G["UNKNOWN"]
 			else
 				count = 0;
+				AmmoName = "";
 			end
  		TitanPanelButton_UpdateButton(TITAN_AMMO_ID);
 	end
@@ -112,12 +116,14 @@ end
 
 function TitanPanelAmmoButton_MERCHANT_CLOSED() 
  if isThrown then
- 	count = GetInventoryItemDurability(rangedSlotID);
+ 	count = GetInventoryItemDurability(rangedSlotID) or count
  elseif isAmmo and GetInventoryItemLink("player", ammoSlotID) then
-	count = GetInventoryItemCount("player", ammoSlotID);
+	count = GetInventoryItemCount("player", ammoSlotID) or count
+	AmmoName = GetItemInfo(GetInventoryItemLink("player", ammoSlotID)) or _G["UNKNOWN"]
  else
  --isThrown = nil;
  	count = 0;
+ 	AmmoName = "";
  end
 	TitanPanelButton_UpdateButton(TITAN_AMMO_ID);
 end
@@ -202,12 +208,18 @@ function TitanPanelAmmoButton_GetButtonText(id)
      
      local labelText, ammoText, ammoRichText, color;
      
+     -- safeguard to prevent malformed labels
+     if not count then count = 0 end
+     
      if (isThrown) then		          
           labelText = TITAN_AMMO_BUTTON_LABEL_THROWN;
           ammoText = format(TITAN_AMMO_FORMAT, count);
      elseif (isAmmo) then          
           labelText = TITAN_AMMO_BUTTON_LABEL_AMMO;
           ammoText = format(TITAN_AMMO_FORMAT, count);
+          if TitanGetVar(TITAN_AMMO_ID, "ShowAmmoName") and AmmoName ~= "" then
+          	ammoText = ammoText.."|cffffff9a".." ("..AmmoName..")".."|r"
+          end
      else
           count = 0;
           labelText = TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN;          
@@ -230,10 +242,19 @@ end
 -- DESC : Display rightclick menu options
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareAmmoMenu()
+		 local info = {};
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_AMMO_ID].menuText);
      TitanPanelRightClickMenu_AddToggleIcon(TITAN_AMMO_ID);
      TitanPanelRightClickMenu_AddToggleLabelText(TITAN_AMMO_ID);
      TitanPanelRightClickMenu_AddToggleColoredText(TITAN_AMMO_ID);
+     
+     info.text = TITAN_AMMO_BULLET_NAME;
+     info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_AMMO_ID, "ShowAmmoName"})
+     TitanPanelButton_UpdateButton(TITAN_AMMO_ID);
+     end
+     info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_AMMO_ID, "ShowAmmoName"), 1, nil);
+     UIDropDownMenu_AddButton(info);
+     
      
      TitanPanelRightClickMenu_AddSpacer();
      TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, TITAN_AMMO_ID, TITAN_PANEL_MENU_FUNC_HIDE);

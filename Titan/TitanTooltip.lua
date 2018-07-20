@@ -1,3 +1,5 @@
+local InCombatLockdown	= _G.InCombatLockdown;
+
 -- Globals
 TitanTooltipOrigScale = 1;
 TitanTooltipScaleSet = 0;

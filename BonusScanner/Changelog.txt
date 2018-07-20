@@ -1,4 +1,8 @@
-4.4 Tristanian xxxx.x.xx
+4.5 Tristanian 2009.02.09
+- Added average item level to bonuses table
+- Modified /bscan show and /bscan target commands to display the average item level of the relevant target
+------------------------------------------------
+4.4 Tristanian 2009.01.20
 - Replaced instances of getglobal() with _G for efficiency.
 - Added DPS values and categories for weapons
 - Re-enabled German localization with a few needed updates for Wotlk (work in progress)

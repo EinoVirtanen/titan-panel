@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.4
+-- BonusScanner Continued v4.5
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -16,7 +16,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.4";
+local BONUSSCANNER_VERSION = "4.5";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -35,11 +35,13 @@ BonusScanner = {
     ShowDebug = false; -- tells when the equipment is scanned
     Verbose	= false; -- Shows a LOT of debug information
     
-		-- variable counters for number of gems of the appropriate color
-		
+		-- variable counters for number of gems of the appropriate color		
 		GemsRed = 0; 
 		GemsYellow = 0;
 		GemsBlue = 0;
+		
+		-- average item level
+		AverageiLvl = 0;
 		
 	active = nil;
 	temp = { 
@@ -50,7 +52,8 @@ BonusScanner = {
 		details = {},
 		GemsRed = 0,
 		GemsYellow = 0,
-		GemsBlue = 0
+		GemsBlue = 0,
+		AverageiLvl = 0
 	};
 
 	slots = {
@@ -940,9 +943,7 @@ if BonusScannerConfig.tooltip == 1 then
 --itemparams
 local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemCount, itemEquipLoc, itemTexture = GetItemInfo(link);
 --check to avoid errors if item is not in the player's cache		
-		if (not itemLink) or itemLink == nil then 
-		return; 
-		end
+		if not itemLink then return end
 --get properties of item		
 local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instanceID = itemLink:match(
 	  "item:(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+)"
@@ -992,7 +993,7 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" then
 	GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(link);
 	end
-	 tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, cbonuses=bonuses});
+	 tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, ilvl=itemLevel, cbonuses=bonuses});
 	end
 					
 	if (bonuses) then
@@ -1052,23 +1053,23 @@ function BonusScanner:OnEvent(self, event, a1, ...)
 	 
     BonusScanner:Debug(event);
 
-    if ((event == "UNIT_INVENTORY_CHANGED") and BonusScanner.active and (a1 == "player")) then    		
+    if (event == "UNIT_INVENTORY_CHANGED") and BonusScanner.active and (a1 == "player") then    		
 		  AceTimer.CancelAllTimers("BonusScanner")
 			AceTimer.ScheduleTimer("BonusScanner", BonusScanner_OnUpdate, 2)		
-		return;
+			return;
     end
     
-	if (event == "PLAYER_ENTERING_WORLD") then			
+	if event == "PLAYER_ENTERING_WORLD" then			
 			BonusScanner.active = 1;		
 			AceTimer.ScheduleTimer("BonusScanner", BonusScanner_OnUpdate, 1)
 			self:RegisterEvent("UNIT_INVENTORY_CHANGED");
-	return;
+			return;
 	end
 	
-	if (event == "PLAYER_LEAVING_WORLD") then
+	if event == "PLAYER_LEAVING_WORLD" then
 		self:UnregisterEvent("UNIT_INVENTORY_CHANGED");
 		return;
-    end	
+  end	
     
   if event == "VARIABLES_LOADED" then
         if not BonusScannerConfig then 
@@ -1083,7 +1084,7 @@ function BonusScanner:OnEvent(self, event, a1, ...)
         if BonusScannerConfig.tooltip == 1 then
         	TipHooker:Hook(BonusScanner.ProcessTooltip, "item");
         end
-    end
+   end
     
 end
 
@@ -1097,17 +1098,21 @@ end
 
 
 function BonusScanner_OnUpdate()
-	BonusScanner.bonuses, BonusScanner.bonuses_details, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue = BonusScanner:ScanEquipment("player"); -- scan the equiped items
+	BonusScanner.bonuses, BonusScanner.bonuses_details, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue, BonusScanner.AverageiLvl = BonusScanner:ScanEquipment("player"); -- scan the equiped items
 	BonusScanner_Update();	  -- call the update function (for the mods using this library)	
 end
 
 function BonusScanner:ScanEquipment(target)
 	local slotid, slotname, hasItem, i, f, k, itemName, itemLink, ifound;
+	local totalLevel = 0;
+	local itemLevels = {};
 	local tbonuses = {};
-	SetCache = {};
+	local SetCache = {};
+	
 	BonusScanner.temp.GemsRed = 0;
 	BonusScanner.temp.GemsYellow = 0;
 	BonusScanner.temp.GemsBlue = 0;
+	BonusScanner.temp.AverageiLvl = 0;
 	
 	  BonusScannerTooltip:SetOwner(_G["BonusScannerFrame"],"ANCHOR_NONE");
 
@@ -1127,7 +1132,7 @@ function BonusScanner:ScanEquipment(target)
 if hasItem then
 
 		ifound=false;
-		itemName, itemLink = BonusScannerTooltip:GetItem();
+		itemName, itemLink = BonusScannerTooltip:GetItem();		
 		
 if itemLink then
 		
@@ -1151,26 +1156,42 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 	GemnoRed = f.gemsred;
 	GemnoYellow = f.gemsyellow;
 	GemnoBlue = f.gemsblue;
+	itemLevels[slotname] = f.ilvl or 0;
 	ifound = true;
 	end
 	end
 	--ONLY if the item is not in the addon cache do we scan it
 	if (ifound) then
 	else
-	tbonuses = BonusScanner:ScanItem(itemLink); 
+	tbonuses = BonusScanner:ScanItem(itemLink);
+	itemLevels[slotname] = select(4, GetItemInfo(itemLink)) or 0;
 	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" then
 	GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemLink);
 	end
-	tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, cbonuses=tbonuses});
+	tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, ilvl=itemLevels[slotname], cbonuses=tbonuses});
 	end
 	
 	BonusScanner.temp.GemsRed = BonusScanner.temp.GemsRed + GemnoRed;
 	BonusScanner.temp.GemsYellow = BonusScanner.temp.GemsYellow + GemnoYellow;
 	BonusScanner.temp.GemsBlue = BonusScanner.temp.GemsBlue + GemnoBlue;
-
+	
 end --end if itemLink		
 end --end if (hasItem) 
 end --end for
+
+-- Handle item Levels
+for i,k in pairs (itemLevels) do
+ -- ignore Tabard and Shirt item levels
+	if i ~= "Tabard" and i ~= "Shirt" then
+		if i == "MainHand" and not itemLevels["SecondaryHand"] then
+			totalLevel = totalLevel + k * 2;
+		else
+			totalLevel = totalLevel + k;
+		end
+	end
+end
+
+BonusScanner.temp.AverageiLvl = tonumber(format("%.2f", totalLevel / (#BonusScanner.slots - 2))) -- ignore Tabard and Shirt slots
 
 -- Phase 2: Check if an item is part of a set, if it is, scan the tooltip to ensure set bonuses are picked up
 -- if the item is not part of a set, use the cached bonuses if any
@@ -1250,7 +1271,7 @@ end --end if itemLink
 end --end if (hasItem) 
 end --end for
 
-	return BonusScanner.temp.bonuses, BonusScanner.temp.details, BonusScanner.temp.GemsRed, BonusScanner.temp.GemsYellow, BonusScanner.temp.GemsBlue;
+	return BonusScanner.temp.bonuses, BonusScanner.temp.details, BonusScanner.temp.GemsRed, BonusScanner.temp.GemsYellow, BonusScanner.temp.GemsBlue, BonusScanner.temp.AverageiLvl;
 end
 
 function BonusScanner:ScanItem(itemlink)
@@ -1633,6 +1654,7 @@ IsItem=nil;
   	end
   	if(string.lower(cmd) == "show") then
 	  	DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_CUREQ_LABEL"]);
+	  	DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": ".."|cffffd200"..BonusScanner.AverageiLvl.."|r")
 			BonusScanner:PrintInfo(BonusScanner.bonuses, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue);
   		return;
   	end
@@ -1700,7 +1722,7 @@ IsItem=nil;
 		local name  = GetUnitName("target");
 		if (name) then		
 			NotifyInspect("target");  
-			local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:ScanEquipment("target"); -- scan the equiped items
+			local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue, AverageiLvl = BonusScanner:ScanEquipment("target"); -- scan the equiped items
 			
 			-- if bonuses exists (Todo:  Figure out whether bonuses is empty) then continue
 			-- also check if the target is within inspection range
@@ -1709,8 +1731,10 @@ IsItem=nil;
 					
 				if (WhisperParam) then
 				SendChatMessage(L["BONUSSCANNER_IBONUS_LABEL"]..name..", ".._G["LEVEL"].." "..UnitLevel("target").." "..UnitClass("target"),"WHISPER",nil,WhisperParam)
+				SendChatMessage(L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": "..AverageiLvl, "WHISPER", nil, WhisperParam)				
 				else
 				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_IBONUS_LABEL"].."|cffffd200"..name.."|r"..LIGHTYELLOW_FONT_COLOR_CODE..", ".._G["LEVEL"].." "..UnitLevel("target").." "..ClassColorise(select(2,UnitClass("target")), UnitClass("target") ));
+				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": ".."|cffffd200"..AverageiLvl.."|r")
 				end
 				BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);
 			

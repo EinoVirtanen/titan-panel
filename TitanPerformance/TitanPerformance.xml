@@ -67,6 +67,9 @@
 			<OnLeave>
 				TitanUtils_StartFrameCounting(self, 0.5);
 			</OnLeave>
+			<OnShow>
+				TitanUtils_StartFrameCounting(self, 0.5);
+			</OnShow>
 			<OnUpdate>
 				TitanPanelPerfControlFrame_OnUpdate(self, elapsed);
 			</OnUpdate>

@@ -160,6 +160,7 @@ function TitanLocalizeCN()
      TITAN_AMMO_MENU_TEXT = "弹药/投掷武器";
      TITAN_AMMO_BUTTON_NOAMMO = "无弹药";
      TITAN_AMMO_MENU_REFRESH = "刷新";
+     TITAN_AMMO_BULLET_NAME = "Show ammo name";
      
      TITAN_BAG_FORMAT = "%d/%d";
      TITAN_BAG_BUTTON_LABEL = "背包: ";
@@ -355,6 +356,7 @@ function TitanLocalizeCN()
      TITAN_ITEMBONUSES_DISPLAY_NONE = "不显示任何属性";
      TITAN_ITEMBONUSES_SHORTDISPLAY = "显示摘要";
      TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "需要BonusScanner插件";
+     TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";     
      TITAN_ITEMBONUSES_RATING_CONVERSION = "显示为等级点数/百分比";
      TITAN_ITEMBONUSES_SHOWGEMS = "显示各颜色宝石数目";
 

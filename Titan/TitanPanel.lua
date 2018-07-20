@@ -23,10 +23,11 @@ TITAN_PANEL_DROPOFF_ADDON = nil;
 TITAN_PANEL_MOVING = 0;
 
 local _G = getfenv(0);
+local InCombatLockdown	= _G.InCombatLockdown;
 local TitanKillAutoHidetimer = false;
 local TitanSkinToRemove = "None";
-local TitanSkinName = "";
-local TitanSkinPath = "";
+local TitanSkinName, TitanSkinPath = "", "";
+
 
 -- Library references
 local AceTimer = LibStub("AceTimer-3.0")
@@ -465,7 +466,7 @@ function TitanPanelBarButton_OnLoad(self)
 	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("PLAYER_REGEN_ENABLED");
 	self:RegisterEvent("CVAR_UPDATE");
-	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	--self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 	
 --add Blizzard Configuration Panel
@@ -567,10 +568,10 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			-- Init Profile/Saved Vars
 			-- Future : AceDB !??
 			TitanVariables_InitTitanSettings();			
-			if ( not ServerTimeOffsets ) then
+			if not ServerTimeOffsets then
 				ServerTimeOffsets = {};
 			end
-			if ( not ServerHourFormat ) then
+			if not ServerHourFormat then
 				ServerHourFormat = {};
 			end
 			-- set registered skins
@@ -597,6 +598,7 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 				{ name = "X-Perl", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\X-Perl\\"},
 				};
 			end
+			self:UnregisterEvent("VARIABLES_LOADED");
 		elseif (event == "PLAYER_ENTERING_WORLD") then
 			TitanVariables_InitDetailedSettings();
 					
@@ -662,9 +664,9 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 					TitanPanelFrame_ScreenAdjust();
 				end
 			end
-    elseif (event == "ZONE_CHANGED_NEW_AREA") then
+    --elseif (event == "ZONE_CHANGED_NEW_AREA") then
 			-- Move frames
-			TitanPanel_InitPanelButtons();			 
+			--TitanPanel_InitPanelButtons();			 
 		elseif (event == "PLAYER_REGEN_ENABLED") then
 		-- outside combat check to see if frames need correction
 			 Titan_ManageFramesNew();
@@ -716,15 +718,15 @@ end
 
 function Handle_OnUpdateAutoHide()
 
-if (TitanPanelRightClickMenu_IsVisible()) then
+if TitanPanelRightClickMenu_IsVisible() then
 	return
-	end
+end
 	
 	if  (TitanPanelBarButton.hide == nil) and (TitanPanelGetVar("AutoHide")) then
 	TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
 	TitanKillAutoHidetimer = true;
 	elseif (TitanPanelBarButton.hide == nil) and (not TitanPanelGetVar("AutoHide")) then
-	   TitanKillAutoHidetimer = true;
+	TitanKillAutoHidetimer = true;
 	end
 
 	if (TitanPanelAuxBarButton.hide == nil) and (TitanPanelGetVar("AuxAutoHide")) then
@@ -1947,17 +1949,17 @@ function TitanPanel_OptionsMenu()
 	local info = {};
 	
 -- global font setting
-if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then
+if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then	
 	TitanPanelRightClickMenu_AddTitle(TITAN_PANEL_MENU_LSM_FONTS, UIDROPDOWNMENU_MENU_LEVEL);
-	local k,v,index,id;
-	for k,v in pairs(media:List("font")) do
+	local k,v,index,id;	
+	for k,v in pairs(media:List("font")) do	  
 		info.text = v;
-		info.value = k;
-		info.checked = (TitanPanelGetVar("FontName") == v);
+		info.value = k;		
+		info.checked = (TitanPanelGetVar("FontName") == v);		
 		info.func = function()
 			local newfont = media:Fetch("font", v)
 			TitanPanelSetVar("FontName", v);
-			for index, id in pairs(TitanPluginsIndex) do
+		  for index, id in pairs(TitanPluginsIndex) do
 			local button = TitanUtils_GetButton(id);
 			local buttonText = _G[button:GetName().."Text"];
 				if buttonText then
@@ -1973,9 +1975,9 @@ if ( UIDROPDOWNMENU_MENU_VALUE == "Font" ) then
 			  		end
 			  end
 			end
-			end
+		  end
 			TitanPanel_RefreshPanelButtons();
-		end
+	  end
 		UIDropDownMenu_AddButton(info,UIDROPDOWNMENU_MENU_LEVEL);
 	end
 end

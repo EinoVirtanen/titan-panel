@@ -156,6 +156,7 @@ function TitanLocalizeFR()
 	TITAN_AMMO_MENU_TEXT = "Munitions/Armes de jet";
 	TITAN_AMMO_BUTTON_NOAMMO = "Pas de munitions";
 	TITAN_AMMO_MENU_REFRESH = "Rafra\195\174chir l'affichage";
+	TITAN_AMMO_BULLET_NAME = "Montrer le nom des munitions";
 
 	TITAN_BAG_FORMAT = "%d/%d";
 	TITAN_BAG_BUTTON_LABEL = "Sacs : ";
@@ -351,6 +352,9 @@ function TitanLocalizeFR()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Afficher aucun";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Label bref";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "L'addon BonusScanner est requis";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
+	TITAN_ITEMBONUSES_RATING_CONVERSION = "Display ratings as points/percentage";
+	TITAN_ITEMBONUSES_SHOWGEMS = "Display number of gem colors";
 
 	TITAN_ITEMBONUSES_CAT_ATT = PLAYERSTAT_BASE_STATS;
 	TITAN_ITEMBONUSES_CAT_RES = "R\195\169sistances";

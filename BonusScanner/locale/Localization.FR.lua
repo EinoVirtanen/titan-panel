@@ -357,6 +357,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] 		= "ID de la gemme 3: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] 		= "Rouge";
 L["BONUSSCANNER_GEMBLUE_LABEL"] 		= "Bleu";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] 		= "Jaune";
+L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] 			= "Attributs";
 L["BONUSSCANNER_CAT_RES"] 			= "R\195\169sistance";

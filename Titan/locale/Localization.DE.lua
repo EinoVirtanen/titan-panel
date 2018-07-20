@@ -159,6 +159,7 @@ function TitanLocalizeDE()
 	TITAN_AMMO_MENU_TEXT = "Munition/Geworfen";
 	TITAN_AMMO_BUTTON_NOAMMO = "Keine Munition"; --SENSITY
   TITAN_AMMO_MENU_REFRESH = "Aktualisiere Display"; --SENSITY
+  TITAN_AMMO_BULLET_NAME = "Show ammo name";
 	
 	TITAN_BAG_FORMAT = "%d/%d";
 	TITAN_BAG_BUTTON_LABEL = "Taschen: ";
@@ -354,6 +355,7 @@ function TitanLocalizeDE()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Keine Anzeige";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Kurze Beschriftung";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn wird ben\195\182tigt";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
 	TITAN_ITEMBONUSES_RATING_CONVERSION = "Zeigen Sie Bewertungen als Punkte/Prozentsatz";
 	TITAN_ITEMBONUSES_SHOWGEMS = "Anzeige Zahl der Edelsteinfarben";
 	

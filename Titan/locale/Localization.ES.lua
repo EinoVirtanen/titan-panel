@@ -156,6 +156,7 @@ function TitanLocalizeES()
 	TITAN_AMMO_MENU_TEXT = "Munición/Arrojadiza";
 	TITAN_AMMO_BUTTON_NOAMMO = "No Ammo";
   TITAN_AMMO_MENU_REFRESH = "Refresh Display";
+  TITAN_AMMO_BULLET_NAME = "Show ammo name";
 	
 	TITAN_BAG_FORMAT = "%d/%d";
 	TITAN_BAG_BUTTON_LABEL = "Bolsas: ";
@@ -351,6 +352,9 @@ function TitanLocalizeES()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "No mostrar";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Etiqueta de Texto";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn requerido";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
+	TITAN_ITEMBONUSES_RATING_CONVERSION = "Display ratings as points/percentage";
+	TITAN_ITEMBONUSES_SHOWGEMS = "Display number of gem colors";
 
 	TITAN_ITEMBONUSES_CAT_ATT = "Atributos";
 	TITAN_ITEMBONUSES_CAT_RES = "Resistencia";

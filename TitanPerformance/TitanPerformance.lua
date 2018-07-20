@@ -67,7 +67,7 @@ end
 
 function TitanPanelPerformanceButton_OnShow()
 	if not PerfTimer then
-		PerfTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelPerformance", TitanPanelPerformanceButtonHandle_OnUpdate, 1 )
+		PerfTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelPerformance", TitanPanelPerformanceButtonHandle_OnUpdate, 1.5 )
 	end
 end
 
@@ -84,8 +84,8 @@ end
 -- **************************************************************************
 function TitanPanelPerformanceButtonHandle_OnUpdate()	
 		TitanPanelPluginHandle_OnUpdate(updateTable);
-		if not (TitanPanelRightClickMenu_IsVisible()) and TitanPanelPerfControlFrame:IsVisible() and not (MouseIsOver(TitanPanelPerfControlFrame)) then
-		   TitanPanelPerfControlFrame:Hide();
+		if not (TitanPanelRightClickMenu_IsVisible()) and _G["TitanPanelPerfControlFrame"]:IsVisible() and not (MouseIsOver(_G["TitanPanelPerfControlFrame"])) then
+		   _G["TitanPanelPerfControlFrame"]:Hide();
 		end
 end
 
@@ -120,7 +120,7 @@ end
 -- VARS : id = button ID
 -- **************************************************************************
 function TitanPanelPerformanceButton_GetButtonText(id)     
-     local button = TitanPanelPerformanceButton;
+     local button = _G["TitanPanelPerformanceButton"];
      local color, fpsRichText, latencyRichText, memoryRichText;
      local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
      local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
@@ -193,6 +193,7 @@ end
 -- DESC : Display tooltip text
 -- **************************************************************************
 function TitanPanelPerformanceButton_SetTooltip()
+		 local button = _G["TitanPanelPerformanceButton"];
      local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
      local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
      local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
@@ -203,10 +204,10 @@ function TitanPanelPerformanceButton_SetTooltip()
 
      -- FPS tooltip
      if ( showFPS ) then
-          local fpsText = format(TITAN_FPS_FORMAT, TitanPanelPerformanceButton.fps);
-          local avgFPSText = format(TITAN_FPS_FORMAT, TitanPanelPerformanceButton.avgFPS);
-          local minFPSText = format(TITAN_FPS_FORMAT, TitanPanelPerformanceButton.minFPS);
-          local maxFPSText = format(TITAN_FPS_FORMAT, TitanPanelPerformanceButton.maxFPS);     
+          local fpsText = format(TITAN_FPS_FORMAT, button.fps);
+          local avgFPSText = format(TITAN_FPS_FORMAT, button.avgFPS);
+          local minFPSText = format(TITAN_FPS_FORMAT, button.minFPS);
+          local maxFPSText = format(TITAN_FPS_FORMAT, button.maxFPS);     
           
           GameTooltip:AddLine("\n");
           GameTooltip:AddLine(TitanUtils_GetHighlightText(TITAN_FPS_TOOLTIP));
@@ -218,9 +219,9 @@ function TitanPanelPerformanceButton_SetTooltip()
 
      -- Latency tooltip
      if ( showLatency ) then
-          local latencyText = format(TITAN_LATENCY_FORMAT, TitanPanelPerformanceButton.latency);
-          local bandwidthInText = format(TITAN_LATENCY_BANDWIDTH_FORMAT, TitanPanelPerformanceButton.bandwidthIn);
-          local bandwidthOutText = format(TITAN_LATENCY_BANDWIDTH_FORMAT, TitanPanelPerformanceButton.bandwidthOut);
+          local latencyText = format(TITAN_LATENCY_FORMAT, button.latency);
+          local bandwidthInText = format(TITAN_LATENCY_BANDWIDTH_FORMAT, button.bandwidthIn);
+          local bandwidthOutText = format(TITAN_LATENCY_BANDWIDTH_FORMAT, button.bandwidthOut);
           
           GameTooltip:AddLine("\n");
           GameTooltip:AddLine(TitanUtils_GetHighlightText(TITAN_LATENCY_TOOLTIP));
@@ -231,18 +232,18 @@ function TitanPanelPerformanceButton_SetTooltip()
 
      -- Memory tooltip
      if ( showMemory ) then
-          local memoryText = format(TITAN_MEMORY_FORMAT, TitanPanelPerformanceButton.memory/1024);
-          local initialMemoryText = format(TITAN_MEMORY_FORMAT, TitanPanelPerformanceButton.initialMemory/1024);          
-          local sessionTime = time() - TitanPanelPerformanceButton.startSessionTime;          
+          local memoryText = format(TITAN_MEMORY_FORMAT, button.memory/1024);
+          local initialMemoryText = format(TITAN_MEMORY_FORMAT, button.initialMemory/1024);          
+          local sessionTime = time() - button.startSessionTime;          
           local rateRichText, timeToGCRichText, rate, timeToGC, color;     
           if ( sessionTime == 0 ) then
                rateRichText = TitanUtils_GetHighlightText("N/A");
           else
-               rate = (TitanPanelPerformanceButton.memory - TitanPanelPerformanceButton.initialMemory) / sessionTime;
+               rate = (button.memory - button.initialMemory) / sessionTime;
                color = TitanUtils_GetThresholdColor(TITAN_MEMORY_RATE_THRESHOLD_TABLE, rate);
                rateRichText = TitanUtils_GetColoredText(format(TITAN_MEMORY_RATE_FORMAT, rate), color);
           end     
-          if ( TitanPanelPerformanceButton.memory == TitanPanelPerformanceButton.initialMemory ) then
+          if ( button.memory == button.initialMemory ) then
                timeToGCRichText = TitanUtils_GetHighlightText("N/A");          
           end     
      
@@ -354,7 +355,7 @@ end
 -- DESC : Update button data
 -- **************************************************************************
 function TitanPanelPerformanceButton_UpdateData()
-     local button = TitanPanelPerformanceButton;
+     local button = _G["TitanPanelPerformanceButton"];
      local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
      local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
      local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
@@ -392,28 +393,26 @@ function TitanPanelPerformanceButton_UpdateData()
                local i;
                button.startSessionTime = time();     
                button.initialMemory = button.memory;
-               
-               for i = 1, GetNumAddOns() do               
-								memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
-               end
+                              
+               	for i = 1, GetNumAddOns() do               
+									memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
+               	end
                
           elseif (previousMemory and button.memory and previousMemory > button.memory) then
                -- Reset data after garbage collection
                local k,i;
                button.startSessionTime = time();
                button.initialMemory = button.memory;
+                              
+               	for k in pairs(memUsageSinceGC) do
+									memUsageSinceGC[k] = nil
+               	end
                
-               for k in pairs(memUsageSinceGC) do
-								memUsageSinceGC[k] = nil
-               end
-               
-               for i = 1, GetNumAddOns() do
-								memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
-               end
-          
-          
+               	for i = 1, GetNumAddOns() do
+									memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
+               	end                    
           end
-     end
+     end     
 end
 
 -- **************************************************************************
@@ -421,7 +420,7 @@ end
 -- DESC : Reset the memory monitoring values
 -- **************************************************************************
 --function TitanPanelPerformanceButton_ResetMemory()
-    -- local button = TitanPanelPerformanceButton;
+    -- local button = _G["TitanPanelPerformanceButton"];
      --button.memory, button.gcThreshold = gcinfo();     
      --button.initialMemory = button.memory;
      --button.startSessionTime = time();
@@ -565,7 +564,7 @@ function TitanPanelPerfControlSlider_OnEnter(self)
      self.tooltipText = TitanOptionSlider_TooltipText(TITAN_PERFORMANCE_CONTROL_TOOLTIP, TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
      GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
      GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1);
-     TitanUtils_StopFrameCounting(self:GetParent());
+     --TitanUtils_StopFrameCounting(self:GetParent());
 end
 
 -- **************************************************************************
@@ -575,7 +574,7 @@ end
 function TitanPanelPerfControlSlider_OnLeave(self)
      self.tooltipText = nil;
      GameTooltip:Hide();
-     TitanUtils_StartFrameCounting(self:GetParent(), TITAN_TRANS_FRAME_SHOW_TIME);
+     --TitanUtils_StartFrameCounting(self:GetParent(), TITAN_TRANS_FRAME_SHOW_TIME);
 end
 
 -- **************************************************************************
@@ -599,7 +598,7 @@ function TitanPanelPerfControlSlider_OnShow(self)
 		else
 		  TitanPanelPerfControlFrame:ClearAllPoints();
 			TitanPanelPerfControlFrame:SetPoint("RIGHT", "DropDownList1","LEFT", 3/DropDownList1Button9ExpandArrow:GetScale(),0);
-		end             	
+		end		
 end
 
 -- **************************************************************************
@@ -664,6 +663,8 @@ end
 -- DESC : If dropdown is visible, see if its timer has expired.  If so, hide frame
 -- VARS : elapsed = <research>
 -- **************************************************************************
-function TitanPanelPerfControlFrame_OnUpdate(self, elapsed)
+function TitanPanelPerfControlFrame_OnUpdate(self, elapsed)	
+	if not MouseIsOver(_G["TitanPanelPerfControlFrame"]) and not MouseIsOver (_G["DropDownList1Button9"]) and not MouseIsOver (_G["DropDownList1Button9ExpandArrow"]) then			
      TitanUtils_CheckFrameCounting(self, elapsed);
+  end
 end

@@ -131,6 +131,7 @@ function TitanPanelItemBonusesButton_OnLoad(self)
                ShowIcon = 1,
                ShowPoints = false,
                ShowGems = false,
+               ShowAverageiLvl = false,
                shortdisplay = false,
                displaybonuses = {},
           }
@@ -175,7 +176,8 @@ end
 -- VARS : id = button ID
 -- **************************************************************************
 function TitanPanelItemBonusesButton_GetButtonText(id)
-
+			
+		 local level, val;
      local title = TITAN_ITEMBONUSES_TEXT;
      local text = "";
      local disp = TitanGetVar(TITAN_ITEMBONUSES_ID, "displaybonuses");
@@ -198,15 +200,15 @@ function TitanPanelItemBonusesButton_GetButtonText(id)
           end
           if(BonusScanner.bonuses[e.effect]) then
                if (TitanGetVar(TITAN_ITEMBONUSES_ID, "ShowPoints")) then
-               level = UnitLevel("player");
-                    temp = BonusScanner:GetRatingBonus(e.effect, BonusScanner.bonuses[e.effect],level)
-                     if temp~=nil then
-                     val = temp
-                    else
-                    val = BonusScanner.bonuses[e.effect];
-                    end
-                    else
-                    val = BonusScanner.bonuses[e.effect];
+               			level = UnitLevel("player");
+                    local temp = BonusScanner:GetRatingBonus(e.effect, BonusScanner.bonuses[e.effect],level)
+                     if temp~= nil then
+                     		val = temp
+                     else
+                    		val = BonusScanner.bonuses[e.effect];
+                     end
+               else
+               	val = BonusScanner.bonuses[e.effect];
                end     
           else
                val = 0;
@@ -270,7 +272,7 @@ end
 function TitanPanelItemBonusesButton_GetTooltipText()
      
      local retstr,cat,val = "","","","";
-     local i;
+     local i,e, level, points;
 
      for i,e in pairs(TITAN_ITEMBONUSES_EFFECTS) do
 
@@ -280,18 +282,18 @@ function TitanPanelItemBonusesButton_GetTooltipText()
                           level = UnitLevel("player");
                                 val, points = BonusScanner:ProcessSpecialBonus (e.effect, BonusScanner.bonuses[e.effect], level);
                                 if val=="" then
-                       val = format(e.pformat,points);
-                         end
-                       else
+                       						val = format(e.pformat,points);
+                         				end
+                    else
                        val = format(e.format,BonusScanner.bonuses[e.effect]);
-                  end     
+                  	end     
                else
                     val = BonusScanner.bonuses[e.effect];
                end;
                if(e.cat ~= cat) then
                     cat = e.cat;
                     if(retstr ~= "") then
-                         retstr = retstr .. "\n"
+                      retstr = retstr .. "\n"
                     end
                     retstr = retstr .. "\n" .. TitanUtils_GetGreenText(_G['TITAN_ITEMBONUSES_CAT_'..cat]..":");
                end
@@ -299,9 +301,9 @@ function TitanPanelItemBonusesButton_GetTooltipText()
           end
      end
      
-     if (TitanGetVar(TITAN_ITEMBONUSES_ID, "ShowGems")) and GetAddOnMetadata("BonusScanner", "Version") >= "3.2" then     
-                          retstr = retstr .. "\n";
+     if TitanGetVar(TITAN_ITEMBONUSES_ID, "ShowGems") and GetAddOnMetadata("BonusScanner", "Version") >= "3.2" then                          
            if BonusScanner.GemsRed~=0 or BonusScanner.GemsYellow~=0 or BonusScanner.GemsBlue~=0 then
+           							 retstr = retstr .. "\n";
                          retstr = retstr .. "\n"..GREEN_FONT_COLOR_CODE..LB["BONUSSCANNER_TOOLTIPGEMS_STRING"]..":";
                      end
                      if BonusScanner.GemsRed~=0 then
@@ -315,6 +317,11 @@ function TitanPanelItemBonusesButton_GetTooltipText()
                      end
      
      end
+     
+     if TitanGetVar(TITAN_ITEMBONUSES_ID, "ShowAverageiLvl") and GetAddOnMetadata("BonusScanner", "Version") >= "4.5" then
+			retstr = retstr.."\n\n"..HIGHLIGHT_FONT_COLOR_CODE..LB["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..":\t|r"..LIGHTYELLOW_FONT_COLOR_CODE..BonusScanner.AverageiLvl.."|r"
+		 end
+		
      return retstr;
 end
 
@@ -338,9 +345,9 @@ TitanItemBonuses:SecureHook("BonusScanner_Update", TitanPanelItemBonuses_Update)
 function TitanPanelRightClickMenu_PrepareItemBonusesMenu()
      local id = "ItemBonuses";
      local info = {};
-     local i,cat,disp,val;
+     local i,cat,disp,val,level;
 
-     if ( UIDROPDOWNMENU_MENU_LEVEL == 2 ) then
+     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
           for i,e in pairs(TITAN_ITEMBONUSES_EFFECTS) do
                if(e.cat == UIDROPDOWNMENU_MENU_VALUE) then
                     info = {};
@@ -349,7 +356,7 @@ function TitanPanelRightClickMenu_PrepareItemBonusesMenu()
                               
                               if(e.format) then
                     if (TitanGetVar(TITAN_ITEMBONUSES_ID, "ShowPoints")) and (e.pformat) then
-                          level = UnitLevel("player");
+                          			level = UnitLevel("player");
                                 val = BonusScanner:GetRatingBonus (e.effect, BonusScanner.bonuses[e.effect], level);
                                 if e.effect ~= "TOHIT" then
                                 info.text = info.text .. " (".. format(e.pformat,val).. ")"; 
@@ -367,10 +374,7 @@ function TitanPanelRightClickMenu_PrepareItemBonusesMenu()
                else
                     val = BonusScanner.bonuses[e.effect];
                     info.text = info.text .. " (".. format(e.format,val).. ")";
-               end;
-                              
-                         --val = BonusScanner.bonuses[e.effect];
-                            --info.text = info.text .. " (".. format(e.format,val).. ")";
+               end;                                                      
                        end
                     info.value = i;
                     info.func = function() TitanPanelItemBonuses_SetDisplay(i) end
@@ -392,8 +396,9 @@ function TitanPanelRightClickMenu_PrepareItemBonusesMenu()
                info.checked = not TitanPanelItemBonusesButton_hasdisp();
                UIDropDownMenu_AddButton(info);
                
+               TitanPanelRightClickMenu_AddToggleVar(TITAN_ITEMBONUSES_AVERAGE_ILVL, TITAN_ITEMBONUSES_ID,'ShowAverageiLvl');
                TitanPanelRightClickMenu_AddToggleVar(TITAN_ITEMBONUSES_RATING_CONVERSION, TITAN_ITEMBONUSES_ID,'ShowPoints');
-               TitanPanelRightClickMenu_AddToggleVar(TITAN_ITEMBONUSES_SHOWGEMS, TITAN_ITEMBONUSES_ID,'ShowGems');
+               TitanPanelRightClickMenu_AddToggleVar(TITAN_ITEMBONUSES_SHOWGEMS, TITAN_ITEMBONUSES_ID,'ShowGems');               
                
                for i,cat in pairs(TITAN_ITEMBONUSES_CATEGORIES) do
                     info = {};

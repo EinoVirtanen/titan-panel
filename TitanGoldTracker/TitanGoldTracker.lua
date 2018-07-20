@@ -160,7 +160,7 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
      -- This next section will sort the array based on user preference 
      -- either by name, or by gold amount decending.
 
-     GoldArraySorted = {};
+     local GoldArraySorted = {};
      for index, money in pairs(GoldArray) do
           local character, charserver = string.match(index, '(.*)_(.*)');
           if (character) then
@@ -629,53 +629,7 @@ end
 -- DESC: Create pickup frame and deliver money
 -- VARS: multiplier = money type, maxMoney = amount available, parent = parent function
 -- *******************************************************************************************
-function TitanGoldTracker_OpenCoinPickupFrame(multiplier, maxMoney, parent)
-  -- a secure posthook is way better here
-  --[[   if ( CoinPickupFrame.owner ) then
-          CoinPickupFrame.owner.hasPickup = 0;
-     end
-
-     if ( GetCursorMoney() > 0 ) then
-          if ( CoinPickupFrame.owner ) then
-               MoneyTypeInfo[parent.moneyType].DropFunc();
-               --PlaySound("igBackPackCoinSelect");
-          end
-          CoinPickupFrame:Hide();
-          return;
-     end
-
-     CoinPickupFrame.multiplier = multiplier;
-     CoinPickupFrame.maxMoney = floor(maxMoney / multiplier);
-     if ( CoinPickupFrame.maxMoney == 0 ) then
-          CoinPickupFrame:Hide();
-          return;
-     end
-
-     CoinPickupFrame.owner = parent;
-     CoinPickupFrame.money = 1;
-     CoinPickupFrame.typing = 0;
-     CoinPickupText:SetText(CoinPickupFrame.money);
-     CoinPickupLeftButton:Disable();
-     CoinPickupRightButton:Enable();
-
-     if ( multiplier == 1 ) then
-          CoinPickupCopperIcon:Show();
-     else
-          CoinPickupCopperIcon:Hide();
-     end
-
-     if ( multiplier == COPPER_PER_SILVER ) then
-          CoinPickupSilverIcon:Show();
-     else
-          CoinPickupSilverIcon:Hide();
-     end
-
-     if ( multiplier == (COPPER_PER_GOLD) ) then
-          CoinPickupGoldIcon:Show();
-     else
-          CoinPickupGoldIcon:Hide();
-     end ]]--
-     
+function TitanGoldTracker_OpenCoinPickupFrame(multiplier, maxMoney, parent)    
      CoinPickupFrame:Hide();
      
      position = TitanUtils_GetRealPosition(TITAN_GOLDTRACKER_ID);

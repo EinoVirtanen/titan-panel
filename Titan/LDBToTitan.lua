@@ -50,6 +50,7 @@ local xcategories = {
 }
 
 local _G = getfenv(0);
+local InCombatLockdown	= _G.InCombatLockdown;
 local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local Tablet = AceLibrary("Tablet-2.0")

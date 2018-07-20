@@ -3,6 +3,7 @@ TITAN_PANEL_PLACE_BOTTOM = 2;
 
 local TitanMovableModule = LibStub("AceAddon-3.0"):NewAddon("TitanMovable", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
+local InCombatLockdown	= _G.InCombatLockdown;
 
 local TitanMovable = {};
 local TitanMovableData = {
@@ -475,5 +476,5 @@ TitanMovableModule:SecureHook("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCom
 TitanMovableModule:SecureHook("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate)
 TitanMovableModule:SecureHook(WorldMapFrame, "Hide", Titan_ManageFramesNew)
 TitanMovableModule:SecureHook("UIParent_ManageFramePositions", Titan_ManageFramesNew)
-TitanMovableModule:SecureHook("VehicleSeatIndicator_SetUpVehicle", Titan_ManageVehicles)
-TitanMovableModule:SecureHook("VehicleSeatIndicator_UnloadTextures", Titan_ManageVehicles)
+TitanMovableModule:SecureHook("PlayerFrame_ToVehicleArt", Titan_ManageVehicles)
+TitanMovableModule:SecureHook("PlayerFrame_ToPlayerArt", Titan_ManageVehicles)
