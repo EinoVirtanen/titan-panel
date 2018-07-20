@@ -5,6 +5,15 @@ local TitanMovableModule = LibStub("AceAddon-3.0"):NewAddon("TitanMovable", "Ace
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 
+--Determines the optimal magic number based on resolution
+local menuBarTop = 55;
+local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)");
+	if ( tonumber(width) / tonumber(height ) > 4/3 ) then
+		--Widescreen resolution
+		menuBarTop = 75;
+	end
+
+
 local TitanMovable = {};
 local TitanMovableData = {
 	PlayerFrame = {frameName = "PlayerFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, position = TITAN_PANEL_PLACE_TOP},
@@ -23,8 +32,7 @@ function TitanMovableFrame_AdjustBlizzardFrames()
 	if not InCombatLockdown() then
 		Titan_FCF_UpdateDockPosition();
 		Titan_FCF_UpdateCombatLogPosition();		
-		Titan_CastingBarFrame_UpdatePosition();
-		--Titan_UIParent_ManageRightSideFrames();
+		Titan_CastingBarFrame_UpdatePosition();		
 		Titan_ContainerFrames_Relocate();
 	end
 end
@@ -414,18 +422,20 @@ end
 ]]--
 
 function Titan_ContainerFrames_Relocate()
-		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);		
+		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);
+		-- Get the Blizzard offsets from the relevant table
+		local BlizzContainerYoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset or 0
+		local BlizzContainerYoffsABoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither or 0		
 		-- experimental fixes
 		-- Update bag anchor
 		if MultiBarBottomRight:IsShown() or MultiBarBottomLeft:IsShown() then
-			CONTAINER_OFFSET_Y = 110 + panelYOffset;
-			--97
+			CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + BlizzContainerYoffsABoffs + panelYOffset;
+			--CONTAINER_OFFSET_Y = 110 + panelYOffset;
 		elseif not MultiBarBottomRight:IsVisible() and not MultiBarBottomLeft:IsVisible() then
-			CONTAINER_OFFSET_Y = 65 + panelYOffset;
-			-- 55
+			CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + panelYOffset;
+			--CONTAINER_OFFSET_Y = 65 + panelYOffset;
 		else
-			CONTAINER_OFFSET_Y = 70 + panelYOffset;
-			--70
+		  CONTAINER_OFFSET_Y = 70 + panelYOffset;
 		end
 		
 		-- account for Reputation Status Bar (doh)		
@@ -454,17 +464,17 @@ function Titan_ManageFramesNew()
 			 TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
 			 Titan_ContainerFrames_Relocate();
 			 Titan_CastingBarFrame_UpdatePosition();			 
-			 end
+			 end	
 end
 
-function Titan_ManageTopFramesVehicle()
+local function Titan_ManageTopFramesVehicle()
 	TitanMovableFrame_CheckFrames(1);
 	TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
 end
 
-function Titan_ManageVehicles()	
+local function Titan_ManageVehicles()		
 		TitanMovableModule:CancelAllTimers()
-		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 1)
+		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 1.5)
 		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)
 end
 
@@ -476,5 +486,5 @@ TitanMovableModule:SecureHook("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCom
 TitanMovableModule:SecureHook("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate)
 TitanMovableModule:SecureHook(WorldMapFrame, "Hide", Titan_ManageFramesNew)
 TitanMovableModule:SecureHook("UIParent_ManageFramePositions", Titan_ManageFramesNew)
-TitanMovableModule:SecureHook("PlayerFrame_ToVehicleArt", Titan_ManageVehicles)
-TitanMovableModule:SecureHook("PlayerFrame_ToPlayerArt", Titan_ManageVehicles)
+TitanMovableModule:SecureHook("VehicleSeatIndicator_SetUpVehicle", Titan_ManageVehicles)
+TitanMovableModule:SecureHook("VehicleSeatIndicator_UnloadTextures", Titan_ManageVehicles)

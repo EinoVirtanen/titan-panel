@@ -7,7 +7,7 @@ function TitanLocalizeRU()
 
 	TITAN_NA = "N/A";
 	TITAN_SECONDS = "секунды";
-	TITAN_MINUTES = "минуьы";
+	TITAN_MINUTES = "минуты";
 	TITAN_HOURS = "часы";
 	TITAN_DAYS = "дни";
 	TITAN_SECONDS_ABBR = "с";
@@ -22,7 +22,7 @@ function TitanLocalizeRU()
 	
 	TITAN_MOVABLE_TOOLTIP = "Тяните для перемещения";
 
-	TITAN_PANEL_ERROR_DUP_PLUGIN = " возможно зарегистрирован дважды, неудается загрузить Titan panel, пожалуйста исправьте эту проблему"
+	TITAN_PANEL_ERROR_DUP_PLUGIN = " возможно зарегистрирован дважды, не удается загрузить Titan panel, пожалуйста исправьте эту проблему"
 	TITAN_PANEL_ERROR_PROF_DELCURRENT = "Вы не можете удалить свой текущий профиль.";
 	TITAN_PANEL_RESET_WARNING = GREEN_FONT_COLOR_CODE.."Предупреждение:"..FONT_COLOR_CODE_CLOSE.."Будут сброшены настройки ваших полос(ы) и панели на стандартные значения и будет пересоздан ваш текущий профиль. Если вы уверены в своих действиях, и хотите продолжить, то нажмите 'Accept' (ваш интерфей перезагрузится), или же нажмите 'Cancel' или клавишу 'Escape'.";
 	
@@ -109,7 +109,7 @@ function TitanLocalizeRU()
 	-- localization strings for AceConfigDialog-3.0     
 	TITAN_PANEL_CONFIG_MAIN_LABEL = "Аддон отображения полосы информации. Позволяет пользователям добавлять вывод данных или плагины модуля запуска на верхнюю панель или нижнюю.";			 
 	TITAN_TRANS_MENU_TEXT_SHORT = "Прозрачность";
-	TITAN_TRANS_MENU_DESC = "Регулировка прозрачности панели Титана и подсказкиp.";
+	TITAN_TRANS_MENU_DESC = "Регулировка прозрачности панели Титана и подсказок.";
 	TITAN_TRANS_MAIN_CONTROL_TITLE = "Главная панель";
 	TITAN_TRANS_AUX_CONTROL_TITLE = "Вспомог-ная панель";
 	TITAN_TRANS_CONTROL_TITLE_TOOLTIP = "Подсказка";
@@ -121,10 +121,10 @@ function TitanLocalizeRU()
 	TITAN_UISCALE_CONTROL_TITLE_PANEL = "Размер панели";
 	TITAN_UISCALE_CONTROL_TITLE_BUTTON = "Расстояние кнопок";
 	TITAN_UISCALE_CONTROL_TOOLTIP_TOOLTIPFONT = "Размер шрифта подсказок";
-	TITAN_UISCALE_TOOLTIP_DISABLE_TEXT = "Отключить маштабирование шрифта подсказок";
+	TITAN_UISCALE_TOOLTIP_DISABLE_TEXT = "Отключить масштабирование шрифта подсказок";
 	TITAN_UISCALE_MENU_DESC = "Управление различными аспектами панели и интерфейса.";
 	TITAN_UISCALE_SLIDER_DESC = "Регулировка масштаба вашего интерфейса.";
-	TITAN_UISCALE_PANEL_SLIDER_DESC = "Регулировка масштаба различных кнопок и иконкк панели.";
+	TITAN_UISCALE_PANEL_SLIDER_DESC = "Регулировка масштаба различных кнопок и иконок панели.";
 	TITAN_UISCALE_BUTTON_SLIDER_DESC = "Регулировка пространства между плагинами с левой стороны.";
 	TITAN_UISCALE_TOOLTIP_SLIDER_DESC = "Регулировка размера подсказки различных плагинов.";
 	TITAN_UISCALE_DISABLE_TOOLTIP_DESC = "Отключить контроль масштабирования шрифта подсказок Титана.";
@@ -137,7 +137,7 @@ function TitanLocalizeRU()
 	TITAN_SKINS_NAME_DESC = "Введите название вашей новой шкурки.";
 	TITAN_SKINS_NAME_EXAMPLE = "пример: Моя шкурка для Титана";
 	TITAN_SKINS_PATH_TITLE = "Путь к шкурке";
-	TITAN_SKINS_PATH_DESC = "Введите точный путь к месту гне расположены рисунки вашей шкурки, как показано в примере и в объяснении 'Совет'.";
+	TITAN_SKINS_PATH_DESC = "Введите точный путь к месту где расположены рисунки вашей шкурки, как показано в примере и в объяснении 'Совет'.";
 	TITAN_SKINS_PATH_EXAMPLE = "пример: Interface\\AddOns\\Titan\\Artwork\\Custom\\<папка вашей шкурки>\\";
 	TITAN_SKINS_ADD_HEADER = "Добавить шкурку";
 	TITAN_SKINS_ADD_DESC = "Добавить новую шкурку, в список доступных шкурок панели.";
@@ -159,7 +159,7 @@ function TitanLocalizeRU()
 	TITAN_AMMO_MENU_TEXT = "Боеприпасы/Броски";
 	TITAN_AMMO_BUTTON_NOAMMO = "Нет боеприпасов";
 	TITAN_AMMO_MENU_REFRESH = "Обновление отображения";
-	TITAN_AMMO_BULLET_NAME = "Show ammo name";
+	TITAN_AMMO_BULLET_NAME = "Отображать название боеприпасов";
 	
 	TITAN_BAG_FORMAT = "%d/%d";
 	TITAN_BAG_BUTTON_LABEL = "Сумки: ";
@@ -172,9 +172,9 @@ function TitanLocalizeRU()
 	TITAN_BAG_MENU_SHOW_USED_SLOTS = "Показывать исп. сумки";
 	TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS = "Показывать доступные слоты";
 	TITAN_BAG_MENU_SHOW_DETAILED = "Отображать подробную подсказку";
-	TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "Игнорорировать Подсумок";
-	TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "Игнорорировать сумки осколков";
-	TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "Игнорорировать сумки для профф";
+	TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS = "Игнорировать подсумок";
+	TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS = "Игнорировать сумки осколков";
+	TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS = "Игнорировать сумки для профф";
 	TITAN_BAG_SHARD_BAG_NAMES = {"Мешок душ","Малая сума душ","Коробка душ","Сумка из ткани Скверны","Сумка из сердцевинной ткани Скверны","Черная сумка теней","Сумка Бездны"};
 	TITAN_BAG_AMMO_POUCH_NAMES = {"Колчан из шкуры копытня", "Колчан из шкуры ворга", "Древняя перетянутая жилами ламина", "Колчан тысячи оперений", "Колчан из узловатой кожи", "Колчан из шкуры гарпии", "Колчан Риббли", "Колчан быстрой тетивы", "Тяжелый колчан", "Колчан Ночного Дозора", "Охотничий колчан", "Средний колчан", "Колчан из тонкой кожи", "Небольшой колчан", "Легкий колчан", "Подсумок контрабандиста", "Подсумок из узловатой кожи", "Подсумок из чешуи дракона Пустоты", "Нагрудный патронташ из кожи гнолла", "Нагрудный патронташ Риббли", "Подсумок из плотной кожи", "Подсумок из толстой кожи", "Нагрудный патронташ Ночного Дозора", "Средний патронташ", "Охотничья сумка для боеприпасов", "Небольшой кожаный подсумок", "Небольшой патронташ", "Небольшой подсумок","Подсумок из драконьей чешуи","Усиленный нерубский колчан"};
 	TITAN_BAG_PROF_BAG_NAMES = {"Зачарованный мешочек из магической ткани","Зачарованная сумка из рунной ткани","Большая сумка зачаровывателя","Сумка зачаровывателя","Сумка из чароткани","Кориевый ящик с инструментами","Ящик для инструментов из оскверненного железа","Тяжелый ящик с инструментами","Мешочек для самоцветов","Сумка для драгоценностей","Укрепленная шахтерская сумка","Шахтерский мешок","Сумка кожевника","Сумка Многих шкур","Мешочек для трав","Сумка для трав Ценариона","Сумка Ценариона","Ботаническая сумка Микаа","Кориевый ящик с инструментами","Шахтерская сумка из шкуры мамонта","Походная сума зверолова","Таинственная котомка","Рюкзак с бесчисленными карманами"};
@@ -195,7 +195,7 @@ function TitanLocalizeRU()
 	TITAN_CLOCK_CONTROL_HIGH = "+12";
 	TITAN_CLOCK_CONTROL_LOW = "-12";
 	TITAN_CLOCK_CHECKBUTTON = "Фрмт 24ч";
-	TITAN_CLOCK_CHECKBUTTON_TOOLTIP = "Преключение между отображением времени в 12-часовым и 24-часовым форматом";
+	TITAN_CLOCK_CHECKBUTTON_TOOLTIP = "Переключение между отображением времени в 12-часовым и 24-часовым форматом";
 	TITAN_CLOCK_MENU_TEXT = "Часы";
 	TITAN_CLOCK_MENU_LOCAL_TIME = "Отображать местное время(М)";
 	TITAN_CLOCK_MENU_SERVER_TIME = "Отображать серверное время (С)";
@@ -285,7 +285,7 @@ function TitanLocalizeRU()
 	TITAN_PERFORMANCE_MENU_SHOW_FPS = "Показывать FPS";
 	TITAN_PERFORMANCE_MENU_SHOW_LATENCY = "Показывать латентность";
 	TITAN_PERFORMANCE_MENU_SHOW_MEMORY = "Показывать память";
-	TITAN_PERFORMANCE_MENU_SHOW_ADDONS = "Покапз исп. памети аддонами";
+	TITAN_PERFORMANCE_MENU_SHOW_ADDONS = "Используемая память аддонами";
 	TITAN_PERFORMANCE_MENU_SHOW_ADDON_RATE = "Показ размер исп. аддонами";
 	TITAN_PERFORMANCE_MENU_CPUPROF_LABEL = "Режим анализа ЦПУ";
 	TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_ON = "Включить режим анализа ЦПУ ";
@@ -353,7 +353,7 @@ function TitanLocalizeRU()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Показывать отсутствие";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Сокращенный текст";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "Необходим аддон BonusScanner";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Отображать средний уровень предметов";
 	TITAN_ITEMBONUSES_RATING_CONVERSION = "Отображать рейтинг как очки/проценты";
 	TITAN_ITEMBONUSES_SHOWGEMS = "Отображать количество цветов самоцветов";
 
@@ -367,30 +367,30 @@ function TitanLocalizeRU()
 
 	--Titan Repair
 	REPAIR_LOCALE["pattern"] = "^Прочность: (%d+) / (%d+)$";
-	REPAIR_LOCALE["menu"] = "Инфо о прочности брони";
+	REPAIR_LOCALE["menu"] = "Информация о прочности амуниции";
 	REPAIR_LOCALE["tooltip"] = "Информация о прочности амуниции";
 	REPAIR_LOCALE["button"] = "Прочность: ";
-	REPAIR_LOCALE["normal"] = "Стоимость рестоврации (Стандарт): ";
-	REPAIR_LOCALE["friendly"] = "Стоимость рестоврации (Дружелюбие): ";
-	REPAIR_LOCALE["honored"] = "Стоимость рестоврации (Уважение): ";
-	REPAIR_LOCALE["revered"] = "Стоимость рестоврации (Почтитение): ";
-	REPAIR_LOCALE["exalted"] = "Стоимость рестоврации (Восторг): ";
+	REPAIR_LOCALE["normal"] = "Стоимость реставрации (Стандарт): ";
+	REPAIR_LOCALE["friendly"] = "Стоимость реставрации (Дружелюбие): ";
+	REPAIR_LOCALE["honored"] = "Стоимость реставрации (Уважение): ";
+	REPAIR_LOCALE["revered"] = "Стоимость реставрации (Почтение): ";
+	REPAIR_LOCALE["exalted"] = "Стоимость реставрации (Превознесение): ";
 	REPAIR_LOCALE["buttonNormal"] = "Показать Стандарт";
 	REPAIR_LOCALE["buttonFriendly"] = "Показать Дружелюбие (5%)";
 	REPAIR_LOCALE["buttonHonored"] = "Показать Уважение (10%)";
-	REPAIR_LOCALE["buttonRevered"] = "Показать Почтитение (15%)";
-	REPAIR_LOCALE["buttonExalted"] = "Показать Восторг (20%)";
+	REPAIR_LOCALE["buttonRevered"] = "Показать Почтение (15%)";
+	REPAIR_LOCALE["buttonExalted"] = "Показать Превознесение (20%)";
 	REPAIR_LOCALE["percentage"] = "Показывать в процентах";
-	REPAIR_LOCALE["itemnames"] = "Показывать имя предмета";
+	REPAIR_LOCALE["itemnames"] = "Показывать название предмета";
 	REPAIR_LOCALE["mostdamaged"] = "Показывать наибольше повреждённую";
 	REPAIR_LOCALE["showdurabilityframe"] = "Показывать фрейм прочности";
 	REPAIR_LOCALE["undamaged"] = "Показывать неповреждённые предметы";
 	REPAIR_LOCALE["discount"] = "Скидка";
 	REPAIR_LOCALE["nothing"] = "Нет поврежденных вещей.";
-	REPAIR_LOCALE["confirmation"] = "Ты хочешь отрестоврировать все одетые предметы?";
-	REPAIR_LOCALE["badmerchant"] = "Этот торговец не может рестоврировать.";
-	REPAIR_LOCALE["popup"] = "Показать всплывающее меню рестоврации";
-	REPAIR_LOCALE["showinventory"] = "Подсчет повреждение инвенторя";
+	REPAIR_LOCALE["confirmation"] = "Вы хотите отреставрировать все одетые предметы?";
+	REPAIR_LOCALE["badmerchant"] = "Этот торговец не может реставрировать.";
+	REPAIR_LOCALE["popup"] = "Показать всплывающее меню реставрации";
+	REPAIR_LOCALE["showinventory"] = "Подсчет повреждение инвентаря";
 	REPAIR_LOCALE["WholeScanInProgress"] = "Обновление...";
 	REPAIR_LOCALE["AutoReplabel"] = "Авто-Рестоврация";
 	REPAIR_LOCALE["AutoRepitemlabel"] = "Авто-Рестоврация всех предметов";
@@ -400,3 +400,16 @@ function TitanLocalizeRU()
 	TITAN_PLUGINS_MENU_TITLE = "Плагины";
 	
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
