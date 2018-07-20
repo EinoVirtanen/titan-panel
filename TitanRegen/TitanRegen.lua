@@ -24,7 +24,7 @@ local TITAN_RegenMaxMPRate = 0;
 local TITAN_RegenMinMPRate = 9999;
 local TITAN_RegenMPDuringCombat = 0;
 local TITAN_RegenMPCombatTrack = 0;
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -51,9 +51,9 @@ function TitanPanelTitanRegenButton_OnLoad(self)
           id = TITAN_REGEN_ID,
           builtIn = 1,
           version = TITAN_VERSION,
-          menuText = TITAN_REGEN_MENU_TEXT, 
+          menuText = L["TITAN_REGEN_MENU_TEXT"],
           buttonTextFunction = "TitanPanelTitanRegenButton_GetButtonText",
-          tooltipTitle = TITAN_REGEN_MENU_TOOLTIP_TITLE, 
+          tooltipTitle = L["TITAN_REGEN_MENU_TOOLTIP_TITLE"],
           tooltipTextFunction = "TitanPanelTitanRegenButton_GetTooltipText",
           savedVariables = {
                ShowLabelText = 1,
@@ -65,7 +65,6 @@ function TitanPanelTitanRegenButton_OnLoad(self)
 
      };
 
-     --this.timer = 0;     
      self:RegisterEvent("UNIT_HEALTH");
      self:RegisterEvent("UNIT_MANA");
      self:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -167,7 +166,7 @@ function TitanPanelTitanRegenButton_GetButtonText(id)
      end
      
      if (TitanGetVar(TITAN_REGEN_ID,"ShowHPRegen") == 1) then
-          labelTextHP = "HP: ";
+          labelTextHP = L["TITAN_REGEN_BUTTON_TEXT_HP"];
           if (TitanGetVar(TITAN_REGEN_ID,"ShowPercentage") == 1) then
                valueTextHP = format(TITAN_REGEN_HP_FORMAT_PERCENT, (TITAN_RegenHP/UnitHealthMax("player"))*100);
           else
@@ -181,7 +180,7 @@ function TitanPanelTitanRegenButton_GetButtonText(id)
      end
      
      if (TitanGetVar(TITAN_REGEN_ID,"ShowMPRegen") == 1) then
-          labelTextMP = "MP: ";
+          labelTextMP = L["TITAN_REGEN_BUTTON_TEXT_MP"];
           if (TitanGetVar(TITAN_REGEN_ID,"ShowPercentage") == 1) then
                valueTextMP = format(TITAN_REGEN_MP_FORMAT_PERCENT, (TITAN_RegenMP/UnitManaMax("player"))*100);
           else
@@ -215,19 +214,19 @@ function TitanPanelTitanRegenButton_GetTooltipText()
           regenPercent = (TITAN_RegenMPDuringCombat/UnitManaMax("player"))*100;
           
           return ""..
-               format(TITAN_REGEN_TOOLTIP1, UnitHealth("player"),UnitHealthMax("player"),UnitHealthMax("player")-UnitHealth("player")).."\n"..
-               format(TITAN_REGEN_TOOLTIP2, UnitMana("player"),UnitManaMax("player"),UnitManaMax("player")-UnitMana("player")).."\n"..
-               format(TITAN_REGEN_TOOLTIP3, TITAN_RegenMaxHPRate).."\n"..
-               format(TITAN_REGEN_TOOLTIP4, minHP).."\n"..
-               format(TITAN_REGEN_TOOLTIP5, TITAN_RegenMaxMPRate).."\n"..
-               format(TITAN_REGEN_TOOLTIP6, minMP).."\n"..
-               format(TITAN_REGEN_TOOLTIP7, TITAN_RegenMPDuringCombat, regenPercent).."\n"               
+               format(L["TITAN_REGEN_TOOLTIP1"], UnitHealth("player"),UnitHealthMax("player"),UnitHealthMax("player")-UnitHealth("player")).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP2"], UnitMana("player"),UnitManaMax("player"),UnitManaMax("player")-UnitMana("player")).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP3"], TITAN_RegenMaxHPRate).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP4"], minHP).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP5"], TITAN_RegenMaxMPRate).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP6"], minMP).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP7"], TITAN_RegenMPDuringCombat, regenPercent).."\n"               
                ;                    
      else
           return ""..
-               format(TITAN_REGEN_TOOLTIP1, UnitHealth("player"),UnitHealthMax("player"),UnitHealthMax("player")-UnitHealth("player")).."\n"..
-               format(TITAN_REGEN_TOOLTIP3, TITAN_RegenMaxHPRate).."\n"..
-               format(TITAN_REGEN_TOOLTIP4, minHP).."\n"
+               format(L["TITAN_REGEN_TOOLTIP1"], UnitHealth("player"),UnitHealthMax("player"),UnitHealthMax("player")-UnitHealth("player")).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP3"], TITAN_RegenMaxHPRate).."\n"..
+               format(L["TITAN_REGEN_TOOLTIP4"], minHP).."\n"
                ;                    
      end
 end
@@ -243,19 +242,19 @@ function TitanPanelRightClickMenu_PrepareTitanRegenMenu()
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[id].menuText);
                
      info = {};
-     info.text = TITAN_REGEN_MENU_SHOW2;
+     info.text = L["TITAN_REGEN_MENU_SHOW2"];
      info.func = TitanRegen_ShowHPRegen;
      info.checked = TitanGetVar(TITAN_REGEN_ID,"ShowHPRegen");
      UIDropDownMenu_AddButton(info);
      
      info = {};
-     info.text = TITAN_REGEN_MENU_SHOW3;
+     info.text = L["TITAN_REGEN_MENU_SHOW3"];
      info.func = TitanRegen_ShowMPRegen;
      info.checked = TitanGetVar(TITAN_REGEN_ID,"ShowMPRegen");
      UIDropDownMenu_AddButton(info);
      
      info = {};
-     info.text = TITAN_REGEN_MENU_SHOW4;
+     info.text = L["TITAN_REGEN_MENU_SHOW4"];
      info.func = TitanRegen_ShowPercentage;
      info.checked = TitanGetVar(TITAN_REGEN_ID,"ShowPercentage");
      UIDropDownMenu_AddButton(info);
@@ -263,13 +262,13 @@ function TitanPanelRightClickMenu_PrepareTitanRegenMenu()
      TitanPanelRightClickMenu_AddSpacer();
      
      info = {};
-     info.text = TITAN_PANEL_MENU_SHOW_COLORED_TEXT;
+     info.text = L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"];
      info.func = TitanRegen_ShowColoredText;
      info.checked = TitanGetVar(TITAN_REGEN_ID, "ShowColoredText");
      UIDropDownMenu_AddButton(info);          
      
      TitanPanelRightClickMenu_AddToggleLabelText("TitanRegen");
-     TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, id, TITAN_PANEL_MENU_FUNC_HIDE);     
+     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], id, TITAN_PANEL_MENU_FUNC_HIDE);     
 end
 
 -- **************************************************************************

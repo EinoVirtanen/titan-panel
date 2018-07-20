@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.7
+-- BonusScanner Continued v4.8
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -16,7 +16,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.7";
+local BONUSSCANNER_VERSION = "4.8";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -744,8 +744,7 @@ local BonusScanner_Gems = {
 	{ effect = "THREATREDUCTION",	cat = "EBON" },
 	{ effect = "THREATINCREASE",	cat = "EBON" },
 	{ effect = "INCRCRITDMG",	cat = "EBON" },
-	{ effect = "SPELLREFLECT",	cat = "EBON" },
-	{ effect = "SNARERESIST",	cat = "EBON" },
+	{ effect = "SPELLREFLECT",	cat = "EBON" },	
 	{ effect = "STUNRESIST",	cat = "EBON" },
 	{ effect = "PERCINT",	cat = "EBON" },
 	{ effect = "PERCBLOCKVALUE",	cat = "EBON" },
@@ -776,7 +775,22 @@ local BaseRatings = {
 { effect = "HOLYCRIT", baseval = 14}, 
 { effect = "SPELLH", baseval = 10},
 { effect = "RESILIENCE", baseval = 25},
-{ effect = "ARMORPEN", baseval = 4.69512176513672}																 
+{ effect = "ARMORPEN", baseval = 3.756097412109376} -- 3.1 Armor Penetration Rating: All classes now receive 25% more benefit from Armor Penetration Rating.
+}
+
+local BaseRatingsLvl34 = {
+	DEFENSE = true,
+	DODGE = true,
+	PARRY = true,
+	BLOCK = true,
+	RESILIENCE = true
+}
+
+local HasteClasses31 = {
+	PALADIN = true,
+	DEATHKNIGHT = true,
+	SHAMAN = true,
+	DRUID = true
 }
 
 local function ClassColorise(class, localizedclass)
@@ -795,7 +809,7 @@ if not class then return localizedclass or "" end
 	if strlen(b) == 1 then
 		b = "0"..b
 	end
-	return "|cff"..r..g..b..localizedclass..FONT_COLOR_CODE_CLOSE
+	return "|cff"..r..g..b..localizedclass.._G["FONT_COLOR_CODE_CLOSE"]
 end
 
 function BonusScanner:clearCache()
@@ -805,7 +819,11 @@ function BonusScanner:clearCache()
 	end
 end
 
-function BonusScanner:GetRatingMultiplier(level)
+function BonusScanner:GetRatingMultiplier(level, bonustype)
+	-- 3.1 Parry Rating, Defense Rating, and Block Rating: Low-level players will now convert these ratings into their corresponding defensive stats at the same rate as level 34 players.
+		if level < 34 and BaseRatingsLvl34[bonustype] then
+			level = 34
+		end
 		if level < 10 then
 			return 52 / (10 - 8)
 		elseif level <= 60 then
@@ -817,17 +835,21 @@ function BonusScanner:GetRatingMultiplier(level)
 		end
 end
 	
-function BonusScanner:GetRatingBonus(type, value,level)
+function BonusScanner:GetRatingBonus(bonustype, value, level, class)
+	if not class or type(class) ~= "string" then class = strupper(select(2,UnitClass("player"))) end
+	class = strupper(class)
 	 local ref, F;
 	 for _,ref in pairs (BaseRatings) do
-	  if ref.effect==type then
+	  if ref.effect == bonustype then
 	    F = ref.baseval;
 	  end
 	 end
 		if not F then
 			return nil
 		end
-		return value / F * BonusScanner:GetRatingMultiplier(level)
+		-- 3.1 Haste Rating: shamans, paladins, druids, and death knights now receive 30% more melee haste from Haste Rating.	 		
+		if bonustype == "HASTE" and HasteClasses31[class] then value = value * 1.3 end		
+		return value / F * BonusScanner:GetRatingMultiplier(level, bonustype)
 end
 
 -- Update function to hook into. 
@@ -869,9 +891,9 @@ function BonusScanner:GetSlotBonus(bonus, slotname)
 	return 0;
 end
 
-function BonusScanner:ProcessSpecialBonus (bonus, value, level)
+function BonusScanner:ProcessSpecialBonus (bonus, value, level, class)	
 	local specialval = "";
-	local points = BonusScanner:GetRatingBonus(bonus, value,level);
+	local points = BonusScanner:GetRatingBonus(bonus, value, level, class);
 		if bonus == "RESILIENCE" then
 				specialval = " (-"..format("%.2f%%", points)..L["BONUSSCANNER_SPECIAL1_LABEL"]..")";
 		elseif bonus == "EXPERTISE" then			
@@ -881,8 +903,15 @@ function BonusScanner:ProcessSpecialBonus (bonus, value, level)
 			local tempval = points / 25;			
 			  specialval = " ("..format("%d pt", points)..", -"..format("%.2f%%", tempval)..L["BONUSSCANNER_SPECIAL1_LABEL"]..")";
 		elseif bonus == "TOHIT" then
-			local tempval = BonusScanner:GetRatingBonus("SPELLTOHIT", value,level);
+			local tempval = BonusScanner:GetRatingBonus("SPELLTOHIT", value,level, class);
 			 specialval = " ("..format("%.2f%%", points)..L["BONUSSCANNER_SPECIAL3_LABEL"]..", "..format("%.2f%%", tempval)..L["BONUSSCANNER_SPECIAL4_LABEL"]..")";
+		elseif bonus == "HASTE" then
+			-- 3.1 Haste Rating: shamans, paladins, druids, and death knights now receive 30% more melee haste from Haste Rating.	 		
+	 		local meleehaste = points;
+	 		local spellhaste = BonusScanner:GetRatingBonus("SPELLH", value,level, class);
+	 		if meleehaste ~= spellhaste then
+	 			specialval = " ("..format("%.2f%%", meleehaste)..L["BONUSSCANNER_SPECIAL3_LABEL"]..", "..format("%.2f%%", spellhaste)..L["BONUSSCANNER_SPECIAL5_LABEL"]..")";
+	 		end
 		end		
 		return specialval, points;
 end
@@ -1133,7 +1162,7 @@ function BonusScanner:ScanEquipment(target)
 	local GemnoYellow = 0;
 	local GemnoBlue = 0;
 
-if hasItem then
+if hasItem and GetInventoryItemLink(target, slotid) then
 
 		ifound=false;
 		itemName, itemLink = BonusScannerTooltip:GetItem();		
@@ -1212,7 +1241,7 @@ for i, slotname in pairs(BonusScanner.slots) do
 		BonusScannerTooltip:ClearLines();
 		hasItem = BonusScannerTooltip:SetInventoryItem(target, slotid);
 
-if hasItem then
+if hasItem and GetInventoryItemLink(target, slotid) then
 
 		itemName, itemLink = BonusScannerTooltip:GetItem();
 
@@ -1759,7 +1788,7 @@ IsItem=nil;
 			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_INVALIDTAR_LABEL"]);
 			end
 		else
-		DEFAULT_CHAT_FRAME:AddMessage("|cffffd200" .. GetUnitName("target") .. LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_OOR_LABEL"]);
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffd200"..name.. LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_OOR_LABEL"]);
 		end --end CheckInteractDistance
 				
 		else
@@ -1775,10 +1804,10 @@ IsItem=nil;
 		  	
 		  	local slotid, _ = GetInventorySlotInfo(slotname.. "Slot");
 		  	BonusScannerTooltip:ClearLines();
-				local hasItem = BonusScannerTooltip:SetInventoryItem("player", slotid);
-				if hasItem then
+				local hasItem = BonusScannerTooltip:SetInventoryItem("player", slotid);				
+				if hasItem and GetInventoryItemLink("player", slotid) then
 				_, itemLink = BonusScannerTooltip:GetItem();
-				GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemLink);		  	
+				local GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemLink);		  	
 		    BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);
 		    end
 		  	return
@@ -1876,7 +1905,7 @@ for _, bonus in pairs(BONUSSCANNER_EFFECTS) do
 end --end function
 
 function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
-	local bonus, name, e, level, ratingval;
+	local bonus, name, e, level, class, ratingval;
 	local cat = "";
 		
 		if not bonuses then
@@ -1888,9 +1917,11 @@ function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
 	  --set the level of the target for rating conversions. If we are scanning an item then use the player's level
 			local tar = GetUnitName("target");
 			if (tar) and IsItem==nil then
-	  	level = UnitLevel("target");
+	  		level = UnitLevel("target");
+	  		class = strupper(select(2,UnitClass("target")));
 	  	else
-	  	level = UnitLevel("player");
+	  		level = UnitLevel("player");
+	  		class = strupper(select(2,UnitClass("player")));
 	  	end
 	  	--handle whispers with or without conversion here 
 			if (WhisperParam) then
@@ -1898,7 +1929,7 @@ function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
 			   if IsItem then
 			   ratingval = "";
 			   else
-			   	ratingval, points = BonusScanner:ProcessSpecialBonus (e.effect, bonuses[e.effect], level);
+			   	ratingval, points = BonusScanner:ProcessSpecialBonus (e.effect, bonuses[e.effect], level, class);
 			   	if ratingval == "" then
 				 ratingval = " ("..format(e.pformat,points)..") ";
 				  end
@@ -1914,7 +1945,7 @@ function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
 				 end
 				 --handle rating conversion here
 				 if (e.pformat) then
-				 	ratingval, points = BonusScanner:ProcessSpecialBonus (e.effect, bonuses[e.effect], level);
+				 	ratingval, points = BonusScanner:ProcessSpecialBonus (e.effect, bonuses[e.effect], level, class);
 				 	if ratingval =="" then
 				 ratingval = " ("..format(e.pformat,points)..") ";
 				  end

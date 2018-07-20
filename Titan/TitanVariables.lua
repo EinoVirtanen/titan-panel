@@ -4,9 +4,18 @@ TitanPlayerSettings = nil;
 TitanPluginSettings = nil;
 TitanPanelSettings = nil;
 
-TITAN_VERSION = "4.1.8.30000";
-
 local _G = getfenv(0);
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+
+TITAN_VERSION = GetAddOnMetadata("Titan", "Version") or L["TITAN_NA"]
+-- trim version if exists
+local fullversion = GetAddOnMetadata("Titan", "Version")
+if fullversion then
+	local pos = string.find(fullversion, " -", 1, true);
+	if pos then
+		TITAN_VERSION = string.sub(fullversion,1,pos-1);
+	end
+end
 
 -- LSM 3.0 registration
 local media = LibStub("LibSharedMedia-3.0")

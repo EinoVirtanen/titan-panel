@@ -7,13 +7,14 @@
 
 -- ******************************** Constants *******************************
 local TITAN_LOOTTYPE_ID = "LootType";
-local TitanLootMethod = {};
-TitanLootMethod["freeforall"] = {text = TITAN_LOOTTYPE_FREE_FOR_ALL};
-TitanLootMethod["roundrobin"] = {text = TITAN_LOOTTYPE_ROUND_ROBIN};
-TitanLootMethod["master"] = {text = TITAN_LOOTTYPE_MASTER_LOOTER};
-TitanLootMethod["group"] = {text = TITAN_LOOTTYPE_GROUP_LOOT};
-TitanLootMethod["needbeforegreed"] = {text = TITAN_LOOTTYPE_NEED_BEFORE_GREED};
 local _G = getfenv(0);
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local TitanLootMethod = {};
+TitanLootMethod["freeforall"] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
+TitanLootMethod["roundrobin"] = {text = L["TITAN_LOOTTYPE_ROUND_ROBIN"]};
+TitanLootMethod["master"] = {text = L["TITAN_LOOTTYPE_MASTER_LOOTER"]};
+TitanLootMethod["group"] = {text = L["TITAN_LOOTTYPE_GROUP_LOOT"]};
+TitanLootMethod["needbeforegreed"] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED"]};
 -- ******************************** Variables *******************************
 
 -- ******************************** Functions *******************************
@@ -27,9 +28,9 @@ function TitanPanelLootTypeButton_OnLoad(self)
           id = TITAN_LOOTTYPE_ID,
           builtIn = 1,
           version = TITAN_VERSION,
-          menuText = TITAN_LOOTTYPE_MENU_TEXT,
+          menuText = L["TITAN_LOOTTYPE_MENU_TEXT"],
           buttonTextFunction = "TitanPanelLootTypeButton_GetButtonText", 
-          tooltipTitle = TITAN_LOOTTYPE_TOOLTIP, 
+          tooltipTitle = L["TITAN_LOOTTYPE_TOOLTIP"],
           tooltipTextFunction = "TitanPanelLootTypeButton_GetTooltipText",
           icon = "Interface\\AddOns\\TitanLootType\\TitanLootType",
           iconWidth = 16,
@@ -64,11 +65,11 @@ function TitanPanelLootTypeButton_GetButtonText(id)
           lootThreshold = GetLootThreshold();
           color = ITEM_QUALITY_COLORS[lootThreshold];
      else
-          lootTypeText = TITAN_NA;
+          lootTypeText = L["TITAN_NA"];
           color = HIGHLIGHT_FONT_COLOR;
      end
      
-     return TITAN_LOOTTYPE_BUTTON_LABEL, TitanUtils_GetColoredText(lootTypeText, color);
+     return L["TITAN_LOOTTYPE_BUTTON_LABEL"], TitanUtils_GetColoredText(lootTypeText, color);
 end
 
 -- **************************************************************************
@@ -84,12 +85,12 @@ function TitanPanelLootTypeButton_GetTooltipText()
           return ""..
                LOOT_METHOD..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
                LOOT_THRESHOLD..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..
-               TitanUtils_GetGreenText(TITAN_LOOTTYPE_TOOLTIP_HINT1).."\n"..
-               TitanUtils_GetGreenText(TITAN_LOOTTYPE_TOOLTIP_HINT2);
+               TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
+               TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
      else
           return TitanUtils_GetNormalText(ERR_NOT_IN_GROUP).."\n"..
-          TitanUtils_GetGreenText(TITAN_LOOTTYPE_TOOLTIP_HINT1).."\n"..
-          TitanUtils_GetGreenText(TITAN_LOOTTYPE_TOOLTIP_HINT2);
+          TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
+          TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
      end
 end
 
@@ -146,7 +147,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
      local info;
 		 info = {};
-		 info.text = TITAN_LOOTTYPE_RANDOM_ROLL_LABEL;
+		 info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
      info.hasArrow = 1;
      UIDropDownMenu_AddButton(info);
      TitanPanelRightClickMenu_AddSpacer();
@@ -154,7 +155,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
      TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOOTTYPE_ID);
      
      TitanPanelRightClickMenu_AddSpacer();
-     TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
      end
 end
 

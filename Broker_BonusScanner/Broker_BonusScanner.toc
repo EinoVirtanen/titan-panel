@@ -1,4 +1,4 @@
-## Interface: 30000
+## Interface: 30100
 ## Title: Broker [BonusScanner]
 ## Author: Tristanian
 ## Notes: Load-On-Demand LDB data feed to display item bonuses, based on BonusScanner addon.
@@ -9,8 +9,9 @@
 ## X-Category: Inventory
 ## X-Email: bandit@planetcnc.com
 ## SavedVariables: BonusScannerBrokerConfig
-## Version: 1.0b
+## Version: 1.1
 
 embeds.xml
 locale\locale-enUS.lua
+locale\locale-esES.lua
 Broker_BonusScanner.lua

@@ -38,3 +38,7 @@ L["Display gem count summary"] = true
 L["Enabling this option will add a summary of gem colors and type(s) to the tooltip, for your equipped items."] = true
 L["Toggle to show or hide bonuses on the tooltip."] = true
 L["Nothing Watched"] = true
+
+-- 1.1 locale
+L["Hide watched bonuses"] = true
+L["This option hides all bonus text from the button, leaving the icon as the only visual element."] = true

@@ -81,7 +81,6 @@ L["BONUSSCANNER_NAMES"] = {
   THREATINCREASE = "% Incremento de Amenaza",
   INCRCRITDMG = "% Incremento de Daño Crítico",
   SPELLREFLECT = "% Reflejo de Hechizos",
-  SNARERESIST = "% Resistencia a Enraizar y Aturdir",
   STUNRESIST = "% Resistencia a Aturdir",
   PERCINT = "% Intelecto",
   PERCBLOCKVALUE = "% Valor de Bloqueo con Escudo",
@@ -288,20 +287,15 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Spell Power %+(%d+) and Stamina %+(%d+)", effect = {"SPELLPOW", "STA"} },
 	
 	-- special patterns that cannot be handled any other way	
-	{ pattern = "+12 Critical Strike Rating & 5%% Snare and Root Resist", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },	
+	{ pattern = "%+14 poder con hechizos y %+2%% intelecto", effect = {"SPELLPOW", "PERCINT"}, value = {14, 2} },
+	{ pattern = "%+25 poder con hechizos y %+2%% intelecto", effect = {"SPELLPOW", "PERCINT"}, value = {25, 2} },
 	{ pattern = "%+21 Critical Strike Rating and %+2%% Mana", effect = {"CRIT", "PERCMANA"}, value = {21, 2} },
 	{ pattern = "%+12 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {12, 15} },
 	{ pattern = "%+21 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
-	{ pattern = "%+14 Spell Power and %+2%% Intellect", effect = {"SPELLPOW", "PERCINT"}, value = {14, 2} },
-	{ pattern = "%+25 Spell Power and %+2%% Intellect", effect = {"SPELLPOW", "PERCINT"}, value = {25, 2} },	
 	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
 	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
 	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
-
-	-- deathknight runes
-	{ pattern = "Runa de ruptura de hechizos", effect = {"PERCREDSPELLDMG", "PERCSILENCE"}, value = {2, 50} },
-	{ pattern = "Runa de devastación de hechizos", effect = {"PERCREDSPELLDMG", "PERCSILENCE"}, value = {4, 50} },
 
 	-- rest of custom patterns
 	{ pattern = "Sedal de eternio", effect = "FISHING", value = 5 },
@@ -309,6 +303,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+(%d+) aguante y aumenta (%d+)%% de valor de armadura de objetos", effect = {"STA", "PERCARMOR"} },
 	{ pattern = "%+(%d+)%% amenaza y (%d+) índice de parada", effect = {"THREATINCREASE","PARRY"} },
 	{ pattern = "%+(%d+) índice de defensa %+(%d+)%% valor de bloqueo de escudo", effect = {"DEFENSE", "PERCBLOCKVALUE"} },
+	{ pattern = "Sigilo y agilidad aumentados en (%d+) p.", effect = "AGI" },
 	{ pattern = "Afilado (%+(%d+) daño)", effect = "DMGWPN" },
 	{ pattern = "Reforzado %(%+(%d+) armadura%)", effect = "ARMOR" },
 	{ pattern = "Sutileza", effect = "THREATREDUCTION", value = 2 },
@@ -356,6 +351,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] = " posibilidad de crítico";
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " esquivado/parado";
 L["BONUSSCANNER_SPECIAL3_LABEL"] = " cuerpo a cuerpo";
 L["BONUSSCANNER_SPECIAL4_LABEL"] = " hechizos";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] = "ID de objeto: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "Nivel de objeto: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "ID de encantamiento: |cffffffff";

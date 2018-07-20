@@ -1,5 +1,6 @@
 TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
 local _G = getfenv(0);
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 
 function TitanRightClickMenu_OnLoad(self)
 	local id = TitanUtils_GetButtonIDFromMenu(self);	
@@ -143,15 +144,15 @@ function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable)
 end
 
 function TitanPanelRightClickMenu_AddToggleIcon(id)
-	TitanPanelRightClickMenu_AddToggleVar(TITAN_PANEL_MENU_SHOW_ICON, id, "ShowIcon");
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"], id, "ShowIcon");
 end
 
 function TitanPanelRightClickMenu_AddToggleLabelText(id)
-	TitanPanelRightClickMenu_AddToggleVar(TITAN_PANEL_MENU_SHOW_LABEL_TEXT, id, "ShowLabelText");
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], id, "ShowLabelText");
 end
 
 function TitanPanelRightClickMenu_AddToggleColoredText(id)
-	TitanPanelRightClickMenu_AddToggleVar(TITAN_PANEL_MENU_SHOW_COLORED_TEXT, id, "ShowColoredText");
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], id, "ShowColoredText");
 end
 
 function TitanPanelRightClickMenu_ToggleVar(value)

@@ -83,7 +83,6 @@ L["BONUSSCANNER_NAMES"] = {
   THREATINCREASE = "% Erhöhte Bedrohung",
   INCRCRITDMG = "% Erhöhter Kritischer Schaden",
   SPELLREFLECT = "% Zauberreflexion",
-  SNARERESIST = "% Widerstand gegen Bewegungseinschränkung",
   STUNRESIST = "% Betäubungswiderstand",
   PERCINT = "% Intelligenz",
   PERCBLOCKVALUE = "% Blockwert des Schildes",
@@ -297,7 +296,6 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
   { pattern = "+12 Kritische Trefferwertung und um 3%% erhöhter kritischer Schaden", effect = {"CRIT", "INCRCRITDMG"}, value = {12, 3} },
   { pattern = "+21 Kritische Trefferwertung und um 3%% erhöhter kritischer Schaden", effect = {"CRIT", "INCRCRITDMG"}, value = {21, 3} },
   { pattern = "+14 Kritische Trefferwertung und 1%% Zauberreflexion", effect = {"CRIT", "SPELLREFLECT"}, value = {14, 1} },
-  { pattern = "+12 Kritische Trefferwertung und 5%% Widerstand gegen Bewegungseinschränkung", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },
   { pattern = "+14 Zauberschaden und 5%% Betäubungswiderstand", effect = {"DMG", "STUNRESIST"}, value = {14, 5} },
   { pattern = "+24 Angriffskraft und 5%% Betäubungswiderstand", effect = {"ATTACKPOWER", "STUNRESIST"}, value = {24, 5} },
   { pattern = "+18 Ausdauer und 5%% Betäubungswiderstand", effect = {"STA", "STUNRESIST"}, value = {18, 5} },
@@ -321,7 +319,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Seelenfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Sonnenfeuer", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
 	{ pattern = "Unbändigkeit", effect = "ATTACKPOWER", value = 70 },	
-	{ pattern = "Sicherer Stand", effect = {"TOHIT", "SNARERESIST"}, value = {10, 5} }
+	{ pattern = "Sicherer Stand", effect = {"TOHIT", "CRIT"}, value = {10, 10} }
 };
 
 -- localized strings
@@ -346,6 +344,9 @@ L["BONUSSCANNER_CACHESUMMARY_LABEL"] = "gespeicherte Bonusscanner-Items: "; -- S
 L["BONUSSCANNER_CACHECLEAR_LABEL"] = "Bonusscanner-Itemcache gelöscht."; -- SENSITY
 L["BONUSSCANNER_SPECIAL1_LABEL"] = " kritische Trefferchance"; -- SENSITY
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " ausgewichen/abgewehrt";
+L["BONUSSCANNER_SPECIAL3_LABEL"] = " melee";
+L["BONUSSCANNER_SPECIAL4_LABEL"] = " spells";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] = "Gegenstands-ID: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "Gegenstandslevel: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "Verzauberungs-ID: |cffffffff";

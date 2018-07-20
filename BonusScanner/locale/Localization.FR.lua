@@ -82,7 +82,6 @@ L["BONUSSCANNER_NAMES"] = {
 	THREATINCREASE = "% d'augmentation de menace ",
 	INCRCRITDMG = "% d'augmentation des dommages critiques ",
 	SPELLREFLECT = "% de r\195\169flexion des sorts ",
-	SNARERESIST = "% de r\195\169sistance aux effets de ralentissement et d'immobilisation ",
 	STUNRESIST = "% de r\195\169sistance aux effets d'\195\169tourdissement ",
 	PERCINT = "% d'intelligence ",
 	PERCBLOCKVALUE = "% de valeur de blocage ",
@@ -299,7 +298,6 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Spell Power %+(%d+) and Stamina %+(%d+)", effect = {"SPELLPOW", "STA"} },
 
 -- special patterns that cannot be handled any other way
-	{ pattern = "+12 Critical Strike Rating & 5%% Snare and Root Resist", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },
 	{ pattern = "%+21 Critical Strike Rating and %+2%% Mana", effect = {"CRIT", "PERCMANA"}, value = {21, 2} },
 	{ pattern = "%+12 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {12, 15} },
 	{ pattern = "%+21 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
@@ -321,7 +319,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "\195\130me de givre", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Feu solaire", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
 	{ pattern = "Sauvagerie", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "Pied s\195\187r", effect = {"TOHIT", "SNARERESIST"}, value = {10, 5} }
+	{ pattern = "Pied s\195\187r", effect = {"TOHIT", "CRIT"}, value = {10, 10} }
 };
 
 -- localized strings
@@ -348,6 +346,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] 		= " chance de crit";
 L["BONUSSCANNER_SPECIAL2_LABEL"] 		= " esquiv\195\169/par\195\169";
 L["BONUSSCANNER_SPECIAL3_LABEL"] 	= " m\195\170l\195\169e";
 L["BONUSSCANNER_SPECIAL4_LABEL"] 	= " sorts";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] 		= "ID de l'objet: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] 		= "Niveau de l'objet: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] 		= "ID de l'enchant: |cffffffff";

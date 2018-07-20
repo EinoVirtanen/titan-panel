@@ -81,7 +81,6 @@ local BONUSSCANNER_EFFECTS = {
 	{ effect = "THREATINCREASE",	cat = "EBON" },
 	{ effect = "INCRCRITDMG",	cat = "EBON" },
 	{ effect = "SPELLREFLECT",	cat = "EBON" },
-	{ effect = "SNARERESIST",	cat = "EBON" },
 	{ effect = "STUNRESIST",	cat = "EBON" },
 	{ effect = "PERCINT",	cat = "EBON" },
 	{ effect = "PERCBLOCKVALUE",	cat = "EBON" },
@@ -293,11 +292,20 @@ local buttonoptions = {
 			end,	
 		},
 		shortlabelsbutton = {
-			order = 8, type = "toggle", width = "full",
+			order = 9, type = "toggle", width = "full",
 			name = LB["Use short labels for bonus titles"],
 			desc = LB["This option will enable short labels (bonus ID's) on the button/block instead of full names."],
 			get = function() return BonusScannerBrokerConfig.ShortLabelsButton end,
 			set = function(_,v) BonusScannerBrokerConfig.ShortLabelsButton = v 
+			BSBroker:ButtonUpdate()
+			end,
+		},
+		hideallbonuslabels = {
+			order = 10, type = "toggle", width = "full",
+			name = LB["Hide watched bonuses"],
+			desc = LB["This option hides all bonus text from the button, leaving the icon as the only visual element."],
+			get = function() return BonusScannerBrokerConfig.HideBonusesButton end,
+			set = function(_,v) BonusScannerBrokerConfig.HideBonusesButton = v 
 			BSBroker:ButtonUpdate()
 			end,
 		},
@@ -781,75 +789,69 @@ local tooltipoptions = {
 						name = L["BONUSSCANNER_NAMES"]["SPELLREFLECT"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["SPELLREFLECT"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["SPELLREFLECT"] = v end,							
-					},
-					snareresist = {
-						order = 7, type = "toggle", width = "full",
-						name = L["BONUSSCANNER_NAMES"]["SNARERESIST"],
-						get = function() return BonusScannerBrokerConfig.TooltipBonuses["SNARERESIST"] end,							
-						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["SNARERESIST"] = v end,							
-					},
+					},					
 					stunresist = {
-						order = 8, type = "toggle", width = "full",
+						order = 7, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["STUNRESIST"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["STUNRESIST"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["STUNRESIST"] = v end,							
 					},
 					percint = {
-						order = 9, type = "toggle", width = "full",
+						order = 8, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCINT"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCINT"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCINT"] = v end,							
 					},
 					percblockvalue = {
-						order = 10, type = "toggle", width = "full",
+						order = 9, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCBLOCKVALUE"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCBLOCKVALUE"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCBLOCKVALUE"] = v end,							
 					},
 					percarmor = {
-						order = 11, type = "toggle", width = "full",
+						order = 10, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCARMOR"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCARMOR"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCARMOR"] = v end,							
 					},
 					percmana = {
-						order = 12, type = "toggle", width = "full",
+						order = 11, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCMANA"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCMANA"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCMANA"] = v end,						
 					},
 					percredspelldmg = {
-						order = 13, type = "toggle", width = "full",
+						order = 12, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCREDSPELLDMG"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCREDSPELLDMG"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCREDSPELLDMG"] = v end,							
 					},
 					percsnare = {
-						order = 14, type = "toggle", width = "full",
+						order = 13, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCSNARE"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCSNARE"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCSNARE"] = v end,							
 					},
 					percsilence = {
-						order = 15, type = "toggle", width = "full",
+						order = 14, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCSILENCE"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCSILENCE"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCSILENCE"] = v end,							
 					},
 					percfear = {
-						order = 16, type = "toggle", width = "full",
+						order = 15, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCFEAR"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCFEAR"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCFEAR"] = v end,							
 					},
 					percstun = {
-						order = 17, type = "toggle", width = "full",
+						order = 16, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCSTUN"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCSTUN"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCSTUN"] = v end,							
 					},
 					perccrithealing = {
-						order = 18, type = "toggle", width = "full",
+						order = 17, type = "toggle", width = "full",
 						name = L["BONUSSCANNER_NAMES"]["PERCCRITHEALING"],
 						get = function() return BonusScannerBrokerConfig.TooltipBonuses["PERCCRITHEALING"] end,							
 						set = function(_,v) BonusScannerBrokerConfig.TooltipBonuses["PERCCRITHEALING"] = v end,							
@@ -937,7 +939,6 @@ if not BonusScannerBrokerConfig then
   		["THREATINCREASE"] = true,
   		["INCRCRITDMG"] = true,
   		["SPELLREFLECT"] = true,
-  		["SNARERESIST"] = true,
   		["STUNRESIST"] = true,
   		["PERCINT"] = true,
   		["PERCBLOCKVALUE"] = true,
@@ -959,6 +960,9 @@ if not BonusScannerBrokerConfig then
 			RemoveBonusFromButton = "",						
       }
  end
+ 
+ -- 1.1 savedvars
+ if not BonusScannerBrokerConfig.HideBonusesButton then BonusScannerBrokerConfig.HideBonusesButton = false end
  
  -- register plugin with LibDBicon and show minimap icon
 	if libdbicon then
@@ -985,6 +989,7 @@ function BSBroker:Update()
 end
 
 function BSBroker:ButtonUpdate()
+	if BonusScannerBrokerConfig.HideBonusesButton then self.obj.text = "" return end -- if watched bonuses are hidden, reset text and exit function
 	local buttonlabel,i,e = ""	
 	local buttonlist = {}
 	if #BonusScannerBrokerConfig.ButtonBonuses > 0 then		
@@ -1002,7 +1007,7 @@ function BSBroker:ButtonUpdate()
 							if e.effect == i and e.pformat then							
 								local level = UnitLevel("player")
 								local specialrating, normalrating = BonusScanner:ProcessSpecialBonus (i, bonuses[i], level)
-									if i == "TOHIT" then
+									if i == "TOHIT" or (i == "HASTE" and specialrating ~= "") then
 										table.insert(buttonlist, specialrating.."  ") -- specialrating is already formatted
 									else
 										table.insert(buttonlist, format(e.pformat, normalrating).."  ") -- we have to format normalrating

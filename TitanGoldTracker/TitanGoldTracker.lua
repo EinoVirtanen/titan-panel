@@ -58,6 +58,8 @@ local GOLDTRACKER_SESSIONSTART;
 local REMEMBER_VIEWALL;
 local REMEMBER_SORTBYNAME;
 local REMEMBER_SHOWGPH;
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local LB = LibStub("AceLocale-3.0"):GetLocale("Titan_GoldTracker", true)
 local TitanGoldTracker = LibStub("AceAddon-3.0"):NewAddon("TitanGoldTracker", "AceHook-3.0", "AceTimer-3.0")
 local GoldTrackerTimer = nil;
 local _G = getfenv(0);
@@ -72,8 +74,8 @@ function TitanPanelGoldTrackerButton_OnLoad(self)
           id = TITAN_GOLDTRACKER_ID,
           builtIn = 1,
           version = TITAN_GOLDTRACKER_VERSION,
-          menuText = TITAN_GOLDTRACKER_MENU_TEXT, 
-          tooltipTitle = TITAN_GOLDTRACKER_TOOLTIP,
+          menuText = LB["TITAN_GOLDTRACKER_MENU_TEXT"], 
+          tooltipTitle = LB["TITAN_GOLDTRACKER_TOOLTIP"],
           tooltipTextFunction = "TitanPanelGoldTrackerButton_GetTooltipText",
           buttonTextFunction = "TitanPanelGoldTrackerButton_GetButtonText",
      };
@@ -181,13 +183,13 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
           if (character) then
                if (charserver == server) then
                     if (mod(GoldArray[GoldArraySorted[i]],10) == 0) then
-                         currentMoneyRichText = currentMoneyRichText.."\n"..character.."\t"..TitanUtils_GetHighlightText(format(TITAN_MONEY_FORMAT, TitanPanelGoldTracker_BreakMoney(floor(GoldArray[GoldArraySorted[i]]/10))));                    
+                         currentMoneyRichText = currentMoneyRichText.."\n"..character.."\t"..TitanUtils_GetHighlightText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(floor(GoldArray[GoldArraySorted[i]]/10))));                    
                     end
                end
           end
      end
 
-     currentMoneyRichText = currentMoneyRichText.."\n"..TITAN_GOLDTRACKER_SPACERBAR.."\n"..TITAN_GOLDTRACKER_TTL_GOLD.."\t"..TitanUtils_GetHighlightText(format(TITAN_MONEY_FORMAT, TitanPanelGoldTracker_BreakMoney(TitanPanelGoldTrackerButton_TotalGold())));
+     currentMoneyRichText = currentMoneyRichText.."\n"..TITAN_GOLDTRACKER_SPACERBAR.."\n"..LB["TITAN_GOLDTRACKER_TTL_GOLD"].."\t"..TitanUtils_GetHighlightText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(TitanPanelGoldTrackerButton_TotalGold())));
 
      -- find session earnings and earning per hour
      local sesstotal = GetMoney("player") - GOLDTRACKER_STARTINGGOLD;
@@ -200,26 +202,26 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
      local sesslength = GetTime() - GOLDTRACKER_SESSIONSTART;
      local perhour = math.floor(sesstotal / sesslength * 3600);
 
-     local sessionMoneyRichText = "\n\n"..TitanUtils_GetHighlightText(TITAN_GOLDTRACKER_STATS_TITLE).."\n"..TITAN_GOLDTRACKER_START_GOLD.."\t"..TitanUtils_GetColoredText(format(TITAN_MONEY_FORMAT, TitanPanelGoldTracker_BreakMoney(GOLDTRACKER_STARTINGGOLD)),TITAN_GOLDTRACKER_BLUE).."\n";
+     local sessionMoneyRichText = "\n\n"..TitanUtils_GetHighlightText(LB["TITAN_GOLDTRACKER_STATS_TITLE"]).."\n"..LB["TITAN_GOLDTRACKER_START_GOLD"].."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(GOLDTRACKER_STARTINGGOLD)),TITAN_GOLDTRACKER_BLUE).."\n";
 
      if (negative) then
           GOLDTRACKER_COLOR = TITAN_GOLDTRACKER_RED;
-          GOLDTRACKER_SESS_STATUS = TITAN_GOLDTRACKER_SESS_LOST;
-          GOLDTRACKER_PERHOUR_STATUS = TITAN_GOLDTRACKER_PERHOUR_LOST;
+          GOLDTRACKER_SESS_STATUS = LB["TITAN_GOLDTRACKER_SESS_LOST"];
+          GOLDTRACKER_PERHOUR_STATUS = LB["TITAN_GOLDTRACKER_PERHOUR_LOST"];
      else
           GOLDTRACKER_COLOR = TITAN_GOLDTRACKER_GREEN;
-          GOLDTRACKER_SESS_STATUS = TITAN_GOLDTRACKER_SESS_EARNED;
-          GOLDTRACKER_PERHOUR_STATUS = TITAN_GOLDTRACKER_PERHOUR_EARNED;
+          GOLDTRACKER_SESS_STATUS = LB["TITAN_GOLDTRACKER_SESS_EARNED"];
+          GOLDTRACKER_PERHOUR_STATUS = LB["TITAN_GOLDTRACKER_PERHOUR_EARNED"];
      end     
 
-          sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_SESS_STATUS.."\t"..TitanUtils_GetColoredText(format(TITAN_MONEY_FORMAT, TitanPanelGoldTracker_BreakMoney(sesstotal)),GOLDTRACKER_COLOR).."\n";
+          sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_SESS_STATUS.."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(sesstotal)),GOLDTRACKER_COLOR).."\n";
           
           if (GoldArray["DISPLAYGPH"]) then
-               sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_PERHOUR_STATUS.."\t"..TitanUtils_GetColoredText(format(TITAN_MONEY_FORMAT, TitanPanelGoldTracker_BreakMoney(perhour)),GOLDTRACKER_COLOR);
+               sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_PERHOUR_STATUS.."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(perhour)),GOLDTRACKER_COLOR);
           end
      
      
-     local final_tooltip = TITAN_GOLDTRACKER_TOOLTIPTEXT.." : "..GetCVar("realmName").." : "..select(2,UnitFactionGroup("Player"));
+     local final_tooltip = LB["TITAN_GOLDTRACKER_TOOLTIPTEXT"].." : "..GetCVar("realmName").." : "..select(2,UnitFactionGroup("Player"));
      if (UnitFactionGroup("Player")=="Alliance") then
           GOLDTRACKER_COLOR = TITAN_GOLDTRACKER_GREEN;
      else
@@ -292,27 +294,27 @@ end
 function TitanPanelRightClickMenu_PrepareGoldTrackerMenu()
 	if UIDROPDOWNMENU_MENU_LEVEL == 1 then
      -- Menu title
-     TitanPanelRightClickMenu_AddTitle(TITAN_GOLDTRACKER_ITEMNAME);     
+     TitanPanelRightClickMenu_AddTitle(LB["TITAN_GOLDTRACKER_ITEMNAME"]);     
 
      -- Function to toggle button gold view
      if (GoldArray["VIEWALL"]) then
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_PLAYER_TEXT, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerButton_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_PLAYER_TEXT"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerButton_Toggle");
      else
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_ALL_TEXT, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerButton_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_ALL_TEXT"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerButton_Toggle");
      end
           
      -- Function to toggle display sort
      if (GoldArray["SORTBYNAME"]) then
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_SORT_GOLD, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerSort_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_SORT_GOLD"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerSort_Toggle");
      else
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_SORT_NAME, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerSort_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_SORT_NAME"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerSort_Toggle");
      end
 
      -- Function to toggle gold per hour sort
      if (GoldArray["DISPLAYGPH"]) then
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_GPH_HIDE, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerGPH_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_GPH_HIDE"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerGPH_Toggle");
      else
-          TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_GPH_SHOW, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerGPH_Toggle");
+          TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_GPH_SHOW"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerGPH_Toggle");
      end
           
      -- A blank line in the menu
@@ -322,15 +324,15 @@ function TitanPanelRightClickMenu_PrepareGoldTrackerMenu()
      if (GoldArray[GOLDTRACKER_INDEX] ~= nil) then
           local toontoggle = GoldArray[GOLDTRACKER_INDEX];
           if (mod(toontoggle,10) == 0) then
-               TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_PLAYER_HIDE, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerShowToon_Toggle");
+               TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_PLAYER_HIDE"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerShowToon_Toggle");
           else
-               TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_TOGGLE_PLAYER_SHOW, TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerShowToon_Toggle");
+               TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_TOGGLE_PLAYER_SHOW"], TITAN_GOLDTRACKER_ID,"TitanPanelGoldTrackerShowToon_Toggle");
           end
      end
 		
 		-- Delete toon
 		local info = {};
-		info.text = TITAN_GOLDTRACKER_DELETE_PLAYER;
+		info.text = LB["TITAN_GOLDTRACKER_DELETE_PLAYER"];
 		info.value = "ToonDelete";
 		info.hasArrow = 1;
 		UIDropDownMenu_AddButton(info);		
@@ -340,31 +342,31 @@ function TitanPanelRightClickMenu_PrepareGoldTrackerMenu()
      
      -- Function to clear the enter database     
      local info = {};
-     info.text = TITAN_GOLDTRACKER_CLEAR_DATA_TEXT;
+     info.text = LB["TITAN_GOLDTRACKER_CLEAR_DATA_TEXT"];
      info.func = function () 
      local frame = _G["TitanPanelGoldTrackerButton"]
      TitanPanelGoldTrackerButton_ClearData(frame)
       end
      UIDropDownMenu_AddButton(info);
      
-     TitanPanelRightClickMenu_AddCommand(TITAN_GOLDTRACKER_RESET_SESS_TEXT, TITAN_GOLDTRACKER_ID, "TitanPanelGoldTrackerButton_ResetSession");
+     TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_RESET_SESS_TEXT"], TITAN_GOLDTRACKER_ID, "TitanPanelGoldTrackerButton_ResetSession");
      
      -- A blank line in the menu
      TitanPanelRightClickMenu_AddSpacer();
      
      -- Generic function to toggle and hide
-     TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, TITAN_GOLDTRACKER_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_GOLDTRACKER_ID, TITAN_PANEL_MENU_FUNC_HIDE);
      
   end
      
      if UIDROPDOWNMENU_MENU_LEVEL == 2 and UIDROPDOWNMENU_MENU_VALUE == "ToonDelete" then
 			local info = {};
-			info.text = TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY;
+			info.text = LB["TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY"];
 			info.value = "Alliance";
 			info.hasArrow = 1;
 			UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 						
-			info.text = TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE;
+			info.text = LB["TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE"];
 			info.value = "Horde";
 			info.hasArrow = 1;
 			UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -436,7 +438,7 @@ function TitanPanelGoldTrackerButton_ClearData(self)
      GoldArray["SORTBYNAME"] = REMEMBER_SORTBYNAME;
      GoldArray["DISPLAYGPH"] = REMEMBER_SHOWGPH;
           
-     DEFAULT_CHAT_FRAME:AddMessage(TITAN_GOLDTRACKER_DB_CLEARED, 1.0, 0.0, 1.0 );
+     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_DB_CLEARED"], 1.0, 0.0, 1.0 );
 end
 
 -- **************************************************************************
@@ -534,7 +536,7 @@ function TitanPanelGoldTrackerButton_ResetSession()
      GOLDTRACKER_STARTINGGOLD = GetMoney("player");
      GOLDTRACKER_SESSIONSTART = GetTime();
      
-     DEFAULT_CHAT_FRAME:AddMessage(TITAN_GOLDTRACKER_SESSION_RESET, 1.0, 0.0, 1.0 );
+     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_SESSION_RESET"], 1.0, 0.0, 1.0 );
 end
      
 -- *******************************************************************************************
@@ -571,12 +573,12 @@ function TitanPanelGoldTrackerShowToon_Toggle()
           local newvalue = (floor(GoldArray[GOLDTRACKER_INDEX],10)*10)+1;
           GoldArray[GOLDTRACKER_INDEX] = newvalue;
           local character, charserver = string.match(GOLDTRACKER_INDEX, '(.*)_(.*)');
-          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..TITAN_GOLDTRACKER_STATUS_PLAYER_HIDE, 1.0, 0.0, 1.0 );
+          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_HIDE"], 1.0, 0.0, 1.0 );
      else
           local newvalue = floor(GoldArray[GOLDTRACKER_INDEX],10)*10;
           GoldArray[GOLDTRACKER_INDEX] = newvalue;
           local character, charserver = string.match(GOLDTRACKER_INDEX, '(.*)_(.*)');
-          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..TITAN_GOLDTRACKER_STATUS_PLAYER_SHOW, 1.0, 0.0, 1.0 );
+          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_SHOW"], 1.0, 0.0, 1.0 );
      end
 
      MoneyFrame_Update("TitanPanelGoldTrackerButton", TitanPanelGoldTrackerButton_FindGold());

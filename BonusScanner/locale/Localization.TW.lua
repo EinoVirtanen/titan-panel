@@ -83,7 +83,6 @@ L["BONUSSCANNER_NAMES"] = {
   THREATINCREASE = "% 威脅值(提高)",
   INCRCRITDMG = "% 致命一擊傷害(提高)",
   SPELLREFLECT = "% 法術反射",
-  SNARERESIST = "% 緩速及定身抗性",
   STUNRESIST = "% 昏迷抗性",
   PERCINT = "% 智力",  --v2.4
   PERCBLOCKVALUE = "% 盾牌格檔值",  --v2.4
@@ -313,8 +312,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 -- Infused Amethyst
 	--{ pattern = "%+(%d+)法術能量和%+(%d+)耐力", effect = {"SPELLPOW", "STA"} },
 
--- special patterns that cannot be handled any other way	
-  { pattern = "%+12致命一擊等級和5%%緩速及定身抗性", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },
+-- special patterns that cannot be handled any other way
   { pattern = "%+21致命一擊等級和2%%法力", effect = {"CRIT", "PERCMANA"}, value = {21, 2} },
   --{ pattern = "%+12致命一擊等級和縮短15%%緩速及定身持續時間", effect = {"CRIT", "PERCSNARE"}, value = {12, 15} },
   --{ pattern = "%+21致命一擊等級和縮短15%%緩速及定身持續時間", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
@@ -340,7 +338,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "靈魂冰霜", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "烈日火焰", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
 	{ pattern = "野性", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "穩固", effect = {"TOHIT", "SNARERESIST"}, value = {10, 5} },
+	{ pattern = "穩固", effect = {"TOHIT", "CRIT"}, value = {10, 10} },
 
 	--自訂
 	{ pattern = "每5秒恢復(%d+)點法力", effect = "MANAREG" },
@@ -394,6 +392,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] = " 致命一擊機率";
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " 閃躲/招架";
 L["BONUSSCANNER_SPECIAL3_LABEL"] = " 近戰";
 L["BONUSSCANNER_SPECIAL4_LABEL"] = " 法術";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] = "物品 ID: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "物品 Level: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "附魔 ID: |cffffffff";

@@ -1,9 +1,18 @@
-## Interface: 30000
-## Title: Titan Panel [|cffeda55fGold Tracker|r] |cff00aa004.1.8.30000|r
+## Interface: 30100
+## Title: Titan Panel [|cffeda55fGold Tracker|r] |cff00aa004.1.9.30100|r
 ## Notes: Keeps track of all gold held by a player's toons on a per server/faction basis.
 ## Author: Poena @ Area 52, Titan Development Team (http://www.titanpanel.org)
 ## SavedVariables: GoldArray
 ## OptionalDeps: 
 ## Dependencies: Titan
-## Version: 4.1.8.30000
+## Version: 4.1.9.30100
+
+locale\locale-enUS.lua
+locale\locale-deDE.lua
+locale\locale-frFR.lua
+locale\locale-esES.lua
+locale\locale-ruRU.lua
+locale\locale-zhCN.lua
+locale\locale-zhTW.lua
+
 TitanGoldTracker.xml

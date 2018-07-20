@@ -82,7 +82,6 @@ L["BONUSSCANNER_NAMES"] = {
   THREATINCREASE = "% Increased Threat",
   INCRCRITDMG = "% Increased Critical Damage",
   SPELLREFLECT = "% Spell Reflect",
-  SNARERESIST = "% Snare and Root Resistance",
   STUNRESIST = "% Stun Resistance",
   PERCINT = "% Intellect",
   PERCBLOCKVALUE = "% Shield Block Value",
@@ -305,8 +304,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 -- Infused Amethyst
 	{ pattern = "Spell Power %+(%d+) and Stamina %+(%d+)", effect = {"SPELLPOW", "STA"} },
 	
--- special patterns that cannot be handled any other way	
-	{ pattern = "+12 Critical Strike Rating & 5%% Snare and Root Resist", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },	
+-- special patterns that cannot be handled any other way
 	{ pattern = "%+21 Critical Strike Rating and %+2%% Mana", effect = {"CRIT", "PERCMANA"}, value = {21, 2} },
 	{ pattern = "%+12 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {12, 15} },
 	{ pattern = "%+21 Critical Strike Rating and Reduces Snare/Root Duration by 15%%", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
@@ -366,6 +364,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] = " crit chance";
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " dodged/parried";
 L["BONUSSCANNER_SPECIAL3_LABEL"] = " melee";
 L["BONUSSCANNER_SPECIAL4_LABEL"] = " spells";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] = "Item ID: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "Item Level: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "Enchant ID: |cffffffff";

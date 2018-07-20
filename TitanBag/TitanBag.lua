@@ -13,6 +13,7 @@ local TITAN_BAG_THRESHOLD_TABLE = {
 }
 
 -- ******************************** Variables *******************************
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
 local BagTimer = nil;
 -- ******************************** Functions *******************************
@@ -26,9 +27,9 @@ function TitanPanelBagButton_OnLoad(self)
           id = TITAN_BAG_ID,
           builtIn = 1,
           version = TITAN_VERSION,
-          menuText = TITAN_BAG_MENU_TEXT,
+          menuText = L["TITAN_BAG_MENU_TEXT"],
           buttonTextFunction = "TitanPanelBagButton_GetButtonText", 
-          tooltipTitle = TITAN_BAG_TOOLTIP, 
+          tooltipTitle = L["TITAN_BAG_TOOLTIP"],
           tooltipTextFunction = "TitanPanelBagButton_GetTooltipText", 
           icon = "Interface\\AddOns\\TitanBag\\TitanBag",
           iconWidth = 16,
@@ -123,9 +124,9 @@ function TitanPanelBagButton_GetButtonText(id)
 
      local bagText, bagRichText, color;
      if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
-          bagText = format(TITAN_BAG_FORMAT, usedSlots, totalSlots);
+          bagText = format(L["TITAN_BAG_FORMAT"], usedSlots, totalSlots);
      else
-          bagText = format(TITAN_BAG_FORMAT, availableSlots, totalSlots);
+          bagText = format(L["TITAN_BAG_FORMAT"], availableSlots, totalSlots);
      end
      
      if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then     
@@ -135,7 +136,7 @@ function TitanPanelBagButton_GetButtonText(id)
           bagRichText = TitanUtils_GetHighlightText(bagText);
      end
 
-     return TITAN_BAG_BUTTON_LABEL, bagRichText;
+     return L["TITAN_BAG_BUTTON_LABEL"], bagRichText;
 end
 
 -- **************************************************************************
@@ -149,16 +150,16 @@ function TitanPanelBagButton_GetTooltipText()
 	if TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo") then
      returnstring = "\n";
 		 if TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots") then
-		 returnstring = returnstring..TitanUtils_GetNormalText(TITAN_BAG_MENU_TEXT)..":\t"..TitanUtils_GetNormalText(TITAN_BAG_USED_SLOTS)..":\n";
+		 returnstring = returnstring..TitanUtils_GetNormalText(L["TITAN_BAG_MENU_TEXT"])..":\t"..TitanUtils_GetNormalText(L["TITAN_BAG_USED_SLOTS"])..":\n";
 		 else
-		 returnstring = returnstring..TitanUtils_GetNormalText(TITAN_BAG_MENU_TEXT)..":\t"..TitanUtils_GetNormalText(TITAN_BAG_FREE_SLOTS)..":\n";
+		 returnstring = returnstring..TitanUtils_GetNormalText(L["TITAN_BAG_MENU_TEXT"])..":\t"..TitanUtils_GetNormalText(L["TITAN_BAG_FREE_SLOTS"])..":\n";
 		 end
 		 
 		 for bag = 0, 4 do
 				totalSlots = GetContainerNumSlots(bag) or 0;
 				availableSlots = GetContainerNumFreeSlots(bag) or 0;
 				usedSlots = totalSlots - availableSlots;
-				local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag)) or TitanUtils_GetHighlightText(TITAN_BAG_BACKPACK).. FONT_COLOR_CODE_CLOSE;
+				local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag)) or TitanUtils_GetHighlightText(L["TITAN_BAG_BACKPACK"]).. FONT_COLOR_CODE_CLOSE;
 				
 				
 				if itemlink then
@@ -172,9 +173,9 @@ function TitanPanelBagButton_GetTooltipText()
 				
 				local bagText, bagRichText, color;
      		if (TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots")) then
-          bagText = format(TITAN_BAG_FORMAT, usedSlots, totalSlots);
+          bagText = format(L["TITAN_BAG_FORMAT"], usedSlots, totalSlots);
      		else
-          bagText = format(TITAN_BAG_FORMAT, availableSlots, totalSlots);
+          bagText = format(L["TITAN_BAG_FORMAT"], availableSlots, totalSlots);
      		end
      		     
      		if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then     
@@ -194,7 +195,7 @@ function TitanPanelBagButton_GetTooltipText()
 		end
 			  returnstring = returnstring.."\n";
 	end
-     return returnstring..TitanUtils_GetGreenText(TITAN_BAG_TOOLTIP_HINTS);
+     return returnstring..TitanUtils_GetGreenText(L["TITAN_BAG_TOOLTIP_HINTS"]);
 end
 
 -- **************************************************************************
@@ -205,19 +206,19 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_BAG_ID].menuText);
      
      local info = {};
-     info.text = TITAN_BAG_MENU_SHOW_USED_SLOTS;
+     info.text = L["TITAN_BAG_MENU_SHOW_USED_SLOTS"];
      info.func = TitanPanelBagButton_ShowUsedSlots;
      info.checked = TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots");
      UIDropDownMenu_AddButton(info);
 
      info = {};
-     info.text = TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS;
+     info.text = L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"];
      info.func = TitanPanelBagButton_ShowAvailableSlots;
      info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots"));
      UIDropDownMenu_AddButton(info);
      
      info = {};
-     info.text = TITAN_BAG_MENU_SHOW_DETAILED;
+     info.text = L["TITAN_BAG_MENU_SHOW_DETAILED"];
      info.func = TitanPanelBagButton_ShowDetailedInfo;
      info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
      UIDropDownMenu_AddButton(info);
@@ -225,19 +226,19 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
      TitanPanelRightClickMenu_AddSpacer();     
      
      info = {};
-     info.text = TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS;
+     info.text = L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"];
      info.func = TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots;
      info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountAmmoPouchSlots"));
      UIDropDownMenu_AddButton(info);
 
      info = {};
-     info.text = TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS;
+     info.text = L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"];
      info.func = TitanPanelBagButton_ToggleIgnoreShardBagSlots;
      info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountShardBagSlots"));
      UIDropDownMenu_AddButton(info);
 
      info = {};
-     info.text = TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS;
+     info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
      info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
      info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
      UIDropDownMenu_AddButton(info);
@@ -248,7 +249,7 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
      TitanPanelRightClickMenu_AddToggleColoredText(TITAN_BAG_ID);
      
      TitanPanelRightClickMenu_AddSpacer();     
-     TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, TITAN_BAG_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_BAG_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end
 
 -- **************************************************************************
@@ -308,7 +309,7 @@ end
 -- **************************************************************************
 function TitanBag_IsAmmoPouch(name)
      if (name) then
-          for index, value in pairs(TITAN_BAG_AMMO_POUCH_NAMES) do
+          for index, value in pairs(L["TITAN_BAG_AMMO_POUCH_NAMES"]) do
                if (string.find(name, value)) then
                     return true;
                end
@@ -324,7 +325,7 @@ end
 -- **************************************************************************
 function TitanBag_IsShardBag(name)
      if (name) then
-          for index, value in pairs(TITAN_BAG_SHARD_BAG_NAMES) do
+          for index, value in pairs(L["TITAN_BAG_SHARD_BAG_NAMES"]) do
                if (string.find(name, value)) then
                     return true;
                end
@@ -340,7 +341,7 @@ end
 -- **************************************************************************
 function TitanBag_IsProfBag(name)
      if (name) then
-          for index, value in pairs(TITAN_BAG_PROF_BAG_NAMES) do
+          for index, value in pairs(L["TITAN_BAG_PROF_BAG_NAMES"]) do
                if (string.find(name, value, 1, true)) then
                     return true;
                end

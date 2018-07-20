@@ -1,3 +1,16 @@
+4.8 Tristanian 2009.04.14
+- Updated TOC to 30100 (WoW 3.1)
+- Added an obscure spell power pattern found on certain items, on the new emblem rewards.
+- Added Spanish localization.
+- Removed Resistance to Snare and Root effects as it doesn't seem to be used anymore.
+- Added a new option to the button configuration of the LDB feed, enabling the user to hide watched bonuses.
+- Added some sanity checks for empty slots, to avoid calculation errors.
+- Parry, Defense, Block, Dodge and Resilience Rating: Low-level players will now convert these ratings into their corresponding
+defensive stats at the same rate as level 34 players.
+- WoW 3.1 Armor Penetration Rating: All classes now receive 25% more benefit from Armor Penetration Rating. Corrected base rating value.
+- WoW 3.1 Haste Rating: Shamans, Paladins, Druids and Death knights now receive 30% more melee haste from Haste Rating.
+Implemented changes to core addon plus the LDB feed to return different melee and ranged/spell values.
+------------------------------------------------
 4.7 Tristanian 2009.03.15
 - Fixed a bug that would sometimes prevent the bonuses of certain prismatic gems from being properly counted.
 - Updated Chinese localization.

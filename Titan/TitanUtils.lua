@@ -1,14 +1,13 @@
 -- Tables
 TITAN_PANEL_NONMOVABLE_PLUGINS = {"AutoHide", "AuxAutoHide"};
-
-
 TitanPlugins = {};
 TitanPluginsIndex = {};
 local _G = getfenv(0);
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 
 function TitanDebug(debug_message)
 	-- Default green color
-	DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00" .. TITAN_DEBUG .. " " .. debug_message);
+	DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00" .. L["TITAN_DEBUG"] .. " " .. debug_message);
 end
 
 function TitanUtils_GetNextButtonOnBar(bar, id, side)
@@ -130,21 +129,21 @@ end
 
 function TitanUtils_GetEstTimeText(s)
 	if (s < 0) then
-		return TITAN_NA;
+		return L["TITAN_NA"];
 	elseif (s < 60) then
-		return format("%d "..TITAN_SECONDS, s);
+		return format("%d "..L["TITAN_SECONDS"], s);
 	elseif (s < 60*60) then
-		return format("%.1f "..TITAN_MINUTES, s/60);
+		return format("%.1f "..L["TITAN_MINUTES"], s/60);
 	elseif (s < 24*60*60) then
-		return format("%.1f "..TITAN_HOURS, s/60/60);
+		return format("%.1f "..L["TITAN_HOURS"], s/60/60);
 	else
-		return format("%.1f "..TITAN_DAYS, s/24/60/60);
+		return format("%.1f "..L["TITAN_DAYS"], s/24/60/60);
 	end
 end
 
 function TitanUtils_GetFullTimeText(s)
 	if (s < 0) then
-		return TITAN_NA;
+		return L["TITAN_NA"];
 	end
 	
 	local days = floor(s/24/60/60); s = mod(s, 24*60*60);
@@ -152,13 +151,13 @@ function TitanUtils_GetFullTimeText(s)
 	local minutes = floor(s/60); s = mod(s, 60);
 	local seconds = s;
 	
-	return format("%d"..TITAN_DAYS_ABBR..", %2d"..TITAN_HOURS_ABBR..", %2d"..TITAN_MINUTES_ABBR..", %2d"..TITAN_SECONDS_ABBR,
+	return format("%d"..L["TITAN_DAYS_ABBR"]..", %2d"..L["TITAN_HOURS_ABBR"]..", %2d"..L["TITAN_MINUTES_ABBR"]..", %2d"..L["TITAN_SECONDS_ABBR"],
 				days, hours, minutes, seconds);
 end
 
 function TitanUtils_GetAbbrTimeText(s)
 	if (s < 0) then
-		return TITAN_NA;
+		return L["TITAN_NA"];
 	end
 	
 	local days = floor(s/24/60/60); s = mod(s, 24*60*60);
@@ -168,15 +167,15 @@ function TitanUtils_GetAbbrTimeText(s)
 	
 	local timeText = "";
 	if (days ~= 0) then
-		timeText = timeText..format("%d"..TITAN_DAYS_ABBR.." ", days);
+		timeText = timeText..format("%d"..L["TITAN_DAYS_ABBR"].." ", days);
 	end
 	if (days ~= 0 or hours ~= 0) then
-		timeText = timeText..format("%d"..TITAN_HOURS_ABBR.." ", hours);
+		timeText = timeText..format("%d"..L["TITAN_HOURS_ABBR"].." ", hours);
 	end
 	if (days ~= 0 or hours ~= 0 or minutes ~= 0) then
-		timeText = timeText..format("%d"..TITAN_MINUTES_ABBR.." ", minutes);
+		timeText = timeText..format("%d"..L["TITAN_MINUTES_ABBR"].." ", minutes);
 	end	
-	timeText = timeText..format("%d"..TITAN_SECONDS_ABBR, seconds);
+	timeText = timeText..format("%d"..L["TITAN_SECONDS_ABBR"], seconds);
 	
 	return timeText;
 end
@@ -251,7 +250,7 @@ function TitanUtils_RegisterPlugin(registry)
 		local id = registry.id;		
 		if TitanUtils_IsPluginRegistered(id) then
 			-- We have already registered this plugin we have an issue!
-			TitanPanel_LoadError("Plugin " .. id .. TITAN_PANEL_ERROR_DUP_PLUGIN);
+			TitanPanel_LoadError("Plugin " .. id .. L["TITAN_PANEL_ERROR_DUP_PLUGIN"]);
 		else
 			if (not TitanUtils_TableContainsValue(TitanPluginsIndex, id)) then
 				TitanPlugins[id] = registry;

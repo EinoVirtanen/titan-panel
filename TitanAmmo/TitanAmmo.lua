@@ -21,6 +21,7 @@ local isThrown = nil;
 local isAmmo = nil;
 local currentlink = "";
 local AmmoName = "";
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -32,9 +33,9 @@ function TitanPanelAmmoButton_OnLoad(self)
           id = TITAN_AMMO_ID,
           builtIn = 1,
           version = TITAN_VERSION,
-          menuText = TITAN_AMMO_MENU_TEXT,
+          menuText = L["TITAN_AMMO_MENU_TEXT"],
           buttonTextFunction = "TitanPanelAmmoButton_GetButtonText", 
-          tooltipTitle = TITAN_AMMO_TOOLTIP, 
+          tooltipTitle = L["TITAN_AMMO_TOOLTIP"],
           icon = "Interface\\AddOns\\TitanAmmo\\TitanThrown",
           iconWidth = 16,
           savedVariables = {
@@ -212,18 +213,18 @@ function TitanPanelAmmoButton_GetButtonText(id)
      if not count then count = 0 end
      
      if (isThrown) then		          
-          labelText = TITAN_AMMO_BUTTON_LABEL_THROWN;
-          ammoText = format(TITAN_AMMO_FORMAT, count);
+          labelText = L["TITAN_AMMO_BUTTON_LABEL_THROWN"];
+          ammoText = format(L["TITAN_AMMO_FORMAT"], count);
      elseif (isAmmo) then          
-          labelText = TITAN_AMMO_BUTTON_LABEL_AMMO;
-          ammoText = format(TITAN_AMMO_FORMAT, count);
+          labelText = L["TITAN_AMMO_BUTTON_LABEL_AMMO"];
+          ammoText = format(L["TITAN_AMMO_FORMAT"], count);
           if TitanGetVar(TITAN_AMMO_ID, "ShowAmmoName") and AmmoName ~= "" then
           	ammoText = ammoText.."|cffffff9a".." ("..AmmoName..")".."|r"
           end
      else
           count = 0;
-          labelText = TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN;          
-          ammoText = TITAN_AMMO_BUTTON_NOAMMO;
+          labelText = L["TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN"];
+          ammoText = L["TITAN_AMMO_BUTTON_NOAMMO"];
      end
      
      
@@ -248,7 +249,7 @@ function TitanPanelRightClickMenu_PrepareAmmoMenu()
      TitanPanelRightClickMenu_AddToggleLabelText(TITAN_AMMO_ID);
      TitanPanelRightClickMenu_AddToggleColoredText(TITAN_AMMO_ID);
      
-     info.text = TITAN_AMMO_BULLET_NAME;
+     info.text = L["TITAN_AMMO_BULLET_NAME"];
      info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_AMMO_ID, "ShowAmmoName"})
      TitanPanelButton_UpdateButton(TITAN_AMMO_ID);
      end
@@ -257,5 +258,5 @@ function TitanPanelRightClickMenu_PrepareAmmoMenu()
      
      
      TitanPanelRightClickMenu_AddSpacer();
-     TitanPanelRightClickMenu_AddCommand(TITAN_PANEL_MENU_HIDE, TITAN_AMMO_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_AMMO_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end

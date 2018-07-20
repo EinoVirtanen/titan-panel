@@ -83,7 +83,6 @@ L["BONUSSCANNER_NAMES"] = {
   THREATINCREASE = "% 提高威胁",
   INCRCRITDMG = "% 提高爆击伤害",
   SPELLREFLECT = "% 法术反射",
-  SNARERESIST = "% 抵抗诱捕/缠绕",
   STUNRESIST = "% 抵抗昏迷",
   PERCINT = "% 提高智力",
   PERCBLOCKVALUE = "% 盾牌格挡值",
@@ -307,8 +306,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 -- Infused Amethyst
 	{ pattern = "%+(%d+) 法术强度，%+(%d+) 耐力", effect = {"SPELLPOW", "STA"} },
 	
--- special patterns that cannot be handled any other way	
-	{ pattern = "%+12 爆击等级，%-10% 诱捕/缠绕时间", effect = {"CRIT", "SNARERESIST"}, value = {12, 5} },	 --no need
+-- special patterns that cannot be handled any other way
   { pattern = "%+21 爆击等级，%+2%% 法力值", effect = {"CRIT", "PERCMANA"}, value = {21, 2} }, --no need
   { pattern = "%+12 爆击等级，%-10% 诱捕/缠绕时间", effect = {"CRIT", "PERCSNARE"}, value = {12, 10} },
 	{ pattern = "%+21 爆击等级，%-15%%诱捕/缠绕时间", effect = {"CRIT", "PERCSNARE"}, value = {21, 15} },
@@ -368,6 +366,7 @@ L["BONUSSCANNER_SPECIAL1_LABEL"] = " 爆击率";
 L["BONUSSCANNER_SPECIAL2_LABEL"] = " 躲闪/招架";
 L["BONUSSCANNER_SPECIAL3_LABEL"] = " 近战";
 L["BONUSSCANNER_SPECIAL4_LABEL"] = " 法术";
+L["BONUSSCANNER_SPECIAL5_LABEL"] = " ranged/spells";
 L["BONUSSCANNER_ITEMID_LABEL"] = "物品 ID: |cffffffff";
 L["BONUSSCANNER_ILVL_LABEL"] = "物品等级: |cffffffff";
 L["BONUSSCANNER_ENCHANTID_LABEL"] = "附魔 ID: |cffffffff";
