@@ -1,9 +1,9 @@
 ## Interface: 30000
-## Title: Titan Panel [|cffeda55fClock|r] |cff00aa004.1.7.30000|r
+## Title: Titan Panel [|cffeda55fClock|r] |cff00aa004.1.8.30000|r
 ## Notes: Adds a clock to Titan Panel
 ## Author: Titan Development Team (http://www.titanpanel.org)
 ## SavedVariables: 
 ## OptionalDeps: 
 ## Dependencies: Titan
-## Version: 4.1.7.30000
+## Version: 4.1.8.30000
 TitanClock.xml

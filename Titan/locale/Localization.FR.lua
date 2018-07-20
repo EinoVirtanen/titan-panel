@@ -143,8 +143,8 @@ function TitanLocalizeFR()
 	TITAN_SKINS_REMOVE_BUTTON = "Supprimer le skin";
 	TITAN_SKINS_REMOVE_BUTTON_DESC = "Supprime le skin s\195\169lectionn\195\169 de la liste des skins disponibles.";
 	TITAN_SKINS_NOTES = "|cff19ff19Notes :|r Lors de l'ajout d'un nouveau skin, assurez-vous que le dossier contenant votre artwork a bien \195\169t\195\169 cr\195\169\195\169 avant de charger 'World of Warcraft' et que le chemin entr\195\169 ici y corresponde exactement (les chemins sont sensibles \195\160 la casse et se terminent toujours par '\\' ).";
-	TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
-	TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
+	TITAN_SKINS_RESET_DEFAULTS_TITLE = "R\195\169init. la liste";
+	TITAN_SKINS_RESET_DEFAULTS_DESC = "R\195\169initialise la liste de skin aux skins int\195\169gr\195\169s.";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	TITAN_AUTOHIDE_TOOLTIP = "Changer l'affichage auto du panneau on/off";
@@ -224,6 +224,7 @@ function TitanLocalizeFR()
 	TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Curseur(X,Y) : %s";
 	TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Joueur(X,Y) : %s";
 	TITAN_COORDS_NO_COORDS = "Pas de coords";
+	TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Show location on mini map";
 
 	TITAN_FPS_FORMAT = "%.1f";
 	TITAN_FPS_BUTTON_LABEL = "IPS : ";
@@ -295,7 +296,7 @@ function TitanLocalizeFR()
 	TITAN_PERFORMANCE_CONTROL_TITLE = "Addons \195\160 surveiller";
 	TITAN_PERFORMANCE_CONTROL_HIGH = "40";
 	TITAN_PERFORMANCE_CONTROL_LOW = "1";
-	TITAN_PERFORMANCE_TOOLTIP_HINT = "Astuce : clic pour forcer un garbage collection.";
+	TITAN_PERFORMANCE_TOOLTIP_HINT = "Astuce : clic pour forcer un nettoyage de la m\195\169moire.";
 
 	TITAN_XP_FORMAT = "%d";
 	TITAN_XP_PERCENT_FORMAT = TITAN_XP_FORMAT.." (%.1f%%)";
@@ -350,22 +351,6 @@ function TitanLocalizeFR()
 	TITAN_REGEN_TOOLTIP6 = "Plus mauvais Regen MP: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	TITAN_REGEN_TOOLTIP7= "Regen MP du dernier combat: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
 
-	TITAN_ITEMBONUSES_TEXT = "Bonus Objets";
-	TITAN_ITEMBONUSES_DISPLAY_NONE = "Afficher aucun";
-	TITAN_ITEMBONUSES_SHORTDISPLAY = "Label bref";
-	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "L'addon BonusScanner est requis";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Afficher la moyenne du niveau des objets";
-	TITAN_ITEMBONUSES_RATING_CONVERSION = "Afficher les scores en points / pourcentage";
-	TITAN_ITEMBONUSES_SHOWGEMS = "Afficher le nombre de gemmes et leur couleur";
-
-	TITAN_ITEMBONUSES_CAT_ATT = PLAYERSTAT_BASE_STATS;
-	TITAN_ITEMBONUSES_CAT_RES = "R\195\169sistances";
-	TITAN_ITEMBONUSES_CAT_SKILL = "Talents";
-	TITAN_ITEMBONUSES_CAT_BON = "Combat en m\195\170l\195\169e et \195\160 distance";
-	TITAN_ITEMBONUSES_CAT_SBON = "Sortil\195\168ges";
-	TITAN_ITEMBONUSES_CAT_OBON = "Vie et mana";
-	TITAN_ITEMBONUSES_CAT_EBON = "Bonus Sp\195\169ciaux";
-
 	--Titan Repair
 	REPAIR_LOCALE = {
 		pattern = "^Durabilit\195\169 (%d+) / (%d+)$",
@@ -396,7 +381,8 @@ function TitanLocalizeFR()
 		WholeScanInProgress = "Mise \195\160 jour...",
 		AutoReplabel = "R\195\169paration Auto",
 		AutoRepitemlabel = "R\195\169paration automatique de tous les objets",
-		ShowRepairCost = "Afficher le co\195\187t de r\195\169paration"
+		ShowRepairCost = "Afficher le co\195\187t de r\195\169paration",
+		ignoreThrown = "Ignorer les armes de jet",
 	};
 
 	TITAN_PLUGINS_MENU_TITLE = "Plug-ins";

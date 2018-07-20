@@ -228,6 +228,7 @@ function TitanLocalizeTW()
 	   TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "游標(X,Y): %s";
 	   TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "玩家(X,Y): %s";
      TITAN_COORDS_NO_COORDS = "無座標";
+     TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Show location on mini map";
 	
 	   TITAN_FPS_FORMAT = "%.1f";
 	   TITAN_FPS_BUTTON_LABEL = "FPS: ";
@@ -353,23 +354,7 @@ function TitanLocalizeTW()
 	   TITAN_REGEN_TOOLTIP5 = "最高 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	   TITAN_REGEN_TOOLTIP6 = "最低 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	   TITAN_REGEN_TOOLTIP7 = "上一場戰鬥的 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
-
-	   TITAN_ITEMBONUSES_TEXT = "裝備屬性";
-	   TITAN_ITEMBONUSES_DISPLAY_NONE = "不顯示";
-	   TITAN_ITEMBONUSES_SHORTDISPLAY = "顯示摘要";
-	   TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "需要 BonusScanner 插件";
-	   TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
-	   TITAN_ITEMBONUSES_RATING_CONVERSION = "顯示為等級點數/百分比";
-     TITAN_ITEMBONUSES_SHOWGEMS = "顯示各類顏色寶石數目";
-
-	   TITAN_ITEMBONUSES_CAT_ATT = "屬性";
-	   TITAN_ITEMBONUSES_CAT_RES = "抗性";
-	   TITAN_ITEMBONUSES_CAT_SKILL = "技能";
-	   TITAN_ITEMBONUSES_CAT_BON = "近戰和遠程攻擊";
-	   TITAN_ITEMBONUSES_CAT_SBON = "法術";
-	   TITAN_ITEMBONUSES_CAT_OBON = "生命力和法力值";
-	   TITAN_ITEMBONUSES_CAT_EBON = "特殊加成";
-	
+	   	
 	-- Titan Repair
 	        REPAIR_LOCALE = {
 		      pattern = "^耐久度 (%d+) / (%d+)$",
@@ -399,6 +384,7 @@ function TitanLocalizeTW()
 		      AutoReplabel = "自動修裝",
 		 AutoRepitemlabel = "自動修理所有裝備",
           ShowRepairCost = "顯示修裝費用",
+		  ignoreThrown = "Ignore Thrown",
 	};	
 
 	    TITAN_PLUGINS_MENU_TITLE = "插件";

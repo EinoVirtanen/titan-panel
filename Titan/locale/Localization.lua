@@ -225,6 +225,7 @@ function TitanLocalizeEN()
      TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Cursor(X,Y): %s";
      TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Player(X,Y): %s";
      TITAN_COORDS_NO_COORDS = "No Coords";
+     TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Show location on mini map";
      
      TITAN_FPS_FORMAT = "%.1f";
      TITAN_FPS_BUTTON_LABEL = "FPS: ";
@@ -351,22 +352,6 @@ function TitanLocalizeEN()
      TITAN_REGEN_TOOLTIP6 = "Worst MP Regen: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
      TITAN_REGEN_TOOLTIP7 = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
 
-     TITAN_ITEMBONUSES_TEXT = "Item Bonuses";
-     TITAN_ITEMBONUSES_DISPLAY_NONE = "Display none";
-     TITAN_ITEMBONUSES_SHORTDISPLAY = "Brief label text";
-     TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn required";
-     TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
-     TITAN_ITEMBONUSES_RATING_CONVERSION = "Display ratings as points/percentage";
-		 TITAN_ITEMBONUSES_SHOWGEMS = "Display number of gem colors";
-
-     TITAN_ITEMBONUSES_CAT_ATT = "Attributes";
-     TITAN_ITEMBONUSES_CAT_RES = "Resistance";
-     TITAN_ITEMBONUSES_CAT_SKILL = "Skills";
-     TITAN_ITEMBONUSES_CAT_BON = "Melee and Ranged Combat";
-     TITAN_ITEMBONUSES_CAT_SBON = "Spells";
-     TITAN_ITEMBONUSES_CAT_OBON = "Life and Mana";
-     TITAN_ITEMBONUSES_CAT_EBON = "Special Bonuses";
-
      --Titan Repair
      REPAIR_LOCALE = {
           pattern = "^Durability (%d+) / (%d+)$",
@@ -399,6 +384,7 @@ function TitanLocalizeEN()
           AutoReplabel = "Auto-Repair",
           AutoRepitemlabel = "Auto Repair all items",
           ShowRepairCost = "Show Repair Cost",
+		  ignoreThrown = "Ignore Thrown",
      };
 
      TITAN_PLUGINS_MENU_TITLE = "Plug-ins";

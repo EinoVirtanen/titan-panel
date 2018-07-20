@@ -29,6 +29,7 @@ local TitanSkinToRemove = "None";
 local TitanSkinName, TitanSkinPath = "", "";
 local newButtons = {};
 local newLocations = {};
+local IsTitanPanelReset = nil;
 
 
 -- Library references
@@ -696,11 +697,17 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 				end
 			end
     elseif event == "PLAYER_LOGOUT" then
-    -- save bars settings on logout to avoig "garbage" in savedvars buttons table			
-			TitanPanelSettings.Buttons = newButtons;
-			TitanPanelSettings.Location = newLocations;
+    -- save bars settings on logout to avoig "garbage" in savedvars buttons table
+    	if not IsTitanPanelReset then
+				TitanPanelSettings.Buttons = newButtons;
+				TitanPanelSettings.Location = newLocations;
+			end
 		elseif event == "PLAYER_REGEN_ENABLED" then
 		-- outside combat check to see if frames need correction
+			 if UnitHasVehicleUI("player") then
+			 	TitanMovableFrame_CheckFrames(1);
+				TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
+			 end
 			 Titan_ManageFramesNew();
 			 Titan_FCF_UpdateCombatLogPosition();
 		elseif event == "PLAYER_REGEN_DISABLED" then
@@ -2813,6 +2820,7 @@ function TitanPanel_ResetBar()
 	TitanPlayerSettings = TitanSettings.Players[playerName.."@"..serverName];
 	TitanPluginSettings = TitanPlayerSettings["Plugins"];
 	TitanPanelSettings = TitanPlayerSettings["Panel"];	
-
+	IsTitanPanelReset = true;
+	
 	ReloadUI()
 end

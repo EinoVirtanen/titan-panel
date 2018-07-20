@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.6b
+-- BonusScanner Continued v4.7
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -16,7 +16,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.6b";
+local BONUSSCANNER_VERSION = "4.7";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -1417,8 +1417,8 @@ function BonusScanner:ScanLine(line, r, g, b, wtype)
 	-- any other line (standard stats, enchantment, set name, etc.)
 	else
 		
-	--enchantment/stat fix for green items
-		if (string.sub(line,0,10) == "|cffffffff") then
+	--enchantment/stat fix for green items and red text 
+		if (string.sub(line,0,10) == "|cffffffff") or (string.sub(line,0,10) == "|cffff2020") then
 		newline = string.sub(line,11,-3);
 		line = newline
 		line = string.gsub(line, "%|$", "" );

@@ -1120,7 +1120,7 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame");
    UIDropDownMenu_AddButton(info);
 
-   info.text = "Ignore Thrown" --REPAIR_LOCALE["showinventory"];
+   info.text = REPAIR_LOCALE["ignoreThrown"];
    info.func = TitanRepair_IgnoreThrown;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown");
    UIDropDownMenu_AddButton(info);

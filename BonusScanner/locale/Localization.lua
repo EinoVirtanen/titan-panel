@@ -132,7 +132,8 @@ L["BONUSSCANNER_PATTERNS_PASSIVE"] = {
 	
 --Damage/Heal/Spell Power
   { pattern = "Increases spell power by (%d+)%.", effect = "SPELLPOW" }, 
-  { pattern = "Increases your spell power by (%d+)%.", effect = "SPELLPOW" }, 
+  { pattern = "Increases your spell power by (%d+)%.", effect = "SPELLPOW" },
+  { pattern = "Increases damage done by magical spells and effects by up to (%d+)%.", effect = "SPELLPOW" },
   { pattern = "Increases shadow spell power by (%d+)%.", effect = "SHADOWDMG" }, 
   { pattern = "Increases arcane spell power by (%d+)%.", effect = "ARCANEDMG" }, 
   { pattern = "Increases fire spell power by (%d+)%.", effect = "FIREDMG" }, 
@@ -314,7 +315,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
 	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
-	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
+	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },	
 	
 -- rest of custom patterns
   { pattern = "Increases attack power by (%d+) in Cat, Bear, Dire Bear, and Moonkin forms only%.", effect = "ATTACKPOWERFERAL" },

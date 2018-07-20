@@ -35,6 +35,7 @@ function TitanPanelCoordsButton_OnLoad(self)
           savedVariables = {
                ShowZoneText = 1,
                ShowCoordsOnMap = 1,
+               ShowLocOnMiniMap = 1,
                ShowIcon = 1,
                ShowLabelText = 1,
                ShowColoredText = 1,
@@ -167,8 +168,18 @@ end
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
 function TitanPanelCoordsButton_OnEvent(self, event, ...)
-     if (event == "ZONE_CHANGED_NEW_AREA") then
+     if event == "ZONE_CHANGED_NEW_AREA" then
           SetMapToCurrentZone();
+     end
+     if event == "PLAYER_ENTERING_WORLD" then
+     			if not TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
+						MinimapBorderTop:Hide()
+						MinimapToggleButton:Hide()
+						MinimapZoneTextButton:Hide()
+						-- adjust MiniMap frame if needed
+						TitanMovableFrame_CheckFrames(1);
+						TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
+					end
      end
      TitanPanelCoordsButton_UpdateZoneInfo(self);
      TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_ALL});
@@ -254,6 +265,13 @@ function TitanPanelRightClickMenu_PrepareCoordsMenu()
      info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap");
      UIDropDownMenu_AddButton(info);
      
+     info = {};
+     info.text = TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT;
+     info.func = TitanPanelCoordsButton_ToggleLocOnMiniMap;
+     info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap");
+     UIDropDownMenu_AddButton(info);
+           
+     
      TitanPanelRightClickMenu_AddSpacer();
      
 		 TitanPanelRightClickMenu_AddTitle(TITAN_COORDS_FORMAT_COORD_LABEL);
@@ -323,6 +341,23 @@ function TitanPanelCoordsButton_ToggleCoordsOnMap()
           TitanMapCursorCoords:Hide();
           TitanMapPlayerCoords:Hide();
      end
+end
+
+
+function TitanPanelCoordsButton_ToggleLocOnMiniMap()
+	TitanToggleVar(TITAN_COORDS_ID, "ShowLocOnMiniMap");
+	if TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") then
+		MinimapBorderTop:Show()
+		MinimapToggleButton:Show()
+		MinimapZoneTextButton:Show()
+	else
+		MinimapBorderTop:Hide()
+		MinimapToggleButton:Hide()
+		MinimapZoneTextButton:Hide()		
+	end
+	-- adjust MiniMap frame if needed
+	TitanMovableFrame_CheckFrames(1);
+	TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
 end
 
 -- **************************************************************************

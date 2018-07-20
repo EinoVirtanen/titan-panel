@@ -1,7 +1,7 @@
 ## Interface: 30000
-## Title: Titan Panel [|cffeda55fVolume|r] |cff00aa004.1.7.30000|r
+## Title: Titan Panel [|cffeda55fVolume|r] |cff00aa004.1.8.30000|r
 ## Notes: Adds a volume control icon on your Titan Bar
 ## Author: Titan Development Team (http://www.titanpanel.org)
 ## Dependencies: Titan
-## Version: 4.1.7.30000
+## Version: 4.1.8.30000
 TitanVolume.xml

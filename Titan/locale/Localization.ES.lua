@@ -225,6 +225,7 @@ function TitanLocalizeES()
 	TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Cursor(X,Y): %s";
 	TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Jugador(X,Y): %s";
 	TITAN_COORDS_NO_COORDS = "Sin Coordenadas";
+	TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Mostrar coordenadas en el minimapa";
 
 	TITAN_FPS_FORMAT = "%.1f";
 	TITAN_FPS_BUTTON_LABEL = "FPS: ";
@@ -351,37 +352,21 @@ function TitanLocalizeES()
 	TITAN_REGEN_TOOLTIP6 		= "Peor regeneraci\195\179n de MP : \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	TITAN_REGEN_TOOLTIP7		= "Regeneraci\195\179n de MP en \195\186ltimo combate: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
 
-	TITAN_ITEMBONUSES_TEXT = "Bonus de objetos";
-	TITAN_ITEMBONUSES_DISPLAY_NONE = "No mostrar";
-	TITAN_ITEMBONUSES_SHORTDISPLAY = "Etiqueta de texto";
-	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "AddOn BonusScanner requerido";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Mostrar nivel promedio de objetos";
-	TITAN_ITEMBONUSES_RATING_CONVERSION = "Mostrar ratio como puntos/porcentaje";
-	TITAN_ITEMBONUSES_SHOWGEMS = "Mostrar n\195\186mero de gemas de color";
-
-	TITAN_ITEMBONUSES_CAT_ATT = "Atributos";
-	TITAN_ITEMBONUSES_CAT_RES = "Resistencia";
-	TITAN_ITEMBONUSES_CAT_SKILL = "Habilidades";
-	TITAN_ITEMBONUSES_CAT_BON = "Melee y combate a distancia";
-	TITAN_ITEMBONUSES_CAT_SBON = "Hechizos";
-	TITAN_ITEMBONUSES_CAT_OBON = "Vida y man\195\161";
-	TITAN_ITEMBONUSES_CAT_EBON = "Bonos especiales";
-
 	--Titan Repair
 	REPAIR_LOCALE = {
 		pattern = "^Durabilidad (%d+) / (%d+)$",
 		menu = "Reparaci\195\179n",
 		tooltip = "Informaci\195\179n de durabilidad",
 		button = "Durabilidad: ",
-		normal = "Coste de reparaci\195\179n (Normal): ",
+		normal = "Coste de reparaci\195\179n (Neutral): ",
 		friendly = "Coste de reparaci\195\179n (Amistoso): ",
 		honored = "Coste de reparaci\195\179n (Honorable): ",
-		revered = "Coste de reparaci\195\179n (Reverenciado): ",
+		revered = "Coste de reparaci\195\179n (Venerado): ",
 		exalted = "Coste de reparaci\195\179n (Exaltado): ",
-		buttonNormal = "Mostrar normal",
+		buttonNormal = "Mostrar neutral",
 		buttonFriendly = "Mostrar amistoso (5%)",
 		buttonHonored = "Mostrar honorable (10%)",
-		buttonRevered = "Mostrar reverenciado (15%)",
+		buttonRevered = "Mostrar venerado (15%)",
 		buttonExalted = "Mostrar exaltado (20%)",
 		percentage = "Mostrar como porcentaje",
 		itemname = "Mostrar m\195\161s da\195\177ado",
@@ -399,6 +384,7 @@ function TitanLocalizeES()
     AutoReplabel = "Auto-reparar",
 		AutoRepitemlabel = "Auto reparar todos los objetos",
 		ShowRepairCost = "Mostrar coste de reparar",
+		ignoreThrown = "Ignorar armas arrojadizas",
 	};
 
 	TITAN_PLUGINS_MENU_TITLE = "Plug-ins";

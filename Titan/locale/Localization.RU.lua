@@ -18,7 +18,7 @@ function TitanLocalizeRU()
 	TITAN_KILOBYTES_PER_SECOND = "КБ/с";
 	TITAN_KILOBITS_PER_SECOND = "кбит/с"
 	TITAN_MEGABYTE = "мб";
-	TITAN_NONE = "None";
+	TITAN_NONE = "Нету";
 	
 	TITAN_MOVABLE_TOOLTIP = "Тяните для перемещения";
 
@@ -146,8 +146,8 @@ function TitanLocalizeRU()
 	TITAN_SKINS_REMOVE_BUTTON = "Удалить";
 	TITAN_SKINS_REMOVE_BUTTON_DESC = "Удалить выбранную шкурку, из списка доступных шкурок панели.";
 	TITAN_SKINS_NOTES = "|cff19ff19Совет:|r Добавляя новую шкурку, пожалуйста убедитесь, что папка, содержащая ваши художественные работы, была создана до загрузки 'World of Warcraft', и путь, введенный здесь, полностью соответствует реальному пути (пути вводите с учетом регистра и всегда заканчивайте '\\' символами).";
-	TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
-  TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
+	TITAN_SKINS_RESET_DEFAULTS_TITLE = "Сброс на стандартные значения";
+  TITAN_SKINS_RESET_DEFAULTS_DESC = "Сбросить список шкурок на стандартное значение.";
 	-- /end localization strings for AceConfigDialog-3.0
 	
 	TITAN_AUTOHIDE_TOOLTIP = "Авто-скрытие панели вкл/выкл";
@@ -227,6 +227,7 @@ function TitanLocalizeRU()
 	TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Курсор(X,Y): %s";
 	TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Игрок(X,Y): %s";
 	TITAN_COORDS_NO_COORDS = "Нет координат";
+	TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Show location on mini map";
 	
 	TITAN_FPS_FORMAT = "%.1f";
 	TITAN_FPS_BUTTON_LABEL = "FPS: ";
@@ -351,22 +352,6 @@ function TitanLocalizeRU()
 	TITAN_REGEN_TOOLTIP6				= "Худший МН реген: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	TITAN_REGEN_TOOLTIP7				= "МН реген в последней схватке: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
 
-	TITAN_ITEMBONUSES_TEXT = "Бонусы предметов";
-	TITAN_ITEMBONUSES_DISPLAY_NONE = "Показывать отсутствие";
-	TITAN_ITEMBONUSES_SHORTDISPLAY = "Сокращенный текст";
-	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "Необходим аддон BonusScanner";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Отображать средний уровень предметов";
-	TITAN_ITEMBONUSES_RATING_CONVERSION = "Отображать рейтинг как очки/проценты";
-	TITAN_ITEMBONUSES_SHOWGEMS = "Отображать количество цветов самоцветов";
-
-	TITAN_ITEMBONUSES_CAT_ATT = "Атрибуты";
-	TITAN_ITEMBONUSES_CAT_RES = "Сопротивления";
-	TITAN_ITEMBONUSES_CAT_SKILL = "Навыки";
-	TITAN_ITEMBONUSES_CAT_BON = "Ближний и дальний бой";
-	TITAN_ITEMBONUSES_CAT_SBON = "Заклинания";
-	TITAN_ITEMBONUSES_CAT_OBON = "Жизнь и мана";
-	TITAN_ITEMBONUSES_CAT_EBON = "Спец бонусы";
-
 	--Titan Repair
 	REPAIR_LOCALE["pattern"] = "^Прочность: (%d+) / (%d+)$";
 	REPAIR_LOCALE["menu"] = "Информация о прочности амуниции";
@@ -397,7 +382,7 @@ function TitanLocalizeRU()
 	REPAIR_LOCALE["AutoReplabel"] = "Авто-Рестоврация";
 	REPAIR_LOCALE["AutoRepitemlabel"] = "Авто-Рестоврация всех предметов";
 	REPAIR_LOCALE["ShowRepairCost"] = "Отображать стоимость рестоврации";
-	
+	REPAIR_LOCALE["ignoreThrown"] = "Игнорировать метательное оруж.";
 
 	TITAN_PLUGINS_MENU_TITLE = "Плагины";
 	

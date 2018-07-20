@@ -10,6 +10,7 @@
 	<Script file="locale\Localization.DE.lua"/>	
 	<Script file="locale\Localization.CN.lua"/>	
 	<Script file="locale\Localization.TW.lua"/>	
+	<Script file="locale\Localization.ES.lua"/>	
 	<Script file="BonusScanner.lua"/>
 
 	<GameTooltip name="BonusScannerTooltip" frameStrata="TOOLTIP" hidden="true" parent="UIParent" inherits="GameTooltipTemplate"/>

@@ -129,12 +129,18 @@ function TitanMovableFrame_MoveFrames(position, override)
 				y = frameData.y;
 				
 				panelYOffset = TitanMovable_GetPanelYOffset(frameData.position, TitanPanelGetVar("BothBars"), override);
-		
-				xOffset = TitanMovableFrame_GetOffset(frame, xArchor);		
+				xOffset = TitanMovableFrame_GetOffset(frame, xArchor);
+				
+				-- properly adjust TemporaryEnchantFrame (buff frame) if GM Ticket is visible
 				if (frameName == "TemporaryEnchantFrame" and TicketStatusFrame:IsVisible()) then
 					yOffset = (-TicketStatusFrame:GetHeight()) + panelYOffset;
 				else
-					yOffset = y + panelYOffset;	
+					yOffset = y + panelYOffset;
+				end
+				
+				-- properly adjust MinimapCluster if its border is hidden
+				if frameName == "MinimapCluster" and MinimapBorderTop and not MinimapBorderTop:IsShown() then					
+					yOffset = yOffset + (MinimapBorderTop:GetHeight() * 3/5) - 5
 				end
 				
 				-- adjust the MainMenuBar according to its scale
@@ -254,7 +260,7 @@ end
 
 function Titan_FCF_UpdateDockPosition()
  if TitanPanelGetVar("LogAdjust") then
-	if not InCombatLockdown() then
+	if not InCombatLockdown() or not DEFAULT_CHAT_FRAME:IsProtected() then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
 		if ( DEFAULT_CHAT_FRAME:IsUserPlaced() ) then
@@ -281,7 +287,7 @@ end
 
 function Titan_FCF_UpdateCombatLogPosition()
  if TitanPanelGetVar("LogAdjust") then
-	if not InCombatLockdown() then
+	if not InCombatLockdown() or not (ChatFrame1:IsProtected() and ChatFrame2:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
 		local point1, _, relativePoint1, xOfs1, _ = ChatFrame1:GetPoint()
@@ -420,8 +426,13 @@ end
 function Titan_ContainerFrames_Relocate()
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);
 		-- Get the Blizzard offsets from the relevant table
-		local BlizzContainerYoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset or 0
-		local BlizzContainerYoffsABoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither or 0		
+		local BlizzContainerYoffs, BlizzContainerYoffsABoffs = 0, 0
+		if UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset then
+			BlizzContainerYoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset
+		end
+		if UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither then
+			BlizzContainerYoffsABoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither
+		end
 		-- experimental fixes
 		-- Update bag anchor
 		if MultiBarBottomRight:IsShown() or MultiBarBottomLeft:IsShown() then

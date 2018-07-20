@@ -1,6 +1,6 @@
 ﻿## Interface: 30000
-## Title: BonusScanner Continued |cff00aa004.6b|r
-## Version: 4.6b
+## Title: BonusScanner Continued |cff00aa004.7|r
+## Version: 4.7
 ## Notes: Scans your Equipment for cumulative item bonuses and sums them up. Currently maintained and updated by Tristanian.
 ## Notes-deDE: Durchsucht die Ausrüstung nach Gegenstandboni und zählt diese zusammen.
 ## Author: Tristanian (bandit@planetcnc.com)

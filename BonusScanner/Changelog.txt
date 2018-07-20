@@ -1,3 +1,8 @@
+4.7 Tristanian 2009.03.15
+- Fixed a bug that would sometimes prevent the bonuses of certain prismatic gems from being properly counted.
+- Updated Chinese localization.
+- Changed default behavior of the LDB feed to enabled.
+------------------------------------------------
 4.6b Tristanian 2009.02.23
 - Fixed a bug with the library loading order that would prevent the configuration option for the minimap icon from being enabled
 - Updated French localization

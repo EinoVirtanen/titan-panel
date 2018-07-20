@@ -227,6 +227,7 @@ function TitanLocalizeDE()
 	TITAN_COORDS_MAP_CURSOR_COORDS_TEXT = "Mauszeiger (X,Y): %s";
 	TITAN_COORDS_MAP_PLAYER_COORDS_TEXT = "Spieler (X,Y): %s";
 	TITAN_COORDS_NO_COORDS = "No Coords";
+	TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT = "Show location on mini map";
 
 	TITAN_FPS_FORMAT = "%.1f";
 	TITAN_FPS_BUTTON_LABEL = "BPS: ";
@@ -353,22 +354,6 @@ function TitanLocalizeDE()
 	TITAN_REGEN_TOOLTIP6 		= "Schlechteste MP Regeneration: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
 	TITAN_REGEN_TOOLTIP7		= "MP Regeneration im letzten Kampf: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
 
-	TITAN_ITEMBONUSES_TEXT = "Gegenstandboni";
-	TITAN_ITEMBONUSES_DISPLAY_NONE = "Keine Anzeige";
-	TITAN_ITEMBONUSES_SHORTDISPLAY = "Kurze Beschriftung";
-	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "BonusScanner AddOn wird ben\195\182tigt";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
-	TITAN_ITEMBONUSES_RATING_CONVERSION = "Zeigen Sie Bewertungen als Punkte/Prozentsatz";
-	TITAN_ITEMBONUSES_SHOWGEMS = "Anzeige Zahl der Edelsteinfarben";
-	
-	TITAN_ITEMBONUSES_CAT_ATT = "Attribute";
-	TITAN_ITEMBONUSES_CAT_RES = "Widerstand";
-	TITAN_ITEMBONUSES_CAT_SKILL = "Fertigkeiten";
-	TITAN_ITEMBONUSES_CAT_BON = "Nah- und Fernkampf";
-	TITAN_ITEMBONUSES_CAT_SBON = "Zauber";
-	TITAN_ITEMBONUSES_CAT_OBON = "Leben und Mana";
-	TITAN_ITEMBONUSES_CAT_EBON = "Spezielle F\195\164higkeiten"; -- Sensity
-
 	REPAIR_LOCALE["pattern"] = "^Haltbarkeit (%d+) / (%d+)$";
 	REPAIR_LOCALE["menu"] = "Reparieren";
 	REPAIR_LOCALE["tooltip"] = "Haltbarkeits Info";
@@ -399,7 +384,7 @@ function TitanLocalizeDE()
 	REPAIR_LOCALE["AutoReplabel"] = "Automatische Reparatur"; -- SENSITIY	
 	REPAIR_LOCALE["AutoRepitemlabel"] = "Automatische Reparatur aller Gegenst\195\164nde"; -- SENSITIY
 	REPAIR_LOCALE["ShowRepairCost"] = "Zeige Reparaturkosten"; --SENSITY
-	
+	REPAIR_LOCALE["ignoreThrown"] = "Ignore Thrown";
 
 	TITAN_PLUGINS_MENU_TITLE = "Plugins";
 

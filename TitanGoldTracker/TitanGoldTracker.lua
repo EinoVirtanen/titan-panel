@@ -219,7 +219,7 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
           end
      
      
-     local final_tooltip = TITAN_GOLDTRACKER_TOOLTIPTEXT.." : "..GetCVar("realmName").." : "..UnitFactionGroup("Player");
+     local final_tooltip = TITAN_GOLDTRACKER_TOOLTIPTEXT.." : "..GetCVar("realmName").." : "..select(2,UnitFactionGroup("Player"));
      if (UnitFactionGroup("Player")=="Alliance") then
           GOLDTRACKER_COLOR = TITAN_GOLDTRACKER_GREEN;
      else
