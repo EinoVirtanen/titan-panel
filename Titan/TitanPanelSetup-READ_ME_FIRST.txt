@@ -117,6 +117,14 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
 A fourth way to customize Titan Panel is by changing fonts.  Selecting the Font option on Titan Panel's right-click menu allows you to select an alternative font.  
 
 A fifth way to customize Titan Panel is by changing skins.  Titan comes with a large selection of skins.  Selecting the Skins option on Titan Panel's right-click menu displays the Titan Skins frame, on which you can Set Panel Skin, Add New Skin, and Remove Skin.
+As of version 4.1.7 (and beyond), Titan provides a public function called: TitanPanel_AddNewSkin(name, path), in order to assist artwork authors with adding their own custom skins to the Panel's settings without having to go through the configuration menu.
+The function should be called with name of the skin and skin path as arguments.
+Restrictions :
+
+a) name cannot be empty ("") or nil or "None" for obvious reasons. Function does nothing if that is the case.
+b) path cannot be empty of nil. Function does nothing if that is the case.
+c) If a skin already exists in the Panel's savedvariables having the same name or artwork path with the skin you are attempting to register, registration will fail, function will take no action.
+
 
 Titan Panel automatically saves the character's settings in a profile, using the character's name. The Profiles Manage option on the right-click menu allows you to replace the current character's profile with another another character's profile.  The Profiles Save option allows you to save the current character's settings under a user-specified name.
 

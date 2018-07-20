@@ -134,7 +134,7 @@ TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL = "Настройки звука/голо�
 TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "Перезаписать звуковые настройки близзарда";
 end
 
--- Chinese Locale
+-- Chinese Locales
 if ( locale == "zhCN" ) then
 
 TITAN_VOLUME_TOOLTIP = "音量信息";
@@ -158,7 +158,7 @@ TITAN_VOLUME_CONTROL_HIGH = "高";
 TITAN_VOLUME_CONTROL_LOW = "低";
 TITAN_VOLUME_MENU_TEXT = "音量控制";
 TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL = "显示 声音控制" ;
-TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "Override Blizzard Volume Settings";
+TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "替换默认声音控制";
 end
 
 if ( locale == "zhTW" ) then
@@ -184,5 +184,5 @@ TITAN_VOLUME_CONTROL_HIGH = "高";
 TITAN_VOLUME_CONTROL_LOW = "低";
 TITAN_VOLUME_MENU_TEXT = "音量";
 TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL = "顯示 聲音選項" ;
-TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "Override Blizzard Volume Settings";
+TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS = "替換默認聲音控制";
 end

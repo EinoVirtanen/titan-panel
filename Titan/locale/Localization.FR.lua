@@ -143,6 +143,8 @@ function TitanLocalizeFR()
 	TITAN_SKINS_REMOVE_BUTTON = "Supprimer le skin";
 	TITAN_SKINS_REMOVE_BUTTON_DESC = "Supprime le skin s\195\169lectionn\195\169 de la liste des skins disponibles.";
 	TITAN_SKINS_NOTES = "|cff19ff19Notes :|r Lors de l'ajout d'un nouveau skin, assurez-vous que le dossier contenant votre artwork a bien \195\169t\195\169 cr\195\169\195\169 avant de charger 'World of Warcraft' et que le chemin entr\195\169 ici y corresponde exactement (les chemins sont sensibles \195\160 la casse et se terminent toujours par '\\' ).";
+	TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
+	TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	TITAN_AUTOHIDE_TOOLTIP = "Changer l'affichage auto du panneau on/off";
@@ -352,9 +354,9 @@ function TitanLocalizeFR()
 	TITAN_ITEMBONUSES_DISPLAY_NONE = "Afficher aucun";
 	TITAN_ITEMBONUSES_SHORTDISPLAY = "Label bref";
 	TITAN_ITEMBONUSES_BONUSSCANNER_MISSING = "L'addon BonusScanner est requis";
-	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Display average item level";
-	TITAN_ITEMBONUSES_RATING_CONVERSION = "Display ratings as points/percentage";
-	TITAN_ITEMBONUSES_SHOWGEMS = "Display number of gem colors";
+	TITAN_ITEMBONUSES_AVERAGE_ILVL = "Afficher la moyenne du niveau des objets";
+	TITAN_ITEMBONUSES_RATING_CONVERSION = "Afficher les scores en points / pourcentage";
+	TITAN_ITEMBONUSES_SHOWGEMS = "Afficher le nombre de gemmes et leur couleur";
 
 	TITAN_ITEMBONUSES_CAT_ATT = PLAYERSTAT_BASE_STATS;
 	TITAN_ITEMBONUSES_CAT_RES = "R\195\169sistances";

@@ -228,12 +228,10 @@ end
 
 function Titan_TicketStatusFrame_OnEvent(self, event, ...)
 	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP, TitanPanelGetVar("BothBars"));
-	if ( event == "PLAYER_ENTERING_WORLD" ) then
-		--GetGMTicket();
+	if ( event == "PLAYER_ENTERING_WORLD" ) then		
 	elseif ( event == "UPDATE_TICKET" ) then
 		local category = ...;
-		if ( category and (not GMChatStatusFrame or not GMChatStatusFrame:IsShown()) ) then
-			--self:Show();
+		if ( category and (not GMChatStatusFrame or not GMChatStatusFrame:IsShown()) ) then			
 			-- Compensate for firing an UPDATE_TICKET event
 			if not InCombatLockdown() then
 				if not TitanPanelGetVar("ScreenAdjust") then
@@ -241,10 +239,8 @@ function Titan_TicketStatusFrame_OnEvent(self, event, ...)
 				else
 					TemporaryEnchantFrame:SetPoint("TOPRIGHT", self:GetParent():GetName(), "TOPRIGHT", -205, 0 - self:GetHeight()); -- ATTN
 				end
-			end
-			--refreshTime = GMTICKET_CHECK_INTERVAL;
+			end			
 		else
-			--self:Hide();			
 			if not InCombatLockdown() then
 				if not TitanPanelGetVar("ScreenAdjust") then
 					TemporaryEnchantFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -205, -13 + panelYOffset); -- ATTN

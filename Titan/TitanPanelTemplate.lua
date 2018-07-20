@@ -479,9 +479,8 @@ end
 
 
 function TitanPanelButton_OnDragStart(self, ChildButton)
-	if TitanPanelGetVar("LockButtons") or InCombatLockdown() then
-	return;
-	end	
+	if TitanPanelGetVar("LockButtons") or InCombatLockdown() then return end
+	
 	local frname = self;
 	if ChildButton then	  
 		frname = self:GetParent();
@@ -489,11 +488,11 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 	  local i,j;
 	  for i, j in pairs(TitanPanelSettings.Buttons) do
 	  local pluginid = _G["TitanPanel"..TitanPanelSettings.Buttons[i].."Button"];
-	  pluginid:ClearAllPoints();
+	  if pluginid then pluginid:ClearAllPoints() end
 	  end
 		frname:StartMoving();
-		frname.isMoving = true;
-		TitanUtils_CloseAllControlFrames();					
+		frname.isMoving = true;		
+		TitanUtils_CloseAllControlFrames();
 			if (TitanPanelRightClickMenu_IsVisible()) then
 				TitanPanelRightClickMenu_Close();
 			end
@@ -522,9 +521,7 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 end
 
 function TitanPanelButton_OnDragStop(self, ChildButton)
-  if TitanPanelGetVar("LockButtons") then
-	return;
-	end
+  if TitanPanelGetVar("LockButtons") then return end
   local nonmovableFrom = false;
   local nonmovableTo = false;
 	local frname = self;
@@ -533,14 +530,14 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 	end
 	if TITAN_PANEL_MOVING == 1 then
 		frname:StopMovingOrSizing();
-		frname.isMoving = false;	  
+		frname.isMoving = false;	
 		--TitanUtils_CloseRightClickMenu();
 		TITAN_PANEL_MOVING = 0;
 		
 		local i,j;
 	  for i, j in pairs(TitanPanelSettings.Buttons) do
 	  local pluginid = _G["TitanPanel"..TitanPanelSettings.Buttons[i].."Button"];
-	  	if (MouseIsOver(pluginid)) and frname ~= pluginid then
+	  	if (pluginid and MouseIsOver(pluginid)) and frname ~= pluginid then
 	  		TITAN_PANEL_DROPOFF_ADDON = TitanPanelSettings.Buttons[i];	  		
 	  	end
 	  end

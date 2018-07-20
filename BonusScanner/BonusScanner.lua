@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.5
+-- BonusScanner Continued v4.6b
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -16,7 +16,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.5";
+local BONUSSCANNER_VERSION = "4.6b";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -1071,7 +1071,7 @@ function BonusScanner:OnEvent(self, event, a1, ...)
 		return;
   end	
     
-  if event == "VARIABLES_LOADED" then
+  if event == "ADDON_LOADED" and a1 == "BonusScanner" then
         if not BonusScannerConfig then 
         -- initialize default configuration
         BonusScannerConfig = { 
@@ -1079,11 +1079,15 @@ function BonusScanner:OnEvent(self, event, a1, ...)
 				basiciteminfo = 0;
 				extendediteminfo = 0;
 				showgemcount = 0;
+				loadbroker = 1;
         }
         end
+        if not BonusScannerConfig.loadbroker then BonusScannerConfig.loadbroker = 1 end
         if BonusScannerConfig.tooltip == 1 then
         	TipHooker:Hook(BonusScanner.ProcessTooltip, "item");
         end
+        if BonusScannerConfig.loadbroker == 1 and not IsAddOnLoaded("Broker_BonusScanner") then LoadAddOn("Broker_BonusScanner") end
+        self:UnregisterEvent("ADDON_LOADED");
    end
     
 end
@@ -1315,7 +1319,7 @@ function BonusScanner:ScanTooltip()
 			if line == _G["INVTYPE_2HWEAPON"] or line == _G["INVTYPE_WEAPON"] or line == _G["INVTYPE_WEAPONMAINHAND"] or line == _G["INVTYPE_WEAPONOFFHAND"] then wtype = 1 end
 			if line == _G["INVTYPE_RANGED"] then wtype = 2 end
 			if line == _G["INVTYPE_THROWN"] then wtype = 3 end
-	BonusScanner:ScanLine(line, r, g, b, wtype);
+			BonusScanner:ScanLine(line, r, g, b, wtype);
 		end
 	end
 end
@@ -1658,9 +1662,22 @@ IsItem=nil;
 			BonusScanner:PrintInfo(BonusScanner.bonuses, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue);
   		return;
   	end
+  	
+  	if(string.lower(cmd) == "broker") then
+  		if BonusScannerConfig.loadbroker == 0 then
+  			BonusScannerConfig.loadbroker = 1
+  			if not IsAddOnLoaded("Broker_BonusScanner") then
+  				LoadAddOn("Broker_BonusScanner")  				
+  			end
+  			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_LDB_PLUGIN_LABEL"].."["..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..LIGHTYELLOW_FONT_COLOR_CODE.."]");
+  		else
+  			BonusScannerConfig.loadbroker = 0
+  			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_LDB_PLUGIN_LABEL"].."["..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..LIGHTYELLOW_FONT_COLOR_CODE.."]. "..L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"]);
+  		end
+  		return;
+  	end
   	  	
   	if(string.lower(cmd) == "tooltip") then
-  	
 	  	if BonusScannerConfig.tooltip == 1 then
 	  	 TipHooker:Unhook(BonusScanner.ProcessTooltip, "item");
 	  	 BonusScannerConfig.tooltip = 0;
@@ -1781,24 +1798,29 @@ IsItem=nil;
   	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING3"]);
   	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING4"]);
   	if BonusScannerConfig.tooltip == 1 then
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING5"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING5a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING5"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING5a"]);
   	else
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING5"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING5a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING5"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING5a"]);
   	end
   	if BonusScannerConfig.showgemcount == 1 then
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING14"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING14a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING14"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING14a"]);
   	else
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING14"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING14a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING14"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING14a"]);
   	end
   	if BonusScannerConfig.basiciteminfo == 1 then
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING12"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING12a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING12"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING12a"]);
   	else
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING12"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING12a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING12"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING12a"]);
   	end
   	if BonusScannerConfig.extendediteminfo == 1 then
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING13"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING13a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING13"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING13a"]);
   	else
-  	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING13"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING13a"]);
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING13"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING13a"]);
+  	end
+  	if BonusScannerConfig.loadbroker == 1 then
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING15"]..GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_ENABLED"]..L["BONUSSCANNER_SLASH_STRING15a"]);
+  	else
+  		DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING15"]..RED_FONT_COLOR_CODE..L["BONUSSCANNER_TOOLTIP_DISABLED"]..L["BONUSSCANNER_SLASH_STRING15a"]);
   	end
   	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING11"]);
   	DEFAULT_CHAT_FRAME:AddMessage(L["BONUSSCANNER_SLASH_STRING6"]);
@@ -1937,7 +1959,7 @@ end --end function
 local BSFrame = CreateFrame("Frame", "BonusScannerFrame")
 BSFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 BSFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
-BSFrame:RegisterEvent("VARIABLES_LOADED");	
+BSFrame:RegisterEvent("ADDON_LOADED");	
 
 BSFrame:SetScript("OnEvent", function(_, event, ...)
 	BonusScanner:OnEvent(BSFrame, event, ...)	

@@ -146,6 +146,8 @@ function TitanLocalizeDE()
 	TITAN_SKINS_REMOVE_BUTTON = "Entfernen"; --SENSITY
 	TITAN_SKINS_REMOVE_BUTTON_DESC = "Entfernt die gewaehlte Skin aus der bestehenden Liste."; --SENSITY
 	TITAN_SKINS_NOTES = "|cff19ff19Notes:|r Beim Hinzufuegen einer neuen Skin sicherstellen, dass ein entsprechender Ordner VOR dem Laden von 'World of Warcraft' erstellt wurde und der eingegebene Speicherort exakt damit uebereinstimmt (Gross-/Kleinschreibung beachten und Endung mit '\\' Zeichen)."; --SENSITY
+	TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
+	TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	TITAN_AUTOHIDE_TOOLTIP = "Leiste automatisch ausblenden";

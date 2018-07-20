@@ -358,6 +358,8 @@ L["BONUSSCANNER_GEMRED_LABEL"] 		= "Rouge";
 L["BONUSSCANNER_GEMBLUE_LABEL"] 		= "Bleu";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] 		= "Jaune";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
+L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Les changements prendront effet apr\195\168s rechargement de l'UI.";
+L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "Plugin LDB BonusScanner ";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] 			= "Attributs";
 L["BONUSSCANNER_CAT_RES"] 			= "R\195\169sistance";
@@ -370,7 +372,7 @@ L["BONUSSCANNER_CAT_GEMS"] 			= "Gemmes";
 --slash command text
 L["BONUSSCANNER_SLASH_STRING1"] 		= GREEN_FONT_COLOR_CODE.."BonusScanner ";
 L["BONUSSCANNER_SLASH_STRING1a"] 		= "|cffffffff by Crowley, Archarodim, jmsteele, Tristanian";
-L["BONUSSCANNER_SLASH_STRING2"] 		= LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/bscan {show | details | tooltip | tooltip gems | itembasic | itemextend | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
+L["BONUSSCANNER_SLASH_STRING2"] 		= LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/bscan {show | details | tooltip | tooltip gems | itembasic | itemextend | broker | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
 L["BONUSSCANNER_SLASH_STRING3"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."show: |cffffffffAffiche les bonus de l'\195\169quipement actuel.";
 L["BONUSSCANNER_SLASH_STRING4"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."details: |cffffffffAffiche les bonus tri\195\169 par emplacement.";
 L["BONUSSCANNER_SLASH_STRING5"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."tooltip: [";
@@ -381,6 +383,8 @@ L["BONUSSCANNER_SLASH_STRING12"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itemba
 L["BONUSSCANNER_SLASH_STRING12a"] 		= LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffAffiche l'ID et le niveau de l'objet dans les tooltips (les tooltips doivent \195\170tre activ\195\169s).";
 L["BONUSSCANNER_SLASH_STRING13"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itemextend: [";
 L["BONUSSCANNER_SLASH_STRING13a"] 		= LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffAffiche l'ID de l'enchantement et l'ID des gemmes dans les tooltips (les tooltips doivent \195\170tre activ\195\169s).";
+L["BONUSSCANNER_SLASH_STRING15"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."broker: [";
+L["BONUSSCANNER_SLASH_STRING15a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffChange l'\195\169tat du plugin LDB, pour afficher les bonus d' \195\169quipement pour le personnage courant.";
 L["BONUSSCANNER_SLASH_STRING11"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."clearcache: |cffffffffNettoyer le cache et vider la poubelle.";
 L["BONUSSCANNER_SLASH_STRING6"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target: |cffffffffAffiche les bonus du personnage cibl\195\169 (doit \195\170tre \195\160 port\195\169e).";
 L["BONUSSCANNER_SLASH_STRING7"] 		= " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target <player>: |cffffffffChuchote les bonus de votre \195\169quipement en cours au joueur s\195\169lectionn\195\169.";

@@ -147,6 +147,8 @@ function TitanLocalizeCN()
 		 TITAN_SKINS_REMOVE_BUTTON = "删除";
 		 TITAN_SKINS_REMOVE_BUTTON_DESC = "从面板可用皮肤列表删除一个皮肤.";
 		 TITAN_SKINS_NOTES = "|cff19ff19说明:|r 当添加一个新的皮肤，请一定确保在载入魔兽世界之前，你想要的皮肤文件已经存在于一个文件夹，并且绝对路径一定要含有 '\\'.";
+		 TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
+		 TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
 		 -- /end localization strings for AceConfigDialog-3.0
      
      TITAN_AUTOHIDE_TOOLTIP = "面板自动隐藏 开/关";
@@ -160,7 +162,7 @@ function TitanLocalizeCN()
      TITAN_AMMO_MENU_TEXT = "弹药/投掷武器";
      TITAN_AMMO_BUTTON_NOAMMO = "无弹药";
      TITAN_AMMO_MENU_REFRESH = "刷新";
-     TITAN_AMMO_BULLET_NAME = "Show ammo name";
+     TITAN_AMMO_BULLET_NAME = "显示弹药名称";
      
      TITAN_BAG_FORMAT = "%d/%d";
      TITAN_BAG_BUTTON_LABEL = "背包: ";
@@ -282,7 +284,7 @@ function TitanLocalizeCN()
      TITAN_PERFORMANCE_ADDON_CPU_USAGE_LABEL = "插件CPU使用";
      TITAN_PERFORMANCE_ADDON_NAME_LABEL = "名称:";
      TITAN_PERFORMANCE_ADDON_USAGE_LABEL = "使用";
-     TITAN_PERFORMANCE_ADDON_RATE_LABEL = "Rate";
+     TITAN_PERFORMANCE_ADDON_RATE_LABEL = "百分比";
      TITAN_PERFORMANCE_ADDON_TOTAL_MEM_USAGE_LABEL = "插件使用内存总量:";
      TITAN_PERFORMANCE_ADDON_TOTAL_CPU_USAGE_LABEL = "CPU使用总量:";
      TITAN_PERFORMANCE_MENU_SHOW_FPS = "显示 FPS";

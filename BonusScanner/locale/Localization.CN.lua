@@ -37,9 +37,9 @@ L["BONUSSCANNER_NAMES"] = {
 	ARMORPEN = "护甲穿透等级",
 
 -- DPS
-	DPSMAIN = "Main Weapon(s) DPS",
-	DPSRANGED = "Ranged Weapon DPS",
-	DPSTHROWN = "Thrown Weapon DPS",
+	DPSMAIN = "主武器 DPS",
+	DPSRANGED = "远程武器 DPS",
+	DPSTHROWN = "投掷武器 DPS",
 
 --Attack Power
 	ATTACKPOWER	= "攻击强度",
@@ -378,6 +378,8 @@ L["BONUSSCANNER_GEMRED_LABEL"] = "红";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "蓝";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "黄";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
+L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Changes will take effect after the UI has been reloaded.";
+L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] = "属性";
 L["BONUSSCANNER_CAT_RES"] = "抗性";
@@ -390,7 +392,7 @@ L["BONUSSCANNER_CAT_GEMS"] = "宝石插槽";
 --slash command text
 L["BONUSSCANNER_SLASH_STRING1"] = GREEN_FONT_COLOR_CODE.."BonusScanner 物品加成统计";
 L["BONUSSCANNER_SLASH_STRING1a"] = "|cffffffff 作者 Crowley, Archarodim, jmsteele, Tristanian";
-L["BONUSSCANNER_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."用法: |cffffffff/bscan {show | details | tooltip | tooltip gems | itembasic | itemextend | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
+L["BONUSSCANNER_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."用法: |cffffffff/bscan {show | details | tooltip | tooltip gems | itembasic | itemextend | broker | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
 L["BONUSSCANNER_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."show: |cffffffff显示当前装备的所有加成统计.";
 L["BONUSSCANNER_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."details: |cffffffff显示详细的各类统计.";
 L["BONUSSCANNER_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."tooltip: [";
@@ -401,6 +403,8 @@ L["BONUSSCANNER_SLASH_STRING12"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itembasi
 L["BONUSSCANNER_SLASH_STRING12a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffff在提示上显示物品的ID和等级.";
 L["BONUSSCANNER_SLASH_STRING13"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itemextend: [";
 L["BONUSSCANNER_SLASH_STRING13a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffff在提示上显示物品的附魔和宝石ID.";
+L["BONUSSCANNER_SLASH_STRING15"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."broker: [";
+L["BONUSSCANNER_SLASH_STRING15a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffToggles the state of the LDB plugin, used to display gear bonuses for the current character.";
 L["BONUSSCANNER_SLASH_STRING11"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."clearcache: |cffffffff清除缓存.";
 L["BONUSSCANNER_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target: |cffffffff显示你目标的加成统计(必须在距离内).";
 L["BONUSSCANNER_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target <player>: |cffffffff把你当前目标的加成数据密语给指定人.";

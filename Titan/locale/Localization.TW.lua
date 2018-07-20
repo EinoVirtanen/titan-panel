@@ -1,5 +1,7 @@
 ﻿-- Version : Traditional Chinese
--- Translation supplied by Juha,added by yeachan.
+-- Translated by Juha,added by yeachan.
+
+
 function TitanLocalizeTW()
      TITAN_DEBUG = "<Titan>";
 	   TITAN_INFO = "<Titan>"
@@ -145,6 +147,8 @@ function TitanLocalizeTW()
 		 TITAN_SKINS_REMOVE_BUTTON = "移除";
 		 TITAN_SKINS_REMOVE_BUTTON_DESC = "從清單中移除所選的面板外觀。";
 		 TITAN_SKINS_NOTES = "|cff19ff19注意:|r 當新增一個外觀時，請確定在載入遊戲前，外觀檔案已存在於資料夾中 (路徑有區分大小寫，且要以 '\\' 作結束)。";
+		 TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
+		 TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
 		 -- /end localization strings for AceConfigDialog-3.0
 	
 	   TITAN_AUTOHIDE_TOOLTIP = "自動隱藏 開/關";
@@ -158,7 +162,7 @@ function TitanLocalizeTW()
 	   TITAN_AMMO_MENU_TEXT = "彈藥/投擲";
      TITAN_AMMO_BUTTON_NOAMMO = "沒有彈藥";
      TITAN_AMMO_MENU_REFRESH = "重新整理";
-     TITAN_AMMO_BULLET_NAME = "Show ammo name";
+     TITAN_AMMO_BULLET_NAME = "顯示彈藥名稱";
 	
 	   TITAN_BAG_FORMAT = "%d/%d";
 	   TITAN_BAG_BUTTON_LABEL = "背包: ";

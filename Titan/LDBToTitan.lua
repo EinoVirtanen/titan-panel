@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (bandit@planetcnc.com)     --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.4 Beta January 9th, 2009                --
+--   Latest version: 2.5 Beta February 23rd, 2009              --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -55,6 +55,7 @@ local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local Tablet = AceLibrary("Tablet-2.0")
 local LibQTip = LibStub("LibQTip-1.0")
+local media = LibStub("LibSharedMedia-3.0")
 local LDBAttrs = {};
 
 LDBToTitan:RegisterEvent("PLAYER_LOGIN")
@@ -542,10 +543,30 @@ newTitanFrame.registry = {
      end
          
     TitanPanelButton_OnLoad(newTitanFrame);
+    
     -- Syncronize Plugins that were created after PLAYER_LOGIN
     if TitanPluginSettings then
 			TitanVariables_SyncPluginSettings();
 			TitanVariables_HandleLDB();
+			local newfont, index, id;
+			newfont = media:Fetch("font", TitanPanelGetVar("FontName"))					
+			local button = TitanUtils_GetButton(idTitan);
+			local buttonText = _G[button:GetName().."Text"];
+				if buttonText then
+					buttonText:SetFont(newfont, 10);
+				end
+		
+		-- Add plugins created after PLAYER_ENTERING_WORLD to the bar (if they were shown on last logout)
+		local i
+			for i,_ in pairs(TitanPanelSettings.Buttons) do
+				if TitanPanelSettings.Buttons[i] == idTitan then
+					TITAN_PANEL_MOVE_ADDON = 1 -- dummy value to avoid unnecessary function calls in button init function
+					TitanPanel_InitPanelButtons()
+					TITAN_PANEL_MOVE_ADDON = nil
+					break
+				end
+			end
+			
 		end
 end
 

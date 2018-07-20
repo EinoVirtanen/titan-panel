@@ -1,3 +1,13 @@
+4.6b Tristanian 2009.02.23
+- Fixed a bug with the library loading order that would prevent the configuration option for the minimap icon from being enabled
+- Updated French localization
+------------------------------------------------
+4.6 Tristanian 2009.02.20
+- Configuration initialization moved to ADDON_LOADED instead of VARIABLES_LOADED
+- Implemented a load on demand LDB plugin, that provides an overview of the gear bonuses for the current player
+- Added /bscan broker slash command to toggle the state of the LDB feed (enabled/disabled)
+- Added LibDBIcon support for the LDB feed, for users lacking a proper display addon
+------------------------------------------------
 4.5 Tristanian 2009.02.09
 - Added average item level to bonuses table
 - Modified /bscan show and /bscan target commands to display the average item level of the relevant target

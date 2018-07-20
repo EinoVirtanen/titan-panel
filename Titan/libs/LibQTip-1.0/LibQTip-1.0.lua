@@ -1,6 +1,6 @@
 assert(LibStub, "LibQTip-1.0 requires LibStub")
 
-local MAJOR, MINOR = "LibQTip-1.0", 6
+local MAJOR, MINOR = "LibQTip-1.0", 9
 local LibQTip, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibQTip then return end -- No upgrade needed
 
@@ -24,6 +24,10 @@ LibQTip.cellMetatable = LibQTip.cellMetatable or { __index = LibQTip.cellPrototy
 
 LibQTip.activeTooltips = LibQTip.activeTooltips or {}
 LibQTip.tooltipHeap = LibQTip.tooltipHeap or {}
+LibQTip.lineHeap = LibQTip.lineHeap or {}
+LibQTip.columnHeap = LibQTip.columnHeap or {}
+
+LibQTip.layoutCleaner = LibQTip.layoutCleaner or CreateFrame('Frame')
 
 local tipPrototype = LibQTip.tipPrototype
 local tipMetatable = LibQTip.tipMetatable
@@ -36,9 +40,13 @@ local cellMetatable = LibQTip.cellMetatable
 
 local activeTooltips = LibQTip.activeTooltips
 local tooltipHeap = LibQTip.tooltipHeap
+local lineHeap = LibQTip.lineHeap or {}
+local columnHeap = LibQTip.columnHeap or {}
+
+local layoutCleaner = LibQTip.layoutCleaner
 
 -- Tooltip private methods
-local InitializeTooltip, FinalizeTooltip, ResetTooltipSize, ResizeColspans
+local InitializeTooltip, FinalizeTooltip, ResetTooltipSize, LayoutColspans
 local AcquireCell, ReleaseCell
 
 ------------------------------------------------------------------------------
@@ -92,15 +100,38 @@ function LibQTip:IterateTooltips()
 end
 
 ------------------------------------------------------------------------------
+-- Dirty layout handler
+------------------------------------------------------------------------------
+
+layoutCleaner.registry = layoutCleaner.registry or {}
+
+function layoutCleaner:RegisterForCleanup(tooltip)
+	self.registry[tooltip] = true
+	self:Show()
+end
+
+function layoutCleaner:CleanupLayouts()
+	self:Hide()
+	for tooltip in pairs(self.registry) do
+		LayoutColspans(tooltip)
+	end
+	wipe(self.registry)
+end
+
+layoutCleaner:SetScript('OnUpdate', layoutCleaner.CleanupLayouts)
+
+------------------------------------------------------------------------------
 -- CellProvider and Cell
 ------------------------------------------------------------------------------
 function providerPrototype:AcquireCell(tooltip)
 	local cell = tremove(self.heap)
 	if not cell then
-		cell = setmetatable(CreateFrame("Frame", nil, tooltip), self.cellMetatable)
+		cell = setmetatable(CreateFrame("Frame", nil, UIParent), self.cellMetatable)
 		if type(cell.InitializeCell) == 'function' then
 			cell:InitializeCell()
 		end
+		cell:SetParent(tooltip)
+		cell:SetFrameLevel(tooltip:GetFrameLevel()+1)
 	end
 	self.cells[cell] = true
 	return cell
@@ -207,18 +238,16 @@ function InitializeTooltip(self, key)
 	self.columns = self.columns or {}
 	self.lines = self.lines or {}
 	self.colspans = self.colspans or {}
-	self.lineHeap = self.lineHeap or {}
-	self.lineHeap[key] = self.lineHeap[key] or {}
-	self.columnHeap = self.columnHeap or {}
-	self.columnHeap[key] = self.columnHeap[key] or {}
-
 	self.regularFont = GameTooltipText
 	self.headerFont = GameTooltipHeaderText
-
 	self.labelProvider = labelProvider
 
-	self:SetScript('OnShow', ResizeColspans)
-
+	-- Data depending on key
+	lineHeap[key] = lineHeap[key] or {}
+	columnHeap[key] = columnHeap[key] or {}
+	
+	self:Hide()
+		
 	ResetTooltipSize(self)
 end
 
@@ -245,11 +274,11 @@ function tipPrototype:SetColumnLayout(numColumns, ...)
 end
 
 function tipPrototype:AcquireLine(lineNum)
-	local line = self.lineHeap[self.key][lineNum]
+	local line = lineHeap[self.key][lineNum]
 	if not line then
 		line = CreateFrame("Frame", nil, self)
 		line.cells = {}
-		self.lineHeap[self.key][lineNum] = line
+		lineHeap[self.key][lineNum] = line
 	end
 	return line
 end
@@ -264,10 +293,10 @@ function tipPrototype:ReleaseLine(line)
 end
 
 function tipPrototype:AcquireColumn(colNum)
-	local column = self.columnHeap[self.key][colNum]
+	local column = columnHeap[self.key][colNum]
 	if not column then
 		column = CreateFrame("Frame", nil, self)
-		self.columnHeap[self.key][colNum] = column
+		columnHeap[self.key][colNum] = column
 	end
 	return column
 end
@@ -350,8 +379,7 @@ local function EnlargeColumn(self, column, width)
 	end
 end
 
-function ResizeColspans(self)
-	if not self:IsShown() then return end
+function LayoutColspans(self)
 	local columns = self.columns
 	for colRange, width in pairs(self.colspans) do
 		local left, right = colRange:match("^(%d+)%-(%d+)$")
@@ -360,8 +388,8 @@ function ResizeColspans(self)
 			width = width - columns[col].width - CELL_MARGIN
 		end
 		EnlargeColumn(self, columns[right], width)
-		self.colspans[colRange] = nil
 	end
+	wipe(self.colspans)
 end
 
 function AcquireCell(self, provider)
@@ -473,6 +501,7 @@ local function _SetCell(self, lineNum, colNum, value, font, justification, colSp
 		-- Postpone width changes until the tooltip is shown
 		local colRange = colNum.."-"..rightColNum
 		self.colspans[colRange] = math.max(self.colspans[colRange] or 0, width)
+		layoutCleaner:RegisterForCleanup(self)
 	else
 		-- Enlarge the column and tooltip if need be
 		EnlargeColumn(self, self.columns[colNum], width)
@@ -525,15 +554,11 @@ local function CreateLine(self, font, ...)
 end
 
 function tipPrototype:AddLine(...)
-	local lineNum, colNum = CreateLine(self, self.regularFont, ...)
-	ResizeColspans(self)
-	return lineNum, colNum
+	return CreateLine(self, self.regularFont, ...)
 end
 
 function tipPrototype:AddHeader(...)
-	local lineNum, colNum = CreateLine(self, self.headerFont, ...)
-	ResizeColspans(self)
-	return lineNum, colNum
+	return CreateLine(self, self.headerFont, ...)
 end
 
 function tipPrototype:SetCell(lineNum, colNum, value, ...)
@@ -564,9 +589,7 @@ function tipPrototype:SetCell(lineNum, colNum, value, ...)
 		i, provider = i+1, arg
 	end
 
-	lineNum, colNum = _SetCell(self, lineNum, colNum, value, font, justification, colSpan, provider, select(i, ...))
-	ResizeColspans(self)
-	return lineNum, colNum
+	return _SetCell(self, lineNum, colNum, value, font, justification, colSpan, provider, select(i, ...))
 end
 
 function tipPrototype:GetLineCount() return #self.lines end

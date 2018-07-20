@@ -356,6 +356,8 @@ L["BONUSSCANNER_GEMRED_LABEL"] = "Rot";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "Blau";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "Gelb";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
+L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Changes will take effect after the UI has been reloaded.";
+L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";
 --bonus categories
 L["BONUSSCANNER_CAT_ATT"] = "Attribute";
 L["BONUSSCANNER_CAT_RES"] = "Widerstand";
@@ -368,7 +370,7 @@ L["BONUSSCANNER_CAT_GEMS"] = "Edelsteine";
 --slash command text
 L["BONUSSCANNER_SLASH_STRING1"] = GREEN_FONT_COLOR_CODE.."BonusScanner ";
 L["BONUSSCANNER_SLASH_STRING1a"] = "|cffffffff by Crowley, Archarodim, jmsteele, Tristanian";
-L["BONUSSCANNER_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/bs {show | details | tooltip | tooltip gems | itembasic | itemextend | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
+L["BONUSSCANNER_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/bs {show | details | tooltip | tooltip gems | itembasic | itemextend | broker | clearcache | target | target <player> | <itemlink> | <itemlink> <player> | <slotname>}";
 L["BONUSSCANNER_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."show: |cffffffffZeige alle Boni der aktuellen Ausrüstung.";
 L["BONUSSCANNER_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."details: |cffffffffZeige Boni nach Slot-Verteilung.";
 L["BONUSSCANNER_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."tooltip: [";
@@ -379,6 +381,8 @@ L["BONUSSCANNER_SLASH_STRING12"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itembasi
 L["BONUSSCANNER_SLASH_STRING12a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffErgänzt Tooltip mit Gegenstandslevel und -ID."; -- SENSITY
 L["BONUSSCANNER_SLASH_STRING13"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."itemextend: [";
 L["BONUSSCANNER_SLASH_STRING13a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffErgänzt Tooltip mit Verzauberungs- u. Edelstein-ID."; -- SENSITY
+L["BONUSSCANNER_SLASH_STRING15"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."broker: [";
+L["BONUSSCANNER_SLASH_STRING15a"] = LIGHTYELLOW_FONT_COLOR_CODE.."] |cffffffffToggles the state of the LDB plugin, used to display gear bonuses for the current character.";
 L["BONUSSCANNER_SLASH_STRING11"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."clearcache: |cffffffffLöscht den Item-Cache."; -- SENSITY
 L["BONUSSCANNER_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target: |cffffffffZeige Boni der Ausrüstung eines anderen Spielers.";
 L["BONUSSCANNER_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."target <player>: |cffffffffSendet Ausrüstungsboni des Ziels (muss in Reichweite sein) an einen ausgewählten Spieler."; -- SENSITY

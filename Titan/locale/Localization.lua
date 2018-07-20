@@ -143,6 +143,8 @@ function TitanLocalizeEN()
 		 TITAN_SKINS_REMOVE_BUTTON = "Remove";
 		 TITAN_SKINS_REMOVE_BUTTON_DESC = "Removes the selected skin from the list of available skins for the Panel.";
 		 TITAN_SKINS_NOTES = "|cff19ff19Notes:|r When adding a new skin, please ensure that a folder containing your custom artwork has been created prior to loading 'World of Warcraft' and the path entered here corresponds to it exactly (paths are case sensitive and always end with an '\\' character).";
+		 TITAN_SKINS_RESET_DEFAULTS_TITLE = "Reset to Defaults";
+		 TITAN_SKINS_RESET_DEFAULTS_DESC = "Resets the skin list to the default, build-in skins.";
 		 -- /end localization strings for AceConfigDialog-3.0
      
      TITAN_AUTOHIDE_TOOLTIP = "Toggles panel auto-hide on/off";

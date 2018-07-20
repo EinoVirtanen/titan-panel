@@ -27,6 +27,8 @@ local InCombatLockdown	= _G.InCombatLockdown;
 local TitanKillAutoHidetimer = false;
 local TitanSkinToRemove = "None";
 local TitanSkinName, TitanSkinPath = "", "";
+local newButtons = {};
+local newLocations = {};
 
 
 -- Library references
@@ -34,6 +36,8 @@ local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
+local Dewdrop = nil
+if AceLibrary:HasInstance("Dewdrop-2.0") then Dewdrop = AceLibrary("Dewdrop-2.0") end
 
 -- Titan Default Saved Vars
 TITAN_PANEL_SAVED_VARIABLES = {
@@ -250,19 +254,48 @@ name = "Titan "..TITAN_PANEL_MENU_TEXTURE_SETTINGS,
 					return Skinlist
 			end,
 		},
+		defaultskins = {
+		order = 4,
+		name = TITAN_SKINS_RESET_DEFAULTS_TITLE, type = "execute",
+		desc = TITAN_SKINS_RESET_DEFAULTS_DESC,
+		func = function()
+		TitanSkins = {};
+		TitanSkins = {
+				{ name = "Titan Default", path = "Interface\\AddOns\\Titan\\Artwork\\"},
+				{ name = "Christmas", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Christmas Skin\\"},
+				{ name = "Charcoal Metal", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Charcoal Metal\\"},
+				{ name = "Crusader", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Crusader Skin\\"},
+				{ name = "Cursed Orange", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Cursed Orange Skin\\"},
+				{ name = "Dark Wood", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Dark Wood Skin\\"},
+				{ name = "Deep Cave", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Deep Cave Skin\\"},
+				{ name = "Elfwood", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Elfwood Skin\\"},
+				{ name = "Engineer", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Engineer Skin\\"},
+				{ name = "Frozen Metal", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Frozen Metal Skin\\"},
+				{ name = "Graphic", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Graphic Skin\\"},
+				{ name = "Graveyard", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Graveyard Skin\\"},
+				{ name = "Hidden Leaf", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Hidden Leaf Skin\\"},
+				{ name = "Holy Warrior", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Holy Warrior Skin\\"},
+				{ name = "Nightlife", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Nightlife Skin\\"},
+				{ name = "Orgrimmar", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Orgrimmar Skin\\"},
+				{ name = "Plate", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Plate Skin\\"},
+				{ name = "Tribal", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\Tribal Skin\\"},
+				{ name = "X-Perl", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\X-Perl\\"},
+				};
+		end,
+		},
 		nulloption1 = {
-			order = 4,
+			order = 5,
 			type = "description",
 			name = "   ",
 			cmdHidden = true
 		},
 		addskinheader = {
-		order = 5,
+		order = 6,
 		type = "header",
 		name = TITAN_SKINS_NEW_HEADER,
 		},
 		newskinname = {
-		order = 6,
+		order = 7,
 		name = TITAN_SKINS_NAME_TITLE,
 		desc = TITAN_SKINS_NAME_DESC,
 		type = "input", width = "full",
@@ -270,13 +303,13 @@ name = "Titan "..TITAN_PANEL_MENU_TEXTURE_SETTINGS,
 			set = function(_,v) TitanSkinName = v end,
 		},
 		newskinnamedesc = {
-		order = 7,
+		order = 8,
 		type = "description",
 		name = TITAN_SKINS_NAME_EXAMPLE.."\n",
 		cmdHidden = true
 		},
 		newskinpath = {
-		order = 8,
+		order = 9,
 		name = TITAN_SKINS_PATH_TITLE,
 		desc = TITAN_SKINS_PATH_DESC,
 		type = "input", width = "full",
@@ -284,50 +317,48 @@ name = "Titan "..TITAN_PANEL_MENU_TEXTURE_SETTINGS,
 			set = function(_,v) TitanSkinPath = v end,
 		},
 		newskinpathdesc = {
-		order = 9,
+		order = 10,
 		type = "description",
 		name = TITAN_SKINS_PATH_EXAMPLE.."\n",
 		cmdHidden = true
 		},
 		addnewskin = {
-		order = 10,
+		order = 11,
 		name = TITAN_SKINS_ADD_HEADER, type = "execute",
 		desc = TITAN_SKINS_ADD_DESC,
 		func = function()
-		-- we cannot have a skin name of "None"
-		local tempname = string.gsub(TitanSkinName, TITAN_NONE, "")
-			if tempname ~= "" and TitanSkinPath ~= "" then
-				table.insert(TitanSkins, {name = tempname, path = TitanSkinPath, })
+			if TitanSkinName ~= "" and TitanSkinPath ~= "" then				
+				TitanPanel_AddNewSkin(TitanSkinName, TitanSkinPath)
 				TitanSkinName = ""
 				TitanSkinPath = ""
 			end
 		end,
 		},
 		nulloption2 = {
-		order = 11,
+		order = 12,
 		type = "description",
 		name = "   ",
 		cmdHidden = true
 		},
 		notes = {
-		order = 12,
+		order = 13,
 		type = "description",
 		name = TITAN_SKINS_NOTES,
 		cmdHidden = true
 		},
 		nulloption3 = {
-		order = 13,
+		order = 14,
 		type = "description",
 		name = "   ",
 		cmdHidden = true
 		},
 		removeskinheader = {
-		order = 14,
+		order = 15,
 		type = "header",
 		name = TITAN_SKINS_REMOVE_HEADER,
 		},
 		removeskinlist = {
-			order = 15, type = "select",
+			order = 16, type = "select",
 			name = TITAN_SKINS_LIST_TITLE,
 			desc = TITAN_SKINS_REMOVE_DESC,
 			get = function() return TitanSkinToRemove end,
@@ -358,7 +389,7 @@ name = "Titan "..TITAN_PANEL_MENU_TEXTURE_SETTINGS,
 			end,
 		},
 		removeskin = {
-			order = 16, type = "execute",
+			order = 17, type = "execute",
 			name = TITAN_SKINS_REMOVE_BUTTON,
 			desc = TITAN_SKINS_REMOVE_BUTTON_DESC,
 			func = function()
@@ -374,7 +405,7 @@ name = "Titan "..TITAN_PANEL_MENU_TEXTURE_SETTINGS,
 			end,
 		},
 		nulloption4 = {
-		order = 17,
+		order = 18,
 		type = "description",
 		name = "   ",
 		cmdHidden = true
@@ -461,12 +492,12 @@ name = "Titan "..TITAN_UISCALE_MENU_TEXT,
  }
 
 function TitanPanelBarButton_OnLoad(self)
-	self:RegisterEvent("VARIABLES_LOADED");
+	self:RegisterEvent("ADDON_LOADED");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("PLAYER_REGEN_ENABLED");
 	self:RegisterEvent("CVAR_UPDATE");
-	--self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+	self:RegisterEvent("PLAYER_LOGOUT");
 	self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 	
 --add Blizzard Configuration Panel
@@ -564,7 +595,7 @@ end
 
 function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 	if self:GetName() == "TitanPanelBarButton" then
-		if (event == "VARIABLES_LOADED") then
+		if event == "ADDON_LOADED" and arg1 == "Titan" then
 			-- Init Profile/Saved Vars
 			-- Future : AceDB !??
 			TitanVariables_InitTitanSettings();			
@@ -598,8 +629,8 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 				{ name = "X-Perl", path = "Interface\\AddOns\\Titan\\Artwork\\Custom\\X-Perl\\"},
 				};
 			end
-			self:UnregisterEvent("VARIABLES_LOADED");
-		elseif (event == "PLAYER_ENTERING_WORLD") then
+			self:UnregisterEvent("ADDON_LOADED");
+		elseif event == "PLAYER_ENTERING_WORLD" then
 			TitanVariables_InitDetailedSettings();
 					
 			local realmName = GetCVar("realmName");
@@ -655,8 +686,8 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			-- Adjust initial frame position			
 			TitanPanel_SetTransparent("TitanPanelBarButtonHider", TitanPanelGetVar("Position"));
 						
-		elseif (event == "CVAR_UPDATE") then		
-			if (arg1 == "USE_UISCALE" or arg1 == "WINDOWED_MODE") then
+		elseif event == "CVAR_UPDATE" then		
+			if arg1 == "USE_UISCALE" or arg1 == "WINDOWED_MODE" then
 				if (TitanPlayerSettings and TitanPanelGetVar("Scale")) then								  
 					TitanPanel_SetScale();
 					TitanPanel_RefreshPanelButtons();
@@ -664,20 +695,37 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 					TitanPanelFrame_ScreenAdjust();
 				end
 			end
-    --elseif (event == "ZONE_CHANGED_NEW_AREA") then
-			-- Move frames
-			--TitanPanel_InitPanelButtons();			 
-		elseif (event == "PLAYER_REGEN_ENABLED") then
+    elseif event == "PLAYER_LOGOUT" then
+    -- save bars settings on logout to avoig "garbage" in savedvars buttons table			
+			TitanPanelSettings.Buttons = newButtons;
+			TitanPanelSettings.Location = newLocations;
+		elseif event == "PLAYER_REGEN_ENABLED" then
 		-- outside combat check to see if frames need correction
 			 Titan_ManageFramesNew();
 			 Titan_FCF_UpdateCombatLogPosition();
-		elseif (event == "PLAYER_REGEN_DISABLED") then
+		elseif event == "PLAYER_REGEN_DISABLED" then
 		 -- If in combat close all control frames and menus
 		   TitanUtils_CloseAllControlFrames();
 			 TitanUtils_CloseRightClickMenu();	
 		end
 	end
 end
+
+function TitanPanel_AddNewSkin(skinname, skinpath)
+	if not skinname or not skinpath then return end -- name and path must be provided
+	if skinname == "" or skinname == TITAN_NONE or skinpath == "" then return end -- name cannot be empty or "None", path cannot be empty
+	local i
+	local found = nil
+	for _,i in pairs(TitanSkins) do
+		if i.name == skinname or i.path == skinpath then
+			found = true			
+			break
+		end
+	end
+	
+	if not found then table.insert(TitanSkins, {name = skinname, path = skinpath }) end
+end
+
 
 function TitanPanelFrame_ScreenAdjust()
 	if not InCombatLockdown() then
@@ -718,7 +766,7 @@ end
 
 function Handle_OnUpdateAutoHide()
 
-if TitanPanelRightClickMenu_IsVisible() then
+if TitanPanelRightClickMenu_IsVisible() or (Tablet20Frame and Tablet20Frame:IsVisible()) or (Dewdrop and Dewdrop:IsOpen())then
 	return
 end
 	
@@ -910,17 +958,6 @@ function TitanPanelBarButton_ToggleAutoHide()
 	end
 end
 
-function TitanPanelBarButton_ToggleLogAdjust()
-TitanPanelToggleVar("LogAdjust");
-end
-
-function TitanPanelBarButton_ToggleMinimapAdjust()
-TitanPanelToggleVar("MinimapAdjust");
-end
-
-function TitanPanelBarButton_ToggleButtonLock()
-TitanPanelToggleVar("LockButtons");
-end
 
 function TitanPanelBarButton_ToggleAuxAutoHide()
 	TitanPanelToggleVar("AuxAutoHide");
@@ -980,49 +1017,13 @@ function TitanPanelBarButton_ToggleBarsShown()
 	TitanPanelBarButton_DisplayBarsWanted();
 	TitanPanelRightClickMenu_Close();
 	-- routine to handle autohide
-	--old
-	--if (TitanPanelGetVar("BothBars")) then
-		--	TitanPanelAuxBarButton.hide = nil;
-	--else
-	  --TitanPanelBarButton.hide = nil;
-	--end
-	-- new
-	if (TitanPanelGetVar("BothBars")) then
+	-- new	
 	 if TitanPanelGetVar("AuxAutoHide") then
 	   TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM);
 	 end
 	 if TitanPanelGetVar("AutoHide") then
 	   TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
-	 end
-	else
-	 if TitanPanelGetVar("AuxAutoHide") then
-	   TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM);
-	 end
-	 if TitanPanelGetVar("AutoHide") then
-	   TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
-	 end
-	end
-end
-	
-function TitanPanelBarButton_ToggleVersionShown()
-	TitanPanelToggleVar("VersionShown");
-end
-
-function TitanPanelBarButton_ToggleLDBSuffix()
-	TitanPanelToggleVar("LDBSuffix");
-end
-	
-function TitanPanelBarButton_ToggleToolTipsShown()
-	TitanPanelToggleVar("ToolTipsShown");
-end
-
-function TitanPanelBarButton_ToggleToolTipsShownInCombat()
-  TitanPanelToggleVar("HideTipsInCombat");
-end
-	
-function TitanPanelBarButton_ToggleCastingBar()
-	TitanPanelToggleVar("CastingBar");
-	ReloadUI()
+	 end	
 end
 
 function TitanPanelBarButton_ForceLDBLaunchersRight()
@@ -1076,11 +1077,14 @@ function TitanPanelBarButton_DisplayBarsWanted()
 		TitanMovableFrame_CheckFrames(TITAN_PANEL_PLACE_BOTTOM);
 		TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
 		TitanMovableFrame_AdjustBlizzardFrames();
-		
+		-- Show TitanPanelAuxBarButtonHider frame
+		TitanPanelAuxBarButtonHider:Show()
 	else
 		TitanPanelBarButton_TogglePosition();
 		TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM)
 		TitanPanelBarButton_TogglePosition();
+		-- Hide TitanPanelAuxBarButtonHider frame to avoid interaction problem at the bottom of the screen
+		TitanPanelAuxBarButtonHider:Hide()
 	end
 end
 
@@ -1233,8 +1237,8 @@ function TitanPanel_InitPanelButtons()
 	local button, leftButton, rightButton, leftAuxButton, rightAuxButton, leftDoubleButton, rightDoubleButton, leftAuxDoubleButton, rightAuxDoubleButton;
 	local nextLeft, nextAuxLeft
 	local leftside, auxleftside;
-	local newButtons = {};
-	local newLocations = {};
+	newButtons = {};
+	newLocations = {};
 	local scale = TitanPanelGetVar("Scale");
 	local isClockOnRightSide;
 	
@@ -1243,22 +1247,13 @@ function TitanPanel_InitPanelButtons()
 	end
 	-- routine to handle autohide
 	
-	-- new
-	--if (TitanPanelGetVar("BothBars")) then
+	-- new	
 	 if TitanPanelGetVar("AuxAutoHide") then
 	   TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM);
 	 end
 	 if TitanPanelGetVar("AutoHide") then
 	   TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
 	 end
-	--else
-	 --if TitanPanelGetVar("AuxAutoHide") then
-	   --TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM);
-	 --end
-	 --if TitanPanelGetVar("AutoHide") then
-	   --TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position"));
-	 --end
-	--end
 	
 	-- Position Clock first if it's displayed on the far right side
 	if ( TitanUtils_TableContainsValue(TitanPanelSettings.Buttons, TITAN_CLOCK_ID) and TitanGetVar(TITAN_CLOCK_ID, "DisplayOnRightSide") ) then
@@ -1285,6 +1280,7 @@ function TitanPanel_InitPanelButtons()
 	for i = 1, table.maxn(TitanPanelSettings.Buttons) do 
 	
 		local id = TitanPanelSettings.Buttons[i];
+		
 		if ( TitanUtils_IsPluginRegistered(id) ) then
 			local i = TitanPanel_GetButtonNumber(id);
 			
@@ -1392,8 +1388,8 @@ function TitanPanel_InitPanelButtons()
 	end
 	-- table.sort (newButtons);
 	-- Set TitanPanelSettings.Buttons
-	TitanPanelSettings.Buttons = newButtons;
-	TitanPanelSettings.Location = newLocations;
+	--TitanPanelSettings.Buttons = newButtons;
+	--TitanPanelSettings.Location = newLocations;
 	
 	-- Set panel button init flag
 	TITAN_PANEL_BUTTONS_INIT_FLAG = 1;
@@ -1661,7 +1657,7 @@ function TitanPanel_SetScale()
 	TitanPanelAuxBarButton:SetScale(scale);
 
 	for index, value in pairs(TitanPlugins) do
-		if index ~= nil then
+		if index then
 			TitanUtils_GetButton(index):SetScale(scale);
 		end
 	end
@@ -1716,6 +1712,8 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 		local serverName = GetCVar("realmName");
 		local currentprofilevalue = playerName.."@"..serverName;
 		local profileName = data.."@".."TitanCustomProfile";
+		TitanPanelSettings.Buttons = newButtons;
+		TitanPanelSettings.Location = newLocations;
 		TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
 		DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..TITAN_PANEL_MENU_TITLE..FONT_COLOR_CODE_CLOSE..": "..TITAN_PANEL_MENU_PROFILE_SAVE_PENDING.."|cffff8c00"..data.."|r");
 		self:Hide();
@@ -1749,6 +1747,8 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 			local playerName = UnitName("player");
 			local serverName = GetCVar("realmName");
 			local currentprofilevalue = playerName.."@"..serverName;
+			TitanPanelSettings.Buttons = newButtons;
+			TitanPanelSettings.Location = newLocations;
 			TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
 			DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..TITAN_PANEL_MENU_TITLE..FONT_COLOR_CODE_CLOSE..": "..TITAN_PANEL_MENU_PROFILE_SAVE_PENDING.."|cffff8c00"..concprofileName.."|r");
 			self:Hide();
@@ -1782,6 +1782,8 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 			local playerName = UnitName("player");
 			local serverName = GetCVar("realmName");
 			local currentprofilevalue = playerName.."@"..serverName;
+			TitanPanelSettings.Buttons = newButtons;
+			TitanPanelSettings.Location = newLocations;
 			TitanSettings.Players[profileName] = TitanSettings.Players[currentprofilevalue];
 			DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..TITAN_PANEL_MENU_TITLE..FONT_COLOR_CODE_CLOSE..": "..TITAN_PANEL_MENU_PROFILE_SAVE_PENDING.."|cffff8c00"..concprofileName.."|r");			
 		end
@@ -1810,6 +1812,14 @@ function TitanPanel_SetCustomTexture(path)
 end
 
 function TitanPanelRightClickMenu_PrepareBarMenu(self)
+-- Hack for WoW 3.1 since Blizzard dropdowns do not create listframes levels above 2
+--local maxlevels = _G["UIDROPDOWNMENU_MAXLEVELS"]
+
+	--  if  maxlevels < 3 then	  
+		--	UIDropDownMenu_CreateFrames(3, 0)		
+			--UIDropDownMenu_CreateFrames(4, 0)
+		--end
+		
 	-- Level 2
 	if ( UIDROPDOWNMENU_MENU_LEVEL == 2 ) then
 		TitanPanel_BuildPluginsMenu();
@@ -2007,14 +2017,14 @@ end
 		-- Lock buttons
 		info = {};
 		info.text = TITAN_PANEL_MENU_LOCK_BUTTONS;
-		info.func = TitanPanelBarButton_ToggleButtonLock;
+		info.func = function() TitanPanelToggleVar("LockButtons") end;
 		info.checked = TitanPanelGetVar("LockButtons");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Show plugin versions
 		info = {};
 		info.text = TITAN_PANEL_MENU_VERSION_SHOWN;
-		info.func = TitanPanelBarButton_ToggleVersionShown;
+		info.func = function() TitanPanelToggleVar("VersionShown") end;
 		info.checked = TitanPanelGetVar("VersionShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2074,14 +2084,14 @@ end
 		-- Show tooltips
 		info = {};
 		info.text = TITAN_PANEL_MENU_TOOLTIPS_SHOWN;
-		info.func = TitanPanelBarButton_ToggleToolTipsShown;
+		info.func = function() TitanPanelToggleVar("ToolTipsShown") end;
 		info.checked = TitanPanelGetVar("ToolTipsShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Hide tooltips in combat
 		info = {};
 		info.text = TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT;
-		info.func = TitanPanelBarButton_ToggleToolTipsShownInCombat;
+		info.func = function() TitanPanelToggleVar("HideTipsInCombat") end;
 		info.checked = TitanPanelGetVar("HideTipsInCombat");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2103,21 +2113,21 @@ end
 		-- Disable Minimap Adjust
 		info = {};
 		info.text = TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH;
-		info.func = TitanPanelBarButton_ToggleMinimapAdjust;
+		info.func = function() TitanPanelToggleVar("MinimapAdjust") end;
 		info.checked = TitanPanelGetVar("MinimapAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Automatic log adjust
 		info = {};
 		info.text = TITAN_PANEL_MENU_DISABLE_LOGS;
-		info.func = TitanPanelBarButton_ToggleLogAdjust;
+		info.func = function() TitanPanelToggleVar("LogAdjust") end;
 		info.checked = TitanPanelGetVar("LogAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
 		info.text = TITAN_PANEL_MENU_CASTINGBAR.." "..GREEN_FONT_COLOR_CODE..TITAN_PANEL_MENU_RELOADUI;
-		info.func = TitanPanelBarButton_ToggleCastingBar;
+		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
 		info.checked = TitanPanelGetVar("CastingBar");
 		info.keepShownOnClick = 1;
 		   -- lock this item in combat
@@ -2132,7 +2142,7 @@ end
 		-- Show Broker plugin suffix
 		info = {};
 		info.text = TITAN_PANEL_MENU_LDB_SHOWN;
-		info.func = TitanPanelBarButton_ToggleLDBSuffix;
+		info.func = function() TitanPanelToggleVar("LDBSuffix") end;
 		info.checked = TitanPanelGetVar("LDBSuffix");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2168,14 +2178,14 @@ end
 		-- Lock buttons
 		info = {};
 		info.text = TITAN_PANEL_MENU_LOCK_BUTTONS;
-		info.func = TitanPanelBarButton_ToggleButtonLock;
+		info.func = function() TitanPanelToggleVar("LockButtons") end;
 		info.checked = TitanPanelGetVar("LockButtons");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Show plugin versions
 		info = {};
 		info.text = TITAN_PANEL_MENU_VERSION_SHOWN;
-		info.func = TitanPanelBarButton_ToggleVersionShown;
+		info.func = function() TitanPanelToggleVar("VersionShown") end;
 		info.checked = TitanPanelGetVar("VersionShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2235,14 +2245,14 @@ end
 		-- Show tooltips
 		info = {};
 		info.text = TITAN_PANEL_MENU_TOOLTIPS_SHOWN;
-		info.func = TitanPanelBarButton_ToggleToolTipsShown;
+		info.func = function() TitanPanelToggleVar("ToolTipsShown") end;
 		info.checked = TitanPanelGetVar("ToolTipsShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Hide tooltips in combat
 		info = {};
 		info.text = TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT;
-		info.func = TitanPanelBarButton_ToggleToolTipsShownInCombat;
+		info.func = function() TitanPanelToggleVar("HideTipsInCombat") end;
 		info.checked = TitanPanelGetVar("HideTipsInCombat");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2264,21 +2274,21 @@ end
 		-- Disable Minimap Adjust
 		info = {};
 		info.text = TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH;
-		info.func = TitanPanelBarButton_ToggleMinimapAdjust;
+		info.func = function() TitanPanelToggleVar("MinimapAdjust") end;
 		info.checked = TitanPanelGetVar("MinimapAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Automatic log adjust
 		info = {};
 		info.text = TITAN_PANEL_MENU_DISABLE_LOGS;
-		info.func = TitanPanelBarButton_ToggleLogAdjust;
+		info.func = function() TitanPanelToggleVar("LogAdjust") end;
 		info.checked = TitanPanelGetVar("LogAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
 		info.text = TITAN_PANEL_MENU_CASTINGBAR.." "..GREEN_FONT_COLOR_CODE..TITAN_PANEL_MENU_RELOADUI;
-		info.func = TitanPanelBarButton_ToggleCastingBar;
+		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
 		info.checked = TitanPanelGetVar("CastingBar");
 		info.keepShownOnClick = 1;
 		   -- lock this item in combat
@@ -2293,7 +2303,7 @@ end
 		-- Show Broker plugin suffix
 		info = {};
 		info.text = TITAN_PANEL_MENU_LDB_SHOWN;
-		info.func = TitanPanelBarButton_ToggleLDBSuffix;
+		info.func = function() TitanPanelToggleVar("LDBSuffix") end;
 		info.checked = TitanPanelGetVar("LDBSuffix");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
@@ -2391,7 +2401,10 @@ function TitanPanel_PlayerSettingsMenu()
 			info = {};
 			info.text = TITAN_PANEL_MENU_LOAD_SETTINGS;
 			info.value = index;
-			info.func = function() TitanVariables_UseSettings(index) end
+			info.func = function() TitanVariables_UseSettings(index)
+			TitanPanelSettings.Buttons = newButtons;
+			TitanPanelSettings.Location = newLocations;
+			end
 			UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 			
 			info = {};
@@ -2560,7 +2573,10 @@ function TitanPanel_SettingsSelectionMenu()
 		info = {};
 			info.text = TITAN_PANEL_MENU_LOAD_SETTINGS;
 			info.value = UIDROPDOWNMENU_MENU_VALUE;
-			info.func = function() TitanVariables_UseSettings(UIDROPDOWNMENU_MENU_VALUE) end
+			info.func = function() TitanVariables_UseSettings(UIDROPDOWNMENU_MENU_VALUE)
+			TitanPanelSettings.Buttons = newButtons;
+			TitanPanelSettings.Location = newLocations;
+			end
 			UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 			
 			info = {};

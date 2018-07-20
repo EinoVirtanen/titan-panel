@@ -1,7 +1,3 @@
--- Constants
---TITAN_ARTWORK_PATH = "Interface\\AddOns\\Titan\\Artwork\\";
---TITAN_THRESHOLD_EXCEPTION_COLOR = GRAY_FONT_COLOR;
-
 -- Tables
 TITAN_PANEL_NONMOVABLE_PLUGINS = {"AutoHide", "AuxAutoHide"};
 
