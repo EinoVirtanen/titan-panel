@@ -1,10 +1,10 @@
 ﻿--[[
 Name: LibTipHooker-1.1.lua
 Description: A Library for hooking tooltips.
-Revision: $Revision: 7 $
+Revision: $Revision: 11 $
 Author: Whitetooth
 Email: hotdogee [at] gmail [dot] com
-LastUpdate: $Date: 2009-08-09 17:24:10 +0000 (Sun, 09 Aug 2009) $
+LastUpdate: $Date: 2009-08-31 06:43:54 +0000 (Mon, 31 Aug 2009) $
 Website:
 Documentation:
 SVN: $URL $
@@ -32,12 +32,12 @@ For a complete item scanning solution to stat scanning you can use ItemBonusLib 
 
 
 local MAJOR = "LibTipHooker-1.1"
-local MINOR = "$Revision: 7 $"
+local MINOR = "$Revision: 11 $"
 
 local TipHooker = LibStub:NewLibrary(MAJOR, MINOR)
-if not TipHooker then return end
+if not TipHooker then return end -- this file is older version
 
-local VariablesLoaded
+if TipHooker.VariablesLoaded then return end  -- old version already hooked, unable to upgrade
 
 -----------
 -- Tools --
@@ -76,7 +76,6 @@ local TooltipList = {
 		"LinksTooltip",-- Links
 		"AtlasLootTooltip",-- AtlasLoot
 		"ItemMagicTooltip",-- ItemMagic
-		"SniffTooltip",-- Sniff
 		"MirrorTooltip",-- Mirror
 		"TooltipExchange_TooltipShow",-- TooltipExchange
 		"AtlasQuestTooltip",-- AtlasQuest
@@ -166,7 +165,7 @@ local Set = {
 		local name, link = tooltip:GetItem()
 		if not name then return end -- Check if tooltip really has an item
 		for handler in pairs(HandlerList.item) do
-			handler(tooltip, name, link)
+			handler(tooltip, name, link, ...)
 		end
 	end,
 	buff = function(tooltip, unitId, buffIndex, raidFilter)
@@ -269,7 +268,7 @@ OnEventFrame:RegisterEvent("VARIABLES_LOADED")
 
 OnEventFrame:SetScript("OnEvent", function(self, event, ...)
 	--print(event)
-	VariablesLoaded = true
+	TipHooker.VariablesLoaded = true
 	--print("VariablesLoaded = true")
 	-- Check for exsiting hooks
 	for tipType in pairs(HandlerList) do
@@ -280,6 +279,10 @@ end)
 
 TipHooker.OnEventFrame = OnEventFrame
 
+-- Loaded on demand
+if IsLoggedIn() and not TipHooker.VariablesLoaded then
+	OnEventFrame:GetScript("OnEvent")(OnEventFrame, "VARIABLES_LOADED")
+end
 
 --[[---------------------------------
 {	:Hook(handler, ...)
@@ -304,7 +307,7 @@ function TipHooker:Hook(handler, ...)
 	for i = 1, select('#', ...) do
 		local tipType = select(i, ...)
 		--print("TipHooker:Hook("..tipType..")")
-		if VariablesLoaded then
+		if self.VariablesLoaded then
 			InitializeHook(tipType)
 		end
 		if not HandlerList[tipType] then

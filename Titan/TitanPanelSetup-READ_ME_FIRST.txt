@@ -104,7 +104,7 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
    - Hide tooltips in combat.  This turns off tooltips in combat so you're not distracted while fighting.  The default setting is OFF.
 
    - Disable screen adjust.  Titan Panel adjusts the Blizzard UI automatically so Titan Panel fits without overlapping frames, such as the minimap.  This allows you to disable this automatic adjustment.  The default setting is OFF.  You may want to check this in conjunction with Auto-Hide, since that setting hides the panel except when the cursor is over it.
-     Note:  Disabling screen adjust will have *NO EFFECT* on frames such as the combat log or your casting bar. Use the options described below to explicitly adjust those frames.
+     Note:  Disabling screen adjust will have *NO EFFECT* on frames such as the combat log. Use options described below to explicitly adjust those frames.
      
    - Disable minimap adjust. Explicitly disables the adjustment of the minimap. This is useful in cases you want to enable another addon to specifically handle that frame. The default setting is OFF.
    
@@ -112,10 +112,12 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
      Note:  Since this option has created a lot of confusion, we recommend that you keep this off, manually move the chat log, and lock it.
      
    - Automatic bag adjust. Automatically adjusts your bag containers, so they don't overlap with the Main menu bar, when you are using bottom bar(s). Unchecking this option is useful in cases you want to enable (or have already enabled) another addon which specifically handles your container frames. The default setting is ON.
-
-   - Move casting bar (Reload UI).  This tells Titan to move the casting/hearth bar up when using the bottom Titan bar(s), so the casting/hearth bar doesn't overlap the action bars. The UI will reload immediately after selecting this option. The default setting is OFF.
+   
+   - Automatic ticket frame adjust (Reload UI). Automatically adjusts the GM ticket frame, so it doesn't overlap with the top bar(s). Unchecking this option is useful in cases you want to enable (or have already enabled) another addon which specifically handles positioning of the ticket frame, note however that the temporary enchant (buff) frame, will always adjust as to be below any active ticket frame.
+     The default setting is ON. As implied, this setting requires a UI reload, in order to properly sync the GM ticket position with the temporary enchant (buff) frame.
 
 A fourth way to customize Titan Panel is by changing skins.  Titan comes with a large selection of skins.  Selecting the Skins option on Titan Panel's right-click menu displays the Titan Skins frame, on which you can Set Panel Skin, Add New Skin, and Remove Skin.
+
 As of version 4.1.7 (and beyond), Titan provides a public function called: TitanPanel_AddNewSkin(name, path), in order to assist artwork authors with adding their own custom skins to the Panel's settings without having to go through the configuration menu.
 The function should be called with name of the skin and skin path as arguments.
 Restrictions :

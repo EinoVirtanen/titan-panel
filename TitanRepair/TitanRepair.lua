@@ -6,12 +6,11 @@
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
-Titan_Repair = {}
-local TPR = Titan_Repair
 local TITAN_REPAIR_ID = "Repair";
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
+local TPR = TitanRepairModule
 TPR.ITEM_STATUS = {};
 TPR.ITEM_BAG = {};
 

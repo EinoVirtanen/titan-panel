@@ -61,8 +61,9 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISPLAY_BOTH"] = "Mostrar ambas barras";
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Desactivar ajuste de pantalla";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Desactivar ajuste de minimapa";
-	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuste de log automático";
-	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuste de bolsas automático";
+	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuste automático de log";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuste automático de bolsas";
+	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Ajuste automático de la ventana de tickets";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "De serie en Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Lado izquierdo";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Lado derecho";
@@ -96,7 +97,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_CATEGORIES"] = {"General","Combate","Información","Interfaz","Profesión"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Mostrar tooltips";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Ocultar tooltips en combate";
-	L["TITAN_PANEL_MENU_CASTINGBAR"] = "Mover barra de casteo";
 	L["TITAN_PANEL_MENU_RESET"] = "Ajustes por defecto del Panel";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";
 	L["TITAN_PANEL_MENU_FONT"] = "Fuente";
@@ -268,7 +268,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Mostrar dificultad de Mazmorra/Raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Establecer dificultad de Mazmorra";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Establecer dificultad de Raid";
-	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (según grupo)";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -346,9 +346,9 @@ if not L then return end
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Tiempo en esta sesión: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Mostrar tiempo en esta sesión";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) muere, ganas (%d+) de experiencia.";
-	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Gananc. Est.: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "Ganancias de XP para subir (a %d XP ganados la útltima vez): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Mostrar ganancias de XP estimadas para subir";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Regeneración"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Ratios de regeneración"

@@ -31,8 +31,7 @@ local TitanMovableData = {
 function TitanMovableFrame_AdjustBlizzardFrames()
 	if not InCombatLockdown() then
 		Titan_FCF_UpdateDockPosition();
-		Titan_FCF_UpdateCombatLogPosition();		
-		Titan_CastingBarFrame_UpdatePosition();		
+		Titan_FCF_UpdateCombatLogPosition();
 		Titan_ContainerFrames_Relocate();
 	end
 end
@@ -62,9 +61,11 @@ function TitanMovableFrame_CheckFrames(position)
 			TitanMovableFrame_CheckTopFrame(frameTop, top, PartyMemberFrame1:GetName())
 
 		-- Move TicketStatusFrame
-		frameTop = TitanMovableFrame_GetOffset(TicketStatusFrame, "TOP");
-		top = 0 + panelYOffset;
-		TitanMovableFrame_CheckTopFrame(frameTop, top, TicketStatusFrame:GetName())
+		if TitanPanelGetVar("TicketAdjust") then
+			frameTop = TitanMovableFrame_GetOffset(TicketStatusFrame, "TOP");
+			top = 0 + panelYOffset;
+			TitanMovableFrame_CheckTopFrame(frameTop, top, TicketStatusFrame:GetName())
+		end
 
 		-- Move TemporaryEnchantFrame
 		frameTop = TitanMovableFrame_GetOffset(TemporaryEnchantFrame, "TOP");
@@ -129,7 +130,7 @@ function TitanMovableFrame_MoveFrames(position, override)
 				xOffset = TitanMovableFrame_GetOffset(frame, xArchor);
 				
 				-- properly adjust TemporaryEnchantFrame (buff frame) if GM Ticket is visible
-				if frameName == "TemporaryEnchantFrame" and TicketStatusFrame:IsVisible() then
+				if frameName == "TemporaryEnchantFrame" and TicketStatusFrame:IsVisible() and TitanPanelGetVar("TicketAdjust") then
 					yOffset = (-TicketStatusFrame:GetHeight()) + panelYOffset;
 				else
 					yOffset = y + panelYOffset;
@@ -157,8 +158,7 @@ function TitanMovableFrame_MoveFrames(position, override)
 			else
 				--Leave frame where it is as it has been moved by a user
 			end			
-			--updateContainerFrameAnchors();
-			Titan_ContainerFrames_Relocate()
+			updateContainerFrameAnchors();
 		end
 	end
 end
@@ -231,6 +231,7 @@ function TitanMovableFrame_CheckBottomFrame(frameBottom, bottom, frameName)
 end
 
 function Titan_TicketStatusFrame_OnShow()
+	if not TitanPanelGetVar("TicketAdjust") then return end
 	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP, TitanPanelGetVar("BothBars"));
 	if not InCombatLockdown() or (InCombatLockdown() and not TemporaryEnchantFrame:IsProtected()) then
 		if not TitanPanelGetVar("ScreenAdjust") then
@@ -286,7 +287,7 @@ function Titan_FCF_UpdateCombatLogPosition()
 		local point1, _, relativePoint1, xOfs1, _ = ChatFrame1:GetPoint()
 		local point2, relativeTo, relativePoint2, xOfs2, yOfs2 = ChatFrame2:GetPoint()		  
 		  
-			local xOffset = 0;
+			--local xOffset = 0;
 		  local yOffset = 85 + panelYOffset;
 			local yOffset2 = 85 + panelYOffset;
 			if MultiBarBottomLeft:IsShown() then
@@ -311,10 +312,12 @@ function Titan_FCF_UpdateCombatLogPosition()
 			end
 		 -- account for Reputation Status Bar (doh)
 		  local playerlevel = UnitLevel("player");
-			if ReputationWatchStatusBar:IsVisible() and playerlevel < MAX_PLAYER_LEVEL then
+			if ReputationWatchStatusBar:IsVisible() and playerlevel < _G["MAX_PLAYER_LEVEL"] then
 		  	yOffset = yOffset + 8;
 				yOffset2 = yOffset2 + 8;
 		  end
+		  -- account for MultiCastActionBarFrame (Shaman Bar)
+		  if HasMultiCastActionBar() then yOffset2 = yOffset2 + 38 end
 	
 			--[[if ( MultiBarLeft:IsVisible() ) then
 				xOffset = xOffset - 88;
@@ -324,35 +327,12 @@ function Titan_FCF_UpdateCombatLogPosition()
 			--ChatFrame1:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, yOffset2);
 			--ChatFrame2:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", xOffset, yOffset);
 			if point1 == "BOTTOMLEFT" and relativePoint1 == "BOTTOMLEFT" then
-			ChatFrame1:SetPoint(point1, "UIParent", relativePoint1, xOfs1, yOffset2);
+				ChatFrame1:SetPoint(point1, "UIParent", relativePoint1, xOfs1, yOffset2);
 			end
 			if relativeTo == nil and point2 == "BOTTOMRIGHT" and relativePoint2 == "BOTTOMRIGHT" then
-			ChatFrame2:SetPoint(point2, "UIParent", relativePoint2, xOfs2, yOffset);
+				ChatFrame2:SetPoint(point2, "UIParent", relativePoint2, xOfs2, yOffset);
 			end
 	end
-end
-
-function Titan_CastingBarFrame_UpdatePosition()
- if TitanPanelGetVar("CastingBar") then
-	if not InCombatLockdown() then
-		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
-		
-		local castingBarPosition = 60 + panelYOffset;
-		if PetActionBarFrame:IsVisible() or ShapeshiftBarFrame:IsVisible() then
-			castingBarPosition = castingBarPosition + 40;
-		end
-		if MultiBarBottomLeft:IsShown() or MultiBarBottomRight:IsShown() then
-			castingBarPosition = castingBarPosition + 40;
-		end
-		-- account for Reputation Status Bar (doh)
-		local playerlevel = UnitLevel("player");
-		if ReputationWatchStatusBar:IsVisible() and playerlevel < MAX_PLAYER_LEVEL then
-		  castingBarPosition = castingBarPosition + 10;
-		end
-		CastingBarFrame:ClearAllPoints();
-		CastingBarFrame:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, castingBarPosition);
-	end
- end
 end
 
 
@@ -363,11 +343,11 @@ function Titan_ContainerFrames_Relocate()
 		local TITAN_CONTAINER_OFFSET_X = _G["CONTAINER_OFFSET_X"]
 		-- Get the Blizzard offsets from the relevant table
 		local BlizzContainerYoffs, BlizzContainerYoffsABoffs = 0, 0
-		if UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset then
-			BlizzContainerYoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset
+		if _G["UIPARENT_MANAGED_FRAME_POSITIONS"]["CONTAINER_OFFSET_Y"].yOffset then
+			BlizzContainerYoffs = _G["UIPARENT_MANAGED_FRAME_POSITIONS"]["CONTAINER_OFFSET_Y"].yOffset
 		end
-		if UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither then
-			BlizzContainerYoffsABoffs = UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].bottomEither
+		if _G["UIPARENT_MANAGED_FRAME_POSITIONS"]["CONTAINER_OFFSET_Y"].bottomEither then
+			BlizzContainerYoffsABoffs = _G["UIPARENT_MANAGED_FRAME_POSITIONS"]["CONTAINER_OFFSET_Y"].bottomEither
 		end
 		-- experimental fixes
 		-- Update bag anchor
@@ -458,16 +438,14 @@ function Titan_ContainerFrames_Relocate()
 end
 
 function Titan_ManageFramesNew()
--- Move frames		   
- 	Titan_CastingBarFrame_UpdatePosition();
+-- Move frames
  	Titan_FCF_UpdateCombatLogPosition(); 	
  
 		   if (TitanPanelGetVar("BothBars") and not TitanPanelGetVar("AuxScreenAdjust")) or (TitanPanelGetVar("Position") == 2 and not TitanPanelGetVar("ScreenAdjust")) then
-		   TitanMovableFrame_CheckFrames(TITAN_PANEL_PLACE_BOTTOM);
-			 TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
-			 Titan_ContainerFrames_Relocate();
-			 Titan_CastingBarFrame_UpdatePosition();			 
-			 end	
+		   	TitanMovableFrame_CheckFrames(TITAN_PANEL_PLACE_BOTTOM);
+			 	TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
+			 	Titan_ContainerFrames_Relocate();
+			 end
 end
 
 local function Titan_ManageTopFramesVehicle()

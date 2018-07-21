@@ -7,7 +7,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 
 function TitanDebug(debug_message)
 	-- Default green color
-	DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00" .. L["TITAN_DEBUG"] .. " " .. debug_message);
+	_G["DEFAULT_CHAT_FRAME"]:AddMessage("|cff00ff00" .. L["TITAN_DEBUG"] .. " " .. debug_message);
 end
 
 function TitanUtils_GetNextButtonOnBar(bar, id, side)
@@ -487,25 +487,25 @@ end
 
 function TitanUtils_GetRedText(text)
 	if (text) then
-		return RED_FONT_COLOR_CODE..text..FONT_COLOR_CODE_CLOSE;
+		return _G["RED_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
 function TitanUtils_GetGreenText(text)
 	if (text) then
-		return GREEN_FONT_COLOR_CODE..text..FONT_COLOR_CODE_CLOSE;
+		return _G["GREEN_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
 function TitanUtils_GetNormalText(text)
 	if (text) then
-		return NORMAL_FONT_COLOR_CODE..text..FONT_COLOR_CODE_CLOSE;
+		return _G["NORMAL_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
 function TitanUtils_GetHighlightText(text)
 	if (text) then
-		return HIGHLIGHT_FONT_COLOR_CODE..text..FONT_COLOR_CODE_CLOSE;
+		return _G["HIGHLIGHT_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
@@ -515,7 +515,7 @@ function TitanUtils_GetColoredText(text, color)
 		local greenColorCode = format("%02x", color.g * 255);
 		local blueColorCode = format("%02x", color.b * 255);		
 		local colorCode = "|cff"..redColorCode..greenColorCode..blueColorCode;
-		return colorCode..text..FONT_COLOR_CODE_CLOSE;
+		return colorCode..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
@@ -523,7 +523,7 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	if ( not tonumber(value) or type(ThresholdTable) ~= "table" or
 			ThresholdTable.Values == nil or ThresholdTable.Colors == nil or
 			table.getn(ThresholdTable.Values) >= table.getn(ThresholdTable.Colors) ) then
-		return GRAY_FONT_COLOR;
+		return _G["GRAY_FONT_COLOR"];
 	end
 
 	local n = table.getn(ThresholdTable.Values) + 1;
@@ -550,7 +550,7 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	end
 	
 	-- Should never reach here
-	return GRAY_FONT_COLOR;
+	return _G["GRAY_FONT_COLOR"];
 end
 
 function TitanUtils_ToString(text) 

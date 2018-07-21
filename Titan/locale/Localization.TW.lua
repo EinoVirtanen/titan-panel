@@ -62,6 +62,7 @@ if not L then return end
   L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "關閉小地圖調整";
   L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "自動調整紀錄";
   L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
+  L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
   L["TITAN_PANEL_MENU_BUILTINS"] = "內建插件";
   L["TITAN_PANEL_MENU_LEFT_SIDE"] = "左邊區域";
   L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "右邊區域";
@@ -95,7 +96,6 @@ if not L then return end
   L["TITAN_PANEL_MENU_CATEGORIES"] = {"一般","戰鬥","資訊","介面","專業"}
   L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "顯示提示";
   L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "戰鬥中隱藏提示訊息";
-  L["TITAN_PANEL_MENU_CASTINGBAR"] = "移動施法條";
   L["TITAN_PANEL_MENU_RESET"] = "重置面板為預設值";
   L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "面板設定";
   L["TITAN_PANEL_MENU_FONT"] = "字型";

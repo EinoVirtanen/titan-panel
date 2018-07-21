@@ -431,7 +431,7 @@ local red, yellow, blue, prism = 0, 0, 0, 0
 	return tempGemRed, tempGemYellow, tempGemBlue, tempGemPrismatic
 end 
 
-function BonusScanner.ProcessTooltip(tooltip, name, link)
+function BonusScanner.ProcessTooltip(tooltip, name, link, ...)
 BonusScannerTooltip:SetOwner(_G["BonusScanner"],"ANCHOR_NONE")
 
 if BonusScannerConfig.tooltip == 1 then

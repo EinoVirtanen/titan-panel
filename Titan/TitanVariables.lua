@@ -25,7 +25,8 @@ local TITAN_PANEL_SAVED_VARIABLES = {
 	ScreenAdjust = false,
 	LogAdjust = false,
 	MinimapAdjust = false,
-	BagAdjust = true,
+	BagAdjust = 1,
+	TicketAdjust = 1,
 	AutoHide = false,
 	Position = 1,
 	DoubleBar = 1,
@@ -38,8 +39,7 @@ local TITAN_PANEL_SAVED_VARIABLES = {
 	LockButtons = false,
 	VersionShown = 1,
 	ToolTipsShown = 1,
-	HideTipsInCombat = false,
-	CastingBar = false
+	HideTipsInCombat = false
 };
 -- Set Titan Version var for backwards compatibility
 TITAN_VERSION = GetAddOnMetadata("Titan", "Version") or L["TITAN_NA"]

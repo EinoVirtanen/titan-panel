@@ -63,6 +63,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Отключить подстройку мини-карты";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Авто подстройка записи";
 	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Авто подстройка сумок";
+	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Сборки титана";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Левая сторона";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Правая сторона";
@@ -96,7 +97,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_CATEGORIES"] = {"Общее","Бой","Информация","Интерфейс","Профессия"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Показывать подсказки";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Скрыть подсказки в бою";
-	L["TITAN_PANEL_MENU_CASTINGBAR"] = "Двигать полосу применения заклинания";
 	L["TITAN_PANEL_MENU_RESET"] = "Сброс панели на стандарт";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Настройки шкурки";	
 	L["TITAN_PANEL_MENU_FONT"] = "Шрифт";

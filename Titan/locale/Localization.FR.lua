@@ -63,6 +63,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Ne pas ajuster la minicarte";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuster automatiquement la fen\195\168tre de discussion";
 	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuster automatiquement les sacs";
+	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Modules Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "C\195\180t\195\169 gauche";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "C\195\180t\195\169 droit";
@@ -96,7 +97,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_CATEGORIES"] = {"G\195\169n\195\169ralit\195\169s","Combat","Informations","Interface","M\195\169tiers"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Afficher les conseils";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Cacher les tooltips en combat";
-	L["TITAN_PANEL_MENU_CASTINGBAR"] = "D\195\169placer la barre de sorts";
 	L["TITAN_PANEL_MENU_RESET"] = "R\195\169initialiser Titan Panel";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Param\195\168tres du skin";
 	L["TITAN_PANEL_MENU_FONT"] = "Police";

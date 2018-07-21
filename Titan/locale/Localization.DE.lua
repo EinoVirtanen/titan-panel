@@ -63,6 +63,7 @@ if not L then return end
      L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Minimapjustierung deaktivieren"; -- Sensity
      L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Log automatisch justieren";
      L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
+     L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
      L["TITAN_PANEL_MENU_BUILTINS"] = "Titan Standardplugins";
      L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Linke Seite";
      L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Rechte Seite";
@@ -96,7 +97,6 @@ if not L then return end
      L["TITAN_PANEL_MENU_CATEGORIES"] = {"Allgemein","Kampf","Informationen","Interface","Beruf"}
      L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Zeige Tooltips";
      L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Verberge Tooltips im Kampf"; -- Sensity
-     L["TITAN_PANEL_MENU_CASTINGBAR"] = "Verschiebe Zauberleiste";
      L["TITAN_PANEL_MENU_RESET"] = "Einstellungen zur\195\188cksetzen";
      L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Oberflaecheneinstellungen"; --SENSITY
      L["TITAN_PANEL_MENU_FONT"] = "Font";

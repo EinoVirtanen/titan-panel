@@ -39,7 +39,7 @@ local media = LibStub("LibSharedMedia-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
 local Dewdrop = nil
-if AceLibrary:HasInstance("Dewdrop-2.0") then Dewdrop = AceLibrary("Dewdrop-2.0") end
+if AceLibrary and AceLibrary:HasInstance("Dewdrop-2.0") then Dewdrop = AceLibrary("Dewdrop-2.0") end
 
 
 -- Titan local helper funcs
@@ -147,125 +147,6 @@ TitanPanelAuxBarButton:SetFrameStrata(value)
 		local button = TitanUtils_GetButton(id);
 		button:SetFrameStrata(StrataTypes[indexpos + 1])
 	end
-end
-
-function TitanPanel_ClearAllBarTextures()
--- Clear textures if they already exist
-	for i = 0, numOfTexturesHider do
-		if _G["TitanPanelBackground"..i] then
-			_G["TitanPanelBackground"..i]:SetTexture()
-		end
-		if _G["TitanPanelBackgroundAux"..i] then
-			_G["TitanPanelBackgroundAux"..i]:SetTexture()
-		end
-	end
-end
-
-function TitanPanel_CreateBarTextures()
-	local i, titanTexture		
-	local screenWidth = (TitanPanelBarButton:GetWidth() or GetScreenWidth()) + 1
-	numOfTextures = floor(screenWidth / 256)
-	numOfTexturesHider = (numOfTextures * 2) + 1
-	local lastTextureWidth = screenWidth - (numOfTextures * 256)
-	
-	-- Handle TitanPanelBarButton Textures
-		for i = 0, numOfTextures do
-			-- Create textures if they don't exist
-			if not _G["TitanPanelBackground"..i] then
-				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..i, "BACKGROUND")
-			else
-				titanTexture = _G["TitanPanelBackground"..i]
-			end
-			titanTexture:SetHeight(32)
-			if i == numOfTextures then
-				titanTexture:SetWidth(lastTextureWidth)
-			else
-			  titanTexture:SetWidth(256)
-			end
-			titanTexture:ClearAllPoints()
-			if i == 0 then
-				titanTexture:SetPoint("TOPLEFT", "TitanPanelBarButton", "TOPLEFT", -1, 1)
-			else
-				titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground"..i-1, "TOPRIGHT")
-			end
-		end
-		
-		-- Create 1st texture of 2nd bar if it doesn't exist
-		if not _G["TitanPanelBackground"..numOfTextures + 1] then
-			titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..numOfTextures + 1, "BACKGROUND")
-		else
-			titanTexture = _G["TitanPanelBackground"..numOfTextures + 1]
-		end
-		titanTexture:SetHeight(30)
-		titanTexture:SetWidth(256)
-		--titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground0", "TOPRIGHT", 0, -25)
-	
-	-- Handle TitanPanelBarButtonHider Textures
-		for i = numOfTextures + 2, numOfTexturesHider do
-			if not _G["TitanPanelBackground"..i] then
-				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..i, "BACKGROUND")
-			else
-				titanTexture = _G["TitanPanelBackground"..i]
-			end
-			titanTexture:SetHeight(30)
-			if i == numOfTexturesHider then
-				titanTexture:SetWidth(lastTextureWidth)
-			else
-				titanTexture:SetWidth(256)
-			end
-			titanTexture:ClearAllPoints()
-			titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground"..i-1, "TOPRIGHT")
-		end
-	
-	-- Handle TitanPanelAuxBarButton Textures
-		for i = 0, numOfTextures do
-			-- Create textures if they don't exist
-			if not _G["TitanPanelBackgroundAux"..i] then
-				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")				
-			else
-				titanTexture = _G["TitanPanelBackgroundAux"..i]
-			end
-			titanTexture:SetHeight(32)
-			if i == numOfTextures then
-				titanTexture:SetWidth(lastTextureWidth)
-			else
-			  titanTexture:SetWidth(256)
-			end
-			titanTexture:ClearAllPoints()
-			if i == 0 then
-				titanTexture:SetPoint("TOPLEFT", "TitanPanelAuxBarButton", "TOPLEFT", -1, 1)
-			else
-				titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux"..i-1, "TOPRIGHT")
-			end
-		end
-		
-		-- Create 1st texture of 2nd bar if it doesn't exist
-		if not _G["TitanPanelBackgroundAux"..numOfTextures + 1] then
-			titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..numOfTextures + 1, "BACKGROUND")
-		else
-			titanTexture = _G["TitanPanelBackgroundAux"..numOfTextures + 1]
-		end
-		titanTexture:SetHeight(30)
-		titanTexture:SetWidth(256)
-		titanTexture:ClearAllPoints()
-		titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux0", "TOPLEFT", 0, 23)
-		
-		-- Handle TitanPanelAuxBarButtonHider Textures
-		for i = numOfTextures + 2, numOfTexturesHider do
-			if not _G["TitanPanelBackgroundAux"..i] then
-				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")
-			else
-				titanTexture = _G["TitanPanelBackgroundAux"..i]
-			end
-			titanTexture:SetHeight(30)
-			if i == numOfTexturesHider then
-				titanTexture:SetWidth(lastTextureWidth)
-			else
-				titanTexture:SetWidth(256)
-			end
-			titanTexture:ClearAllPoints()
-			titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux"..i-1, "TOPRIGHT")
-		end
 end
 
 
@@ -950,6 +831,124 @@ function TitanPanel_AddNewSkin(skinname, skinpath)
 	if not found then table.insert(TitanSkins, {name = skinname, path = skinpath }) end
 end
 
+function TitanPanel_ClearAllBarTextures()
+-- Clear textures if they already exist
+	for i = 0, numOfTexturesHider do
+		if _G["TitanPanelBackground"..i] then
+			_G["TitanPanelBackground"..i]:SetTexture()
+		end
+		if _G["TitanPanelBackgroundAux"..i] then
+			_G["TitanPanelBackgroundAux"..i]:SetTexture()
+		end
+	end
+end
+
+function TitanPanel_CreateBarTextures()
+	local i, titanTexture		
+	local screenWidth = (TitanPanelBarButton:GetWidth() or GetScreenWidth()) + 1
+	numOfTextures = floor(screenWidth / 256)
+	numOfTexturesHider = (numOfTextures * 2) + 1
+	local lastTextureWidth = screenWidth - (numOfTextures * 256)
+	
+	-- Handle TitanPanelBarButton Textures
+		for i = 0, numOfTextures do
+			-- Create textures if they don't exist
+			if not _G["TitanPanelBackground"..i] then
+				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..i, "BACKGROUND")
+			else
+				titanTexture = _G["TitanPanelBackground"..i]
+			end
+			titanTexture:SetHeight(32)
+			if i == numOfTextures then
+				titanTexture:SetWidth(lastTextureWidth)
+			else
+			  titanTexture:SetWidth(256)
+			end
+			titanTexture:ClearAllPoints()
+			if i == 0 then
+				titanTexture:SetPoint("TOPLEFT", "TitanPanelBarButton", "TOPLEFT", -1, 1)
+			else
+				titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground"..i-1, "TOPRIGHT")
+			end
+		end
+		
+		-- Create 1st texture of 2nd bar if it doesn't exist
+		if not _G["TitanPanelBackground"..numOfTextures + 1] then
+			titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..numOfTextures + 1, "BACKGROUND")
+		else
+			titanTexture = _G["TitanPanelBackground"..numOfTextures + 1]
+		end
+		titanTexture:SetHeight(30)
+		titanTexture:SetWidth(256)
+		--titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground0", "TOPRIGHT", 0, -25)
+	
+	-- Handle TitanPanelBarButtonHider Textures
+		for i = numOfTextures + 2, numOfTexturesHider do
+			if not _G["TitanPanelBackground"..i] then
+				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackground"..i, "BACKGROUND")
+			else
+				titanTexture = _G["TitanPanelBackground"..i]
+			end
+			titanTexture:SetHeight(30)
+			if i == numOfTexturesHider then
+				titanTexture:SetWidth(lastTextureWidth)
+			else
+				titanTexture:SetWidth(256)
+			end
+			titanTexture:ClearAllPoints()
+			titanTexture:SetPoint("TOPLEFT", "TitanPanelBackground"..i-1, "TOPRIGHT")
+		end
+	
+	-- Handle TitanPanelAuxBarButton Textures
+		for i = 0, numOfTextures do
+			-- Create textures if they don't exist
+			if not _G["TitanPanelBackgroundAux"..i] then
+				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")				
+			else
+				titanTexture = _G["TitanPanelBackgroundAux"..i]
+			end
+			titanTexture:SetHeight(32)
+			if i == numOfTextures then
+				titanTexture:SetWidth(lastTextureWidth)
+			else
+			  titanTexture:SetWidth(256)
+			end
+			titanTexture:ClearAllPoints()
+			if i == 0 then
+				titanTexture:SetPoint("TOPLEFT", "TitanPanelAuxBarButton", "TOPLEFT", -1, 1)
+			else
+				titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux"..i-1, "TOPRIGHT")
+			end
+		end
+		
+		-- Create 1st texture of 2nd bar if it doesn't exist
+		if not _G["TitanPanelBackgroundAux"..numOfTextures + 1] then
+			titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..numOfTextures + 1, "BACKGROUND")
+		else
+			titanTexture = _G["TitanPanelBackgroundAux"..numOfTextures + 1]
+		end
+		titanTexture:SetHeight(30)
+		titanTexture:SetWidth(256)
+		titanTexture:ClearAllPoints()
+		titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux0", "TOPLEFT", 0, 23)
+		
+		-- Handle TitanPanelAuxBarButtonHider Textures
+		for i = numOfTextures + 2, numOfTexturesHider do
+			if not _G["TitanPanelBackgroundAux"..i] then
+				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")
+			else
+				titanTexture = _G["TitanPanelBackgroundAux"..i]
+			end
+			titanTexture:SetHeight(30)
+			if i == numOfTexturesHider then
+				titanTexture:SetWidth(lastTextureWidth)
+			else
+				titanTexture:SetWidth(256)
+			end
+			titanTexture:ClearAllPoints()
+			titanTexture:SetPoint("TOPLEFT", "TitanPanelBackgroundAux"..i-1, "TOPRIGHT")
+		end
+end
 
 function TitanPanelFrame_ScreenAdjust()
 	if not InCombatLockdown() then
@@ -2318,13 +2317,13 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("BagAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
-		-- Move Casting Bar
+		-- Automatic ticket frame adjust
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
-		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
-		info.checked = TitanPanelGetVar("CastingBar");
+		info.text = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.func = function() TitanPanelToggleVar("TicketAdjust") ReloadUI() end;
+		info.checked = TitanPanelGetVar("TicketAdjust");
 		info.keepShownOnClick = 1;
-		   -- lock this item in combat
+			-- lock this item in combat
 				if InCombatLockdown() then
 				info.disabled = 1;
 				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
@@ -2476,18 +2475,18 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("BagAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
-		-- Move Casting Bar
+		-- Automatic ticket frame adjust
 		info = {};
-		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
-		info.func = function() TitanPanelToggleVar("CastingBar") ReloadUI() end;
-		info.checked = TitanPanelGetVar("CastingBar");
+		info.text = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
+		info.func = function() TitanPanelToggleVar("TicketAdjust") ReloadUI() end;
+		info.checked = TitanPanelGetVar("TicketAdjust");
 		info.keepShownOnClick = 1;
-		   -- lock this item in combat
-			 if InCombatLockdown() then
-			 info.disabled = 1;
-			 info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
-			 end
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);		
+			-- lock this item in combat
+				if InCombatLockdown() then
+				info.disabled = 1;
+				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
+				end
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	end
 end
 

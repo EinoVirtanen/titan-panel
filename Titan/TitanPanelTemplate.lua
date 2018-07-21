@@ -48,30 +48,26 @@ end
 
 
 function TitanPanelPluginHandle_OnUpdate(table, oldarg)
-local id, updateType = nil;
+local id, updateType = nil
 -- set the id and updateType
 -- old method
-if type(table) == "string" and oldarg then
-	id = table;
-	updateType = oldarg;
+if table and type(table) == "string" and oldarg then
+	id = table
+	updateType = oldarg
 end
 -- new method
 if table and type(table) == "table" and table[1] then id = table[1] end
 if table and type(table) == "table" and table[2] then updateType = table[2] end
 
 -- id is required
-	if (id) then
-  	local Titanpluginframe = _G["TitanPanel"..id.."Button"];
-
-			if (updateType == TITAN_PANEL_UPDATE_BUTTON) or (updateType == TITAN_PANEL_UPDATE_ALL) then
- 				TitanPanelButton_UpdateButton(id);
+	if id then
+			if updateType == TITAN_PANEL_UPDATE_BUTTON or updateType == TITAN_PANEL_UPDATE_ALL then
+ 				TitanPanelButton_UpdateButton(id)
 			end
 
-			if ((updateType == TITAN_PANEL_UPDATE_TOOLTIP) or (updateType == TITAN_PANEL_UPDATE_ALL)) and MouseIsOver(Titanpluginframe) then
-			    if (TitanPanelRightClickMenu_IsVisible()) or TITAN_PANEL_MOVING == 1 then
-					return
-					end
-   			TitanPanelButton_SetTooltip(Titanpluginframe, id);
+			if (updateType == TITAN_PANEL_UPDATE_TOOLTIP or updateType == TITAN_PANEL_UPDATE_ALL) and MouseIsOver(_G["TitanPanel"..id.."Button"]) then			
+				if TitanPanelRightClickMenu_IsVisible() or TITAN_PANEL_MOVING == 1 then return end
+   			TitanPanelButton_SetTooltip(_G["TitanPanel"..id.."Button"], id)   			
 			end
 	end
 end
@@ -281,7 +277,7 @@ function TitanPanelButton_SetButtonText(id)
 		local buttonText = _G[button:GetName().."Text"];
 		local buttonTextFunction = _G[TitanUtils_GetPlugin(id).buttonTextFunction];
 		if (buttonTextFunction) then
-			local label1, value1, label2, value2, label3, value3, label4, value4 = buttonTextFunction(id);	
+			local label1, value1, label2, value2, label3, value3, label4, value4 = buttonTextFunction(id);
 			local text = "";
 			if ( label1 and not ( label2 or label3 or label4 or value1 or value2 or value3 or value4 ) ) then
 				text = label1;
@@ -312,7 +308,7 @@ function TitanPanelButton_SetButtonText(id)
 					end
 				end
 			end
-			buttonText:SetText(text);			
+			buttonText:SetText(text);
 		end	
 	end
 end
@@ -501,8 +497,8 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 			if (TitanPanelRightClickMenu_IsVisible()) then
 				TitanPanelRightClickMenu_Close();
 			end
-		if AceLibrary:HasInstance("Dewdrop-2.0") then AceLibrary("Dewdrop-2.0"):Close() end
-		if AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end
+		if AceLibrary and AceLibrary:HasInstance("Dewdrop-2.0") then AceLibrary("Dewdrop-2.0"):Close() end
+		if AceLibrary and AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end
 		GameTooltip:Hide();
 		-- LibQTip-1.0 support code
 		LibQTip = LibStub("LibQTip-1.0", true)

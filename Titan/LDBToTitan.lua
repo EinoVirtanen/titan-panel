@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.9 Beta August 19th, 2009                --
+--   Latest version: 3.0 Beta September 6th, 2009              --
 -----------------------------------------------------------------
 
 -- Ace2 table mapping to Titan categories in order to match addon metadata information
@@ -57,8 +57,7 @@ local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
-local Tablet = nil
-local LibQTip = nil
+local Tablet, LibQTip = nil, nil
 local media = LibStub("LibSharedMedia-3.0")
 local LDBAttrs = {};
 
@@ -66,7 +65,7 @@ LDBToTitan:RegisterEvent("PLAYER_LOGIN")
 
 -- Couple of functions to properly anchor tooltips for Titan (LDB) objects with a generic frame and function as args
 
-function TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
+function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
 
  if frame:GetName() == "GameTooltip" then
  	frame:SetOwner(parent, "ANCHOR_NONE");
@@ -104,34 +103,34 @@ function LDBToTitan:TitanLDBSetTooltip(name, frame, func)
 
 	if (TitanPanelSettings.Location[i] == "Bar") then 
 		if position == TITAN_PANEL_PLACE_TOP then
-			TitanLDBSetOwnerPosition(button, "TOPLEFT", button:GetName(), "BOTTOMLEFT", -10, -4 * scale, frame);
+			self:TitanLDBSetOwnerPosition(button, "TOPLEFT", button:GetName(), "BOTTOMLEFT", -10, -4 * scale, frame);
 			
 			-- Adjust frame position if it's off the screen
 			offscreenX, offscreenY = TitanUtils_GetOffscreen(frame);
 			if ( offscreenX == -1 ) then
-				TitanLDBSetOwnerPosition(button, "TOPLEFT", "TitanPanelBarButton", "BOTTOMLEFT", 0, 0, frame);
+				self:TitanLDBSetOwnerPosition(button, "TOPLEFT", "TitanPanelBarButton", "BOTTOMLEFT", 0, 0, frame);
 			elseif ( offscreenX == 1 ) then
-				TitanLDBSetOwnerPosition(button, "TOPRIGHT", "TitanPanelBarButton", "BOTTOMRIGHT", 0, 0, frame);
+				self:TitanLDBSetOwnerPosition(button, "TOPRIGHT", "TitanPanelBarButton", "BOTTOMRIGHT", 0, 0, frame);
 			end
 				
 		else
-			TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", button:GetName(), "TOPLEFT", -10, 4 * scale, frame);	
+			self:TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", button:GetName(), "TOPLEFT", -10, 4 * scale, frame);	
 			-- Adjust frame position if it's off the screen
 			offscreenX, offscreenY = TitanUtils_GetOffscreen(frame);
 			if ( offscreenX == -1 ) then
-				TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", "TitanPanel" .. TitanPanelSettings.Location[i] .."Button", "TOPLEFT", 0, 0, frame);
+				self:TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", "TitanPanel" .. TitanPanelSettings.Location[i] .."Button", "TOPLEFT", 0, 0, frame);
 			elseif ( offscreenX == 1 ) then
-				TitanLDBSetOwnerPosition(button, "BOTTOMRIGHT", "TitanPanel" .. TitanPanelSettings.Location[i] .."Button", "TOPRIGHT", 0, 0, frame);
+				self:TitanLDBSetOwnerPosition(button, "BOTTOMRIGHT", "TitanPanel" .. TitanPanelSettings.Location[i] .."Button", "TOPRIGHT", 0, 0, frame);
 			end
 		end
 	else
-		TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", button:GetName(), "TOPLEFT", -10, 4 * scale, frame);
+		self:TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", button:GetName(), "TOPLEFT", -10, 4 * scale, frame);
 		-- Adjust frame position if it's off the screen
 		offscreenX, offscreenY = TitanUtils_GetOffscreen(frame);
 		if ( offscreenX == -1 ) then
-			TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", "TitanPanelAuxBarButton", "TOPLEFT", 0, 0, frame);
+			self:TitanLDBSetOwnerPosition(button, "BOTTOMLEFT", "TitanPanelAuxBarButton", "TOPLEFT", 0, 0, frame);
 		elseif ( offscreenX == 1 ) then
-			TitanLDBSetOwnerPosition(button, "BOTTOMRIGHT", "TitanPanelAuxBarButton", "TOPRIGHT", 0, 0, frame);
+			self:TitanLDBSetOwnerPosition(button, "BOTTOMRIGHT", "TitanPanelAuxBarButton", "TOPRIGHT", 0, 0, frame);
 		end
 	end
 	
@@ -224,7 +223,7 @@ local TitanPluginframe = _G["TitanPanel".."LDBT_"..name.."Button"];
 	
 	TitanPluginframe:SetScript("OnEnter", function(self)
 	-- Check for tooltip libs without embedding them 
-	if AceLibrary:HasInstance("Tablet-2.0") then Tablet = AceLibrary("Tablet-2.0") end
+	if AceLibrary and AceLibrary:HasInstance("Tablet-2.0") then Tablet = AceLibrary("Tablet-2.0") end
 	LibQTip = LibStub("LibQTip-1.0", true)
 	-- Check to see if we allow tooltips to be shown
 		if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then
@@ -379,8 +378,8 @@ end
 
 function LDBToTitan:TitanLDBIconUpdate(_, name,  attr, value, dataobj)
  if attr == "icon" then
- TitanPlugins["LDBT_"..name].icon = value;
- TitanPanelButton_SetButtonIcon("LDBT_"..name);
+ 	TitanPlugins["LDBT_"..name].icon = value;
+ 	TitanPanelButton_SetButtonIcon("LDBT_"..name);
  end
  
  -- support for iconCoords, iconR, iconG, iconB attributes
@@ -423,7 +422,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
     -- Handle the attributes of the DO and register the appropriate callbacks (where applicable)
     
        if obj.type then
-       LDBAttrs[name].type = obj.type;
+       	LDBAttrs[name].type = obj.type;
        end
     
        idTitan = "LDBT_"..name;
@@ -462,9 +461,9 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
          
        
        if obj.icon then
-       iconTitan = obj.icon;
+       	iconTitan = obj.icon;
        else
-       iconTitan = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon"; -- generic icon in case the DO does not provide one
+       	iconTitan = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon"; -- generic icon in case the DO does not provide one
        end
        ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_icon", "TitanLDBIconUpdate")
        
@@ -472,41 +471,41 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
        -- Due to the callbacks being fired these can easily affect performance, BEWARE when using them !
        
        if obj.iconCoords then
-       self:TitanLDBIconUpdate(nil, name, "iconCoords", obj.iconCoords, obj)
-       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconCoords", "TitanLDBIconUpdate")
+       	self:TitanLDBIconUpdate(nil, name, "iconCoords", obj.iconCoords, obj)
+       	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconCoords", "TitanLDBIconUpdate")
        end
        
        if obj.iconR and obj.iconG and obj.iconB then
-       self:TitanLDBIconUpdate(nil, name, "iconR", obj.iconR, obj)
-       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconR", "TitanLDBIconUpdate")
-       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconG", "TitanLDBIconUpdate")
-       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconB", "TitanLDBIconUpdate")
+       	self:TitanLDBIconUpdate(nil, name, "iconR", obj.iconR, obj)
+       	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconR", "TitanLDBIconUpdate")
+       	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconG", "TitanLDBIconUpdate")
+       	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_iconB", "TitanLDBIconUpdate")
        end
                             
        -- tooltip > OnEnter > OnTooltipShow > 
        if obj.tooltip then       
-       self:TitanLDBHandleScripts("tooltip", name, nil, obj.tooltip, obj)
+       	self:TitanLDBHandleScripts("tooltip", name, nil, obj.tooltip, obj)
        --ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_tooltip", "TitanLDBHandleScripts")
        elseif obj.OnEnter then       
-			 self:TitanLDBHandleScripts("OnEnter", name, nil, obj.OnEnter, obj)
+			 	self:TitanLDBHandleScripts("OnEnter", name, nil, obj.OnEnter, obj)
 			 elseif obj.OnTooltipShow then
-			 self:TitanLDBHandleScripts("OnTooltipShow", name, nil, obj.OnTooltipShow, obj)
+			 	self:TitanLDBHandleScripts("OnTooltipShow", name, nil, obj.OnTooltipShow, obj)
 			 else
-			 self:TitanLDBHandleScripts("OnEnter", name, nil, nil, obj)
-			 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnEnter", "TitanLDBHandleScripts")
-			 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnTooltipShow", "TitanLDBHandleScripts")
+			 	self:TitanLDBHandleScripts("OnEnter", name, nil, nil, obj)
+			 	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnEnter", "TitanLDBHandleScripts")
+			 	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnTooltipShow", "TitanLDBHandleScripts")
 			 end
 			 
 			 if obj.OnClick then
-			 self:TitanLDBHandleScripts("OnClick", name, nil, obj.OnClick)
+			 	self:TitanLDBHandleScripts("OnClick", name, nil, obj.OnClick)
 			 else
-			 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnClick", "TitanLDBHandleScripts")
+			 	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnClick", "TitanLDBHandleScripts")
 			 end
 			 			 
 			 if obj.OnDoubleClick then
-			 self:TitanLDBHandleScripts("OnDoubleClick", name, nil, obj.OnDoubleClick)
+			 	self:TitanLDBHandleScripts("OnDoubleClick", name, nil, obj.OnDoubleClick)
 			 else
-			 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnDoubleClick", "TitanLDBHandleScripts")
+			 	ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_OnDoubleClick", "TitanLDBHandleScripts")
 			 end
        
        -- Set the plugin category, if it exists else default to "General"
@@ -596,7 +595,6 @@ newTitanFrame.registry = {
 			button:SetFrameStrata(StrataTypes[indexpos + 1])
 		
 		-- Add plugins created after PLAYER_ENTERING_WORLD to the bar (if they were shown on last logout)
-		local i
 			for i,_ in pairs(TitanPanelSettings.Buttons) do
 				if TitanPanelSettings.Buttons[i] == idTitan then
 					TITAN_PANEL_MOVE_ADDON = 1 -- dummy value to avoid unnecessary function calls in button init function
@@ -615,9 +613,9 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 	  self:SetScript("OnEvent", nil) 
 	  self:UnregisterEvent("PLAYER_LOGIN")
 		ldb.RegisterCallback(self, "LibDataBroker_DataObjectCreated", "TitanLDBCreateObject")
-    	  	for name, obj in ldb:DataObjectIterator() do
+    for name, obj in ldb:DataObjectIterator() do
 			self:TitanLDBCreateObject(nil, name, obj)
-		--DEFAULT_CHAT_FRAME:AddMessage("Registered "..name..".");			
-	  	end
-    	 end
+			--DEFAULT_CHAT_FRAME:AddMessage("Registered "..name..".");			
+	 	end
+   end
 end)
