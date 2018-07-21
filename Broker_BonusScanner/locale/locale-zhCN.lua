@@ -1,9 +1,8 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("Broker_BonusScanner","zhCN")
+local L = LibStub("AceLocale-3.0"):NewLocale("Broker_BonusScanner","zhCN")
 if not L then return end
 
 L["(Updating...)"] = "(更新中...)"
 L["LDB data feed to display item bonuses, based on BonusScanner addon."] = "显示装备加成的LDB数据, 来自BonusScanner插件."
-L["Author"] = "作者"
 L["Show minimap button"] = "显示小地图按钮"
 L["Enables the minimap button, for users lacking a proper LDB display. This option will nullify button/block functionality."] = "启用小地图按钮,能够显示LDB信息."
 L["About"] = "关于"

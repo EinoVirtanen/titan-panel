@@ -263,10 +263,10 @@ if not L then return end
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Astuce : clic pour un jet de d\195\169s.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "S\195\169lectionnez la plage du lancer de d\195\169s via le clic droit.";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Difficult\195\169 du donjon";
-	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Difficult\195\169 du raid";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Afficher la difficult\195\169 du donjon/raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Change la difficult\195\169 du donjon";
-	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Choisir la difficult\195\169 du donjon";
 
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."Mo";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -344,7 +344,7 @@ if not L then return end
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Mobs \195\160 tuer : ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Temps jou\195\169 pour cette session : ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Montrer le temps jou\195\169 pour cette session";
-	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*) meurt, vous gagnez (%d+) points d'exp\195\169rience.";
 
 	L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Taux de regen"

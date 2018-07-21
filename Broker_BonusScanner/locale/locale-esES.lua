@@ -3,10 +3,10 @@ if not L then return end
 
 L["(Updating...)"] = "(Actualizando...)"
 L["LDB data feed to display item bonuses, based on BonusScanner addon."] = "Origen de datos LDB para mostrar mejoras de objetos, basado en el addon BonusScanner."
-L["Author"] = "Autor"
 L["Show minimap button"] = "Mostrar botón en el minimapa"
 L["Enables the minimap button, for users lacking a proper LDB display. This option will nullify button/block functionality."] = "Activa el botón del minimapa, para usarios sin un adecuado visor LDB. Esta opción anulará la característica botón/panel"
 L["About"] = "Acerca de"
+L["Author"] = "Autor"
 L["Version"] = "Versión"
 L["Category"] = "Categoría"
 L["Email"] = "Email"

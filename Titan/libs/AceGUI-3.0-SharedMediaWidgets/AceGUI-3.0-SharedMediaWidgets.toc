@@ -1,5 +1,5 @@
-﻿## Interface: 30100
-## X-Curse-Packaged-Version: v3.2.1
+﻿## Interface: 30200
+## X-Curse-Packaged-Version: v3.2.4
 ## X-Curse-Project-Name: AceGUI-3.0-SharedMediaWidgets
 ## X-Curse-Project-ID: ace-gui-3-0-shared-media-widgets
 ## X-Curse-Repository-ID: wow/ace-gui-3-0-shared-media-widgets/mainline

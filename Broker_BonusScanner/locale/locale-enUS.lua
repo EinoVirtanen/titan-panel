@@ -2,7 +2,6 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Broker_BonusScanner","enUS",true)
 
 L["(Updating...)"] = true
 L["LDB data feed to display item bonuses, based on BonusScanner addon."] = true
-L["Author"] = true
 L["Show minimap button"] = true
 L["Enables the minimap button, for users lacking a proper LDB display. This option will nullify button/block functionality."] = true
 L["About"] = true

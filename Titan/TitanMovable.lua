@@ -68,7 +68,7 @@ function TitanMovableFrame_CheckFrames(position)
 
 		-- Move TemporaryEnchantFrame
 		frameTop = TitanMovableFrame_GetOffset(TemporaryEnchantFrame, "TOP");
-		if (TicketStatusFrame:IsVisible()) then
+		if TicketStatusFrame:IsVisible() then
 			top = 0 - TicketStatusFrame:GetHeight() + panelYOffset;
 		else
 			top = -13 + panelYOffset;
@@ -76,7 +76,7 @@ function TitanMovableFrame_CheckFrames(position)
 		TitanMovableFrame_CheckTopFrame(frameTop, top, TemporaryEnchantFrame:GetName())
 	
 		-- Move MinimapCluster
-		if (not CleanMinimap) then
+		if not CleanMinimap then
 		 if not TitanPanelGetVar("MinimapAdjust") then
 			frameTop = TitanMovableFrame_GetOffset(MinimapCluster, "TOP");
 			top = 0 + panelYOffset; 		
@@ -129,7 +129,7 @@ function TitanMovableFrame_MoveFrames(position, override)
 				xOffset = TitanMovableFrame_GetOffset(frame, xArchor);
 				
 				-- properly adjust TemporaryEnchantFrame (buff frame) if GM Ticket is visible
-				if (frameName == "TemporaryEnchantFrame" and TicketStatusFrame:IsVisible()) then
+				if frameName == "TemporaryEnchantFrame" and TicketStatusFrame:IsVisible() then
 					yOffset = (-TicketStatusFrame:GetHeight()) + panelYOffset;
 				else
 					yOffset = y + panelYOffset;
@@ -141,14 +141,14 @@ function TitanMovableFrame_MoveFrames(position, override)
 				end
 				
 				-- adjust the MainMenuBar according to its scale
-				if (frameName == "MainMenuBar" and MainMenuBar:IsVisible()) then
+				if  frameName == "MainMenuBar" and MainMenuBar:IsVisible() then
 				local framescale = MainMenuBar:GetScale() or 1;
 				    yOffset =  yOffset / framescale;
 				end
 				
 				-- account for Reputation Status Bar (doh)
 				local playerlevel = UnitLevel("player");
-				if (frameName == "MultiBarRight" and ReputationWatchStatusBar:IsVisible() and playerlevel < MAX_PLAYER_LEVEL) then
+				if frameName == "MultiBarRight" and ReputationWatchStatusBar:IsVisible() and playerlevel < _G["MAX_PLAYER_LEVEL"] then
 		  	yOffset = yOffset + 8;
 		  	end
 				
@@ -157,22 +157,23 @@ function TitanMovableFrame_MoveFrames(position, override)
 			else
 				--Leave frame where it is as it has been moved by a user
 			end			
-			updateContainerFrameAnchors();			
+			--updateContainerFrameAnchors();
+			Titan_ContainerFrames_Relocate()
 		end
 	end
 end
 
 function TitanMovableFrame_GetOffset(frame, point)	
-	if (frame and point) then
-		if (point == "LEFT" and frame:GetLeft() and UIParent:GetLeft()) then
+	if frame and point then
+		if point == "LEFT" and frame:GetLeft() and UIParent:GetLeft() then
 			return frame:GetLeft() - UIParent:GetLeft();
-		elseif (point == "RIGHT" and frame:GetRight() and UIParent:GetRight()) then
+		elseif point == "RIGHT" and frame:GetRight() and UIParent:GetRight() then
 			return frame:GetRight() - UIParent:GetRight();			
-		elseif (point == "TOP" and frame:GetTop() and UIParent:GetTop()) then
+		elseif point == "TOP" and frame:GetTop() and UIParent:GetTop() then
 			return frame:GetTop() - UIParent:GetTop();
-		elseif (point == "BOTTOM" and frame:GetBottom() and UIParent:GetBottom()) then
+		elseif point == "BOTTOM" and frame:GetBottom() and UIParent:GetBottom() then
 			return frame:GetBottom() - UIParent:GetBottom();
-		elseif (point == "CENTER" and frame:GetLeft() and frame:GetRight() and UIParent:GetLeft() and UIParent:GetRight()) then
+		elseif point == "CENTER" and frame:GetLeft() and frame:GetRight() and UIParent:GetLeft() and UIParent:GetRight() then
 		   local framescale = frame and frame.GetScale and frame:GetScale() or 1;
 			return (frame:GetLeft()* framescale + frame:GetRight()* framescale - UIParent:GetLeft() - UIParent:GetRight()) / 2;
 		end
@@ -211,10 +212,10 @@ function TitanMovable_GetPanelYOffset(framePosition, bothbars, override)
 	barnumber = TitanUtils_GetDoubleBar(bothbars, framePosition);
 	
 	local scale = TitanPanelGetVar("Scale");
-	if (scale and framePosition and barPosition and framePosition == barPosition) then
-		if (framePosition == TITAN_PANEL_PLACE_TOP) then
+	if scale and framePosition and barPosition and framePosition == barPosition then
+		if  framePosition == TITAN_PANEL_PLACE_TOP then
 			return (-24 * scale)*(barnumber);
-		elseif (framePosition == TITAN_PANEL_PLACE_BOTTOM) then
+		elseif framePosition == TITAN_PANEL_PLACE_BOTTOM then
 			return (24 * scale)*(barnumber);
 		end
 	end
@@ -255,26 +256,24 @@ end
 
 function Titan_FCF_UpdateDockPosition()
  if TitanPanelGetVar("LogAdjust") then
-	if not InCombatLockdown() or (InCombatLockdown() and not DEFAULT_CHAT_FRAME:IsProtected()) then
+	if not InCombatLockdown() or (InCombatLockdown() and not _G["DEFAULT_CHAT_FRAME"]:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
-		if ( DEFAULT_CHAT_FRAME:IsUserPlaced() ) then
-			if ( SIMPLE_CHAT ~= "1" ) then
-				return;
-			end
+		if _G["DEFAULT_CHAT_FRAME"]:IsUserPlaced() then
+			if _G["SIMPLE_CHAT"] ~= "1" then return end
 		end
 		
 		local chatOffset = 85 + panelYOffset;
-		if ( GetNumShapeshiftForms() > 0 or HasPetUI() or PetHasActionBar() ) then
-			if ( MultiBarBottomLeft:IsVisible()) then
+		if GetNumShapeshiftForms() > 0 or HasPetUI() or PetHasActionBar() then
+			if MultiBarBottomLeft:IsVisible() then
 				chatOffset = chatOffset + 55;
 			else
 				chatOffset = chatOffset + 15;
 			end
-		elseif ( MultiBarBottomLeft:IsVisible()) then
+		elseif MultiBarBottomLeft:IsVisible() then
 			chatOffset = chatOffset + 15;
 		end
-		DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
+		_G["DEFAULT_CHAT_FRAME"]:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
 		FCF_DockUpdate();
 	end
  end	
@@ -341,10 +340,10 @@ function Titan_CastingBarFrame_UpdatePosition()
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 		
 		local castingBarPosition = 60 + panelYOffset;
-		if ( PetActionBarFrame:IsVisible() or ShapeshiftBarFrame:IsVisible() ) then
+		if PetActionBarFrame:IsVisible() or ShapeshiftBarFrame:IsVisible() then
 			castingBarPosition = castingBarPosition + 40;
 		end
-		if ( MultiBarBottomLeft:IsShown() or MultiBarBottomRight:IsShown() ) then
+		if MultiBarBottomLeft:IsShown() or MultiBarBottomRight:IsShown() then
 			castingBarPosition = castingBarPosition + 40;
 		end
 		-- account for Reputation Status Bar (doh)
@@ -361,6 +360,8 @@ end
 
 function Titan_ContainerFrames_Relocate()
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);
+		local TITAN_CONTAINER_OFFSET_Y = _G["CONTAINER_OFFSET_Y"]
+		local TITAN_CONTAINER_OFFSET_X = _G["CONTAINER_OFFSET_X"]
 		-- Get the Blizzard offsets from the relevant table
 		local BlizzContainerYoffs, BlizzContainerYoffsABoffs = 0, 0
 		if UIPARENT_MANAGED_FRAME_POSITIONS["CONTAINER_OFFSET_Y"].yOffset then
@@ -372,29 +373,89 @@ function Titan_ContainerFrames_Relocate()
 		-- experimental fixes
 		-- Update bag anchor
 		if MultiBarBottomRight:IsShown() or MultiBarBottomLeft:IsShown() then
-			CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + BlizzContainerYoffsABoffs + panelYOffset;
-			--CONTAINER_OFFSET_Y = 110 + panelYOffset;
+			TITAN_CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + BlizzContainerYoffsABoffs + panelYOffset;
 		elseif not MultiBarBottomRight:IsVisible() and not MultiBarBottomLeft:IsVisible() then
-			CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + panelYOffset;
-			--CONTAINER_OFFSET_Y = 65 + panelYOffset;
+			TITAN_CONTAINER_OFFSET_Y = menuBarTop + BlizzContainerYoffs + panelYOffset;
 		else
-		  CONTAINER_OFFSET_Y = 70 + panelYOffset;
+		  TITAN_CONTAINER_OFFSET_Y = 70 + panelYOffset;
 		end
 		
 		-- account for Reputation Status Bar (doh)		
 		local playerlevel = UnitLevel("player");
-		if ReputationWatchStatusBar:IsVisible() and playerlevel < MAX_PLAYER_LEVEL then
-		  CONTAINER_OFFSET_Y = CONTAINER_OFFSET_Y + 9;
+		if ReputationWatchStatusBar:IsVisible() and playerlevel < _G["MAX_PLAYER_LEVEL"] then
+		  TITAN_CONTAINER_OFFSET_Y = TITAN_CONTAINER_OFFSET_Y + 9;
 		end
 		
-		if (MultiBarLeft:IsShown()) then
-			CONTAINER_OFFSET_X = 93;
-		elseif ( MultiBarRight:IsShown() ) then
-			CONTAINER_OFFSET_X = 48;
-			--45
+		if MultiBarLeft:IsShown() then
+			TITAN_CONTAINER_OFFSET_X = 93;
+		elseif MultiBarRight:IsShown() then
+			TITAN_CONTAINER_OFFSET_X = 48;
 		else
-			CONTAINER_OFFSET_X = 0;
+			TITAN_CONTAINER_OFFSET_X = 0;
 		end
+		
+	-- WoW 3.2 : This is basically a modified version of Blizzard's own function to move the container frames without tainting the global offset vars
+	-- Very ugly but its the only way for the new Shaman bar to function properly
+	local frame, xOffset, yOffset, screenHeight, freeScreenHeight, leftMostPoint, column;
+  local screenWidth = GetScreenWidth()
+  local containerScale = 1;
+  local leftLimit = 0;
+  if BankFrame:IsShown() then leftLimit = BankFrame:GetRight() - 25 end
+
+  while containerScale > _G["CONTAINER_SCALE"] do
+    screenHeight = GetScreenHeight() / containerScale;
+    -- Adjust the start anchor for bags depending on the multibars
+    xOffset = TITAN_CONTAINER_OFFSET_X / containerScale;
+    yOffset = TITAN_CONTAINER_OFFSET_Y / containerScale;
+    -- freeScreenHeight determines when to start a new column of bags
+    freeScreenHeight = screenHeight - yOffset;
+    leftMostPoint = screenWidth - xOffset;
+    column = 1;
+    local frameHeight;
+    for index, frameName in ipairs(ContainerFrame1.bags) do
+      frameHeight = _G[frameName]:GetHeight();
+      if freeScreenHeight < frameHeight then
+        -- Start a new column
+        column = column + 1;
+        leftMostPoint = screenWidth - ( column * _G["CONTAINER_WIDTH"] * containerScale ) - xOffset;
+        freeScreenHeight = screenHeight - yOffset;
+      end
+      freeScreenHeight = freeScreenHeight - frameHeight - _G["VISIBLE_CONTAINER_SPACING"];
+    end
+    if leftMostPoint < leftLimit then
+      containerScale = containerScale - 0.01;
+    else
+      break;
+    end
+  end
+
+  if containerScale < _G["CONTAINER_SCALE"] then containerScale = _G["CONTAINER_SCALE"] end
+
+  screenHeight = GetScreenHeight() / containerScale;
+  -- Adjust the start anchor for bags depending on the multibars
+  xOffset = TITAN_CONTAINER_OFFSET_X / containerScale;
+  yOffset = TITAN_CONTAINER_OFFSET_Y / containerScale;
+  -- freeScreenHeight determines when to start a new column of bags
+  freeScreenHeight = screenHeight - yOffset;
+  column = 0;
+  for index, frameName in ipairs(ContainerFrame1.bags) do
+    frame = _G[frameName];
+    frame:SetScale(containerScale);
+    if index == 1 then
+      -- First bag
+      frame:SetPoint("BOTTOMRIGHT", frame:GetParent(), "BOTTOMRIGHT", -xOffset, yOffset );
+    elseif freeScreenHeight < frame:GetHeight() then
+      -- Start a new column
+      column = column + 1;
+      freeScreenHeight = screenHeight - yOffset;
+      frame:SetPoint("BOTTOMRIGHT", frame:GetParent(), "BOTTOMRIGHT", -(column * _G["CONTAINER_WIDTH"]) - xOffset, yOffset );
+    else
+      -- Anchor to the previous bag
+      frame:SetPoint("BOTTOMRIGHT", ContainerFrame1.bags[index - 1], "TOPRIGHT", 0, _G["CONTAINER_SPACING"]);
+    end
+    freeScreenHeight = freeScreenHeight - frame:GetHeight() - _G["VISIBLE_CONTAINER_SPACING"];
+  end
+
 end
 
 function Titan_ManageFramesNew()

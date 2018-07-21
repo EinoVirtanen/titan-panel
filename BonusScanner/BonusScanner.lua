@@ -1017,13 +1017,13 @@ function BonusScanner:CheckGeneric(line)
 		if not value then
 			_, _, token, value = string.find(tmpStr, BONUSSCANNER_PATTERN_GENERIC_SUFFIX2)
 		end
-											
+													
 		if token and value then
 			-- trim token
 		  token = string.gsub( token, "^%s+", "" )
     	token = string.gsub( token, "%s+$", "" )
 	    token = string.gsub( token, "%.$", "" )
-	    token = string.gsub( token, "|r", "" )
+	    token = string.gsub( token, "|r", "" )	  
 	    	      	      
 			if self:CheckToken(token,value) then
 				found = true
@@ -1066,7 +1066,7 @@ end
 -- Last fallback for non generic/special enchants/effects, like "Mana Regen x per 5 sec."
 function BonusScanner:CheckOther(line)
 	local i, p, value, start, found
-
+	
 	for i,p in pairs(L["BONUSSCANNER_PATTERNS_OTHER"]) do
 		start, _, value = string.find(line, "^" .. p.pattern)
 		if start then
