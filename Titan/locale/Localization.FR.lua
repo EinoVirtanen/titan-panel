@@ -268,7 +268,7 @@ L["TITAN_BAG_PROF_BAG_NAMES"] = {
 -- Fishing
 "Boîte d'appâts du maître des leurres",
 -- Cooking
-"Portable Refrigerator",
+"Réfrigérateur portable",
 };
 
 L["TITAN_CLOCK_TOOLTIP"] = "Horloge";
