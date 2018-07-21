@@ -756,7 +756,8 @@ function TitanGetVar(id, var)
 		if TitanPluginSettings[id][var] == "Titan Nil" then 
 			TitanPluginSettings[id][var] = false 
 		end
-		return TitanUtils_Ternary(TitanPluginSettings[id][var] == false, nil, TitanPluginSettings[id][var]);
+		return TitanPluginSettings[id][var];
+		--return TitanUtils_Ternary(TitanPluginSettings[id][var] == false, nil, TitanPluginSettings[id][var]);
 	end
 end
 
