@@ -454,6 +454,18 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 				.."failed to register - "
 				.."Unsupported LDB type '"..UnsupportedDOTypes[idx].."'");
 --]]
+			local plugin = 
+				{
+				self = nil,
+				button = nil,
+				isChild = nil,
+				name = (name or "?"),
+				issue = "Unsupported LDB type", 
+				status = TITAN_REGISTER_FAILED,
+				category = nil,
+				plugin_type = obj.type,
+				}
+			TitanUtils_PluginFail(plugin) -- let the developer / user know
 			return 
 		end
 	end
@@ -600,6 +612,12 @@ TitanDebug("TitanLDBCreateObject "
 		},
 	};
 
+--[[
+TitanDebug("TitanLDBCreateObject "
+				.."registry.id: '"..(registry.id or "?").."'"
+				.."registry.ldb: '"..(registry.ldb or "?").."'"
+				)
+--]]
 	if categoryTitan~="" then
 		registry["category"]= categoryTitan;
 	end
@@ -660,7 +678,7 @@ TitanDebug("TitanLDBCreateObject "
    
 	-- if plugins have already been loaded then get this one loaded
 	if Titan__InitializedPEW then
-		TitanDebug ("Register single LDB plugin: '"..(name or "LDB?").."'. See Attempts for results")
+--		TitanDebug ("Register single LDB plugin: '"..(name or "LDB?").."'. See Attempts for results")
 		
 --==================
 		-- Could be wasteful but we need to register this LDB plugin

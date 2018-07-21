@@ -778,7 +778,24 @@ function TitanUpdateAddonAttempts()
 			local reason = TitanPluginToBeRegistered[idx].status
 			local issue = TitanPluginToBeRegistered[idx].issue
 			local category = TitanPluginToBeRegistered[idx].category
-			local child = TitanPluginToBeRegistered[idx].isChild and "true" or "false"
+			local ptype = TitanPluginToBeRegistered[idx].plugin_type
+--[[
+			if TitanPluginToBeRegistered[idx].button then
+				local reg_but = TitanPluginToBeRegistered[idx].button
+				if _G[reg_but].registry then
+					child = (_G[reg_but].registry.ldb or "false")
+					TitanDebug("TitanUpdateAddonAttempts "
+						.."name '"..(name or "?").."'"
+						.."type '"..(_G[reg_but].registry.ldb or "?").."'"
+					)
+				else
+					TitanDebug("TitanUpdateAddonAttempts "
+						.."name '"..(name or "?").."'"
+						.." no registry found... "
+					)
+				end
+			end
+--]]
 			local title = num.." "..TitanPluginToBeRegistered[idx].name
 			if reason ~= TITAN_REGISTERED then
 				title = TitanUtils_GetRedText(num)
@@ -795,44 +812,51 @@ function TitanUpdateAddonAttempts()
 					name =
 					{
 						type = "description",
-						name = TitanUtils_GetGoldText("Plugin Name: \n")..name,
+						name = TitanUtils_GetGoldText("")..name,
 						cmdHidden = true,
 						order = 1,
-					},
-					category =
-					{
-						type = "description",
-						name = TitanUtils_GetGoldText("Plugin Category: ")..category,
-						cmdHidden = true,
-						order = 2,
-					},
-					button =
-					{
-						type = "description",
-						name = TitanUtils_GetGoldText("Button Name: \n")..button,
-						cmdHidden = true,
-						order = 3,
-					},
-					child =
-					{
-						type = "description",
-						name = TitanUtils_GetGoldText("isChild: ")..child,
-						cmdHidden = true,
-						order = 4,
 					},
 					reason =
 					{
 						type = "description",
 						name = TitanUtils_GetGoldText("Status: ")..reason,
 						cmdHidden = true,
-						order = 5,
+						order = 2,
 					},
 					issue =
 					{
 						type = "description",
 						name = TitanUtils_GetGoldText("Issue: \n")..issue,
 						cmdHidden = true,
-						order = 6,
+						order = 3,
+					},
+					sp_1 =
+					{
+						type = "description",
+						name = "",
+						cmdHidden = true,
+						order = 4,
+					},
+					category =
+					{
+						type = "description",
+						name = TitanUtils_GetGoldText("Category: ")..category,
+						cmdHidden = true,
+						order = 10,
+					},
+					ptype =
+					{
+						type = "description",
+						name = TitanUtils_GetGoldText("Type: ")..ptype,
+						cmdHidden = true,
+						order = 11,
+					},
+					button =
+					{
+						type = "description",
+						name = TitanUtils_GetGoldText("Button Name: \n")..button,
+						cmdHidden = true,
+						order = 12,
 					},
 				}
 			}

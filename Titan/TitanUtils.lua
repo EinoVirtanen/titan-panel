@@ -22,22 +22,40 @@ end
 -- This section for Titan Panel ONLY: Plugin registration routines
 --
 function TitanUtils_PluginToRegister(self, isChildButton) 
+	-- NOTE: registry is off of 'self' but for LDB buttons it is set
+	-- AFTER this routine. Any read of the registry must assume 
+	-- it may not exist. Also assume the registry could be updated after this routine.
+	--
+	-- This is called when a Titan button frame is created.
+	-- Normally these are held until the player 'enters world' then the
+	-- plugin is registered.
+	-- Sometimes plugin frames are created after this process. Right
+	-- now only LDB plugs are handled. If someone where to start creating 
+	-- Titan frames after the registration process were complete then
+	-- it would fail to be registered...
 	TitanPluginToBeRegisteredNum = TitanPluginToBeRegisteredNum + 1
 	local cat = ""
 	if self and self.registry then
 		cat = (self.registry.category or "")
 	end
+	-- Some of the fields in this record are displayed in the "Attempts"
+	-- so they are defaulted here.
 	TitanPluginToBeRegistered[TitanPluginToBeRegisteredNum] = 
 		{
 		self = self,
-		button = ((self and self:GetName() or "No_clue__Help!".."_"..TitanPluginToBeRegisteredNum)),
+		button = ((self and self:GetName() or "Nyl".."_"..TitanPluginToBeRegisteredNum)),
+		isChild = (isChildButton and true or false),
+		-- fields below are updated when registered
 		name = "?",
+		issue = "", 
 		status = TITAN_NOT_REGISTERED,
 		category = cat,
-		isChild = (isChildButton and true or false),
-		issue = "",
+		plugin_type = "",
 		}
 --[[
+	-- NOTE: This did not handle LDB because the 'registry' is attached to the frame 
+	-- AFTER the frame is created...
+	--
 	-- This will handle plugins that are initialized after Titan registration has run.
 	-- Such as 'load on demand' or just bad timing
 	if Titan__InitializedPEW then
@@ -50,6 +68,29 @@ function TitanUtils_PluginToRegister(self, isChildButton)
 			)
 	end
 --]]
+end
+
+function TitanUtils_PluginFail(plugin) 
+	-- This is called when a plugin is unsupported.
+	-- It is intended mainly for developers. It is a place to put relevant info
+	-- for debug and so users can supply troubleshooting info.
+	-- The key is set the status to 'fail' so there is no attempt to register
+	-- the plugin.
+	--
+	-- plugin is to hold as much info as possible...
+	TitanPluginToBeRegisteredNum = TitanPluginToBeRegisteredNum + 1
+	TitanPluginToBeRegistered[TitanPluginToBeRegisteredNum] = 
+		{
+		self = plugin.self,
+--		button = (plugin.button and plugin.button:GetName() or "Nyl".."_"..TitanPluginToBeRegisteredNum),
+		button = (plugin.button and plugin.button:GetName() or ""),
+		isChild = (plugin.isChild and true or false),
+		name = (plugin.name or "?"),
+		issue = (plugin.issue or "?"), 
+		status = (plugin.status or TITAN_REGISTER_FAILED),
+		category = (plugin.category or ""),
+		plugin_type = (plugin.plugin_type or ""),
+		}
 end
 
 local function TitanUtils_RegisterPluginProtected(plugin)
@@ -115,6 +156,10 @@ TitanDebug("RegisterPluginProtected: "
 					result = TITAN_REGISTERED
 					-- determine the plugin category
 					cat = (self.registry.category or nil)
+					ptype = "Titan" -- Assume it is created for Titan
+					if self.registry.ldb then
+						ptype = "LDB: '"..self.registry.ldb.."'" -- Override with the LDB type
+					end
 				end
 			else
 				result = TITAN_REGISTER_FAILED
@@ -137,6 +182,7 @@ TitanDebug("RegisterPluginProtected: "
 	ret_val.result = (result or TITAN_REGISTER_FAILED)
 	ret_val.id = (id or "")
 	ret_val.cat = (cat or "General")
+	ret_val.ptype = ptype
 	return ret_val
 end
 
@@ -162,7 +208,8 @@ TitanDebug("_RegisterPlugin: "
 				plugin.status = ret_val.result
 				plugin.issue = ret_val.issue
 				plugin.name = ret_val.id
-				plugin.category = ret_val.cat 
+				plugin.category = ret_val.cat
+				plugin.plugin_type = ret_val.ptype
 			else
 				plugin.status = TITAN_REGISTER_FAILED
 				plugin.issue = (ret_val.issue or "Unknown error")

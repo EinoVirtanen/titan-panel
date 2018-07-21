@@ -285,7 +285,12 @@ function Titan_FCF_UpdateDockPosition()
  if not TitanPanelGetVar("LogAdjust") then return end
 	if not InCombatLockdown() or (InCombatLockdown() and not _G["DEFAULT_CHAT_FRAME"]:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
+		local scale = TitanPanelGetVar("Scale");
+		if scale then
+			panelYOffset = panelYOffset + (24 * scale) -- after 3.3.5 an additional adjust was needed. why? idk
+		end
 
+--[[
 		if _G["DEFAULT_CHAT_FRAME"]:IsUserPlaced() then
 			if _G["SIMPLE_CHAT"] ~= "1" then return end
 		end
@@ -302,10 +307,29 @@ function Titan_FCF_UpdateDockPosition()
 		end
 		_G["DEFAULT_CHAT_FRAME"]:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
 		FCF_DockUpdate();
+--]]
+	if ( DEFAULT_CHAT_FRAME:IsUserPlaced() ) then
+		return;
+	end
+	
+	local chatOffset = 85 + panelYOffset; -- Titan
+	if ( GetNumShapeshiftForms() > 0 or HasPetUI() or PetHasActionBar() ) then
+		if ( MultiBarBottomLeft:IsShown() ) then
+			chatOffset = chatOffset + 55;
+		else
+			chatOffset = chatOffset + 15;
+		end
+	elseif ( MultiBarBottomLeft:IsShown() ) then
+		chatOffset = chatOffset + 15;
+	end
+	DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
+	FCF_DockUpdate();
+
 	end
 end
 
 function Titan_FCF_UpdateCombatLogPosition()
+--[[
  if not TitanPanelGetVar("LogAdjust") then return end
 	if not InCombatLockdown() or (InCombatLockdown() and not ChatFrame1:IsProtected() and not ChatFrame2:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
@@ -345,11 +369,6 @@ function Titan_FCF_UpdateCombatLogPosition()
 		  -- account for MultiCastActionBarFrame (Shaman Bar)
 		  if HasMultiCastActionBar() then yOffset2 = yOffset2 + 38 end
 	
-			--[[if ( MultiBarLeft:IsVisible() ) then
-				xOffset = xOffset - 88;
-			elseif ( MultiBarRight:IsVisible() ) then
-				xOffset = xOffset - 43;
-			end]]--
 			--ChatFrame1:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, yOffset2);
 			--ChatFrame2:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", xOffset, yOffset);
 			if point1 == "BOTTOMLEFT" and relativePoint1 == "BOTTOMLEFT" then
@@ -359,6 +378,7 @@ function Titan_FCF_UpdateCombatLogPosition()
 				ChatFrame2:SetPoint(point2, "UIParent", relativePoint2, xOfs2, yOffset);
 			end
 	end
+--]]
 end
 
 
@@ -509,10 +529,11 @@ end
 
 -- Titan Hooks
 -- Overwrite Blizzard Frame positioning functions
+--[
 TitanMovableModule:SecureHook(TicketStatusFrame, "Show", Titan_TicketStatusFrame_OnShow)
 TitanMovableModule:SecureHook(TicketStatusFrame, "Hide", Titan_TicketStatusFrame_OnHide)
 TitanMovableModule:SecureHook("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition)
-TitanMovableModule:SecureHook("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCombatLogPosition)
+--TitanMovableModule:SecureHook("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCombatLogPosition)
 TitanMovableModule:SecureHook("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate)
 TitanMovableModule:SecureHook(WorldMapFrame, "Hide", Titan_ManageFramesNew)
 TitanMovableModule:SecureHook("UIParent_ManageFramePositions", Titan_ManageFramesNew)
@@ -525,3 +546,22 @@ TitanMovableModule:SecureHook("VehicleSeatIndicator_UnloadTextures", Titan_Manag
 -- can detect this behavior and fire their own functions (where applicable).
 TitanMovableModule:SecureHook("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale)
 TitanMovableModule:SecureHook(VideoOptionsFrame, "Hide", Titan_AdjustUIScale)
+--]]
+--[[
+hooksecurefunc(TicketStatusFrame, "Show", Titan_TicketStatusFrame_OnShow) -- HelpFrame.xml
+hooksecurefunc(TicketStatusFrame, "Hide", Titan_TicketStatusFrame_OnHide) -- HelpFrame.xml
+hooksecurefunc("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition) -- FloatingChatFrame
+--hooksecurefunc("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCombatLogPosition)
+hooksecurefunc("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate) -- ContainerFrame.lua
+hooksecurefunc(WorldMapFrame, "Hide", Titan_ManageFramesNew) -- WorldMapFrame.lua
+hooksecurefunc("UIParent_ManageFramePositions", Titan_ManageFramesNew) -- UIParent.lua
+hooksecurefunc("VehicleSeatIndicator_SetUpVehicle", Titan_ManageVehicles) -- VehicleMenuBar.lua
+hooksecurefunc("VehicleSeatIndicator_UnloadTextures", Titan_ManageVehicles) -- VehicleMenuBar.lua
+-- Properly Adjust UI Scale if set
+-- Note: These are the least intrusive hooks we could think of, to properly adjust the Titan Bar(s)
+-- without having to resort to a SetCvar secure hook. Any addon using SetCvar should make sure to use the 3rd
+-- argument in the API call and trigger the CVAR_UPDATE event with an appropriate argument so that other addons
+-- can detect this behavior and fire their own functions (where applicable).
+hooksecurefunc("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale) -- VideoOptionsFrame.lua
+hooksecurefunc(VideoOptionsFrame, "Hide", Titan_AdjustUIScale) -- VideoOptionsFrame.xml
+--]]
