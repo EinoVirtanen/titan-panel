@@ -805,7 +805,11 @@ AceConfigDialog:AddToBlizOptions("Titan Panel Frames", "Titan "..L["TITAN_PANEL_
 function TitanPanelBarButton:ADDON_LOADED(addon)
 	if addon == "Titan" then
 	-- Init Profile/Saved Vars
-	TitanVariables_InitTitanSettings();			
+	TitanVariables_InitTitanSettings();
+	local VERSION = TitanPanel_GetVersion();
+	local POS = strfind(VERSION," - ");
+	local VERSION = strsub(VERSION,1,POS-1);
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffd700"..L["TITAN_PANEL"].." (".._G["GREEN_FONT_COLOR_CODE"]..VERSION.."|cffffd700) "..L["TITAN_PANEL_VERSION_INFO"]);
 		if not ServerTimeOffsets then
 			ServerTimeOffsets = {};
 		end

@@ -53,7 +53,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	
 	-- general panel locale
 	L["TITAN_PANEL"] = "Титан Панель";
-	L["TITAN_PANEL_VERSION_INFO"] = "|cffffffff от |cffff8c00Titan Dev Team".." |cffffffff(HonorGoG, joejanko, Lothayer, Tristanian, oXidFoX, urnati & StingerSoft)";
+	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00Titan Dev Team";
 	L["TITAN_PANEL_MENU_TITLE"] = "Титан панель";
 	L["TITAN_PANEL_MENU_HIDE"] = "Скрыть";
 	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Настроить";

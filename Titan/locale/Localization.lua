@@ -51,7 +51,7 @@ L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel button 
      
 -- general panel locale
 L["TITAN_PANEL"] = "Titan Panel";
-L["TITAN_PANEL_VERSION_INFO"] = "|cffffffff by the |cffff8c00Titan Dev Team".." |cffffffff(HonorGoG, joejanko, Lothayer, Tristanian, oXidFoX, urnati & StingerSoft)";     
+L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00Titan Dev Team";     
 L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
 L["TITAN_PANEL_MENU_HIDE"] = "Hide";
 L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Customize";

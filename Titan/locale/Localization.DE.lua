@@ -53,7 +53,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      
      -- general panel locale
      L["TITAN_PANEL"] = "Titan Panel";
-     L["TITAN_PANEL_VERSION_INFO"] = "|cffffffff vom "..RED_FONT_COLOR_CODE.."Titan Dev Team".." |cffffffff(HonorGoG, jaketodd422, joejanko, Lothayer, Tristanian, oXidFoX)"; --SENSITY
+     L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 vom "..RED_FONT_COLOR_CODE.."Titan Dev Team"; --SENSITY
      L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
      L["TITAN_PANEL_MENU_HIDE"] = "Ausblenden";
      L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Anpassen";

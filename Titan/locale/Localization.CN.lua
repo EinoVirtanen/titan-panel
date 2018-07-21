@@ -52,7 +52,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      
      -- general panel locale
   L["TITAN_PANEL"] = "Titan 面板";
-  L["TITAN_PANEL_VERSION_INFO"] = "|cffff8c00Titan Dev Team |cffffffff Presents ".." |cffffffff(HonorGoG, joejanko, Lothayer, Tristanian, oXidFoX, urnati & StingerSoft，Yeachan)";     
+  L["TITAN_PANEL_VERSION_INFO"] = "|cffff8c00Titan Dev Team |cffffffff Presents ".." |cffffffff";     
   L["TITAN_PANEL_MENU_TITLE"] = "Titan 面板";
   L["TITAN_PANEL_MENU_HIDE"] = "隐藏";
   L["TITAN_PANEL_MENU_CUSTOMIZE"] = "设置";

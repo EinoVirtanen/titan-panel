@@ -1,5 +1,5 @@
 Titan Panel Setup Read Me First File
-Titan Development Team: HonorGoG, TristTitan, Lothayer, JoeJanko, oXidFoX, Urnati, StingerSoft, and Yeachan.
+Titan Development Team: HonorGoG, Lothayer, JoeJanko, oXidFoX, pato.daia, StingerSoft, Urnati & Yeachan.
 -------------------------------------------------------------------------------------------------------------
 
 1. Description
