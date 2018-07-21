@@ -434,7 +434,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Показать необходимы
 	
      --Titan Repair
      L["REPAIR_LOCALE"] = {
-          pattern = "^Прочность: (%d+) / (%d+)$",
           menu = "Ремонт",
           tooltip = "Информация о прочности амуниции",
           button = "Прочность: ",

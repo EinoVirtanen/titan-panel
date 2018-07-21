@@ -378,7 +378,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
   
      --Titan Repair
 L["REPAIR_LOCALE"] = {
-          pattern = "^Haltbarkeit (%d+) / (%d+)$",
           menu = "Reparieren",
           tooltip = "Haltbarkeits Info",
           button = "Haltbarkeit: ",

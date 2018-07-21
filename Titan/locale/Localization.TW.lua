@@ -438,7 +438,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "顯示升級所需(基於最後所獲
 	
 -- Titan Repair
    L["REPAIR_LOCALE"] = {
-		      pattern = "^耐久度 (%d+) / (%d+)$",
 		      menu = "裝備耐久度",
 		      tooltip = "裝備耐久度",
           button = "裝備耐久度: ",

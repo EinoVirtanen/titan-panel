@@ -273,25 +273,42 @@ L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorar bolsas de profesión";
 --L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Faltriquera de almas", "Bolsa de tela vil", "Bolsa de tela vil del Núcleo", "Bolsa de las Sombras de ébano", "Faltriquera de almas pequeña", "Caja de almas"};
 --L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"munición", "Carcaj", "Bandolera", "pólvora", "lámina"};
 L["TITAN_BAG_PROF_BAG_NAMES"] = {
--- Enchanting
+-- Enchanting (blue)
 "Faltriquera de tejido mágico encantada","Bolsa de paño rúnico encantada","Cartera de encantador","Bolsa de encantamiento grande","Bolsa de fuego de hechizo","Bolsa misteriosa","Bolsa de otro mundo","Bolso de noche encantador \"Trasportín exclusivo\"",
--- Engineering
+-- Engineering (orange)
 "Caja de herramientas pesada","Caja de herramientas de hierro vil","Caja de herramientas de titanio","Caja de herramientas de elementium","Bolsa de alta tecnología \"Transportín Maddy\"",
--- Herbalism
+-- Herbalism (green)
 "Faltriquera de hierbas","Bolsa de hierbas Cenarion","Cartera de Cenarius","Bolsa de expedición de Hyjal","Bolsa esmeralda","Bolsa Botánica de Mycah","Portahierbas \"Trasportín ecológico\"",
--- Inscription
+-- Inscription (purple)
 "Cartera de escriba","Bolsa de bolsillos infinitos","Cartera de estudiante \"Transportín Xandera\"",
--- Jewelcrafting
+-- Jewelcrafting (red)
 "Faltriquera de gemas","Bolsa de joyas","Agarre con tachuelas de gemas \"Trasportín exclusivo\"",
--- Leatherworking
+-- Leatherworking (brown)
 "Cartera de peletero","Mochila de viaje de trampero","Bolsa de muchos pellejos","Bolsa de cuero \"Transportín Meeya\"",
--- Mining
+-- Mining (white)
 "Saco de minero","Bolsa de minero reforzada","Bolsa de minero descomunal","Bolsa de metal precioso \"Trasportín Christina\"",
--- Fishing
+-- Fishing (cyan)
 "Caja de aparejos \"Maestro del Cebo\"",
--- Cooking
+-- Cooking (magenta)
 "Refrigerador portátil",
 };
+
+L["TITAN_BAG_PROF_BAG_ENCHANTING"] = {
+"Faltriquera de tejido mágico encantada","Bolsa de paño rúnico encantada","Cartera de encantador","Bolsa de encantamiento grande","Bolsa de fuego de hechizo","Bolsa misteriosa","Bolsa de otro mundo","Bolso de noche encantador \"Trasportín exclusivo\""};
+L["TITAN_BAG_PROF_BAG_ENGINEERING"] = {
+"Caja de herramientas pesada","Caja de herramientas de hierro vil","Caja de herramientas de titanio","Caja de herramientas de elementium","Bolsa de alta tecnología \"Transportín Maddy\""};
+L["TITAN_BAG_PROF_BAG_HERBALISM"] = {
+"Faltriquera de hierbas","Bolsa de hierbas Cenarion","Cartera de Cenarius","Bolsa de expedición de Hyjal","Bolsa esmeralda","Bolsa Botánica de Mycah","Portahierbas \"Trasportín ecológico\""};
+L["TITAN_BAG_PROF_BAG_INSCRIPTION"] = {
+"Cartera de escriba","Bolsa de bolsillos infinitos","Cartera de estudiante \"Transportín Xandera\""};
+L["TITAN_BAG_PROF_BAG_JEWELCRAFTING"] = {
+"Faltriquera de gemas","Bolsa de joyas","Agarre con tachuelas de gemas \"Trasportín exclusivo\""};
+L["TITAN_BAG_PROF_BAG_LEATHERWORKING"] = {
+"Cartera de peletero","Mochila de viaje de trampero","Bolsa de muchos pellejos","Bolsa de cuero \"Transportín Meeya\""};
+L["TITAN_BAG_PROF_BAG_MINING"] = {
+"Saco de minero","Bolsa de minero reforzada","Bolsa de minero descomunal","Bolsa de metal precioso \"Trasportín Christina\""};
+L["TITAN_BAG_PROF_BAG_FISHING"] = {"Caja de aparejos \"Maestro del Cebo\""};
+L["TITAN_BAG_PROF_BAG_COOKING"] = {"Refrigerador portátil"};
 
 --L["TITAN_BGMINIMAP_MENU_TEXT"] = "Campo de Batalla en minimapa"
 --L["TITAN_BGMINIMAP_TOOLTIP"] = "Botón Campode Batalla en minimapa"
@@ -462,7 +479,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Mostrar ganancias de XP estimadas par
 
 --Titan Repair
 L["REPAIR_LOCALE"] = {
-	pattern = "^Durabilidad (%d+) / (%d+)$",
 	menu = "Reparación",
 	tooltip = "Información de reparación",
 	button = "Durabilidad: ",

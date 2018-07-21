@@ -436,7 +436,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "les estimations de gains d'XP pour mo
 
 --Titan Repair
 L["REPAIR_LOCALE"] = {
-	pattern = "^Durabilité (%d+) / (%d+)$",
 	menu = "Réparation",
 	tooltip = "Infos de réparation",
 	button = "Durabilité: ",

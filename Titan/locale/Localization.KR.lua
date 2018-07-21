@@ -434,7 +434,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "레벨당 경험치 획득 표시";
 
      --Titan Repair
      L["REPAIR_LOCALE"] = {
-          pattern = "^내구도 (%d+) / (%d+)$",
           menu = "수리",
           tooltip = "내구도 정보",
           button = "내구도: ",

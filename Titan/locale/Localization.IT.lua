@@ -435,7 +435,6 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Mostra incrementi PE al prossimo lv";
 
      --Titan Repair
      L["REPAIR_LOCALE"] = {
-          pattern = "^Integrità (%d+)/(%d+)$",
           menu = "Riparazione",
           tooltip = "Info Riparazione",
           button = "Integrità: ",
