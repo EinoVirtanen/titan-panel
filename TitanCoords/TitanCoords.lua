@@ -170,20 +170,15 @@ end
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
 function TitanPanelCoordsButton_OnEvent(self, event, ...)     
-     if event == "PLAYER_ENTERING_WORLD" then
-     			if not TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
-						MinimapBorderTop:Hide()
-						MinimapToggleButton:Hide()
-						MinimapZoneTextButton:Hide()
-						-- adjust MiniMap frame if needed
-						TitanMovableFrame_CheckFrames(1);
-						TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
-					end
-     end
-     SetMapToCurrentZone();
-     TitanPanelCoordsButton_UpdateZoneInfo(self);
-     TitanPanelPluginHandle_OnUpdate(updateTable);
-     TitanPanelCoords_HandleUpdater();
+	if event == "PLAYER_ENTERING_WORLD" then
+		if not TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
+			TitanPanelCoordsButton_LocOnMiniMap()
+		end
+	end
+	SetMapToCurrentZone();
+	TitanPanelCoordsButton_UpdateZoneInfo(self);
+	TitanPanelPluginHandle_OnUpdate(updateTable);
+	TitanPanelCoords_HandleUpdater();
 end
 
 -- function to throttle down unnecessary updates
@@ -356,13 +351,17 @@ end
 
 function TitanPanelCoordsButton_ToggleLocOnMiniMap()
 	TitanToggleVar(TITAN_COORDS_ID, "ShowLocOnMiniMap");
+	TitanPanelCoordsButton_LocOnMiniMap()
+end
+
+function TitanPanelCoordsButton_LocOnMiniMap()
 	if TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") then
 		MinimapBorderTop:Show()
-		MinimapToggleButton:Show()
+--		MinimapToggleButton:Show()
 		MinimapZoneTextButton:Show()
 	else
 		MinimapBorderTop:Hide()
-		MinimapToggleButton:Hide()
+--		MinimapToggleButton:Hide()
 		MinimapZoneTextButton:Hide()		
 	end
 	-- adjust MiniMap frame if needed
@@ -388,38 +387,48 @@ function TitanMapFrame_OnUpdate(self, elapsed)
   return;
   end
      if (TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap")) then
-          local cursorCoordsText, playerCoordsText;
-          local x, y = GetCursorPosition();
-          x = x / WorldMapFrame:GetScale();
-          y = y / WorldMapFrame:GetScale();
+		-- using :Hide / :Show prevents coords from running
+		if WorldMapFrame.sizedDown then
+			-- map minimized and coordinates calc will not work
+			TitanMapCursorCoords:SetText("");
+			TitanMapPlayerCoords:SetText("");
+--			TitanMapFrame:Hide() -- hide parent
+		else
+		    -- map maximized so do the coordinates calc
+--			TitanMapFrame:Show() -- show parent
+			local cursorCoordsText, playerCoordsText;
+			local x, y = GetCursorPosition();
+			x = x / WorldMapDetailFrame:GetScale();
+			y = y / WorldMapDetailFrame:GetScale();
      
-          self.px, self.py = GetPlayerMapPosition("player");
-          if self.px == nil then self.px = 0 end
-     			if self.py == nil then self.py = 0 end
-          local centerX, centerY = WorldMapFrame:GetCenter();
-          local width = WorldMapButton:GetWidth();
-          local height = WorldMapButton:GetHeight();
-          local adjustedX = (x - (centerX - (width/2))) / width;
-          local adjustedY = (centerY + (height/2) - y ) / height;
-          local cx = (adjustedX + OFFSET_X);
-          local cy = (adjustedY + OFFSET_Y);
+			self.px, self.py = GetPlayerMapPosition("player");
+			if self.px == nil then self.px = 0 end
+			if self.py == nil then self.py = 0 end
+			local centerX, centerY = WorldMapDetailFrame:GetCenter();
+			local width = WorldMapDetailFrame:GetWidth();
+			local height = WorldMapDetailFrame:GetHeight();
+			local cx = (x - (centerX - (width/2))) / width;
+			local cy = (centerY + (height/2) - y ) / height;
+--			local cx = (adjustedX + OFFSET_X); -- no longer needed after map revamp
+--			local cy = (adjustedY + OFFSET_Y);
+
+			if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then     				
+				cursorCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * cx, 100 * cy);
+				playerCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
+			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
+				cursorCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * cx, 100 * cy);
+				playerCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
+			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
+				cursorCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * cx, 100 * cy);
+				playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
+			end
      			
-     			if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then     				
-         			cursorCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * cx, 100 * cy);
-          		playerCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
-     			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
-         			cursorCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * cx, 100 * cy);
-          		playerCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
-     			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
-         			cursorCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * cx, 100 * cy);
-          		playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
-     			end
-     			
-     			if self.px == 0 and self.py == 0 then
-     				playerCoordsText = L["TITAN_COORDS_NO_COORDS"];
-     			end
-     			
-          TitanMapCursorCoords:SetText(format(L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"], TitanUtils_GetHighlightText(cursorCoordsText)));
-          TitanMapPlayerCoords:SetText(format(L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerCoordsText)));
+			if self.px == 0 and self.py == 0 then
+				playerCoordsText = L["TITAN_COORDS_NO_COORDS"];
+			end
+
+			TitanMapCursorCoords:SetText(format(L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"], TitanUtils_GetHighlightText(cursorCoordsText)));
+			TitanMapPlayerCoords:SetText(format(L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerCoordsText)));
+		end
      end
 end

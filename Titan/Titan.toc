@@ -1,13 +1,13 @@
-## Interface: 30200
-## Title: Titan Panel |cff00aa004.3.0.30200|r
+## Interface: 30300
+## Title: Titan Panel |cff00aa004.3.1.30300|r
 ## Notes: Adds a display bar on the top and/or bottom of the screen. Allows users to show and control information/launcher plugins.
 ## Author: Titan Development Team
-## X-Credits: TitanMod, Dark Imakuni, Adsertor, Titan Dev Team
 ## SavedVariables: TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
 ## Dependencies:
-## Version: 4.3.0.30200 - Revision 316
+## Version: 4.3.1.30300 - Revision 331
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0
 ## X-Embeds: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0
+## X-Credits: TitanMod, Dark Imakuni, Adsertor, Titan Dev Team
 ## X-Category: Interface Enhancements
 ## X-Website: http://www.titanpanel.org
 ## X-Email: contact@titanpanel.org
@@ -28,10 +28,9 @@ locale\Localization.TW.lua
 
 TitanUtils.lua
 TitanVariables.lua
-TitanMenu.lua
 TitanPanelTemplate.xml
 TitanMovable.lua
-TitanTooltip.lua
 TitanPanel.xml
+TitanPanel.lua
 TitanAutoHide.xml
 LDBToTitan.lua

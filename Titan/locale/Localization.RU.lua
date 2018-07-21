@@ -23,6 +23,14 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " возможно зарегистрирован дважды, не удается загрузить Titan panel, пожалуйста исправьте эту проблему"
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Вы не можете удалить свой текущий профиль.";
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."This will reload Titan Panel. "
+	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Предупреждение:"..FONT_COLOR_CODE_CLOSE.."Будут сброшены настройки ваших полос(ы) и панели на стандартные значения и будет пересоздан ваш текущий профиль. Если вы уверены в своих действиях, и хотите продолжить, то нажмите 'Accept' (ваш интерфей перезагрузится), или же нажмите 'Cancel' или клавишу 'Escape'.";
 	
 	-- slash command help

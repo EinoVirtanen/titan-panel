@@ -23,6 +23,14 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " aparece duplicado. Esto puede hacer que Titan Panel falle, por favor, corrija el problema."
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "No puedes borrar el perfil actual.";
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Aviso : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "Si deseas continuar con esta operación, pulsa 'Aceptar' (se recargará tu interface), de lo contrario pulsa 'Cancelar' o la tecla 'Escape'."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."Esta opción reseteará la configuración de tus barras y panel a los valores por defecto, y recreará tu perfil actual."
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."Esto recargará el panel Titan."
+	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Cuidado:"..FONT_COLOR_CODE_CLOSE.."Esta opción reseteará la configuración de tus barras y panel a los valores por defecto, y recreará tu perfil actual. Si deseas continuar con esta opreación, pulsa 'Aceptar' (se recargará tu interface), de lo contrario pulsa 'Cancelar' o la tecla 'Escape'.";
   
 	-- slash command help
@@ -218,15 +226,15 @@ if not L then return end
 	L["TITAN_COORDS_FORMAT3_LABEL"] = "(xx.xx , yy.yy)";
 	L["TITAN_COORDS_FORMAT_COORD_LABEL"] = "Formato de coordenadas";
 	L["TITAN_COORDS_BUTTON_LABEL"] = "Loc: ";
-	L["TITAN_COORDS_TOOLTIP"] = "Localización";
-	L["TITAN_COORDS_TOOLTIP_HINTS_1"] = "Consejo: Shift + Click-Izq. para poner la localización";
+	L["TITAN_COORDS_TOOLTIP"] = "Ubicación";
+	L["TITAN_COORDS_TOOLTIP_HINTS_1"] = "Consejo: Shift + Click-Izq. para poner la ubicación";
 	L["TITAN_COORDS_TOOLTIP_HINTS_2"] = "en el chat de mensajes.";
 	L["TITAN_COORDS_TOOLTIP_ZONE"] = "Zona: ";
 	L["TITAN_COORDS_TOOLTIP_SUBZONE"] = "Subzona: ";
 	L["TITAN_COORDS_TOOLTIP_PVPINFO"] = "Info PVP: ";
-	L["TITAN_COORDS_TOOLTIP_HOMELOCATION"] = "Localización de mi casa";
+	L["TITAN_COORDS_TOOLTIP_HOMELOCATION"] = "Ubicación de mi casa";
 	L["TITAN_COORDS_TOOLTIP_INN"] = "Posada: ";
-	L["TITAN_COORDS_MENU_TEXT"] = "Localización";
+	L["TITAN_COORDS_MENU_TEXT"] = "Ubicación";
 	L["TITAN_COORDS_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Mostrar texto de zona";
 	L["TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Mostrar coordenadas en el mapamundi";
 	L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"] = "Cursor(X,Y): %s";

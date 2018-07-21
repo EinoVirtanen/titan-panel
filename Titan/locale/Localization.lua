@@ -22,8 +22,15 @@ L["TITAN_MOVABLE_TOOLTIP"] = "Drag to move around";
 
 L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " appears to be registered twice. This may cause certain plugins to malfunction, please correct/report this problem.";
 L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "You may not delete your current profile.";
-L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Warning:"..FONT_COLOR_CODE_CLOSE.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key.";
-     
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."This will reload Titan Panel. "
+	..TITAN_PANEL_RELOAD_TEXT
+
 -- slash command help
 L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
 L["TITAN_PANEL_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffResets Panel to default values/position.";

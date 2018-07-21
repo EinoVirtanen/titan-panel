@@ -23,6 +23,14 @@ if not L then return end
 
      L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " scheint 2 mal registriert zu sein. Aus diesem Grund funktioniert Titan Panel nicht richtig, bitte behebe dieses Problem"
      L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Aktuelles Profil darf nicht geloescht werden."; --SENSITY
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."This will reload Titan Panel. "
+	..TITAN_PANEL_RELOAD_TEXT
      L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Warnung:"..FONT_COLOR_CODE_CLOSE.."Diese Einstellung wird die Leiste(n) zuruecksetzen und das aktuelle Profil erneuern. Fuer WEITER druecke 'Accept' (UI wird neu laden), andernfalls druecke 'Cancel' oder 'Escape'."; --SENSITY
      
      -- slash command help
@@ -181,9 +189,9 @@ if not L then return end
      L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Pl\195\164tze des Munitionsbeutels ignorieren";
      L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignoriere Splittertaschen";
      L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignoriere Berufs-Taschen";
-     L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Grollhufbalgk\195\182cher", "Worgbalgk\195\182cher", "Uraltes in Sehnen eingewickeltes Laminablatt", "K\195\182cher der tausend Federn", "K\195\182cher aus Knotenhautleder", "K\195\182cher aus Harpyienhaut", "Ribblys K\195\182cher", "Schnellziehk\195\182cher", "Schwerer K\195\182cher", "K\195\182cher der Nachtwache", "Jagdk\195\182cher", "Mittlerer K\195\182cher", "Leichter Lederk\195\182cher", "Kleiner K\195\182cher", "Leichter K\195\182cher", "Munitionsbeutel des Schmugglers", "Munitionsbeutel aus Knotenhautleder", "Munitionsbeutel aus Netherschuppen", "Schulterg\195\188rtel aus Gnollhaut", "Ribblys Schulterg\195\188rtel", "Dicker Ledermunitionsbeutel", "Schwerer Ledermunitionsbeutel", "Schulterg\195\188rtel der Nachtwache", "Mittlerer Geschossbeutel", "Jagdmunitionssack" ,"Kleiner Ledermunitionsbeutel", "Kleiner Geschossbeutel", "Kleiner Munitionsbeutel"};
+     L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Grollhufbalgk\195\182cher", "Worgbalgk\195\182cher", "Uraltes in Sehnen eingewickeltes Laminablatt", "K\195\182cher der tausend Federn", "K\195\182cher aus Knotenhautleder", "K\195\182cher aus Harpyienhaut", "Ribblys K\195\182cher", "Schnellziehk\195\182cher", "Schwerer K\195\182cher", "K\195\182cher der Nachtwache", "Jagdk\195\182cher", "Mittlerer K\195\182cher", "Leichter Lederk\195\182cher", "Kleiner K\195\182cher", "Leichter K\195\182cher", "Munitionsbeutel des Schmugglers", "Munitionsbeutel aus Knotenhautleder", "Munitionsbeutel aus Netherschuppen", "Schulterg\195\188rtel aus Gnollhaut", "Ribblys Schulterg\195\188rtel", "Dicker Ledermunitionsbeutel", "Schwerer Ledermunitionsbeutel", "Schulterg\195\188rtel der Nachtwache", "Mittlerer Geschossbeutel", "Jagdmunitionssack" ,"Kleiner Ledermunitionsbeutel", "Kleiner Geschossbeutel", "Kleiner Munitionsbeutel", "Verst\195\164rkter nerubischer K\195\182cher", "Drachenschuppenmunitionsbeutel"};
      L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Seelenbeutel", "Kleiner Seelenbeutel", "Seelenkasten", "Teufelsstofftasche", "Kernteufelsstofftasche", "Schwarzschattentasche", "Abgr\195\188ndige Tasche"};
-     L["TITAN_BAG_PROF_BAG_NAMES"] = {"Verzauberter Magiestoffbeutel", "Verzauberte Runenstofftasche", "Grosse Verzauberertasche", "Verzaubererranzen", "Zauberfeuertasche", "Werkzeugkasten aus Khorium", "Werkzeugkasten aus Teufelseisen", "Schwerer Werkzeugkasten", "Edelsteinbeutel", "Juwelenbeutel", "Verst\195\164rkte Bergbautasche", "Bergbausack", "Ranzen des Lederers", "Tasche f\195\188r alle Felle", "Kr\195\164uterbeutel", "Cenarische Kr\195\164utertasche","Cenarischer Ranzen","Mycahs Botanikerbeutel"};
+     L["TITAN_BAG_PROF_BAG_NAMES"] = {"Verzauberter Magiestoffbeutel", "Verzauberte Runenstofftasche", "Grosse Verzauberertasche", "Verzaubererranzen", "Zauberfeuertasche", "Werkzeugkasten aus Khorium", "Werkzeugkasten aus Teufelseisen", "Schwerer Werkzeugkasten", "Edelsteinbeutel", "Juwelenbeutel", "Verst\195\164rkte Bergbautasche", "Bergbausack", "Ranzen des Lederers", "Tasche f\195\188r alle Felle", "Kr\195\164uterbeutel", "Cenarische Kr\195\164utertasche","Cenarischer Ranzen","Mycahs Botanikerbeutel","Reisetasche des Trappers","Mammutbergbautasche","Werkzeugkasten aus Titan","Mysteri\195\182se Tasche","Smaragdtasche","Tasche der endlosen Fächer","Schreibermappe"};
 
      L["TITAN_BGMINIMAP_MENU_TEXT"] = "Schlachtfeld Minimap"
      L["TITAN_BGMINIMAP_TOOLTIP"] = "wechsle Schlachtfeld Minimap"

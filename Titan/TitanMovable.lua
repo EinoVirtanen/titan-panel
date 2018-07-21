@@ -1,3 +1,4 @@
+-- Globals
 TITAN_PANEL_PLACE_TOP = 1;
 TITAN_PANEL_PLACE_BOTTOM = 2;
 
@@ -21,6 +22,8 @@ local TitanMovableData = {
 	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, position = TITAN_PANEL_PLACE_TOP},
 	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
 	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
+	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
+	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
 	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, position = TITAN_PANEL_PLACE_TOP},
 	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, position = TITAN_PANEL_PLACE_BOTTOM},
@@ -66,8 +69,8 @@ function TitanMovableFrame_CheckFrames(position)
 			top = 0 + panelYOffset;
 			TitanMovableFrame_CheckTopFrame(frameTop, top, TicketStatusFrame:GetName())
 		end
-
-		-- Move TemporaryEnchantFrame
+		
+		-- Move TemporaryEnchantFrame. Seems this will be deprecated in the future in favor of BuffFrame ...
 		frameTop = TitanMovableFrame_GetOffset(TemporaryEnchantFrame, "TOP");
 		if TicketStatusFrame:IsVisible() then
 			top = 0 - TicketStatusFrame:GetHeight() + panelYOffset;
@@ -84,7 +87,16 @@ function TitanMovableFrame_CheckFrames(position)
 			TitanMovableFrame_CheckTopFrame(frameTop, top, MinimapCluster:GetName())
 		 end
 		end
-		
+		-- Move BuffFrame
+		frameTop = TitanMovableFrame_GetOffset(BuffFrame, "TOP");
+		if BuffFrame:IsVisible() then
+			top = 0 - BuffFrame:GetHeight() + panelYOffset;
+		else
+			top = -13 + panelYOffset;
+		end
+		TitanMovableFrame_CheckTopFrame(frameTop, top, BuffFrame:GetName())
+		TitanMovableFrame_CheckTopFrame(frameTop, top, ConsolidatedBuffs:GetName())
+
 		-- Move WorldStateAlwaysUpFrame				
 			frameTop = TitanMovableFrame_GetOffset(WorldStateAlwaysUpFrame, "TOP");
 			top = -15 + panelYOffset; 		

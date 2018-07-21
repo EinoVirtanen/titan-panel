@@ -23,7 +23,14 @@ if not L then return end
 
   L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " 被注册两次. 这可能使Titan失效，请重载以修复这个问题.";
   L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "你无法删除你当前的配置设置.";
-  L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."警告:"..FONT_COLOR_CODE_CLOSE.."这个选项将把面板的设置重置为默认值并且会重建你的配置文件。确定请按 '接受' (将重载界面), 取消请按 '取消' 或 'Esc' 键.";
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."警告: "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "如果你想继续这个操作, 按 '接受' (会重载界面), 否则请按 '取消' ."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."这会重置面板的位置和设置信息为默认值，并重建配置文件. "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."这会重新加载titan panel. "
+	..TITAN_PANEL_RELOAD_TEXT
      
      -- slash command help
   L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."用法: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -62,8 +69,8 @@ if not L then return end
   L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "禁用自动适应屏幕";
   L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "禁用微缩地图自动出现";
   L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "自动记录";
-  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
-  L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
+  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "自动背包调整";
+  L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "自动调整标签框体(将重载界面)";
   L["TITAN_PANEL_MENU_BUILTINS"] = "Titan内置插件";
   L["TITAN_PANEL_MENU_LEFT_SIDE"] = "左侧";
   L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "右侧";
@@ -177,7 +184,7 @@ if not L then return end
   L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "显示已用空间";
   L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "显示可用空间";
   L["TITAN_BAG_MENU_SHOW_DETAILED"] = "显示详细的提示信息";
-  L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
+  L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "忽略容器";
   L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "忽略弹药包空间";
   L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "忽略灵魂袋空间";
   L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "忽略各专业背包空间";
@@ -267,7 +274,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "显示副本难度";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "设置五人副本难度";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "设置团队副本难度";
-	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "自动设定(基于队伍类型)";
      
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -344,10 +351,10 @@ if not L then return end
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "预估击杀数: ";
   L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "连接时间: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "显示连接时间";
-	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
-	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*)死亡，你获得(%d+)点经验。";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "预估获得经验: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "升级所需杀怪数 (基于最后杀怪所获%d点经验): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "显示升级所需(基于最后一次所获经验)";
      
   L["TITAN_REGEN_MENU_TEXT"] = "恢复"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "恢复速度"

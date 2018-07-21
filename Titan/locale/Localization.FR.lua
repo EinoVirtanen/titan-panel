@@ -23,6 +23,14 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " semble \195\170tre enregistr\195\169 plusieurs fois. Cela peut causer des probl\195\168mes \195\160 Titan Panel. Veuillez corriger le probl\195\168me."
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Vous ne pouvez pas supprimer votre profil en cours.";
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."This will reload Titan Panel. "
+	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE.."cela va r\195\169initialiser la/les barres et tous les param\195\168tres de Titan Panel \195\160 leur valeur par d\195\169faut et va recr\195\169er votre profil. Si vous voulez continuer cette op\195\169ration, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'.";
 
 	-- slash command help
@@ -63,7 +71,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Ne pas ajuster la minicarte";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuster automatiquement la fen\195\168tre de discussion";
 	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuster automatiquement les sacs";
-	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
+	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Ajuster automatiquement le ticket MJ";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Modules Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "C\195\180t\195\169 gauche";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "C\195\180t\195\169 droit";
@@ -267,7 +275,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Afficher la difficult\195\169 du donjon/raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Changer la difficult\195\169 du donjon";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Changer la difficult\195\169 du raid";
-	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (bas\195\169 sur le groupe)";
 
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."Mo";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -334,9 +342,9 @@ if not L then return end
 	L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"] = "Montrer XP/h pour cette session";
 	L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"] = "Montrer la vue multi-infos";
 	L["TITAN_XP_MENU_SIMPLE_BUTTON_TITLE"] = "Afficher ...";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_RESTED"] = "... XP repos\195\169e";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"] = "... XP n\195\169cessaire pour ce niveau";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"] = "... l'estimation du nombre de mobs \195\160 tuer";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_RESTED"] = "XP repos\195\169e";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"] = "XP n\195\169cessaire pour ce niveau";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"] = "l'estimation du nombre de mobs \195\160 tuer";
 	L["TITAN_XP_MENU_RESET_SESSION"] = "R\195\169initialise la session";
 	L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Rafra\195\174chir les compteurs";
 	L["TITAN_XP_UPDATE_PENDING"] = "Mise \195\160 jour...";
@@ -345,9 +353,9 @@ if not L then return end
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Temps jou\195\169 pour cette session : ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Montrer le temps jou\195\169 pour cette session";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) meurt, vous gagnez (%d+) points d'exp\195\169rience.";
-	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. des gains : ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "Gains d'XP pour passer de niveau (\195\160 %d XP gagn\195\169): "; -- EN
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "les estimations de gains d'XP pour monter"; -- EN
 
 	L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Taux de regen"

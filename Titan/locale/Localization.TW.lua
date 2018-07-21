@@ -22,7 +22,14 @@ if not L then return end
 
   L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " 出現了重覆的二次錯誤，這可能會使泰坦面板執行失敗，請修正此問題"
   L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "你可能已經刪除目前的角色配置。";
-  L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."警告:"..FONT_COLOR_CODE_CLOSE.."此設定將會重置你的 Titan 的設定為預設值，並且會重新建立你的配置檔案。如果你要繼續請按「套用」，你的插件將會重新載入，如果不確定請按「取消」或 Esc 鍵。";
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "如果你要繼續請按「套用」，你的插件將會重新載入，如果不確定請按「取消」或 Esc 鍵。"
+L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	.."此設定將會重置你的 Titan 的設定為預設值，並且會重新建立你的配置檔案。 "
+	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	.."這會重新載入泰坦面板. "
+	..TITAN_PANEL_RELOAD_TEXT
 	
 	-- slash command help
   L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."輸入: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -61,8 +68,8 @@ if not L then return end
   L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "關閉螢幕調整";
   L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "關閉小地圖調整";
   L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "自動調整紀錄";
-  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
-  L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
+  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "自動調整背包";
+  L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "自動調整標籤框體";
   L["TITAN_PANEL_MENU_BUILTINS"] = "內建插件";
   L["TITAN_PANEL_MENU_LEFT_SIDE"] = "左邊區域";
   L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "右邊區域";
@@ -176,7 +183,7 @@ if not L then return end
   L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "顯示已使用空間";
   L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "顯示剩餘空間";
   L["TITAN_BAG_MENU_SHOW_DETAILED"] = "顯示詳細提示訊息";
-  L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
+  L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "忽略容器";
   L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "忽略彈藥袋的空間";
   L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "忽略靈魂碎片包空間";
   L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "忽略專業背包空間";
@@ -266,7 +273,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "顯示副本難度";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "設置五人副本難度";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "設置團隊副本難度";
-	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "自動設定 (基於隊伍類型)";
 	
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -343,10 +350,10 @@ if not L then return end
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "預估擊殺數: ";
   L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "連接: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "顯示連接時間";
-	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
-	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*)死亡，你獲得(%d+)點經驗。";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "預估獲得經驗: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "升級所需擊殺數(基於最後擊殺獲得的%d點經驗): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "顯示升級所需(基於最後所獲經驗)";
 	
   L["TITAN_REGEN_MENU_TEXT"] = "角色恢復速度"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]	= "恢復速率"

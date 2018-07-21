@@ -30,4 +30,4 @@ L["TITAN_GOLDTRACKER_STATUS_PLAYER_HIDE"] = "隱藏";
 L["TITAN_GOLDTRACKER_DELETE_PLAYER"] = "刪除角色";
 L["TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY"] = "聯盟";
 L["TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE"] = "部落";
-L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Warning: "..FONT_COLOR_CODE_CLOSE.."This setting will wipe your Gold Tracker database. If you wish to continue with this operation, push 'Accept', otherwise push 'Cancel' or the 'Escape' key.";
+L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."警告: "..FONT_COLOR_CODE_CLOSE.."這會清空金幣助手的資料庫，按取消放弃此次操作.";
