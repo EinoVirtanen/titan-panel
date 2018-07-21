@@ -3,7 +3,6 @@
 -- * Updates for the new TitanPanel: Titan Development Team
 -- * 2010 Jul : Started from Titan Gold Tracker to create this Titan version
 -- **************************************************************************
-
 --]]
 
 -- ******************************** Constants *******************************
@@ -342,7 +341,7 @@ function TitanPanelGoldButton_GetTooltipText()
 		GOLD_COLOR = TITAN_GOLD_GREEN;
 	else
 		GOLD_COLOR = TITAN_GOLD_RED;
-	end     
+	end
 
 	return ""..TitanUtils_GetColoredText(final_tooltip,GOLD_COLOR)..FONT_COLOR_CODE_CLOSE
 		..currentMoneyRichText
