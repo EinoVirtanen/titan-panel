@@ -370,6 +370,12 @@ function TitanPanel_PlayerEnteringWorld()
 		elseif TitanGetVar(TITAN_CLOCK_ID, "Format") then
 			ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format")
 		end
+		
+		-- Kill off the OrderHallCommandBar
+		--local var = OrderHallCommandBar
+		--var:UnregisterAllEvents()
+		--var:HookScript("OnShow",var.Hide)
+		--var:Hide()
 	end
 	local _ = nil
 	TitanSettings.Player,_,_ = TitanUtils_GetPlayer()
