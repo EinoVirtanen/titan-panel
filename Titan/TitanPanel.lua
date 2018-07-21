@@ -601,7 +601,7 @@ local function handle_slash_help(cmd)
 
 	--	Give the user the general help if we can not figure out what they want
 	TitanPrint("", "header")
-	TitanUtils_RegisterPluginList()
+	-- Cannot count registered plugins after initial registration  TitanUtils_RegisterPluginList()
 
 	if cmd == "reset" then
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_0"], "plain")
