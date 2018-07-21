@@ -102,21 +102,40 @@ function TitanPanelLootTypeButton_OnEvent(self, event, ...)
 	if event == "CHAT_MSG_SYSTEM" then
 		-- Match difficulty system message to alert addon for possible update
 		-- dungeons
-		local strm1 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY1"]) -- 5 Player
-		local strm2 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY2"]) -- 10 Player
-		local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY3"]) -- Epic (Unused)
+		local strm1 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY1"]) -- 5 Player "Normal" (difficultyID=1)
+		local strm2 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY2"]) -- 5 Player "Heroic" (difficultyID=2)
+--		local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY3"]) -- 5 Player "Mythic" (difficultyID=23)
+--		local strm4 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY4"]) -- 5 Player "Timewalker" (difficultyID=24)
+--		local strm5 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY5"]) -- 5 Player "Challenge Mode" (difficultyID=8)
+--			DUNGEON_DIFFICULTY1="5 Player"
+--			DUNGEON_DIFFICULTY2="5 Player (Heroic)"
+--			DUNGEON_DIFFICULTY3="Epic (Unused)"
 
 		-- raids
-		local strm4 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY1"]) -- 10 Player
-		local strm5 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY2"]) -- 25 Player
-		local strm6 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY3"]) -- 10 Player (Heroic)
-		local strm7 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY4"]) -- 25 Player (Heroic)
+		local strm3 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY1"]) -- 10 Player "Normal" (difficultyID=14)
+		local strm4 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY2"]) -- 10 Player "Heroic" (difficultyID=15)
+		local strm5 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY3"]) -- 10 Player "Mythic" (difficultyID=16)
+		local strm6 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY4"]) -- 
+--			RAID_DIFFICULTY1="10 Player"
+--			RAID_DIFFICULTY2="25 Player"
+--			RAID_DIFFICULTY3="10 Player (Heroic)"
+--			RAID_DIFFICULTY4="25 Player (Heroic)"
+
+--			PLAYER_DIFFICULTY1="Normal"
+--			PLAYER_DIFFICULTY2="Heroic"
+--			PLAYER_DIFFICULTY3="Raid Finder"
+--			PLAYER_DIFFICULTY4="Flexible"
+--			PLAYER_DIFFICULTY5="Challenge"
+--			PLAYER_DIFFICULTY6="Mythic"
+--			PLAYER_DIFFICULTY_TIMEWALKER="Timewalking"
 
 		-- legacy raid
---		local strm7 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY1"])
---		local strm8 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY2"])
+--		local strm8 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY1"]) -- "10 Player" (difficultyID=3)
+--		local strm9 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY2"]) -- "25 Player" (difficultyID=4)
+--		local strm8 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY3"]) -- "10 Player" (difficultyID=5)
+--		local strm9 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY4"]) -- "25 Player" (difficultyID=6)
 
-		if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3 or arg1 == strm4 or arg1 == strm5 or arg1 == strm6 or arg1 == strm7) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
+		if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3 or arg1 == strm4 or arg1 == strm5 or arg1 == strm6) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
 			TitanPanelPluginHandle_OnUpdate(updateTable)
 		end
 		return;
@@ -288,7 +307,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-		info = {}
+--[[		info = {}
 		info.text = _G["RED_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY3"].."|r";
 		info.func = function() SetDungeonDifficultyID(8) end
 		info.checked = function() if GetDungeonDifficultyID() == 2 then return true end return false end
@@ -308,6 +327,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 			info.disabled = false
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
+--]]
 
 	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["UIDROPDOWNMENU_MENU_VALUE"] == "SetRaidDiff" then
 		info = {};
