@@ -258,6 +258,7 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	LockAutoHideInCombat = false,
 	VersionShown = 1,
 	ToolTipsShown = 1,
+	Silenced = false,
 	HideTipsInCombat = false,
 	-- for the independent bars
 	Bar_Show = true,
@@ -299,6 +300,7 @@ TitanSkinsCustomPath = TitanSkinsDefaultPath.."Custom\\"
 TitanSkinsPathEnd = "\\"
 TitanSkinsDefault = {
 	{ name = "Titan Default", titan=true, path = TitanSkinsDefaultPath},
+	{ name = "BlackPlusOne", titan=true, path = TitanSkinsCustomPath.."BlackPlusOne Skin"..TitanSkinsPathEnd},
 	{ name = "Christmas", titan=true, path = TitanSkinsCustomPath.."Christmas Skin"..TitanSkinsPathEnd},
 	{ name = "Charcoal Metal", titan=true, path = TitanSkinsCustomPath.."Charcoal Metal"..TitanSkinsPathEnd},
 	{ name = "Crusader", titan=true, path = TitanSkinsCustomPath.."Crusader Skin"..TitanSkinsPathEnd},
