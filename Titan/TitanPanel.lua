@@ -65,6 +65,12 @@ local function TitanPanel_GetVersion()
 	return tostring(GetAddOnMetadata("Titan", "Version")) or L["TITAN_NA"];
 end
 
+local function TitanAdjustBottomFrames()
+	TitanMovableFrame_CheckFrames(2);
+	TitanMovableFrame_MoveFrames(2, TitanPanelGetVar("AuxScreenAdjust"));
+	TitanMovableFrame_AdjustBlizzardFrames();
+end
+
 local function TitanAdjustPanelScale(scale)		
 	-- Adjust panel scale
 		TitanPanel_SetScale();
@@ -74,7 +80,7 @@ local function TitanAdjustPanelScale(scale)
 		TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
 		TitanMovableFrame_CheckFrames(2);
 		TitanMovableFrame_MoveFrames(2, TitanPanelGetVar("AuxScreenAdjust"));
-		TitanMovableFrame_AdjustBlizzardFrames();		
+		TitanMovableFrame_AdjustBlizzardFrames();
 		AceTimer.CancelAllTimers("TitanPanelScale");
 end
 
@@ -708,6 +714,10 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			
 			-- Move frames
 			TitanPanelFrame_ScreenAdjust();
+			-- Secondary failsafe check from bottom frames
+			if (TitanPanelGetVar("BothBars") and not TitanPanelGetVar("AuxScreenAdjust")) or (TitanPanelGetVar("Position") == 2 and not TitanPanelGetVar("ScreenAdjust")) then				
+				AceTimer.ScheduleTimer("TitanPanelAdjustBottomFrames", TitanAdjustBottomFrames, 2.5);
+			end
 		
 			-- Init panel buttons
 			TitanPanel_InitPanelBarButton();
@@ -740,7 +750,7 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 				end
 			end
     elseif event == "PLAYER_LOGOUT" then
-    -- save bars settings on logout to avoig "garbage" in savedvars buttons table
+    -- save bars settings on logout to avoid "garbage" in savedvars buttons table
     	if not IsTitanPanelReset then
 				TitanPanelSettings.Buttons = newButtons;
 				TitanPanelSettings.Location = newLocations;
@@ -781,8 +791,6 @@ function TitanPanelFrame_ScreenAdjust()
 	if not InCombatLockdown() then
 		TitanMovableFrame_CheckFrames(TitanPanelGetVar("Position"));
 		TitanMovableFrame_MoveFrames(TitanPanelGetVar("Position"),  TitanPanelGetVar("ScreenAdjust"));
-		TitanMovableFrame_AdjustBlizzardFrames();
-
 		TitanMovableFrame_CheckFrames(TITAN_PANEL_PLACE_BOTTOM);
 		TitanMovableFrame_MoveFrames(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("AuxScreenAdjust"));
 		TitanMovableFrame_AdjustBlizzardFrames();
