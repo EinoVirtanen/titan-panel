@@ -574,7 +574,7 @@ NOTE:
 local function TitanPanel_ParseSlashCmd(cmd)
 	local words = {}
 	for w in string.gmatch (cmd, "%w+") do
-		words [#words +  1] = (w and string.lower(w) or "?")
+		words [#words + 1] = (w and string.lower(w) or "?")
 	end
 --[[	
 	local tmp = ""
@@ -590,7 +590,7 @@ end
 --[[ local
 NAME: handle_slash_help
 DESC: Helper to tell the user the relevant Titan commands.
-VAR:  cmd - string 'all' | 'reset' | 'gui'
+VAR:  cmd - string 'all' | 'reset' | 'gui' | 'silent'
 OUT:  None
 NOTE:
 - Depending on cmd put to chat the appropriate help
@@ -601,6 +601,7 @@ local function handle_slash_help(cmd)
 
 	--	Give the user the general help if we can not figure out what they want
 	TitanPrint("", "header")
+	TitanUtils_RegisterPluginList()
 
 	if cmd == "reset" then
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_0"], "plain")
