@@ -90,7 +90,6 @@ if not L then return end
      L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
      L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Buttons fixieren"; -- Sensity
      L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Pluginversionen anzeigen";
-     L["TITAN_PANEL_MENU_LDB_SHOWN"] = "Broker suffix an Menue anhaengen"; --SENSITY
      L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin rechts"; --SENSITY
      L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Schiebe Starter nach rechts"; --SENSITY
      L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Schriftarten skalieren sperren"; 
@@ -178,6 +177,7 @@ if not L then return end
      L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Bereits belegte Pl\195\164tze anzeigen";
      L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Noch verf\195\188gbare Pl\195\164tze anzeigen";
      L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Zeige detaillierten Tooltip"; --SENSITY
+     L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
      L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Pl\195\164tze des Munitionsbeutels ignorieren";
      L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignoriere Splittertaschen";
      L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignoriere Berufs-Taschen";
@@ -263,8 +263,10 @@ if not L then return end
      L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Hinweis: Links-Klick f\195\188r W\195\188rfelwurf.";
      L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Auswahl der W\195\188rfelmethode im Rrechtsklick-Men\195\188.";
      L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
-		 L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
+     L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
+		 L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
 		 L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
+		 L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
 
      L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
      L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -342,6 +344,7 @@ if not L then return end
      L["TITAN_XP_KILLS_LABEL_SHORT"] = "Est. Kills: ";
      L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
 		 L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
+		 L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
   
      L["TITAN_REGEN_MENU_TEXT"] = "Regeneration"
      L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]     = "Regenerationsrate"

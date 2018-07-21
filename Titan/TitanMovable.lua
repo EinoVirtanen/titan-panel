@@ -78,19 +78,16 @@ function TitanMovableFrame_CheckFrames(position)
 		-- Move MinimapCluster
 		if (not CleanMinimap) then
 		 if not TitanPanelGetVar("MinimapAdjust") then
-		frameTop = TitanMovableFrame_GetOffset(MinimapCluster, "TOP");
-		top = 0 + panelYOffset; 		
-		TitanMovableFrame_CheckTopFrame(frameTop, top, MinimapCluster:GetName())
+			frameTop = TitanMovableFrame_GetOffset(MinimapCluster, "TOP");
+			top = 0 + panelYOffset; 		
+			TitanMovableFrame_CheckTopFrame(frameTop, top, MinimapCluster:GetName())
 		 end
 		end
 		
-		-- Move WorldStateAlwaysUpFrame
-		local check = WorldFrame:IsProtected() -- check to ensure that the WorldFrame can be moved by insecure code
-		if not check then	
+		-- Move WorldStateAlwaysUpFrame				
 			frameTop = TitanMovableFrame_GetOffset(WorldStateAlwaysUpFrame, "TOP");
 			top = -15 + panelYOffset; 		
 			TitanMovableFrame_CheckTopFrame(frameTop, top, WorldStateAlwaysUpFrame:GetName());
-		end
 
 	elseif (position == TITAN_PANEL_PLACE_BOTTOM) then
 
@@ -232,30 +229,28 @@ function TitanMovableFrame_CheckBottomFrame(frameBottom, bottom, frameName)
 	table.insert(TitanMovable, frameName)
 end
 
-function Titan_TicketStatusFrame_OnEvent(self, event, ...)
+function Titan_TicketStatusFrame_OnShow()
 	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP, TitanPanelGetVar("BothBars"));
-	if ( event == "PLAYER_ENTERING_WORLD" ) then		
-	elseif ( event == "UPDATE_TICKET" ) then
-		local category = ...;
-		if ( category and (not GMChatStatusFrame or not GMChatStatusFrame:IsShown()) ) then			
-			-- Compensate for firing an UPDATE_TICKET event
-			if not InCombatLockdown() then
-				if not TitanPanelGetVar("ScreenAdjust") then
-					TemporaryEnchantFrame:SetPoint("TOPRIGHT", self:GetParent():GetName(), "TOPRIGHT", -205, 0 - self:GetHeight() + panelYOffset); -- ATTN
-				else
-					TemporaryEnchantFrame:SetPoint("TOPRIGHT", self:GetParent():GetName(), "TOPRIGHT", -205, 0 - self:GetHeight()); -- ATTN
-				end
-			end			
+	if not InCombatLockdown() or (InCombatLockdown() and not TemporaryEnchantFrame:IsProtected()) then
+		if not TitanPanelGetVar("ScreenAdjust") then
+			TemporaryEnchantFrame:SetPoint("TOPRIGHT", TicketStatusFrame:GetParent(), "TOPRIGHT", -205, 0 - TicketStatusFrame:GetHeight() + panelYOffset)
 		else
-			if not InCombatLockdown() then
-				if not TitanPanelGetVar("ScreenAdjust") then
-					TemporaryEnchantFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -205, -13 + panelYOffset); -- ATTN
-				else
-					TemporaryEnchantFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -205, -13); -- ATTN
-				end
+			TemporaryEnchantFrame:SetPoint("TOPRIGHT", TicketStatusFrame:GetParent(), "TOPRIGHT", -205, 0 - TicketStatusFrame:GetHeight())
+		end
+	end
+end
+
+function Titan_TicketStatusFrame_OnHide()
+	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP, TitanPanelGetVar("BothBars"));
+	if not GMChatStatusFrame or not GMChatStatusFrame:IsShown() then -- this is to replicate Blizzard's check in FrameXML/HelpFrame.xml
+		if not InCombatLockdown() or (InCombatLockdown() and not TemporaryEnchantFrame:IsProtected()) then
+			if not TitanPanelGetVar("ScreenAdjust") then
+				TemporaryEnchantFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -180, -13 + panelYOffset);
+			else
+				TemporaryEnchantFrame:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", -180, -13);
 			end
 		end
-	end	
+	end
 end
 
 function Titan_FCF_UpdateDockPosition()
@@ -422,7 +417,7 @@ end
 
 local function Titan_ManageVehicles()		
 		TitanMovableModule:CancelAllTimers()
-		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 1.5)
+		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 2)
 		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)
 end
 
@@ -445,8 +440,9 @@ end
 
 
 -- Titan Hooks
--- Overwrite Blizzard Frame positioning functions	
-TitanMovableModule:SecureHook("TicketStatusFrame_OnEvent", Titan_TicketStatusFrame_OnEvent)
+-- Overwrite Blizzard Frame positioning functions
+TitanMovableModule:SecureHook(TicketStatusFrame, "Show", Titan_TicketStatusFrame_OnShow)
+TitanMovableModule:SecureHook(TicketStatusFrame, "Hide", Titan_TicketStatusFrame_OnHide)
 TitanMovableModule:SecureHook("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition)
 TitanMovableModule:SecureHook("FCF_UpdateCombatLogPosition", Titan_FCF_UpdateCombatLogPosition)
 TitanMovableModule:SecureHook("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate)

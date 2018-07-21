@@ -6,6 +6,7 @@
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
+local _G = getfenv(0);
 local TITAN_COORDS_ID = "Coords";
 local OFFSET_X = 0.0022;
 local OFFSET_Y = -0.0262;
@@ -242,70 +243,88 @@ end
 -- DESC : Display rightclick menu options
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareCoordsMenu()
-     TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_COORDS_ID].menuText);
-     
-     local info = {};
-     info.text = L["TITAN_COORDS_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
-     info.func = TitanPanelCoordsButton_ToggleDisplay;
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowZoneText");
-     UIDropDownMenu_AddButton(info);
+		 local info
+		 
+		 -- level 2
+	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+     	info.text = L["TITAN_COORDS_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
+     	info.func = TitanPanelCoordsButton_ToggleDisplay;
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowZoneText");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-     info = {};
-     info.text = L["TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT"];
-     info.func = TitanPanelCoordsButton_ToggleCoordsOnMap;
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap");
-     UIDropDownMenu_AddButton(info);
+     	info = {};
+     	info.text = L["TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT"];
+     	info.func = TitanPanelCoordsButton_ToggleCoordsOnMap;
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
      
-     info = {};
-     info.text = L["TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT"];
-     info.func = TitanPanelCoordsButton_ToggleLocOnMiniMap;
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap");
-     UIDropDownMenu_AddButton(info);
-           
+     	info = {};
+     	info.text = L["TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT"];
+     	info.func = TitanPanelCoordsButton_ToggleLocOnMiniMap;
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap");
+     	info.disabled = InCombatLockdown()
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "CoordFormat" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_COORDS_FORMAT_COORD_LABEL"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+		 	info.text = L["TITAN_COORDS_FORMAT_LABEL"];
+     	info.func = function()
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", 1);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
+     		TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
+     	end
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
      
-     TitanPanelRightClickMenu_AddSpacer();
+     	info = {};
+		 	info.text = L["TITAN_COORDS_FORMAT2_LABEL"];
+     	info.func = function()
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", 1);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
+     		TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
+     	end
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
      
-		 TitanPanelRightClickMenu_AddTitle(L["TITAN_COORDS_FORMAT_COORD_LABEL"]);
+     	info = {};
+		 	info.text = L["TITAN_COORDS_FORMAT3_LABEL"];
+     	info.func = function()
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
+     		TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", 1);
+     		TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
+     	end
+     	info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+		return
+	end
+		 
+		 -- level 1
+		 TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_COORDS_ID].menuText);
+     
+		 info = {};
+	 	 info.text = L["TITAN_PANEL_MENU_OPTIONS"];
+	 	 info.value = "Options"
+	 	 info.hasArrow = 1;
+   	 UIDropDownMenu_AddButton(info);
 		 
 		 info = {};
-		 info.text = L["TITAN_COORDS_FORMAT_LABEL"];
-     info.func = function()
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", 1);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
-     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
-     end
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1");
-     UIDropDownMenu_AddButton(info);
-     
-     info = {};
-		 info.text = L["TITAN_COORDS_FORMAT2_LABEL"];
-     info.func = function()
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", 1);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", nil);
-     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
-     end
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2");
-     UIDropDownMenu_AddButton(info);
-     
-     info = {};
-		 info.text = L["TITAN_COORDS_FORMAT3_LABEL"];
-     info.func = function()
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat1", nil);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat2", nil);
-     TitanSetVar(TITAN_COORDS_ID, "CoordsFormat3", 1);
-     TitanPanelButton_UpdateButton(TITAN_COORDS_ID);
-     end
-     info.checked = TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3");
-     UIDropDownMenu_AddButton(info);
+	 	 info.text = L["TITAN_COORDS_FORMAT_COORD_LABEL"];
+	 	 info.value = "CoordFormat"
+	 	 info.hasArrow = 1;
+   	 UIDropDownMenu_AddButton(info);
 
      TitanPanelRightClickMenu_AddSpacer();
      TitanPanelRightClickMenu_AddToggleIcon(TITAN_COORDS_ID);
      TitanPanelRightClickMenu_AddToggleLabelText(TITAN_COORDS_ID);
      TitanPanelRightClickMenu_AddToggleColoredText(TITAN_COORDS_ID);
-
-
      TitanPanelRightClickMenu_AddSpacer();
      TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_COORDS_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end

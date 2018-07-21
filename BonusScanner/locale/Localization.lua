@@ -101,6 +101,26 @@ L["BONUSSCANNER_NAMES"] = {
 L["BONUSSCANNER_PREFIX_SET"] = "Set: ";
 L["BONUSSCANNER_PREFIX_SOCKET"] = "Socket Bonus: ";
 L["BONUSSCANNER_WEAPON_SPEED"] = "Speed";
+L["BONUSCANNER_GEM_STRINGS"] = {
+	-- red
+	["matches a red socket"] = { red = 1, yellow = 0, blue = 0, prismatic = 0},
+	-- blue
+	["matches a blue socket"] = { red = 0, yellow = 0, blue = 1, prismatic = 0},
+	-- yellow
+	["matches a yellow socket"] = { red = 0, yellow = 1, blue = 0, prismatic = 0},
+	-- purple
+	["matches a red or blue socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	["matches a blue or red socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	-- green
+	["matches a blue or yellow socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	["matches a yellow or blue socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	-- orange
+	["matches a red or yellow socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	["matches a yellow or red socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	-- prismatic
+	["matches any socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1},
+	["matches a red, yellow or blue socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1}
+}
 
 -- Enchant separators
 L["BONUSSCANNER_GLOBAL_SEP"] = " +";
@@ -206,7 +226,8 @@ L["BONUSSCANNER_PATTERNS_GENERIC_LOOKUP"] = {
 	["Increased Defense"]	= "DEFENSE",
 
 	["Attack Power"] 	= "ATTACKPOWER",
-  ["Attack Power when fighting Undead"] 		= "ATTACKPOWERUNDEAD",
+  ["Attack Power when fighting Undead"] = "ATTACKPOWERUNDEAD",
+  ["Attack Power versus Undead"] = "ATTACKPOWERUNDEAD",
 	["Attack Power in Cat, Bear, Dire Bear, and Moonkin forms only"] = "ATTACKPOWERFERAL",
 	["Weapon Damage"] = "DMGWPN",
 	
@@ -313,38 +334,17 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
 	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
 	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
-	
--- Death Knight Runes
-	{ pattern = "Rune of Spellbreaking", effect = "PERCSILENCE", value = 50 },
-	{ pattern = "Rune of Spellshattering", effect = "PERCSILENCE", value = 50 },
-	{ pattern = "Rune of the Stoneskin Gargoyle", effect = "DEFENSE", value = 25 },
+	{ pattern = "%+2%% Threat and 10 Parry Rating", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 
 -- rest of custom patterns
   { pattern = "Increases attack power by (%d+) in Cat, Bear, Dire Bear, and Moonkin forms only%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
 	{ pattern = "%+(%d+)% Health and Mana every 5 sec", effect = {"MANAREG", "HEALTHREG"} },
-	
+	{ pattern = "%+(%d+)% Mana and Health every 5 sec", effect = {"MANAREG", "HEALTHREG"} },
 	{ pattern = "Reinforced %(%+(%d+) Armor%)", effect = "ARMOR" },
-	{ pattern = "%+2%% Threat and 10 Parry Rating", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 	{ pattern = "%+(%d+)%% Threat", effect = "THREATINCREASE" },
 	{ pattern = "Scope %(%+(%d+) Critical Strike Rating%)", effect = "CRIT" },
 	{ pattern = "Scope %(%+(%d+) Damage%)", effect = "RANGEDDMG" },
-	{ pattern = "Subtlety", effect = "THREATREDUCTION", value = 2 },
-	
-	{ pattern = "Tuskar's Vitality", effect = "STA", value = 15 },
-	{ pattern = "Greater Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
-	{ pattern = "Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
-	{ pattern = "Accuracy", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "Titanium Weapon Chain", effect = "TOHIT", value = 28 },
-	{ pattern = "Titanium Plating", effect = "BLOCKVALUE", value = 40 },
-	{ pattern = "Icewalker", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
-	{ pattern = "Soulfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
-	{ pattern = "Sunfire", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
-	{ pattern = "Savagery", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "Scourgebane", effect = "ATTACKPOWERUNDEAD", value = 140 },
-	{ pattern = "Surefooted", effect = {"TOHIT", "CRIT"}, value = {10, 10} },
-	{ pattern = "Wisdom", effect = { "THREATREDUCTION", "SPI"}, value = {2, 10} },
-	{ pattern = "Gatherer", effect = { "HERBALISM", "MINING", "SKINNING"}, value = {5, 5, 5} }
 };
 
 -- localized strings

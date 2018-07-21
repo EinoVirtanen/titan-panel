@@ -163,7 +163,7 @@ end
 
 function TitanPanel_CreateBarTextures()
 	local i, titanTexture		
-	local screenWidth = TitanPanelBarButton:GetWidth() or GetScreenWidth()
+	local screenWidth = (TitanPanelBarButton:GetWidth() or GetScreenWidth()) + 1
 	numOfTextures = floor(screenWidth / 256)
 	numOfTexturesHider = (numOfTextures * 2) + 1
 	local lastTextureWidth = screenWidth - (numOfTextures * 256)
@@ -921,12 +921,10 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			end
 		elseif event == "PLAYER_REGEN_ENABLED" then
 		-- outside combat check to see if frames need correction
-			 if UnitHasVehicleUI("player") then
 			 	TitanMovableFrame_CheckFrames(1);
 				TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
-			 end
-			 Titan_ManageFramesNew();
-			 Titan_FCF_UpdateCombatLogPosition();
+			 	Titan_ManageFramesNew();
+			 	Titan_FCF_UpdateCombatLogPosition();
 		elseif event == "PLAYER_REGEN_DISABLED" then
 		 -- If in combat close all control frames and menus
 		   TitanUtils_CloseAllControlFrames();
@@ -937,9 +935,8 @@ end
 
 function TitanPanel_AddNewSkin(skinname, skinpath)
 	if not skinname or not skinpath then return end -- name and path must be provided
-	if skinname == "" or skinname == L["TITAN_NONE"] or skinpath == "" then return end -- name cannot be empty or "None", path cannot be empty
-	local i
-	local found = nil
+	if skinname == "" or skinname == L["TITAN_NONE"] or skinpath == "" then return end -- name cannot be empty or "None", path cannot be empty	
+	local found
 	for _,i in pairs(TitanSkins) do
 		if i.name == skinname or i.path == skinpath then
 			found = true			
@@ -965,14 +962,7 @@ end
 function TitanPanelBarButton_OnClick(self, button)
 -- ensure that the right-click menu will not appear on "hidden" bottom bar(s)
 local bar = self:GetName();
-	if (bar == "TitanPanelAuxBarButtonHider") and (TitanPanelGetVar("BothBars")== nil) then
-		return;
-	end
-	
-	-- 4.2.2: temporarily commented this out, we may not need it anymore
-	--if (bar == "TitanPanelAuxBarButtonHider") and (TitanPanelGetVar("AuxDoubleBar")== 1) then
-		--return;
-	--end
+	if bar == "TitanPanelAuxBarButtonHider" and not TitanPanelGetVar("BothBars") then return end
 	
 	if (button == "LeftButton") then
 		TitanUtils_CloseAllControlFrames();
@@ -982,6 +972,14 @@ local bar = self:GetName();
 		-- Show RightClickMenu anyway
 		if (TitanPanelRightClickMenu_IsVisible()) then
 			TitanPanelRightClickMenu_Close();
+		end
+		-- Initialize the DropDown Menu if not already initialized
+		if not self.TitanMenuInit and self:GetName() then
+			local initframe = bar;
+			if bar == "TitanPanelBarButtonHider" then initframe = "TitanPanelBarButton" end
+			if bar == "TitanPanelAuxBarButtonHider" then initframe = "TitanPanelAuxBarButton" end
+			TitanRightClickMenu_OnLoad(_G[initframe.."RightClickMenu"])
+			self.TitanMenuInit = true
 		end
 		TitanPanelRightClickMenu_Toggle(self);		
 	end
@@ -2320,13 +2318,6 @@ function TitanPanel_OptionsMenu()
 		-- Data Broker
 		TitanPanelRightClickMenu_AddSpacer(UIDROPDOWNMENU_MENU_LEVEL);
 		TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS_LDB"], UIDROPDOWNMENU_MENU_LEVEL);
-		-- Show Broker plugin suffix
-		info = {};
-		info.text = L["TITAN_PANEL_MENU_LDB_SHOWN"];
-		info.func = function() TitanPanelToggleVar("LDBSuffix") end;
-		info.checked = TitanPanelGetVar("LDBSuffix");
-		info.keepShownOnClick = 1;
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Force launchers to right-side
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
@@ -2481,13 +2472,6 @@ function TitanPanel_OptionsMenu()
 		-- Data Broker
 		TitanPanelRightClickMenu_AddSpacer(UIDROPDOWNMENU_MENU_LEVEL);
 		TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS_LDB"], UIDROPDOWNMENU_MENU_LEVEL);
-		-- Show Broker plugin suffix
-		info = {};
-		info.text = L["TITAN_PANEL_MENU_LDB_SHOWN"];
-		info.func = function() TitanPanelToggleVar("LDBSuffix") end;
-		info.checked = TitanPanelGetVar("LDBSuffix");
-		info.keepShownOnClick = 1;
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Force launchers to right-side
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
@@ -2824,12 +2808,9 @@ function TitanPanel_BuildOtherPluginsMenu()
 					info.text = plugin.menuText .. TitanUtils_GetGreenText(" (v" .. plugin.version .. ")");
 				else
 					info.text = plugin.menuText;
-				end				
-				if plugin.ldb and TitanPanelGetVar("LDBSuffix") then
-				  info.text = info.text .. "|cffff8c00 (LDB)|r";
 				end
 				if plugin.ldb then
-				info.hasArrow = 1;
+					info.hasArrow = 1;
 				end
 				info.value = id;				
 				info.func = function() 

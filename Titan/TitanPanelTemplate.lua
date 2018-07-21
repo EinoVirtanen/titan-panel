@@ -116,13 +116,13 @@ local id = nil;
 end
 
 function TitanPanelButton_OnClick(self, button, isChildButton)
-local id = nil;
+local id
 -- ensure that the 'self' passed is a valid frame reference
 	if self and self:GetName() then
 		id = TitanUtils_Ternary(isChildButton, TitanUtils_GetParentButtonID(self:GetName()), TitanUtils_GetButtonID(self:GetName()));
 	end
 	
-	if (id) then
+	if id then
 		local controlFrame = TitanUtils_GetControlFrame(id);
 		local rightClickMenu = _G["TitanPanelRightClickMenu"];
 	
@@ -180,6 +180,11 @@ local id = nil;
 			-- Show RightClickMenu anyway
 			if (TitanPanelRightClickMenu_IsVisible()) then
 				TitanPanelRightClickMenu_Close();
+			end
+			-- Initialize the DropDown Menu if not already initialized
+			if not self.TitanMenuInit and self:GetName() then
+				TitanRightClickMenu_OnLoad(_G[self:GetName().."RightClickMenu"])
+				self.TitanMenuInit = true
 			end
 			TitanPanelRightClickMenu_Toggle(self, isChildButton);
 		end

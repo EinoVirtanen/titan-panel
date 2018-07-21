@@ -1,10 +1,10 @@
 Titan Panel Setup Read Me First File
 Titan Development Team: HonorGoG, TristTitan, Lothayer, JoeJanko, oXidFoX, Urnati, StingerSoft, and Yeachan.
---------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
 
 1. Description
 
-Titan Panel adds a fully configurable interface bar/control panel to your WoW UI.  Because so much of the code has been rewritten since version 3.1.1, we are providing this help file.  A comprehensive list of changes can be found in the TitanPanelChangeLog.txt file elsewhere in this package.
+Titan Panel adds a configurable interface bar/control panel to your WoW UI.  Because so much of the code has been rewritten since version 3.1.1, we are providing this help file.  A comprehensive list of changes can be found in the TitanPanelChangeLog.txt file elsewhere in this package.
 
 
 2. Installation
@@ -107,8 +107,6 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
      Note:  Since this option has created a lot of confusion, we recommend that you keep this off, manually move the chat log, and lock it.
 
    - Move casting bar (Reload UI).  This tells Titan to move the casting/hearth bar up when using the bottom Titan bar(s), so the casting/hearth bar doesn't overlap the action bars. The UI will reload immediately after selecting this option. The default setting is OFF.
-
-   - Append Broker plugin suffix in menu.  This option displays (LDB) next to the plugin/launcher name in the list of Plugins.
 
    - Force launchers to right-side.  By default, LDB launchers display as left-side buttons.  You can tell Titan to display them as right-side icons in one of two ways.  
      * First, select this command after you activate all launchers.  This makes all active launchers right-side icons. 

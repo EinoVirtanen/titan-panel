@@ -23,7 +23,7 @@
 	<Button name="TitanPanelBarButtonHider" inherits="TitanPanelBarButtonHiderTemplate" hidden="false">
 	<Scripts>
 	<OnLeave>
-	TitanPanelBarButtonHider_OnLeave(self:GetName());
+		TitanPanelBarButtonHider_OnLeave(self:GetName());
 	</OnLeave>
 	</Scripts>
 		<Anchors>
@@ -38,7 +38,7 @@
 	<Button name="TitanPanelAuxBarButtonHider" inherits="TitanPanelBarButtonHiderTemplate" hidden="false">
 	<Scripts>
 	<OnLeave>
-	TitanPanelAuxBarButtonHider_OnLeave(self:GetName());
+		TitanPanelAuxBarButtonHider_OnLeave(self:GetName());
 	</OnLeave>
 	</Scripts>
 		<Anchors>
@@ -47,7 +47,7 @@
 					<AbsDimension x="0" y="0"/>
 				</Offset>
 			</Anchor>
-		</Anchors>
+		</Anchors>		
 	</Button>
 
 	<Button name="TitanPanelBarButton" frameStrata="DIALOG" parent="UIParent">	
@@ -65,14 +65,6 @@
 		</Anchors>
 		<Frames>
 			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true">
-				<Scripts>
-					<OnLoad>
-						self:RegisterEvent("VARIABLES_LOADED");
-					</OnLoad>
-					<OnEvent>
-						TitanRightClickMenu_OnLoad(self);
-					</OnEvent>
-				</Scripts>
 			</Frame>
 		</Frames>
 		<Scripts>
@@ -108,14 +100,6 @@
 		</Anchors>		
 		<Frames>
 			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true">
-				<Scripts>
-					<OnLoad>
-						self:RegisterEvent("VARIABLES_LOADED");
-					</OnLoad>
-					<OnEvent>
-						TitanRightClickMenu_OnLoad(self);
-					</OnEvent>
-				</Scripts>
 			</Frame>
 		</Frames>
 		<Scripts>

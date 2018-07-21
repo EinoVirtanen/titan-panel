@@ -103,6 +103,27 @@ L["BONUSSCANNER_NAMES"] = {
 L["BONUSSCANNER_PREFIX_SET"] = "套裝:";
 L["BONUSSCANNER_PREFIX_SOCKET"] = "插槽加成:";
 L["BONUSSCANNER_WEAPON_SPEED"] = "速度";
+-- translation needed !
+L["BONUSCANNER_GEM_STRINGS"] = {
+	-- red
+	["matches a red socket"] = { red = 1, yellow = 0, blue = 0, prismatic = 0},
+	-- blue
+	["matches a blue socket"] = { red = 0, yellow = 0, blue = 1, prismatic = 0},
+	-- yellow
+	["matches a yellow socket"] = { red = 0, yellow = 1, blue = 0, prismatic = 0},
+	-- purple
+	["matches a red or blue socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	["matches a blue or red socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	-- green
+	["matches a blue or yellow socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	["matches a yellow or blue socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	-- orange
+	["matches a red or yellow socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	["matches a yellow or red socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	-- prismatic
+	["matches any socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1},
+	["matches a red, yellow or blue socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1}
+}
 
 -- Enchant separators
 L["BONUSSCANNER_GLOBAL_SEP"] = "+";
@@ -327,23 +348,12 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+(%d+)強化護甲", effect = "ARMOR" }, --Reinforced (+40 Armor)	+40強化護甲
 	{ pattern = "%+(%d+)%%威脅值", effect = "THREATINCREASE" },
 	{ pattern = "瞄準鏡%(%+(%d+)致命一擊等級%)", effect = "CRIT" },
-	{ pattern = "瞄準鏡%(%+(%d+)傷害%)", effect = "RANGEDDMG" },	
-	{ pattern = "狡詐", effect = "THREATREDUCTION", value = 2 },
-
-	--{ pattern = "Vitality 2", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
-	{ pattern = "活力", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
-	{ pattern = "精準", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "泰坦鋼武器鍊", effect = "TOHIT", value = 28 },	
-	{ pattern = "冰行者", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
-	{ pattern = "靈魂冰霜", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
-	{ pattern = "烈日火焰", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
-	{ pattern = "野性", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "穩固", effect = {"TOHIT", "CRIT"}, value = {10, 10} },
-
+	{ pattern = "瞄準鏡%(%+(%d+)傷害%)", effect = "RANGEDDMG" },
+	
 	--自訂
 	{ pattern = "每5秒恢復(%d+)點法力", effect = "MANAREG" },
-    { pattern = "%+(%d+)法術能量和%+(%d+)%%智力", effect = {"SPELLPOW", "PERCINT"} },	
-    { pattern = "%+(%d+)法術能量和降低(%d+)%%威脅值", effect = {"SPELLPOW", "THREATINCREASE"} },
+  { pattern = "%+(%d+)法術能量和%+(%d+)%%智力", effect = {"SPELLPOW", "PERCINT"} },	
+  { pattern = "%+(%d+)法術能量和降低(%d+)%%威脅值", effect = {"SPELLPOW", "THREATINCREASE"} },
 	{ pattern = "%+(%d+)耐力和提高(%d+)%%裝備提供的護甲值", effect = {"STA", "PERCARMOR"} },
 	{ pattern = "%+(%d+)耐力和減少(%d+)%%法術傷害", effect = {"STA", "PERCREDSPELLDMG"} },
 	{ pattern = "%+(%d+)法術能量和縮短(%d+)%%沉默持續時間", effect = {"SPELLPOW", "PERCSILENCE"} },
@@ -362,10 +372,8 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 
 	{ pattern = "初級法力之油", effect = "MANAREG", value = 4 },
 	{ pattern = "次級法力之油", effect = "MANAREG", value = 8 },
-	{ pattern = "卓越法力之油", effect = { "MANAREG", "SPELLPOW"}, value = {12, 25} },
+	{ pattern = "卓越法力之油", effect = {"MANAREG", "SPELLPOW"}, value = {12, 25} },
 	{ pattern = "超強法力之油", effect = "MANAREG", value = 14 },
-	
-	{ pattern = "恆金漁線", effect = "FISHING", value = 5 }, 
 };
 
 -- localized strings

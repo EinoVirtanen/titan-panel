@@ -90,7 +90,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_PLUGINS"] = "Плагины";
 	L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Блокировать кнопки";
 	L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Показывать версии плагинов";
-	L["TITAN_PANEL_MENU_LDB_SHOWN"] = "Показ суффикс Broker плагина";
 	L["TITAN_PANEL_MENU_LDB_SIDE"] = "Плагин справа";
 	L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Направить модули запусков в правую сторону";
 	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Выключить масштабирование шрифтов";
@@ -178,6 +177,7 @@ if not L then return end
 	L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Показывать исп. сумки";
 	L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Показывать доступные слоты";
 	L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Отображать подробную подсказку";
+	L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
 	L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Игнорировать подсумок";
 	L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Игнорировать сумки осколков";
 	L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Игнорировать сумки для профф";
@@ -263,8 +263,10 @@ if not L then return end
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Совет: ЛКМ для броска костей.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Совет: ПКМ для выбора типа броска костей из меню.";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Сложность подземелья";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Показать сложность подземелья";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Установить сложность подземелья";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."мб";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -342,6 +344,7 @@ if not L then return end
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. Убийств: ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Время сеанса: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Показать время сеанса";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Регенерация"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Информация о регенерации"

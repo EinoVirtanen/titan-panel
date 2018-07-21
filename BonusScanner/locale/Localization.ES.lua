@@ -101,6 +101,26 @@ L["BONUSSCANNER_NAMES"] = {
 L["BONUSSCANNER_PREFIX_SET"] = "Conjunto: ";
 L["BONUSSCANNER_PREFIX_SOCKET"] = "Bonus ranura: ";
 L["BONUSSCANNER_WEAPON_SPEED"] = "Speed";
+L["BONUSCANNER_GEM_STRINGS"] = {
+	-- red
+	["Encaja en una ranura de color rojo."] = { red = 1, yellow = 0, blue = 0, prismatic = 0},
+	-- blue
+	["Encaja en una ranura de color azul."] = { red = 0, yellow = 0, blue = 1, prismatic = 0},
+	-- yellow
+	["Encaja en una ranura de color amarillo."] = { red = 0, yellow = 1, blue = 0, prismatic = 0},
+	-- purple
+	["Encaja en una ranura de color rojo o azul."] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	["Encaja en una ranura de color azul o rojo."] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	-- green
+	["Encaja en una ranura de color azul o amarillo."] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	["Encaja en una ranura de color amarillo o azul."] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	-- orange
+	["Encaja en una ranura de color rojo o amarillo."] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	["Encaja en una ranura de color amarillo o rojo."] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	-- prismatic
+	["Encaja en cualquier ranura."] = { red = 0, yellow = 0, blue = 0, prismatic = 1},
+	["Encaja en una ranura de color rojo, amarillo o azul."] = { red = 0, yellow = 0, blue = 0, prismatic = 1}
+}
 
 -- Enchant separators
 L["BONUSSCANNER_GLOBAL_SEP"] = " +";
@@ -296,36 +316,19 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
 	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
 	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
+	{ pattern = "%+(%d+)%% amenaza y (%d+) índice de parada", effect = {"THREATINCREASE","PARRY"} },
 
 	-- rest of custom patterns
-	{ pattern = "Sedal de eternio", effect = "FISHING", value = 5 },
-
 	{ pattern = "%+(%d+) aguante y aumenta (%d+)%% de valor de armadura de objetos", effect = {"STA", "PERCARMOR"} },
-	{ pattern = "%+(%d+)%% amenaza y (%d+) índice de parada", effect = {"THREATINCREASE","PARRY"} },
 	{ pattern = "%+(%d+) índice de defensa %+(%d+)%% valor de bloqueo de escudo", effect = {"DEFENSE", "PERCBLOCKVALUE"} },
 	{ pattern = "Sigilo y agilidad aumentados en (%d+) p.", effect = "AGI" },
 	{ pattern = "Afilado (%+(%d+) daño)", effect = "DMGWPN" },
 	{ pattern = "Reforzado %(%+(%d+) armadura%)", effect = "ARMOR" },
-	{ pattern = "Sutileza", effect = "THREATREDUCTION", value = 2 },
 	{ pattern = "Increases attack power by (%d+) in Cat, Bear, Dire Bear, and Moonkin forms only%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
 	{ pattern = "%+(%d+)%% Threat", effect = "THREATINCREASE" },
 	{ pattern = "Scope %(%+(%d+) Critical Strike Rating%)", effect = "CRIT" },
 	{ pattern = "Scope %(%+(%d+) Damage%)", effect = "RANGEDDMG" },
-	
-	{ pattern = "Blindaje de titanio", effect = "BLOCKVALUE", value = 40 },
-	{ pattern = "Cadena de titanio", effect = "TOHIT", value = 28 },	
-	{ pattern = "Caminante del hielo", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
-	{ pattern = "Escarcha de alma", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
-	{ pattern = "Finiquiplaga", effect = "ATTACKPOWERUNDEAD", value = 140 },
-	{ pattern = "Fuego solar", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
-	{ pattern = "Precisión", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "Recolector", effect = { "HERBALISM", "MINING", "SKINNING"}, value = {5, 5, 5} },
-	{ pattern = "Sabiduría", effect = { "THREATREDUCTION", "SPI"}, value = {2, 10} },
-	{ pattern = "Salvajismo", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "Vitalidad", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
-	{ pattern = "Vitalidad de colmillarr", effect = "STA", value = 15 },
-	{ pattern = "Vitalidad superior", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} }
 };
 
 -- localized strings

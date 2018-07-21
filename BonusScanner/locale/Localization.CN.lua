@@ -103,6 +103,27 @@ L["BONUSSCANNER_NAMES"] = {
 L["BONUSSCANNER_PREFIX_SET"] = "套装：";
 L["BONUSSCANNER_PREFIX_SOCKET"] = "镶孔奖励：";
 L["BONUSSCANNER_WEAPON_SPEED"] = "速度";
+-- translation needed !
+L["BONUSCANNER_GEM_STRINGS"] = {
+	-- red
+	["matches a red socket"] = { red = 1, yellow = 0, blue = 0, prismatic = 0},
+	-- blue
+	["matches a blue socket"] = { red = 0, yellow = 0, blue = 1, prismatic = 0},
+	-- yellow
+	["matches a yellow socket"] = { red = 0, yellow = 1, blue = 0, prismatic = 0},
+	-- purple
+	["matches a red or blue socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	["matches a blue or red socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	-- green
+	["matches a blue or yellow socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	["matches a yellow or blue socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	-- orange
+	["matches a red or yellow socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	["matches a yellow or red socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	-- prismatic
+	["matches any socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1},
+	["matches a red, yellow or blue socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1}
+}
 
 -- Enchant separators
 L["BONUSSCANNER_GLOBAL_SEP"] = "+";
@@ -316,30 +337,15 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
   { pattern = "%+18 法术强度，每5秒法力回复%+4", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} }, -- which gem？
   { pattern = "%+24 法术强度，每5秒法力回复%+6", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
   { pattern = "%+61 法术强度，每5秒法力回复%+6", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
+  { pattern = "%+2%% 威胁，%+10 招架等级", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 	
 -- rest of custom patterns
   { pattern = "在猎豹、熊、巨熊和枭兽形态下的攻击强度提高(%d+)点。", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "每5秒恢复(%d+)点法力值", effect = "MANAREG" },
 	{ pattern = "%+(%d+)护甲", effect = "ARMOR" },
-	{ pattern = "%+2%% 威胁，%+10 招架等级", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 	{ pattern = "%+(%d+)%%威胁", effect = "THREATINCREASE" },
 	{ pattern = "瞄准镜%（%+(%d+) 爆击等级%）", effect = "CRIT" },
 	{ pattern = "瞄准镜%（%+(%d+) 伤害%）", effect = "RANGEDDMG" },
-	{ pattern = "狡诈", effect = "THREATREDUCTION", value = 2 },
-	
-	{ pattern = "海象人的活力", effect = "STA", value = 15 },
-	{ pattern = "强效活力", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
-	{ pattern = "活力", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
-	{ pattern = "精确", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "泰坦神铁武器链", effect = "TOHIT", value = 28 },	
-	{ pattern = "履冰", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
-	{ pattern = "魂霜", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
-	{ pattern = "阳炎", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
-	{ pattern = "野蛮", effect = "ATTACKPOWER", value = 70 },
-	{ pattern = "天灾斩除", effect = "ATTACKPOWERUNDEAD", value = 140 },
-	{ pattern = "稳固", effect = {"TOHIT", "CRIT"}, value = {10, 10} },
-	{ pattern = "智慧", effect = { "THREATREDUCTION", "SPI"}, value = {2, 10} },
-	{ pattern = "采集", effect = { "HERBALISM", "MINING", "SKINNING"}, value = {5, 5, 5} }
 };
 
 -- localized strings

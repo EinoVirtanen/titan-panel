@@ -36,7 +36,6 @@ local TITAN_PANEL_SAVED_VARIABLES = {
 	AuxButtonAlign = 1,
 	LockButtons = false,
 	VersionShown = 1,
-	LDBSuffix = false,
 	ToolTipsShown = 1,
 	HideTipsInCombat = false,
 	CastingBar = false

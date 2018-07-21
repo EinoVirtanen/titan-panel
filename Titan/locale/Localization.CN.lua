@@ -90,7 +90,6 @@ if not L then return end
   L["TITAN_PANEL_MENU_PLUGINS"] = "模块";
   L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "锁定按钮";
   L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "显示插件版本";
-  L["TITAN_PANEL_MENU_LDB_SHOWN"] = "在菜单中添加统计后缀";
   L["TITAN_PANEL_MENU_LDB_SIDE"] = "模块置于右侧";
   L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "强制置于右侧";
   L["TITAN_PANEL_MENU_DISABLE_FONT"] = "禁用字体缩放";
@@ -178,6 +177,7 @@ if not L then return end
   L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "显示已用空间";
   L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "显示可用空间";
   L["TITAN_BAG_MENU_SHOW_DETAILED"] = "显示详细的提示信息";
+  L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
   L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "忽略弹药包空间";
   L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "忽略灵魂袋空间";
   L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "忽略各专业背包空间";
@@ -262,9 +262,11 @@ if not L then return end
   L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Roll点";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "左键单击将Roll点.";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "右键点击选择Roll点类型.";
-  L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
-	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
+  L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "五人副本难度";
+  L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "团队副本难度";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "显示副本难度";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "设置五人副本难度";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "设置团队副本难度";
      
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -340,8 +342,9 @@ if not L then return end
   L["TITAN_XP_UNKNOWN"] = "未知";
   L["TITAN_XP_KILLS_LABEL"] = "升级所需击杀数 (基于最后一个的经验 %d): ";
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "预估击杀数: ";
-  L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
-	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
+  L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "连接时间: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "显示连接时间";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
      
   L["TITAN_REGEN_MENU_TEXT"] = "恢复"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "恢复速度"

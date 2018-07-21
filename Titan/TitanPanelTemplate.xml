@@ -4,14 +4,6 @@
 	<Button name="TitanPanelButtonTemplate" hidden="true" movable="true" virtual="true">
 		<Frames>
 			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" id="1" hidden="true">
-				<Scripts>
-					<OnLoad>
-						self:RegisterEvent("VARIABLES_LOADED");
-					</OnLoad>
-					<OnEvent>
-						TitanRightClickMenu_OnLoad(self);
-					</OnEvent>
-				</Scripts>
 			</Frame>
 		</Frames>
 		<Scripts>
@@ -35,14 +27,6 @@
 	<Button name="TitanPanelChildButtonTemplate" hidden="true" virtual="true">
 		<Frames>
 			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" id="1" hidden="true">
-				<Scripts>
-					<OnLoad>
-						self:RegisterEvent("VARIABLES_LOADED");
-					</OnLoad>
-					<OnEvent>
-						TitanRightClickMenu_OnLoad(self);
-					</OnEvent>
-				</Scripts>
 			</Frame>
 		</Frames>
 		<Scripts>

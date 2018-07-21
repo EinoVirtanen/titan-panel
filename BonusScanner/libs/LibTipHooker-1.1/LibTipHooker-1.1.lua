@@ -1,10 +1,10 @@
 ﻿--[[
 Name: LibTipHooker-1.1.lua
 Description: A Library for hooking tooltips.
-Revision: $Revision: 2 $
+Revision: $Revision: 5 $
 Author: Whitetooth
 Email: hotdogee [at] gmail [dot] com
-LastUpdate: $Date: 2008-12-30 12:03:42 +0000 (Tue, 30 Dec 2008) $
+LastUpdate: $Date: 2009-07-08 10:06:02 +0000 (Wed, 08 Jul 2009) $
 Website:
 Documentation:
 SVN: $URL $
@@ -26,7 +26,7 @@ For a complete item scanning solution to stat scanning you can use ItemBonusLib 
 
 
 local MAJOR = "LibTipHooker-1.1"
-local MINOR = "$Revision: 2 $"
+local MINOR = "$Revision: 5 $"
 
 local TipHooker = LibStub:NewLibrary(MAJOR, MINOR)
 if not TipHooker then return end
@@ -40,33 +40,19 @@ local DEBUG = false
 
 -- Localize globals
 local _G = getfenv(0)
-local select = select
+local type = type
 local pairs = pairs
+local select = select
 local ipairs = ipairs
-local IsAddOnLoaded = IsAddOnLoaded
+local strfind = strfind
+local tinsert = tinsert
+local hooksecurefunc = hooksecurefunc
+local EnumerateFrames = EnumerateFrames
 
 local function print(text)
 	if DEBUG then
 		DEFAULT_CHAT_FRAME:AddMessage(text)
 	end
-end
-
--- copyTable
-local function copyTable(to, from)
-	if not to then
-		to = {}
-	end
-	for k,v in pairs(from) do
-		if type(k) == "table" then
-			k = copyTable({}, k)
-		end
-		if type(v) == "table" then
-			v = copyTable({}, v)
-		end
-		to[k] = v
-	end
-	setmetatable(to, getmetatable(from))
-	return to
 end
 
 -----------------------
@@ -77,32 +63,19 @@ local TooltipList = {
 		"GameTooltip",
 		"ItemRefTooltip",
 		"ShoppingTooltip",
-		-- EquipCompare support
-		"ComparisonTooltip",
-		-- EQCompare support
-		"EQCompareTooltip",
-		-- takKompare support
-		"tekKompareTooltip",
-		-- LinkWrangler support
-		"IRR_",
-		"LinkWrangler",
-		-- MultiTips support
-		-- Links support
-		"LinksTooltip",
-		-- AtlasLoot support
-		"AtlasLootTooltip",
-		-- ItemMagic support
-		"ItemMagicTooltip",
-		-- Sniff support
-		"SniffTooltip",
-		-- LinkHeaven support
-		"LH_",
-		-- Mirror support
-		"MirrorTooltip",
-		-- TooltipExchange support
-		"TooltipExchange_TooltipShow",
-		-- AtlasQuest support
-		"AtlasQuestTooltip",
+		"ComparisonTooltip",-- EquipCompare
+		"EQCompareTooltip",-- EQCompare
+		"tekKompareTooltip",-- takKompare
+		--"IRR_",-- LinkWrangler
+		"LinkWrangler",-- LinkWrangler
+		"LinksTooltip",-- Links
+		"AtlasLootTooltip",-- AtlasLoot
+		"ItemMagicTooltip",-- ItemMagic
+		"SniffTooltip",-- Sniff
+		--"LH_",-- LinkHeaven
+		"MirrorTooltip",-- Mirror
+		"TooltipExchange_TooltipShow",-- TooltipExchange
+		"AtlasQuestTooltip",-- AtlasQuest
 	},
 	buff = {
 		"GameTooltip",
@@ -182,13 +155,12 @@ local MethodList = {
 
 local HandlerList = TipHooker.HandlerList or {}
 TipHooker.HandlerList = HandlerList
-
+local origs = {}
 local Set = {
 	item = function(tooltip)
 		if not tooltip.GetItem then return end
 		local name, link = tooltip:GetItem()
-		-- Check for empty slots
-		if not name then return end
+		if not name then return end -- Check if tooltip really has an item
 		for handler in pairs(HandlerList.item) do
 			handler(tooltip, name, link)
 		end
@@ -230,8 +202,6 @@ local Set = {
 -- InitializeHook will hook all methods in MethodList[tipType]
 -- from tooltips in TooltipList[tipType] to the Set[tipType] function
 local Initialized = {}
-TipHooker.SupportedTooltips = {}
-TipHooker.HookedFrames = {}
 local function InitializeHook(tipType)
 	if Initialized[tipType] then return end
 	-- Walk through all frames
@@ -242,13 +212,12 @@ local function InitializeHook(tipType)
 	        if name then
 		        for _, v in ipairs(TooltipList[tipType]) do
 		        	if strfind(name, v) then
-			        	print("InitializeHook("..tipType..") = "..name)
+			        	--print("InitializeHook("..tipType..") = "..name)
 						for _, methodName in ipairs(MethodList[tipType]) do
 							if type(tooltip[methodName]) == "function" then
 								hooksecurefunc(tooltip, methodName, Set[tipType])
 							end
 						end
-						tinsert(_G.TipHooker.SupportedTooltips, tooltip)
 						break
 					end
 		        end
@@ -260,28 +229,27 @@ local function InitializeHook(tipType)
 	Initialized[tipType] = true
 end
 
+local HookedFrames = {}
 local function CreateFrameHook(frameType, name, parent, inheritFrame)
 	if name and frameType == "GameTooltip" then
 		for tipType in pairs(HandlerList) do
 	        for _, v in ipairs(TooltipList[tipType]) do
-	        	if strfind(name, v) then
-			        print("CreateFrameHook("..tipType..") = "..name)
+				-- prevent double hooking by checking HookedFrames table
+	        	if strfind(name, v) and not HookedFrames[name] then
+					HookedFrames[name] = true
+			        --print("CreateFrameHook("..tipType..") = "..name)
 		        	local tooltip = _G[name]
 					for _, methodName in ipairs(MethodList[tipType]) do
-						-- prevent double hooking by checking HookedFrames table
-						if (type(tooltip[methodName]) == "function") and (not _G.TipHooker.HookedFrames[name]) then
-							_G.TipHooker.HookedFrames[name] = true
+						if type(tooltip[methodName]) == "function" then
 							hooksecurefunc(tooltip, methodName, Set[tipType])
 						end
 					end
-					tinsert(_G.TipHooker.SupportedTooltips, tooltip)
 					break
 				end
 	        end
 		end
 	end
 end
-
 
 ------------------
 -- OnEventFrame --
@@ -296,9 +264,9 @@ local OnEventFrame = CreateFrame("Frame")
 OnEventFrame:RegisterEvent("VARIABLES_LOADED")
 
 OnEventFrame:SetScript("OnEvent", function(self, event, ...)
-	print(event)
+	--print(event)
 	VariablesLoaded = true
-	print("VariablesLoaded = true")
+	--print("VariablesLoaded = true")
 	-- Check for exsiting hooks
 	for tipType in pairs(HandlerList) do
 		InitializeHook(tipType)
@@ -331,7 +299,7 @@ TipHooker.OnEventFrame = OnEventFrame
 function TipHooker:Hook(handler, ...)
 	for i = 1, select('#', ...) do
 		local tipType = select(i, ...)
-		print("TipHooker:Hook("..tipType..")")
+		--print("TipHooker:Hook("..tipType..")")
 		if VariablesLoaded then
 			InitializeHook(tipType)
 		end
@@ -374,7 +342,7 @@ end
 {	:IsHooked(handler, tipType)
 -------------------------------------
 -- Description
-	Unhooks handler from tooltip SetX methods
+	Check if handler is hooker
 -- Args
 	handler
 	    func - handler func
@@ -414,18 +382,17 @@ end
 -- Examples
 }
 -----------------------------------]]
-function TipHooker:RegisterCustomTooltip(tipType,frameName)
-	local tooltip = getglobal(frameName);
+function TipHooker:RegisterCustomTooltip(tipType, frameName)
+	local tooltip = _G[frameName]
 	if(tooltip == nil) then
-		return;
+		return
 	end
-	print("InitializeHook("..tipType..") = "..frameName)
+	--print("InitializeHook("..tipType..") = "..frameName)
 	for _, methodName in ipairs(MethodList[tipType]) do
 		if type(tooltip[methodName]) == "function" then
 			hooksecurefunc(tooltip, methodName, Set[tipType])
 		end
 	end
-	tinsert(_G.TipHooker.SupportedTooltips, tooltip)
 end
 
-_G.TipHooker = TipHooker
+--_G.TipHooker = TipHooker

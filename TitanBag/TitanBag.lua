@@ -6,6 +6,7 @@
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
+local _G = getfenv(0);
 local TITAN_BAG_ID = "Bag";
 local TITAN_BAG_THRESHOLD_TABLE = {
      Values = { 0.5, 0.75 },
@@ -15,7 +16,7 @@ local updateTable = {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON} ;
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
-local BagTimer = nil;
+local BagTimer
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -203,51 +204,72 @@ end
 -- DESC : Display rightclick menu options
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareBagMenu()
+		 local info
+		 
+		 -- level 2
+	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
+			info = {};
+     	info.text = L["TITAN_BAG_MENU_SHOW_USED_SLOTS"];
+     	info.func = TitanPanelBagButton_ShowUsedSlots;
+     	info.checked = TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+     	info = {};
+     	info.text = L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"];
+     	info.func = TitanPanelBagButton_ShowAvailableSlots;
+     	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots"));
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+     
+     	info = {};
+     	info.text = L["TITAN_BAG_MENU_SHOW_DETAILED"];
+     	info.func = TitanPanelBagButton_ShowDetailedInfo;
+     	info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "IgnoreCont" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_BAG_MENU_IGNORE_SLOTS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
+			info = {};
+     	info.text = L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"];
+     	info.func = TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots;
+     	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountAmmoPouchSlots"));
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+     	info = {};
+     	info.text = L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"];
+     	info.func = TitanPanelBagButton_ToggleIgnoreShardBagSlots;
+     	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountShardBagSlots"));
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+     	info = {};
+     	info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
+     	info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
+     	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
+     	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+		return
+	end
+	
+		 -- level 1
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_BAG_ID].menuText);
      
-     local info = {};
-     info.text = L["TITAN_BAG_MENU_SHOW_USED_SLOTS"];
-     info.func = TitanPanelBagButton_ShowUsedSlots;
-     info.checked = TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots");
-     UIDropDownMenu_AddButton(info);
-
      info = {};
-     info.text = L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"];
-     info.func = TitanPanelBagButton_ShowAvailableSlots;
-     info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "ShowUsedSlots"));
-     UIDropDownMenu_AddButton(info);
-     
-     info = {};
-     info.text = L["TITAN_BAG_MENU_SHOW_DETAILED"];
-     info.func = TitanPanelBagButton_ShowDetailedInfo;
-     info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
-     UIDropDownMenu_AddButton(info);
-
-     TitanPanelRightClickMenu_AddSpacer();     
-     
-     info = {};
-     info.text = L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"];
-     info.func = TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots;
-     info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountAmmoPouchSlots"));
-     UIDropDownMenu_AddButton(info);
-
-     info = {};
-     info.text = L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"];
-     info.func = TitanPanelBagButton_ToggleIgnoreShardBagSlots;
-     info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountShardBagSlots"));
-     UIDropDownMenu_AddButton(info);
-
-     info = {};
-     info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
-     info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
-     info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
-     UIDropDownMenu_AddButton(info);
-
+	 	 info.text = L["TITAN_PANEL_MENU_OPTIONS"];
+	 	 info.value = "Options"
+	 	 info.hasArrow = 1;
+   	 UIDropDownMenu_AddButton(info);
+		 
+		 info = {};
+	 	 info.text = L["TITAN_BAG_MENU_IGNORE_SLOTS"];
+	 	 info.value = "IgnoreCont"
+	 	 info.hasArrow = 1;
+   	 UIDropDownMenu_AddButton(info);
+   	 
      TitanPanelRightClickMenu_AddSpacer();     
      TitanPanelRightClickMenu_AddToggleIcon(TITAN_BAG_ID);
      TitanPanelRightClickMenu_AddToggleLabelText(TITAN_BAG_ID);
      TitanPanelRightClickMenu_AddToggleColoredText(TITAN_BAG_ID);
-     
      TitanPanelRightClickMenu_AddSpacer();     
      TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_BAG_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end

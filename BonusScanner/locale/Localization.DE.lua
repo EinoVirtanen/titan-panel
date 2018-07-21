@@ -103,6 +103,27 @@ L["BONUSSCANNER_NAMES"] = {
 L["BONUSSCANNER_PREFIX_SET"] = "Set: ";
 L["BONUSSCANNER_PREFIX_SOCKET"] = "Sockelbonus: ";
 L["BONUSSCANNER_WEAPON_SPEED"] = "Tempo";
+-- translation needed !
+L["BONUSCANNER_GEM_STRINGS"] = {
+	-- red
+	["matches a red socket"] = { red = 1, yellow = 0, blue = 0, prismatic = 0},
+	-- blue
+	["matches a blue socket"] = { red = 0, yellow = 0, blue = 1, prismatic = 0},
+	-- yellow
+	["matches a yellow socket"] = { red = 0, yellow = 1, blue = 0, prismatic = 0},
+	-- purple
+	["matches a red or blue socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	["matches a blue or red socket"] = { red = 1, yellow = 0, blue = 1, prismatic = 0},
+	-- green
+	["matches a blue or yellow socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	["matches a yellow or blue socket"] = { red = 0, yellow = 1, blue = 1, prismatic = 0},
+	-- orange
+	["matches a red or yellow socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	["matches a yellow or red socket"] = { red = 1, yellow = 1, blue = 0, prismatic = 0},
+	-- prismatic
+	["matches any socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1},
+	["matches a red, yellow or blue socket"] = { red = 0, yellow = 0, blue = 0, prismatic = 1}
+}
 
 
 -- Enchant separators
@@ -311,15 +332,6 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Verstärkt %(%+(%d+) Rüstung%)", effect = "ARMOR" },
 	{ pattern = "%+(%d+)%% Bedrohung", effect = "THREATINCREASE" },
 	{ pattern = "Zielfernrohr %(%+(%d+) Schaden%)", effect = "RANGEDDMG" },
-	{ pattern = "Feingefühl", effect = "THREATREDUCTION", value = 2 },
-		
-	{ pattern = "Vitalität", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
-	{ pattern = "Eiswandler", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
-	{ pattern = "Präzision", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "Seelenfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
-	{ pattern = "Sonnenfeuer", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
-	{ pattern = "Unbändigkeit", effect = "ATTACKPOWER", value = 70 },	
-	{ pattern = "Sicherer Stand", effect = {"TOHIT", "CRIT"}, value = {10, 10} }
 };
 
 -- localized strings

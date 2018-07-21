@@ -1,3 +1,16 @@
+5.1 Tristanian 2009.08.04
+- Major update.
+- Updated toc for 30200 (WoW 3.2).
+- Implemented changes to facilitate a more object oriented design.
+- Localized unnecessary and forgotten globals.
+- Removed some redundant code.
+- Properly merged the global bonus table with the frame object.
+- Reduced overall memory usage.
+- Totally revamped the GetGemSum method, which now properly relies on tooltip scanning, instead of static table ID matching (localization needed!).
+- Updated locale independent enchants.
+- Implemented itemlink caching for equipped items, to throttle down unnecessary updates fired because of UNIT_INVENTORY_CHANGED.
+- Changed the LDB plugin's profile to a per character basis. Previous settings will all be reverted to defaults.
+------------------------------------------------
 5.0 (hotfix) Tristanian 2009.06.02
 - Fixed an issue with the LDB feed not properly reporting special rating bonuses details, on the button (eg. defense, expertise).
 ------------------------------------------------

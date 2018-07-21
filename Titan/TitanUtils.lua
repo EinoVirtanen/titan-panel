@@ -212,9 +212,7 @@ end
 
 function TitanUtils_GetButtonIDFromMenu(self)
 	if self and self:GetParent() then
-		if self:GetParent():GetName() == "TitanPanelBarButton" then
-			return "Bar";
-		elseif self:GetParent():GetName() == "TitanPanelAuxBarButton" then
+		if self:GetParent():GetName() == "TitanPanelBarButton" or self:GetParent():GetName() == "TitanPanelAuxBarButton" then
 			return "Bar";
 		elseif self:GetParent():GetParent():GetName() then  
 			-- TitanPanelChildButton     			

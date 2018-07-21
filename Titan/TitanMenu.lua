@@ -3,11 +3,13 @@ local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 
 function TitanRightClickMenu_OnLoad(self)
-	local id = TitanUtils_GetButtonIDFromMenu(self);	
-	if (id) then	
+	local id = TitanUtils_GetButtonIDFromMenu(self);
+	if id then
 		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"];
 		if prepareFunction and type(prepareFunction) == "function" then
-		 	UIDropDownMenu_Initialize(self, prepareFunction, "MENU");		 	
+			-- Nasty "hack", load Blizzard_Calendar if not loaded, for it to secure init 24 dropdown menu buttons, to avoid action blocked by tainting
+			if (self:GetName() == "TitanPanelBarButtonRightClickMenu" or self:GetName() == "TitanPanelAuxBarButtonRightClickMenu") and not IsAddOnLoaded("Blizzard_Calendar") then LoadAddOn("Blizzard_Calendar") end
+		 	UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 		end
 	end
 end
@@ -37,9 +39,9 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	-- fix for Right-Click menu on the DoubleBar	
 	local menu;	
    if self:GetName() == "TitanPanelBarButtonHider" then
-   menu = _G["TitanPanelBarButton".."RightClickMenu"]
+   menu = _G["TitanPanelBarButtonRightClickMenu"]
    elseif self:GetName() == "TitanPanelAuxBarButtonHider" then
-   menu = _G["TitanPanelAuxBarButton".."RightClickMenu"]
+   menu = _G["TitanPanelAuxBarButtonRightClickMenu"]
    else
 	 menu = _G[self:GetName().."RightClickMenu"];
 	 end
@@ -90,11 +92,11 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 end
 
 function TitanPanelRightClickMenu_IsVisible()
-	return DropDownList1:IsVisible();
+	return _G["DropDownList1"]:IsVisible();
 end
 
 function TitanPanelRightClickMenu_Close()
-	DropDownList1:Hide();
+	_G["DropDownList1"]:Hide();
 end
 
 function TitanPanelRightClickMenu_AddTitle(title, level)

@@ -76,7 +76,7 @@ end
 
 function TitanPanelClockButton_OnEvent(self, event, ...)
 	if (event == "PLAYER_ENTERING_WORLD") and TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
-		if GameTimeFrame and GameTimeFrame:GetName() then GameTimeFrame:Hide() end
+		if GameTimeFrame then GameTimeFrame:Hide() end
 	end
 end
 
@@ -87,8 +87,7 @@ function TitanPanelClockButton_OnClick(self, button)
 		if (TitanPanelRightClickMenu_IsVisible()) then
 				TitanPanelRightClickMenu_Close();
 		end
-		if not IsAddOnLoaded("Blizzard_Calendar") then EnableAddOn("Blizzard_Calendar") LoadAddOn("Blizzard_Calendar") end
-		if IsAddOnLoaded("Blizzard_Calendar") then Calendar_Toggle() end
+		ToggleCalendar()
 	else
 		TitanPanelButton_OnClick(self, button);
 	end

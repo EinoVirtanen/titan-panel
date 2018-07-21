@@ -1,4 +1,4 @@
-## Interface: 30100
+## Interface: 30200
 ## Title: Broker [BonusScanner]
 ## Author: Tristanian
 ## Notes: Load-On-Demand LDB data feed to display item bonuses, based on BonusScanner addon.
@@ -8,7 +8,7 @@
 ## X-Embeds: Ace3
 ## X-Category: Inventory
 ## X-Email: tristanian@live.com
-## SavedVariables: BonusScannerBrokerConfig
+## SavedVariablesPerCharacter: BonusScannerBrokerConfig
 ## Version: 1.2
 ## X-Child-Of: BonusScanner
 

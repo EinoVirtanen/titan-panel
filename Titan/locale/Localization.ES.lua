@@ -90,7 +90,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
 	L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Bloquear botones";
 	L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Mostrar versiones del plugin";
-	L["TITAN_PANEL_MENU_LDB_SHOWN"] = "Añadir sufijos del Corredor en el menú";
 	L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin del lado derecho";
 	L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forzar lanzadores en el lado derecho";
 	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Desactivar escalado de fuentes";
@@ -178,6 +177,7 @@ if not L then return end
 	L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Mostrar huecos usados";
 	L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Mostrar huecos libres";
 	L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Mostrar tooltip detallado";
+	L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignorar bolsas";
 	L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Ignorar bolsas de munición";
 	L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignorar bolsas de almas";
 	L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorar bolsas de profesión";
@@ -262,10 +262,12 @@ if not L then return end
 	L["TITAN_LOOTTYPE_MENU_TEXT"] = "Tipo de saqueo";
 	L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Tirar dados";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Consejo: Click-Izq. para tirar dados.";
-	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Seleccione el valor de la tirada de dados con el menu de Click-Der.";
+	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Seleccione el valor de la tirada de dados con el menu de Click-Dcho.";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dificultad de Mazmorra";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Mostrar dificultad de Mazmorra";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Establecer dificultad de Mazmorra";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -343,6 +345,7 @@ if not L then return end
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Muertes estimadas: ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Tiempo en esta sesión: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Mostrar tiempo en esta sesión";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*) muere, ganas (%d+) de experiencia.";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Regeneración"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Ratios de regeneración"
