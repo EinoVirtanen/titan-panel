@@ -62,7 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Desactivar ajuste de pantalla";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Desactivar ajuste de minimapa";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuste de log automático";
-	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuste de bolsas automático";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "De serie en Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Lado izquierdo";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Lado derecho";
@@ -268,6 +268,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Mostrar dificultad de Mazmorra/Raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Establecer dificultad de Mazmorra";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Establecer dificultad de Raid";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -340,12 +341,14 @@ if not L then return end
 	L["TITAN_XP_MENU_RESET_SESSION"] = "Reiniciar sesión";
 	L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Actualizar temporizadores";
 	L["TITAN_XP_UPDATE_PENDING"] = "Actualizando...";
-	L["TITAN_XP_UNKNOWN"] = "Desconocido";
 	L["TITAN_XP_KILLS_LABEL"] = "Muertes para subir (a %d XP ganados la última vez): ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Muertes estimadas: ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Tiempo en esta sesión: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Mostrar tiempo en esta sesión";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) muere, ganas (%d+) de experiencia.";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Regeneración"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Ratios de regeneración"

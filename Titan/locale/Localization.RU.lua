@@ -62,7 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Выключить подстройку экрана";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Отключить подстройку мини-карты";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Авто подстройка записи";
-	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Авто подстройка сумок";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Сборки титана";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Левая сторона";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Правая сторона";
@@ -251,7 +251,7 @@ if not L then return end
 	L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"] = "Выход пропуск.способность: ";
 	L["TITAN_LATENCY_MENU_TEXT"] = "Задержка";
 	
-	L["TITAN_LOOTTYPE_BUTTON_LABEL"] = "Добыча: ";
+	L["TITAN_LOOTTYPE_BUTTON_LABEL"] = "Обыск: ";
 	L["TITAN_LOOTTYPE_FREE_FOR_ALL"] = "Каждый за себя";
 	L["TITAN_LOOTTYPE_ROUND_ROBIN"] = "По очереди";
 	L["TITAN_LOOTTYPE_MASTER_LOOTER"] = "Ответственный за добычу";
@@ -263,10 +263,11 @@ if not L then return end
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Совет: ЛКМ для броска костей.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Совет: ПКМ для выбора типа броска костей из меню.";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Сложность подземелья";
-	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Сложность рейда";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Сложность рейда/подземелья";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Установить сложность подземелья";
-	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Установить сложность рейда";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."мб";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -339,12 +340,14 @@ if not L then return end
 	L["TITAN_XP_MENU_RESET_SESSION"] = "Сбросить сессию";
 	L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Обновить таймеры";
 	L["TITAN_XP_UPDATE_PENDING"] = "Обновляется...";
-	L["TITAN_XP_UNKNOWN"] = "неизвестно";
 	L["TITAN_XP_KILLS_LABEL"] = "Убийств до уровня (%d опыта полученно): ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. Убийств: ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Время сеанса: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Показать время сеанса";
-	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
+	L["TITAN_XP_GAIN_PATTERN"] = "(.*) погибает, вы получаете (%d+) |4очко:очка:очков; опыта.";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Регенерация"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Информация о регенерации"

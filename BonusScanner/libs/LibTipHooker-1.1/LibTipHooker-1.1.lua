@@ -1,18 +1,24 @@
 ﻿--[[
 Name: LibTipHooker-1.1.lua
 Description: A Library for hooking tooltips.
-Revision: $Revision: 5 $
+Revision: $Revision: 7 $
 Author: Whitetooth
 Email: hotdogee [at] gmail [dot] com
-LastUpdate: $Date: 2009-07-08 10:06:02 +0000 (Wed, 08 Jul 2009) $
+LastUpdate: $Date: 2009-08-09 17:24:10 +0000 (Sun, 09 Aug 2009) $
 Website:
 Documentation:
 SVN: $URL $
 License: LGPL v3
 ]]
 
--- This library is still in early development
-
+--[[ Features
+{
+1. Why not use the OnTooltipSetItem script hook?
+	OnTooltipSetItem is bugged that it's called twice on proffesion patterns, once for the pattern and once for the item it makes.
+2. Maintains support for most tooltip mods
+3. Hooks dynamically created tooltips
+}
+--]]
 --[[ Tips for using TipHooker
 {
 This library provides tooltip hooks, mainly for use with item tooltip modification, you can easily append or modify text in a tooltip with TipHookerLib.
@@ -26,7 +32,7 @@ For a complete item scanning solution to stat scanning you can use ItemBonusLib 
 
 
 local MAJOR = "LibTipHooker-1.1"
-local MINOR = "$Revision: 5 $"
+local MINOR = "$Revision: 7 $"
 
 local TipHooker = LibStub:NewLibrary(MAJOR, MINOR)
 if not TipHooker then return end
@@ -65,14 +71,12 @@ local TooltipList = {
 		"ShoppingTooltip",
 		"ComparisonTooltip",-- EquipCompare
 		"EQCompareTooltip",-- EQCompare
-		"tekKompareTooltip",-- takKompare
-		--"IRR_",-- LinkWrangler
+		"tekKompareTooltip",-- tekKompare
 		"LinkWrangler",-- LinkWrangler
 		"LinksTooltip",-- Links
 		"AtlasLootTooltip",-- AtlasLoot
 		"ItemMagicTooltip",-- ItemMagic
 		"SniffTooltip",-- Sniff
-		--"LH_",-- LinkHeaven
 		"MirrorTooltip",-- Mirror
 		"TooltipExchange_TooltipShow",-- TooltipExchange
 		"AtlasQuestTooltip",-- AtlasQuest
@@ -106,8 +110,6 @@ local MethodList = {
 		"SetLootItem",
 		"SetLootRollItem",
 		-- crafting
-		"SetCraftSpell",
-		"SetCraftItem",
 		"SetTradeSkillItem",
 		"SetTrainerService",
 		-- mail
@@ -130,6 +132,9 @@ local MethodList = {
 		"SetHyperlinkCompareItem",
 		-- 2.3.0
 		"SetGuildBankItem",
+		-- 3.0
+		"SetCurrencyToken",
+		"SetBackpackToken",
 	},
 	buff = {
 		"SetPlayerBuff",
@@ -155,9 +160,8 @@ local MethodList = {
 
 local HandlerList = TipHooker.HandlerList or {}
 TipHooker.HandlerList = HandlerList
-local origs = {}
 local Set = {
-	item = function(tooltip)
+	item = function(tooltip, ...)
 		if not tooltip.GetItem then return end
 		local name, link = tooltip:GetItem()
 		if not name then return end -- Check if tooltip really has an item

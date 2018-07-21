@@ -6,10 +6,10 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.8 Beta June 16th, 2009                  --
+--   Latest version: 2.9 Beta August 19th, 2009                --
 -----------------------------------------------------------------
 
--- Refined Ace2 table for matching addon metadata stuff
+-- Ace2 table mapping to Titan categories in order to match addon metadata information
 
 local xcategories = {
 	["Action Bars"] = "Interface",
@@ -50,7 +50,8 @@ local xcategories = {
 }
 
 -- Unsupported Data Object types table
-local UnsupportedDOTypes = { "cork" }
+-- August 19th: Added all the "garbage" dataobject types created by Tweetcraft
+local UnsupportedDOTypes = { "cork", "IncomingTweet", "Reply", "OutgoingTweet", "AutoTweetCategory", "AutoTweetAddOn"}
 
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
@@ -70,8 +71,8 @@ function TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relative
  if frame:GetName() == "GameTooltip" then
  	frame:SetOwner(parent, "ANCHOR_NONE");
   -- set alpha (transparency) for the Game Tooltip
-	local red, green, blue, _ = GameTooltip:GetBackdropColor();
-	local red2, green2, blue2, _ = GameTooltip:GetBackdropBorderColor();
+	local red, green, blue = GameTooltip:GetBackdropColor();
+	local red2, green2, blue2 = GameTooltip:GetBackdropBorderColor();
 	frame:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"));
 	frame:SetBackdropBorderColor(red2,green2,blue2,TitanPanelGetVar("TooltipTrans"));
 	
@@ -93,9 +94,7 @@ end
 
 function LDBToTitan:TitanLDBSetTooltip(name, frame, func)
 -- Check to see if we allow tooltips to be shown
-  if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then
-		return;
-	end
+  if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then return end
 	-- Set custom DO tooltip
 	local button = TitanUtils_GetButton(name);
 	local position = TitanPanelGetVar("Position");
@@ -406,7 +405,6 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
    --DEFAULT_CHAT_FRAME:AddMessage("Attempting to register "..name..".");
    
    -- Unsupported Data Object types
-   local idx
    for idx in ipairs(UnsupportedDOTypes) do
    	if obj.type and obj.type == UnsupportedDOTypes[idx] then return end
    end

@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v5.1
+-- BonusScanner Continued v5.2
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -15,7 +15,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize locals/tables
-local BONUSSCANNER_VERSION = "5.1";
+local BONUSSCANNER_VERSION = tostring(GetAddOnMetadata("BonusScanner", "Version")) or _G["UNKNOWN"]
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -174,8 +174,8 @@ BonusScanner.slots = {
 local BaseRatings = {
 { effect = "EXPERTISE", baseval = 2.5},
 { effect = "DEFENSE", baseval = 1.5},
-{ effect = "DODGE", baseval = 12},
-{ effect = "PARRY", baseval = 15},
+{ effect = "DODGE", baseval = 13.8}, -- 3.2 Dodge Rating: The amount of dodge rating required per percentage of dodge has been increased by 15%.
+{ effect = "PARRY", baseval = 13.8}, -- 3.2 Parry Rating: The amount of parry rating required per percentage of parry has been reduced by 8%.
 { effect = "BLOCK", baseval = 5},
 { effect = "TOHIT", baseval = 10},
 { effect = "CRIT", baseval = 14},
@@ -186,7 +186,7 @@ local BaseRatings = {
 { effect = "SPELLCRIT", baseval = 14},
 { effect = "HOLYCRIT", baseval = 14}, 
 { effect = "SPELLH", baseval = 10},
-{ effect = "RESILIENCE", baseval = 25},
+{ effect = "RESILIENCE", baseval = 28.75}, -- 3.2 Resilience: The amount of resilience needed to reduce critical strike chance, critical strike damage and overall damage has been increased by 15%.
 { effect = "ARMORPEN", baseval = 3.756097412109376} -- 3.1 Armor Penetration Rating: All classes now receive 25% more benefit from Armor Penetration Rating.
 }
 
@@ -280,7 +280,7 @@ function BonusScanner:GetRatingMultiplier(level, bonustype)
 			level = 34
 		end
 		if level < 10 then
-			return 52 / (10 - 8)
+			return 52 / 2
 		elseif level <= 60 then
 			return 52 / (level - 8)
 		elseif level <= 70 then

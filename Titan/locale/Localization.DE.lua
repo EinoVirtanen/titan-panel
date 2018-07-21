@@ -267,6 +267,7 @@ if not L then return end
 		 L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
 		 L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
 		 L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
+		 L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
 
      L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
      L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -339,12 +340,14 @@ if not L then return end
      L["TITAN_XP_MENU_RESET_SESSION"] = "Session Zur\195\188cksetzen";
      L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Zaehler zuruecksetzen"; --SENSITY
      L["TITAN_XP_UPDATE_PENDING"] = "Updating...";
-     L["TITAN_XP_UNKNOWN"] = "Unknown";
      L["TITAN_XP_KILLS_LABEL"] = "Kills to level (at %d XP gained last): ";
      L["TITAN_XP_KILLS_LABEL_SHORT"] = "Est. Kills: ";
      L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
 		 L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
-		 L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
+		 L["TITAN_XP_GAIN_PATTERN"] = "(.*) stirbt, Ihr bekommt (%d+) Erfahrung.";
+		 L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
+ 		 L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
+		 L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
   
      L["TITAN_REGEN_MENU_TEXT"] = "Regeneration"
      L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]     = "Regenerationsrate"

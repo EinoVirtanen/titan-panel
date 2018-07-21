@@ -702,8 +702,9 @@ function TitanPanelBarButton_OnLoad(self)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("PLAYER_REGEN_ENABLED");
-	self:RegisterEvent("CVAR_UPDATE");	
-	self:RegisterEvent("PLAYER_LOGOUT");	
+	self:RegisterEvent("CVAR_UPDATE");
+	self:RegisterEvent("PLAYER_LOGOUT");
+	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
 	self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 	
 --add Blizzard Configuration Panel
@@ -921,10 +922,12 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 			end
 		elseif event == "PLAYER_REGEN_ENABLED" then
 		-- outside combat check to see if frames need correction
-			 	TitanMovableFrame_CheckFrames(1);
-				TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
-			 	Titan_ManageFramesNew();
-			 	Titan_FCF_UpdateCombatLogPosition();
+			TitanMovableFrame_CheckFrames(1);
+			TitanMovableFrame_MoveFrames(1, TitanPanelGetVar("ScreenAdjust"));
+			Titan_ManageFramesNew();
+			Titan_FCF_UpdateCombatLogPosition();
+		elseif event == "ACTIVE_TALENT_GROUP_CHANGED" then
+			AceTimer.ScheduleTimer("TitanPanelAdjustBottomDualSpec", Titan_ManageFramesNew, 3)
 		elseif event == "PLAYER_REGEN_DISABLED" then
 		 -- If in combat close all control frames and menus
 		   TitanUtils_CloseAllControlFrames();

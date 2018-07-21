@@ -478,7 +478,7 @@ end
 local function Titan_ManageVehicles()		
 		TitanMovableModule:CancelAllTimers()
 		TitanMovableModule:ScheduleTimer(Titan_ManageTopFramesVehicle, 2)
-		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)
+		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 2)
 end
 
 local function Titan_AdjustUIScale()	

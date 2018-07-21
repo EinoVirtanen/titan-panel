@@ -1,3 +1,10 @@
+5.2 Tristanian 2009.08.09
+- Updated libraries.
+- Updated base ratings for 3.2, in accordance with the following changes:
+Dodge Rating: The amount of dodge rating required per percentage of dodge has been increased by 15%.
+Parry Rating: The amount of parry rating required per percentage of parry has been reduced by 8%.
+Resilience: The amount of resilience needed to reduce critical strike chance, critical strike damage and overall damage has been increased by 15%.
+------------------------------------------------
 5.1 Tristanian 2009.08.04
 - Major update.
 - Updated toc for 30200 (WoW 3.2).

@@ -62,7 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Ne pas ajuster l'\195\169cran";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Ne pas ajuster la minicarte";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuster automatiquement la fen\195\168tre de discussion";
-	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuster automatiquement les sacs";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Modules Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "C\195\180t\195\169 gauche";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "C\195\180t\195\169 droit";
@@ -267,6 +267,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Afficher la difficult\195\169 du donjon/raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Changer la difficult\195\169 du donjon";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Changer la difficult\195\169 du raid";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
 
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."Mo";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -339,12 +340,14 @@ if not L then return end
 	L["TITAN_XP_MENU_RESET_SESSION"] = "R\195\169initialise la session";
 	L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Rafra\195\174chir les compteurs";
 	L["TITAN_XP_UPDATE_PENDING"] = "Mise \195\160 jour...";
-	L["TITAN_XP_UNKNOWN"] = "Inconnu";
 	L["TITAN_XP_KILLS_LABEL"] = "Mobs \195\160 tuer avant niveau (\195\160 %d XP par mob) : ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Mobs \195\160 tuer : ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Temps jou\195\169 pour cette session : ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Montrer le temps jou\195\169 pour cette session";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) meurt, vous gagnez (%d+) points d'exp\195\169rience.";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
 
 	L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Taux de regen"

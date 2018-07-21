@@ -266,6 +266,7 @@ if not L then return end
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "顯示副本難度";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "設置五人副本難度";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "設置團隊副本難度";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
 	
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -338,12 +339,14 @@ if not L then return end
   L["TITAN_XP_MENU_RESET_SESSION"] = "重設經驗值統計";
   L["TITAN_XP_MENU_REFRESH_PLAYED"] = "更新時間";
   L["TITAN_XP_UPDATE_PENDING"] = "更新中...";
-  L["TITAN_XP_UNKNOWN"] = "未知";
   L["TITAN_XP_KILLS_LABEL"] = "升級還需的擊殺數(上次獲得 %d EXP): ";
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "預估擊殺數: ";
   L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "連接: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "顯示連接時間";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
 	
   L["TITAN_REGEN_MENU_TEXT"] = "角色恢復速度"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]	= "恢復速率"

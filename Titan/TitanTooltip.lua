@@ -9,8 +9,8 @@ function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFrame, rel
 	GameTooltip:SetOwner(parent, "ANCHOR_NONE");
 	GameTooltip:SetPoint(anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset);
 	-- set alpha (transparency) for the Game Tooltip
-	local red, green, blue, _ = GameTooltip:GetBackdropColor();
-	local red2, green2, blue2, _ = GameTooltip:GetBackdropBorderColor();
+	local red, green, blue = GameTooltip:GetBackdropColor();
+	local red2, green2, blue2 = GameTooltip:GetBackdropBorderColor();
 	GameTooltip:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"));
 	GameTooltip:SetBackdropBorderColor(red2,green2,blue2,TitanPanelGetVar("TooltipTrans"));
 	-- set font size for the Game Tooltip
@@ -37,13 +37,8 @@ function TitanTooltip_SetGameTooltip(self)
 end
 
 function TitanTooltip_SetPanelTooltip(self, id)
-	if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then
-		return;
-	end
-
-	if ( not self.tooltipCustomFunction and not self.tooltipTitle ) then
-		return;
-	end
+	if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then return end
+	if not self.tooltipCustomFunction and not self.tooltipTitle then return end
 
 	-- Set GameTooltip
 	local button = TitanUtils_GetButton(id);
