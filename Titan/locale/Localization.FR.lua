@@ -23,15 +23,14 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " semble \195\170tre enregistr\195\169 plusieurs fois. Cela peut causer des probl\195\168mes \195\160 Titan Panel. Veuillez corriger le probl\195\168me."
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Vous ne pouvez pas supprimer votre profil en cours.";
-local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
-local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "Si vous voulez continuer cette op\195\169ration, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'."
 L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
-	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	.."cela va r\195\169initialiser la/les barres et tous les param\195\168tres de Titan Panel \195\160 leur valeur par d\195\169faut et va recr\195\169er votre profil. "
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
-	.."This will reload Titan Panel. "
+	.."Cela va recharger Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
-	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE.."cela va r\195\169initialiser la/les barres et tous les param\195\168tres de Titan Panel \195\160 leur valeur par d\195\169faut et va recr\195\169er votre profil. Si vous voulez continuer cette op\195\169ration, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'.";
 
 	-- slash command help
 	L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
