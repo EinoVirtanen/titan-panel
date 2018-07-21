@@ -5,45 +5,45 @@ Titan uses Ace libraries to place the Titan options within the Blizzard option s
 
 Most routines in this file are local because they create the Titan options. 
 These routines are called first when Titan processes the 'player entering world' event.
-If an options list (skins, extra, etc) are changed then the Ace table needs to be updated and Blizz informed to 'redraw'.
+If an options list (skins, extra, etc) is changed by the user then the Ace table needs to be updated and Blizz informed to 'redraw'.
 --]]
 
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
 
+local TitanSkinToRemove = "None";
+local TitanSkinName, TitanSkinPath = "", "";
+local TitanGlobalProfile = ""
+
 -- Titan local helper funcs
 local function TitanPanel_GetTitle()
-	return GetAddOnMetadata("Titan", "Title") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "Title") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetAuthor()
-	return GetAddOnMetadata("Titan", "Author") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "Author") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetCredits()
-	return GetAddOnMetadata("Titan", "X-Credits") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "X-Credits") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetCategory()
-	return GetAddOnMetadata("Titan", "X-Category") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "X-Category") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetEmail()
-	return GetAddOnMetadata("Titan", "X-Email") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "X-Email") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetWebsite()
-	return GetAddOnMetadata("Titan", "X-Website") or L["TITAN_NA"];
-end
-
-local function TitanPanel_GetVersion()
-	return tostring(GetAddOnMetadata("Titan", "Version")) or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "X-Website") or L["TITAN_NA"];
 end
 
 local function TitanPanel_GetLicense()
-	return GetAddOnMetadata("Titan", "X-License") or L["TITAN_NA"];
+	return GetAddOnMetadata(TITAN_ID, "X-License") or L["TITAN_NA"];
 end
 
 --[[ local
@@ -278,13 +278,7 @@ local function TitanPanel_AddNewSkin(skinname, skinpath)
 			break
 		end
 	end
---[[
-TitanDebug("_AddNewSkin "
-..(skinname or "?").." "
-..(skinpath or "?").." "
-..(found and "T" or "F").." "
-)
---]]
+
 	-- The skin is new so add it to the Titan saved variables list
 	if not found then 
 		table.insert(TitanSkins, {name = skinname, path = skinpath }) 
@@ -687,7 +681,7 @@ local optionsBars = {
 			set = function() 
 			local tmp = TitanPanelGetVar("Bar_Align");
 			TitanPanelBarButton_ToggleAlign("Bar_Align"); 
-			TitanDebug("Bar c: "..tmp.." "..TitanPanelGetVar("Bar_Align"));
+--			TitanDebug("Bar c: "..tmp.." "..TitanPanelGetVar("Bar_Align"));
 			end,
 		},
 		confdesc2 = {
@@ -924,6 +918,13 @@ local optionsFrames = {
 			get = function() return TitanPanelGetVar("VersionShown") end,
 			set = function() TitanPanelToggleVar("VersionShown") end,
 		},
+		autohidelock = {
+			name = "Lock auto hid bars while in combat", --L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
+			desc = "During combat do not show auto hid bars", --L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
+			order = 303, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("LockAutoHideInCombat") end,
+			set = function() TitanPanelToggleVar("LockAutoHideInCombat") end,
+		},
 		space_400_1 = {
 			order = 400,
 			type = "description",
@@ -1108,7 +1109,7 @@ DESC: Show plugins that are not registered (loaded) but have config data. The da
 VARS: None
 OUT : None
 NOTE:
-- As users change the the plugins they use the old ones still have plugin saved variable data stored by Titan.
+- As users change the plugins they use the old ones still have saved variable data stored by Titan.
 - The old plugin data can be removed by the user when they will not longer use that plugin.
 - This routine is called to 'redraw' the list as a user deletes data.
 - A message is sent to chat that the plugin data has been deleted.
@@ -1145,10 +1146,9 @@ local function TitanUpdateExtras()
 						order = 15, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanPluginSettings[info[1]] = nil -- delete the config entry
-							DEFAULT_CHAT_FRAME:AddMessage(
-								TitanUtils_GetGoldText(L["TITAN_PANEL"])
-								.." '"..info[1].."' "..L["TITAN_PANEL_EXTRAS_DELETE_MSG"]
-								);
+							TitanPrint(
+								" '"..info[1].."' "..L["TITAN_PANEL_EXTRAS_DELETE_MSG"]
+								, "info")
 							TitanVariables_ExtraPluginSettings() -- rebuild the list
 							TitanUpdateExtras() -- rebuild the options config
 							AceConfigRegistry:NotifyChange("Titan Panel Addon Extras") -- tell Ace to redraw
@@ -1163,8 +1163,6 @@ local function TitanUpdateExtras()
 end
 -------------
 
--------------
--- extra toons config section
 --[[ local
 NAME: optionsChars
 DESC: This is the table shell. The toon info will be added by another routine.
@@ -1189,7 +1187,7 @@ local function TitanUpdateChars()
 	local players = {};
 	-- Rip through the players (with server name) to sort them
 	for index, id in pairs(TitanSettings.Players) do
-			table.insert(players, index);
+		table.insert(players, index);
 	end
 
 	-- set up the options for the user
@@ -1202,17 +1200,18 @@ local function TitanUpdateChars()
 		order = 1,
 		type = "description",
 		name = L["TITAN_PANEL_CHARS_DESC"].."\n",
-		cmdHidden = true
+		cmdHidden = true,
 	}
 	args["custom_header"] = {
 		order = 10,
 		type = "header",
 		name = L["TITAN_PANEL_MENU_PROFILE_CUSTOM"].."\n",
-		cmdHidden = true
+		cmdHidden = true,
 	}
-	args["custom"] = {
-		order = 20, type = "execute", width = "full",
-		name = L["TITAN_PANEL_MENU_SAVE_SETTINGS"],
+	args["custom_save"] = {
+		order = 11,
+		type = "execute",
+		name = L["TITAN_PANEL_MENU_SAVE_SETTINGS"].."\n",
 		func = function(info, v) 
 			TitanPanel_SaveCustomProfile()
 			TitanUpdateChars() -- rebuild the toons
@@ -1222,25 +1221,72 @@ local function TitanUpdateChars()
 		type = "description",
 		name = "",
 		cmdHidden = true,
-		order = 900,
+		order = 12,
+	}
+	args["global_header"] = {
+		order = 20,
+		type = "header",
+		name = "Global", --L["TITAN_PANEL_MENU_PROFILE_CUSTOM"].."\n",
+		cmdHidden = true,
+	}
+	args["global_use"] = {
+		order = 21, type = "toggle", width = "full",
+		name = "Use Global Profile", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+		desc = "Use the global profile for all characters", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+		get = function() return TitanAllGetVar("GlobalProfileUse") end,
+		set = function() 
+			TitanVariables_ToggleGlobalUse()
+			TitanUpdateChars() -- rebuild the toons
+			AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+		end,
+	}
+	args["global_name"] = {
+		order = 22, type = "description", width = "full",
+		name = "Global Profile: "..TitanUtils_GetGoldText(TitanAllGetVar("GlobalProfileName") or "?"),
+	}
+	args["sp_20"] = {
+		type = "description",
+		name = "",
+		cmdHidden = true,
+		order = 23,
 	}
 	args["profile_header"] = {
-		order = 901,
+		order = 30,
 		type = "header",
 		name = L["TITAN_PANEL_MENU_PROFILES"].."\n",
 		cmdHidden = true
 	}
 	for idx, value in pairs(players) do
 		local name = (players[idx] or "?")
-		if name and not (name == TitanSettings.Player) then -- do not display current character
+		local s, e, ident, server, player
+		local fancy_name = ""
+		local disallow = false
+		disallow = -- looks weird but we need to force a true or Ace complains
+			((name == TitanSettings.Player)
+						or ((name == TitanAllGetVar("GlobalProfileName")) 
+							and (TitanAllGetVar("GlobalProfileUse")))
+			) and true or false
+
+		if name then
+			-- color code the name
+			-- - gold for normal profiles
+			-- - green for custom profiles
+			player, server = TitanUtils_ParseName(name)
+			-- handle custom profiles here
+			if server == TITAN_CUSTOM_PROFILE_POSTFIX then
+				fancy_name = TitanUtils_GetGreenText((name or "?"))
+			else
+				fancy_name = TitanUtils_GetGoldText((name or "?"))
+			end
+			-- end color code
 			args[name] = {
 				type = "group",
-				name = TitanUtils_GetGoldText((name or "?")),
+				name = fancy_name,
 				desc = "",
-				order = 1,
+				order = 40,
 				args = {
 					name = {
-						type = "description",
+						type = "header",
 						name = TitanUtils_GetGoldText(name or "?"),
 						cmdHidden = true,
 						order = 10,
@@ -1256,9 +1302,9 @@ local function TitanUpdateChars()
 						order = 20, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanVariables_UseSettings(info[1])
---							TitanPanelSettings.Buttons = newButtons;
---							TitanPanelSettings.Location = newLocations;
 						end,
+						-- does not make sense to load current character profile or global profile
+						disabled = disallow,
 					},
 					sp_20 = {
 						type = "description",
@@ -1271,14 +1317,77 @@ local function TitanUpdateChars()
 						order = 30, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanSettings.Players[info[1]] = nil -- delete the config entry
-							DEFAULT_CHAT_FRAME:AddMessage(
-								_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]
-								..": "..L["TITAN_PANEL_MENU_PROFILE"]
-								.."|cffff8c00"..info[1].."|r"
+							TitanPrint(
+								L["TITAN_PANEL_MENU_PROFILE"]
+								..info[1]
 								..L["TITAN_PANEL_MENU_PROFILE_DELETED"]
-								);
+								, "info")
+							if name == TitanAllGetVar("GlobalProfileName") then 
+								TitanAllSetVar("GlobalProfileName", TITAN_PROFILE_NONE) 
+							end
 							TitanUpdateChars() -- rebuild the toons
+							AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 						end,
+						-- can not delete current character profile or global profile
+						disabled = disallow,
+					},
+					sp_30 = {
+						type = "description",
+						name = "",
+						cmdHidden = true,
+						order = 31,
+					},
+					sp_31 = {
+						type = "description",
+						name = "",
+						cmdHidden = true,
+						order = 32,
+					},
+--[
+					global_header = {
+						order = 40,
+						type = "header",
+						name = "Global", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+						cmdHidden = true,
+					},
+					use_as_global = {
+						order = 41, type = "toggle", width = "full",
+						name = "Use As Global Profile", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+						get = function() return TitanPanelGetVar("GlobalProfileName") == name end,
+						set = function() 
+							if TitanPanelGetVar("GlobalProfileName") == name then 
+								-- Was unchecked so clear the saved var
+								TitanAllSetVar("GlobalProfileName", TITAN_PROFILE_NONE)
+							else 
+								-- Was checked so set the saved var
+								TitanAllSetVar("GlobalProfileName", name)
+							end
+							if TitanAllGetVar("GlobalProfileUse") then
+								-- Use whatever toon the user picked, if not use current toon
+								if TitanAllGetVar("GlobalProfileName") == TITAN_PROFILE_NONE then
+									TitanAllSetVar("GlobalProfileName", TitanSettings.Player)
+								end
+								TitanVariables_InitDetailedSettings(TitanAllGetVar("GlobalProfileName"))
+								TitanPrint(
+									L["TITAN_PANEL_MENU_PROFILE"]
+									..":"..(TitanAllGetVar("GlobalProfileName") or "?")
+									..": reseting options..."
+									, "info")
+							else
+								-- 
+							end
+							TitanUpdateChars()
+							AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+						end,
+						-- can not uncheck current global profile
+						disabled = disallow,
+					},
+--]]
+					sp_40 = {
+						type = "description",
+						name = "",
+						cmdHidden = true,
+						order = 42,
 					},
 				},
 			}
@@ -1304,7 +1413,7 @@ local optionsAddons = {
 --[[ local
 NAME: TitanUpdateConfigAddons
 DESC: Allow the user to control each plugin registered to Titan.
-Controls:
+Controls honored from the plugin .registry:
 - Show
 - Show label text
 - Right side
@@ -1325,12 +1434,18 @@ OUT : None
 local function TitanUpdateConfigAddons()
 	local args = optionsAddons.args
 	local plug_in = nil
+	local plug_version = ""
 
 	wipe(args)
 
 	for idx, value in pairs(TitanPluginsIndex) do
 		plug_in = TitanUtils_GetPlugin(TitanPluginsIndex[idx])
 		if plug_in then
+			if plug_in.version then
+				plug_version = TitanUtils_GetGreenText(" (v"..plug_in.version..")")
+			else
+				plug_version = ""
+			end
 			args[plug_in.id] = {
 				type = "group",
 				name = (plug_in.menuText or ""),
@@ -1338,7 +1453,7 @@ local function TitanUpdateConfigAddons()
 				args = {
 					name = {
 						type = "header",
-						name = (tostring (plug_in.version) or ""),
+						name = ((plug_in.menuText or "")..plug_version),
 						order = 1,
 					},
 					show = {
@@ -1463,9 +1578,8 @@ local function TitanUpdateConfigAddons()
 			}
 			args[plug_in.id].args.space_50_1 = {
 				order = 53,
-				type = "description",
-				name = "  ",
-				cmdHidden = true,
+				type = "header",
+				name = L["TITAN_PANEL_MENU_BAR"],
 			}
 			if not TitanVarExists(plug_in.id, "ForceBar") then
 				args[plug_in.id].args.top_bottom = {
@@ -1509,7 +1623,7 @@ end
 
 --[[ Titan
 NAME: TitanUpdateConfig
-DESC: This routine will handle the requests to update the various data items in Titan option.
+DESC: This routine will handle the requests to update the various data items in Titan options screens.
 VARS: None
 OUT : None
 NOTE:
@@ -1545,9 +1659,9 @@ local optionsAdvanced = {
 			desc = L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
 			order = 10, type = "range", width = "full",
 			min = 1, max = 10, step = 0.5,
-			get = function() return TitanPanelGetVar("TimerPEW") end,
+			get = function() return TitanAllGetVar("TimerPEW") end,
 			set = function(_, a)
-				TitanPanelSetVar("TimerPEW", a);
+				TitanAllSetVar("TimerPEW", a);
 				TitanTimers["EnterWorld"].delay = a
 			end,
 		},
@@ -1556,9 +1670,9 @@ local optionsAdvanced = {
 			desc = L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"],
 			order = 50, type = "range", width = "full",
 			min = 1, max = 10, step = 0.5,
-			get = function() return TitanPanelGetVar("TimerVehicle") end,
+			get = function() return TitanAllGetVar("TimerVehicle") end,
 			set = function(_, a)
-				TitanPanelSetVar("TimerVehicle", a);
+				TitanAllSetVar("TimerVehicle", a);
 				TitanTimers["Vehicle"].delay = a
 			end,
 		},

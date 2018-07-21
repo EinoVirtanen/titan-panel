@@ -29,7 +29,7 @@ local GoldTimer = nil;
 local _G = getfenv(0);
 -- ******************************** Functions *******************************
 
- function NiceCash(value, show_zero, show_neg)
+ function NiceCash(value, show_zero, show_neg, show_labels)
 --
 -- Take the 'amount' of gold and make it into a nice, colorful string
 -- of g s c (gold silver copper)
@@ -50,9 +50,9 @@ local _G = getfenv(0);
 	local cc = "|cFFFF6600"
 	local amount = (value or 0)
 	local cash = (amount or 0)
-	local c_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_COPPER"] or ""
-	local s_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_SILVER"] or ""
-	local g_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_GOLD"] or ""
+	local c_lab = show_labels and L["TITAN_GOLD_COPPER"] or ""
+	local s_lab = show_labels and L["TITAN_GOLD_SILVER"] or ""
+	local g_lab = show_labels and L["TITAN_GOLD_GOLD"] or ""
 
 	if TitanGetVar(TITAN_GOLD_ID, "ShowColoredText") then
 		gc = "|cFFFFFF00"
@@ -152,13 +152,15 @@ function TitanPanelGoldButton_OnLoad(self)
 		savedVariables = {
 			Initialized = true,
 			DisplayGoldPerHour = true,
+			ShowCoinNone = false,
 			ShowCoinLabels = true,
+			ShowCoinIcons = false,
 			ShowGoldOnly = false,
 			SortByName = true,
 			ViewAll = true,
 			ShowIcon = true,
 			ShowLabelText = false,
-			ShowColoredText = false, 
+			ShowColoredText = true, 
 
 			gold = { total = "112233", neg = false },
 		}
@@ -346,9 +348,20 @@ function TitanPanelGoldButton_FindGold()
 		ttlgold = GetMoney("player");
 	end     
 
-	ret_str = NiceCash(ttlgold, true, false);
+	if TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") then
+		ret_str = NiceCash(ttlgold, true, false, true)
+	elseif TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons") then
+		if TitanGetVar(TITAN_GOLD_ID, "ShowGoldOnly") then
+			ttlgold = math.floor(ttlgold/10000)*10000
+		end
+		ret_str = _G["HIGHLIGHT_FONT_COLOR_CODE"]
+			..GetCoinTextureString (ttlgold, TitanPanelGetVar("FontSize"))
+			..FONT_COLOR_CODE_CLOSE
+	else -- no labels
+		ret_str = NiceCash(ttlgold, true, false, false)
+	end
 
-	return L["TITAN_GOLD_MENU_TEXT"]..": ", ret_str
+	return L["TITAN_GOLD_MENU_TEXT"]..": "..FONT_COLOR_CODE_CLOSE, ret_str
 end
 
 -- *******************************************************************************************
@@ -424,6 +437,25 @@ local function DeleteMenuButtons(faction)
 	end												
 end
 
+local function ShowProperLabels(chosen)
+	if chosen == "ShowCoinNone" then
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinNone", true);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinLabels", false);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinIcons", false);
+	end
+	if chosen == "ShowCoinLabels" then
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinNone", false);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinLabels", true);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinIcons", false);
+	end
+	if chosen == "ShowCoinIcons" then
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinNone", false);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinLabels", false);
+		TitanSetVar(TITAN_GOLD_ID, "ShowCoinIcons", true);
+	end
+	TitanPanelButton_UpdateButton(TITAN_GOLD_ID);
+end
+
 -- *******************************************************************************************
 -- NAME: TitanPanelRightClickMenu_PrepareGoldMenu
 -- DESC: Builds the right click config menu
@@ -458,14 +490,29 @@ function TitanPanelRightClickMenu_PrepareGoldMenu()
 		TitanPanelRightClickMenu_AddSpacer();
 
 		local info = {};
+		info.text = L["TITAN_GOLD_COIN_NONE"];
+		info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowCoinNone");
+		info.func = function()
+			ShowProperLabels("ShowCoinNone")
+		end
+		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		local info = {};
 		info.text = L["TITAN_GOLD_COIN_LABELS"];
 		info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels");
 		info.func = function()
-			TitanToggleVar(TITAN_GOLD_ID, "ShowCoinLabels");
-			TitanPanelButton_UpdateButton(TITAN_GOLD_ID);
+			ShowProperLabels("ShowCoinLabels")
+		end
+		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		local info = {};
+		info.text = L["TITAN_GOLD_COIN_ICONS"];
+		info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons");
+		info.func = function()
+			ShowProperLabels("ShowCoinIcons")
 		end
 		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		  
+		TitanPanelRightClickMenu_AddSpacer();
+
 		info = {};
 		info.text = L["TITAN_GOLD_ONLY"];
 		info.checked = TitanGetVar(TITAN_GOLD_ID, "ShowGoldOnly");
@@ -510,7 +557,11 @@ function TitanPanelRightClickMenu_PrepareGoldMenu()
 		TitanPanelRightClickMenu_AddSpacer();     
 		TitanPanelRightClickMenu_AddToggleIcon(TITAN_GOLD_ID);
 		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_GOLD_ID);
-		TitanPanelRightClickMenu_AddToggleColoredText(TITAN_GOLD_ID);
+		if TitanGetVar(TITAN_GOLD_ID, "ShowCoinIcons") then
+			-- colored text will not change text & icons
+		else
+			TitanPanelRightClickMenu_AddToggleColoredText(TITAN_GOLD_ID);
+		end
 		TitanPanelRightClickMenu_AddSpacer();     
 
 		-- Generic function to toggle and hide

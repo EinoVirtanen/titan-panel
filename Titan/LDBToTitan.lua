@@ -88,6 +88,7 @@ local CALLBACK_PREFIX = "LibDataBroker_AttributeChanged_"
 local NAME_PREFIX = "" --"LDBT_"
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
+-- Create control frame so we can get events
 local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local Tablet, LibQTip = nil, nil
@@ -174,7 +175,7 @@ function LDBToTitan:TitanLDBSetTooltip(name, frame, func)
 	else
 	end
 
-	if func then func(frame) end;
+	if func then func(frame) end; -- TODO: use pcall??
 	frame:Show();
 end
 
@@ -188,15 +189,12 @@ VARS:
 - func - function to be run
 - obj - LDB object
 OUT : None
+NOTE:
+- This implementation will work fine for a static tooltip but may have implications for dynamic ones so for now, we'll only set it once (no callback) and see what happens
 --]]
 function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
-	--DEFAULT_CHAT_FRAME:AddMessage("LDB:"..name..".".. event.. " is fired.")
 	local TitanPluginframe = _G["TitanPanel"..NAME_PREFIX..name.."Button"];
 
-	-- This implementation will work fine for a static tooltip
-	-- but may have implications for dynamic ones
-	-- so for now, we'll only set it once (no callback) and see what happens
-	
 	-- tooltip
 	if event:find("tooltip") and not event:find("OnTooltipShow") then		
 		local pluginframe = _G[obj.tooltip] or obj.tooltip
@@ -403,11 +401,15 @@ DESC: Text callback for the Titan (LDB) plugin when the LDB addon changes displa
 VARS:
 - name -  id of the plugin
 OUT : None
+NOTE:
+- One interpretation of 1.1 spec to show text is either
+1) use .text or use .value & .suffix (Titan implements)
+2) always use .text but .value & .suffix are parts if needed
 --]]
 function TitanLDBShowText(name)
 	-- Set 'label1' and 'value1' for the Titan button display
 	local nametrim = string.gsub (name, "LDBT_", "");
-	local fontstring = _G["TitanPanel"..NAME_PREFIX..nametrim.."ButtonText"];
+	local fontstring = _G["TitanPanel"..NAME_PREFIX..nametrim..TITAN_PANEL_BUTTON_TEXT];
 	local separator = ": "
 	local lab1, val1 = "", ""
 	local plugin = TitanUtils_GetPlugin(name)
@@ -429,9 +431,6 @@ function TitanLDBShowText(name)
 
 		-- Check for display text
 		if TitanGetVar(name, "ShowRegularText") then
-			-- One interpretation of 1.1 spec is 
-			-- either use .text or use .value & .suffix
-			-- another is always use .text but .value & .suffix are parts if needed
 			if ldb.suffix and ldb.suffix ~="" then   	
 				val1 = (ldb.value or "").." "..ldb.suffix
 			else    
@@ -507,13 +506,13 @@ NOTE:
 - This is called once x seconds after PEW. This helps close the gap where LDB addons set their text on their PEW event
 --]]
 function TitanLDBRefreshButton()
---	DEFAULT_CHAT_FRAME:AddMessage("LDB: RefreshButton")
+--	TitanDebug("LDB: RefreshButton")
 	for name, obj in ldb:DataObjectIterator() do
 		if obj then
 			LDBToTitan:TitanLDBTextUpdate(_, name, "text", (obj.text or ""), obj)
 			LDBToTitan:TitanLDBIconUpdate(_, name, "icon", (obj.icon or iconTitanDefault), obj)
 		else
---	DEFAULT_CHAT_FRAME:AddMessage("LDB: '"..name.."' no refresh")
+--	TitanDebug("LDB: '"..name.."' no refresh")
 		end
 	end
 end
@@ -527,11 +526,11 @@ VARS:
 - obj - LDB object
 OUT : None
 NOTE:
-- This is the heart of the LDB to Titan. It reads the LDB DO and creates a Titan plugin.
+- This is the heart of the LDB to Titan. It reads the LDB DO (Data Object)and creates a Titan plugin.
 - This takes a stricter interpretation of the LDB 1.1 spec rather than guessing what LDB addon developers intended.
 --]]
 function LDBToTitan:TitanLDBCreateObject(_, name, obj)
-   --DEFAULT_CHAT_FRAME:AddMessage("Attempting to register "..name..".");
+   --TitanDebug("Attempting to register "..name..".");
 	
 	-- couple sanity checks
    if not obj or not name then
@@ -554,7 +553,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 		-- all is good - continue plugin creation
 	else
 		-- Create enough of a plugin to tell the user / developer
-		-- that this plugin falied miserably
+		-- that this plugin failed miserably
 		local plugin = 
 			{
 			self = nil,
@@ -658,7 +657,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	local registry = {
 		id = NAME_PREFIX..name,
 		ldb = tostring(obj.type),
-		-- per 1-1 spec if .label use it else use data object's name
+		-- per 1.1 spec if .label exists use it else use data object's name
 		menuText = obj.label or name, 
 		buttonTextFunction = "TitanLDBShowText", 
 		icon = ldb__icon,     
@@ -692,10 +691,10 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 		iconG = (obj.iconG or nil),
 	};
 
-	-- Set the plugin category, if it exists else default to "General"
+	-- Set the plugin category, if it exists, else default to "General"
 	-- Per the 1.1 LDB spec we check for a tocname attrib first, 
 	-- if found we use it, if not we assume that the DO "name" 
-	-- attribute is the same with the actual
+	-- attribute is the same as the actual
 	-- addon name, which might not always be the case.
 	-- Titan defaults again to "General" if no categoy is found
 	-- via a check in the menu implementation, later on.
@@ -806,7 +805,7 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 		-- Register the LDB plugins that have been created so far
 		for name, obj in ldb:DataObjectIterator() do
 			self:TitanLDBCreateObject(nil, name, obj)
-			--DEFAULT_CHAT_FRAME:AddMessage("Registered "..name..".");
+			--TitanDebug("Registered "..name..".");
 		end
 	end
 	

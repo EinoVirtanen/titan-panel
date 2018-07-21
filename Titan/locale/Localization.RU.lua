@@ -3,7 +3,7 @@ if not L then return end
 
 L["TITAN_PANEL"] = "Титан Панель";
 L["TITAN_DEBUG"] = "<Titan>";
---L["TITAN_INFO"] = "<Titan>"
+L["TITAN_PRINT"] = "Титан";
 
 L["TITAN_NA"] = "N/A";
 L["TITAN_SECONDS"] = "секунды";
@@ -48,17 +48,25 @@ L["TITAN_PANEL_REGISTER_START"] = "Регистрация Titan плагинов
 L["TITAN_PANEL_REGISTER_END"] = "Процесс регистрации завершен."
 	
 -- slash command help
-L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
-L["TITAN_PANEL_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffСбрасывает все на стандартные значения/позиции.";
-L["TITAN_PANEL_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffСбрасывает масштаб шрифта подсказки панели на стандартное значение.";
-L["TITAN_PANEL_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffСбрасывает прозрачность подсказки панели на стандартное значение.";
-L["TITAN_PANEL_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffСбрасывает масштаб на стандартное значение.";
-L["TITAN_PANEL_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffСбрасывает расстояние кнопок  на стандартное значение.";
-L["TITAN_PANEL_SLASH_STRING8"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffОткрывает интерфейс Ace3 контроля панели.";
-L["TITAN_PANEL_SLASH_STRING9"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffОткрывает интерфейс Ace3 контроля прозрачности.";
-L["TITAN_PANEL_SLASH_STRING10"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffОткрывает интерфейс Ace3 контроля шкурок.";
-L["TITAN_PANEL_SLASH_STRING11"] = LIGHTYELLOW_FONT_COLOR_CODE.."Для помощи по BonusScanner, введите : |cffffffff/bscan";
-	
+L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
+L["TITAN_PANEL_SLASH_RESET_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffСбрасывает все на стандартные значения/позиции.";
+L["TITAN_PANEL_SLASH_RESET_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffСбрасывает масштаб шрифта подсказки панели на стандартное значение.";
+L["TITAN_PANEL_SLASH_RESET_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffСбрасывает прозрачность подсказки панели на стандартное значение.";
+L["TITAN_PANEL_SLASH_RESET_4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffСбрасывает масштаб на стандартное значение.";
+L["TITAN_PANEL_SLASH_RESET_5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffСбрасывает расстояние кнопок  на стандартное значение.";
+L["TITAN_PANEL_SLASH_GUI_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/titan {gui control/trans/skin}";
+L["TITAN_PANEL_SLASH_GUI_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffОткрывает интерфейс контроля панели.";
+L["TITAN_PANEL_SLASH_GUI_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffОткрывает интерфейс контроля прозрачности.";
+L["TITAN_PANEL_SLASH_GUI_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffОткрывает интерфейс контроля шкурок.";
+L["TITAN_PANEL_SLASH_PROFILE_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/titan {исп. профиль <profile>}";
+L["TITAN_PANEL_SLASH_PROFILE_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."исп. профиля <имя> <сервер>: |cffffffffУстанавливает используемые плагины в сохраненный профиль.";
+L["TITAN_PANEL_SLASH_PROFILE_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<имя>: |cffffffffможет быть задано имя персонажа или название пользовательского профиля."
+L["TITAN_PANEL_SLASH_PROFILE_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<сервер>: |cffffffffможет быть задано название сервера или 'TitanCustomProfile'."
+L["TITAN_PANEL_SLASH_HELP_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/titan {help | help <topic>}";
+L["TITAN_PANEL_SLASH_HELP_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: reset/gui/profile/help ";
+L["TITAN_PANEL_SLASH_ALL_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/titan <topic>";
+L["TITAN_PANEL_SLASH_ALL_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: |cffffffffreset/gui/profile/help ";
+    
 -- slash command responses
 L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб шрифта подсказки Titan Panel сброшен.";
 L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Прозрачность шрифта подсказки Titan Panel сброшена.";
@@ -197,7 +205,7 @@ L["TITAN_PANEL_MENU_ADV_DESC"] = "Изменить таймеры, только 
 L["TITAN_PANEL_MENU_ADV_PEW"] = "Вход в мир";
 L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Изменить значение (обычно повысить) если фреймы не подстраиваются при входе / выходе в мир или подземелье.";
 L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Транспорт";
-L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Change value (usually increase) если фреймы не подстраиваются при входе / выходе из транспорта.";	
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Изменить значение (обычно повысить) если фреймы не подстраиваются при входе / выходе из транспорта.";	
 	
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Авто-скрытие панели вкл/выкл";
 	
@@ -489,8 +497,11 @@ L["TITAN_GOLD_SHOW_PLAYER"] = "Show toon";
 L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Альянс";
 L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Орда";
 L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Внимание: "
-..FONT_COLOR_CODE_CLOSE.."Данное действие уничтожит вашу базу данных Titan Gold Trackerа. Если вы хотите продолжить, жмите 'Принять', если нет, жмите 'Отмена' или клавишу 'Escape'.";
+..FONT_COLOR_CODE_CLOSE.."Данное действие уничтожит вашу базу данных Titan Gold. "
+.."Если вы хотите продолжить, жмите 'Принять', если нет, жмите 'Отмена' или клавишу 'Escape'.";
+L["TITAN_GOLD_COIN_NONE"] = "Без меток";
 L["TITAN_GOLD_COIN_LABELS"] = "Показать метки денег";
+L["TITAN_GOLD_COIN_ICONS"] = "Показать иконки";
 L["TITAN_GOLD_ONLY"] = "Показать только золото";
 L["TITAN_GOLD_COLORS"] = "Показать окраску золота";
 

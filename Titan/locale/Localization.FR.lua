@@ -4,6 +4,7 @@ if not L then return end
 L["TITAN_PANEL"] = "Titan Panel";
 local TITAN_PANEL = "Titan Panel";
 L["TITAN_DEBUG"] = "<Titan>";
+L["TITAN_PRINT"] = "Titan";
 
 L["TITAN_NA"] = "N/A";
 L["TITAN_SECONDS"] = "secondes";
@@ -52,16 +53,24 @@ L["TITAN_PANEL_REGISTER_START"] = "Enregistrement des plugins "..TITAN_PANEL..".
 L["TITAN_PANEL_REGISTER_END"] = "Enregistrement des plugins effectué."
 
 -- slash command help
-L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
-L["TITAN_PANEL_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: | cffffffffRéinitialise les valeurs et positions de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffRéinitialise l'échelle des polices des tooltips de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffRéinitialise la transparence des tooltips de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffRéinitialise l'échelle de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffRéinitialise l'espacement des boutons de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING8"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffOuvre le panneau de configuration de "..TITAN_PANEL..".";
-L["TITAN_PANEL_SLASH_STRING9"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffOuvre le panneau de configuration de la transparence.";
-L["TITAN_PANEL_SLASH_STRING10"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffOuvre le panneau de configuration des skins.";
-L["TITAN_PANEL_SLASH_STRING11"] = LIGHTYELLOW_FONT_COLOR_CODE.."Pour l'aide de BonusScanner, tapez : |cffffffff/bscan";
+L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
+L["TITAN_PANEL_SLASH_RESET_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: | cffffffffRéinitialise les valeurs et positions de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_RESET_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffRéinitialise l'échelle des polices des tooltips de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_RESET_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffRéinitialise la transparence des tooltips de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_RESET_4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffRéinitialise l'échelle de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_RESET_5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffRéinitialise l'espacement des boutons de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_GUI_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {gui control/trans/skin}";
+L["TITAN_PANEL_SLASH_GUI_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffOuvre le panneau de configuration de "..TITAN_PANEL..".";
+L["TITAN_PANEL_SLASH_GUI_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffOuvre le panneau de configuration de la transparence.";
+L["TITAN_PANEL_SLASH_GUI_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffOuvre le panneau de configuration des skins.";
+L["TITAN_PANEL_SLASH_PROFILE_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan {profile use <profile>}";
+L["TITAN_PANEL_SLASH_PROFILE_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."profile use <nom> <serveur>: |cffffffffcharge le profil choisi :";
+L["TITAN_PANEL_SLASH_PROFILE_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<nom>: |cffffffffle nom du personnage ou le profil personnalisé."
+L["TITAN_PANEL_SLASH_PROFILE_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<serveur>: |cffffffffle nom du serveur ou 'TitanCustomProfile'."
+L["TITAN_PANEL_SLASH_HELP_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan {help | help <topic>}";
+L["TITAN_PANEL_SLASH_HELP_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: reset/gui/profile/help ";
+L["TITAN_PANEL_SLASH_ALL_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan <topic>";
+L["TITAN_PANEL_SLASH_ALL_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: |cffffffffreset/gui/profile/help ";
 
 -- slash command responses
 L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."L'échelle des polices des tooltips de "..TITAN_PANEL.." a été réinitialisée.";
@@ -490,7 +499,9 @@ L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Alliance";
 L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Horde";
 L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
 	.."Ceci va réinitialiser toutes les données de Titan Gold. Si vous voulez continuer, cliquez sur 'Accepter', sinon 'Annuler' ou la touche 'Echap'.";
+L["TITAN_GOLD_COIN_NONE"] = "Ne rien afficher";
 L["TITAN_GOLD_COIN_LABELS"] = "Afficher le texte des pièces";
+L["TITAN_GOLD_COIN_ICONS"] = "Afficher les images des pièces";
 L["TITAN_GOLD_ONLY"] = "Afficher uniquement les pièces d'or";
 
 

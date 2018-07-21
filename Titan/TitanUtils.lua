@@ -5,6 +5,9 @@ This file contains various utility routines used by Titan and routines available
 Titan__InitializedPEW = nil
 Titan__Initialized_Settings = nil
 
+TITAN_ID = "Titan"
+TITAN_AT = "@"
+
 TITAN_PANEL_NONMOVABLE_PLUGINS = {};
 TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
 TitanPlugins = {};  -- Used by plugins
@@ -14,7 +17,7 @@ TITAN_REGISTERED = _G["GREEN_FONT_COLOR_CODE"].."Registered".._G["FONT_COLOR_COD
 TITAN_REGISTER_FAILED = _G["RED_FONT_COLOR_CODE"].."Failed_to_Register".._G["FONT_COLOR_CODE_CLOSE"]
 
 local _G = getfenv(0);
-local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local media = LibStub("LibSharedMedia-3.0")
 
 --
@@ -28,8 +31,8 @@ DESC: Get the anchors of the bottom most top bar and the top most bottom bar.
    The anchors adjust depending on what Titan bars the user displays.
 VARS: None
 OUT : 
--  TitanPanelTopAnchor - Titan uses the space ABOVE this
--  TitanPanelBottomAnchor - Titan uses the space BELOW this
+-  TitanPanelTopAnchor frame reference - Titan uses the space ABOVE this
+-  TitanPanelBottomAnchor frame reference - Titan uses the space BELOW this
 NOTE: 
 -  The two anchors are implemented as 2 frames that are moved by Titan depending on which bars are shown.
 --]]
@@ -47,6 +50,7 @@ OUT :
 function TitanUtils_GetMinimapAdjust() -- Used by addons
 	return not TitanPanelGetVar("MinimapAdjust")
 end
+
 --[[ API
 NAME: TitanUtils_SetMinimapAdjust
 DESC: Set the current setting of the Titan MinimapAdjust option.
@@ -69,9 +73,9 @@ VARS:
 OUT : None
 Note: 
 - Titan will NOT store the adjust value across a log out / exit.
-- This is a generic way for an addon tell Titan to not adjust a frame that the addon will take responsibility for. This is useful for UI style addons so the user can run Titan and a modifed UI.
-- The list of frames Titan adjusts in in TitanMovable.lua.
-- If the frame is not in the list that Titan adjusts no action is taken.
+- This is a generic way for an addon to tell Titan to not adjust a frame. The addon will take responsibility for adjusting that frame. This is useful for UI style addons so the user can run Titan and a modifed UI.
+- The list of frames Titan adjusts is specified in TitanMovableData within TitanMovable.lua.
+- If the frame name is not in TitanMovableData then Titan does not adjust that frame.
 --]]
 function TitanUtils_AddonAdjust(frame, bool) -- Used by addons
 	TitanMovable_AddonAdjust(frame, bool)
@@ -83,7 +87,7 @@ end
 --
 --[[ API
 NAME: TitanUtils_GetButton
-DESC: Return the actual button name and the plugin id.
+DESC: Return the actual button frame and the plugin id.
 VARS: 
 - id - is the id of the plugin
 OUT : 
@@ -126,11 +130,11 @@ end
 
 --[[ API
 NAME: TitanUtils_GetButtonID
-DESC: Return the button name of the given name (plugin id).
+DESC: Return the plugin id of the given name. This can be used to see if a plugin exists.
 VARS: 
 - name - is the id of the plugin
 OUT : 
-- button name or nil
+- string - plugin id or nil
 --]]
 function TitanUtils_GetButtonID(name)
 	if name then
@@ -143,11 +147,11 @@ end
 
 --[[ API
 NAME: TitanUtils_GetParentButtonID
-DESC: Return the button name of the parent of the given name (plugin id).
+DESC: Return the plugin id of the parent of the given name, if it exists.
 VARS: 
 - name - is the id of the plugin
 OUT : 
-- button name or nil
+- string - plugin id or nil
 --]]
 function TitanUtils_GetParentButtonID(name)
 	local frame = TitanUtils_Ternary(name, _G[name], nil);
@@ -159,14 +163,14 @@ end
 
 --[[ API
 NAME: TitanUtils_GetButtonIDFromMenu
-DESC: Return the button name of whatever the mouse is over.
+DESC: Return the plugin id of whatever the mouse is over.
    Used in the right click menu on load.
 VARS: 
 - self - is the id of the frame
 OUT : 
-- button name or nil
+- string - plugin id or nil
 NOTE:
-- The button name returned could be the Titan bar or a plugin.
+- The plugin id returned could be the Titan bar or a plugin or nil.
 --]]
 function TitanUtils_GetButtonIDFromMenu(self)
 	local ret = nil
@@ -189,16 +193,6 @@ function TitanUtils_GetButtonIDFromMenu(self)
 			else
 				-- the frame container is expected to be without a name
 				-- This trips when the user right clicks a LDB plugin...
---[[
-				TitanDebug("Could not determine parent for '"
-				..(pname or "?").."'. "
-				.." It should be a TitanPanelChildButtonTemplate. "
-				.."If '"
-				..(pname or "?").."' "
-				.." is not a TitanPanelChildButtonTemplate then ensure the frame "
-				.."containing the Titan button is not named. "
-				,"error")
---]]
 			end
 		else		
 			-- TitanPanelButton
@@ -207,7 +201,6 @@ function TitanUtils_GetButtonIDFromMenu(self)
 				-- should be ok
 				ret = temp
 			else
-				-- the frame container is expected to be not named
 				TitanDebug("Could not determine Titan ID for '"
 				..(self:GetParent():GetParent() or "?").."'. "
 				,"error")
@@ -224,7 +217,7 @@ DESC: Return the plugin itself (table and all).
 VARS: 
 - id - is the id of the plugin
 OUT : 
-- plugin or nil
+- table - plugin or nil
 --]]
 function TitanUtils_GetPlugin(id)
 	if (id) then
@@ -236,11 +229,11 @@ end
 
 --[[ API
 NAME: TitanUtils_GetWhichBar
-DESC: Return the bar the plugin is on.
+DESC: Return the bar the plugin is shown on.
 VARS: 
 - id - is the id of the plugin
 OUT : 
-- bar name or nil
+- string - bar name or nil
 --]]
 function TitanUtils_GetWhichBar(id)
 	local i = TitanPanel_GetButtonNumber(id);
@@ -479,11 +472,13 @@ end
 
 --[[ API
 NAME: TitanUtils_GetControlFrame
-DESC: return the control frame, if one was created. NOTE this may not be used anymore.
+DESC: return the control frame, if one was created. 
 VARS: 
 - id - id of the plugin
 OUT : 
 - nil or the control frame
+NOTE
+- This may not be used anymore.
 --]]
 function TitanUtils_GetControlFrame(id)
 	if (id) then
@@ -532,7 +527,7 @@ function TitanUtils_TableContainsIndex(table, index)
 end
 
 --[[ API
-NAME: TitanUtils_TableContainsValue
+NAME: TitanUtils_GetCurrentIndex
 DESC: Determine if the table contains the value.
 VARS: 
 - table - table to search
@@ -980,7 +975,6 @@ OUT :
 - index of the next button or nil if none found
 NOTE:
 -- buttons on Left are placed L to R; buttons on Right are placed R to L. Next and prev depend on which side we need to check.
--- buttons on Right are placed R to L
 --]]
 local function TitanUtils_GetNextButtonOnBar(bar, id, side)
 	-- find the next button that is on the same bar and is on the same side
@@ -1007,7 +1001,6 @@ OUT :
 - index of the previous button or nil if none found
 NOTE:
 -- buttons on Left are placed L to R; buttons on Right are placed R to L. Next and prev depend on which side we need to check.
--- buttons on Right are placed R to L
 --]]
 local function TitanUtils_GetPrevButtonOnBar(bar, id, side)
 	-- find the prev button that is on the same bar and is on the same side
@@ -1036,7 +1029,7 @@ VARS:
 OUT : None.
 --]]
 function TitanUtils_AddButtonOnBar(bar, id)
-	-- Add the button to the requested bar - bar / aux if shown
+	-- Add the button to the requested bar, if shown
 	if (not bar)
 	or (not id) 
 	or (not TitanPanelSettings) 
@@ -1229,11 +1222,11 @@ VARS:
 - isChildButton - true if the frame is a child of a Titan frame
 OUT : None
 NOTE:
-- .registry is part of 'self' (the Titan button frame) which works great for Titan specific plugins.
+- .registry is part of 'self' (the Titan plugin frame) which works great for Titan specific plugins.
   Titan plugins create the registry as part of the frame _OnLoad.
   But this does not work for LDB buttons. The frame is created THEN the registry is added to the frame.
 - Any read of the registry must assume it may not exist. Also assume the registry could be updated after this routine.
-- This is called when a Titan button frame is created. Normally these are held until the player 'enters world' then the plugin is registered.
+- This is called when a Titan plugin frame is created. Normally these are held until the player 'enters world' then the plugin is registered.
   Sometimes plugin frames are created after this process. Right now only LDB plugins are handled. If someone where to start creating Titan frames after the registration process were complete then it would fail to be registered...
 -!For LDB plugins the 'registry' is attached to the frame AFTER the frame is created...
 - The fields put into "Attempted" are defaulted here in preperation of being registered.
@@ -1273,7 +1266,7 @@ NOTE:
 - This is called when a plugin is unsupported. Cuurently this is used if a LDB data object is not supported. See SupportedDOTypes in LDBToTitan.lua for more detail.
   It is intended mainly for developers. It is a place to put relevant info for debug and so users can supply troubleshooting info.
   The key is set the status to 'fail' so there is no further attempt to register the plugin.
-- The results will show in "Attempted" so the developer can have a shot at figuring out what was wrong.
+- The results will show in "Attempted" so the developer has a shot at figuring out what was wrong.
 - plugin is expected to hold as much relevant info as possible...
 --]]
 function TitanUtils_PluginFail(plugin) 
@@ -1296,7 +1289,13 @@ NAME: TitanUtils_RegisterPluginProtected
 DESC: This routine is intended to be called in a protected manner (pcall) by Titan when it attempts to register a plugin.
 VARS: 
 - plugin - frame of the plugin (must be a Titan template)
-OUT : None
+OUT : 
+- table
+	.issue	: Show the user what prevented the plugin from registering
+	.result	: Used so we know which plugins were processed
+	.id		: The name used to lookup the plugin
+	.cat		: The 'bucket' to use off the main Titan menu
+	.ptype	: For now just Titan or LDB type
 NOTE:
 - We try to anticipate the various ways a plugin could fail to register or just plain fail.
   The intent is to keep Titan whole so a plugin does not prevent Titan from loading.
@@ -1329,7 +1328,7 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 				if TitanUtils_IsPluginRegistered(id) then
 					-- We have already registered this plugin!
 					issue =  "Plugin already loaded. "
-					.."Please see if another plugin (Titan or LDB enabled) is also loading "
+					.."Please see if another plugin (Titan or LDB) is also loading "
 					.."with the same name.\n"
 					.."<Titan>.registry.id or <LDB>.label"
 				else
@@ -1370,7 +1369,7 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 					result = TITAN_REGISTERED
 					-- determine the plugin category
 					cat = (self.registry.category or nil)
-					ptype = "Titan" -- Assume it is created for Titan
+					ptype = TITAN_ID -- Assume it is created for Titan
 					if self.registry.ldb then
 						-- Override the type with the LDB type
 						ptype = "LDB: '"..self.registry.ldb.."'" 
@@ -1403,13 +1402,6 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 	ret_val.ptype = ptype
 	ret_val.notes = notes
 	return ret_val
---[[ doc
-	.issue	: Show the user what prevented the plugin from registering
-	.result	: Used so we know which plugins were processed
-	.id		: The name used to lookup the plugin
-	.cat		: The 'bucket' to use off the main Titan menu
-	.ptype	: For now just Titan or LDB type
---]]
 end
 
 --[[ Titan
@@ -1483,7 +1475,7 @@ NOTE:
   This could be called if a plugin requests to be registered after the first loop through.
 --]]
 function TitanUtils_RegisterPluginList()
-	-- Loop through the plugins have requested to be loaded into Titan.
+	-- Loop through the plugins that have requested to be loaded into Titan.
 	local result = ""
 	local issue = ""
 	local id
@@ -1523,7 +1515,7 @@ end
 
 --[[ Titan
 NAME: TitanUtils_CloseRightClickMenu
-DESC: Close the right click menu any plugin if it was open. Only one can be open at a time.
+DESC: Close the right click menu of any plugin if it was open. Only one can be open at a time.
 VARS: None
 OUT : None
 --]]
@@ -1537,7 +1529,11 @@ end
 NAME: TitanRightClick_UIScale
 DESC: Scale the right click menu to the user requested value.
 VARS: None
-OUT : None
+OUT : 
+- float - x scaled
+- float - y scaled
+- float - scale used
+
 --]]
 local function TitanRightClick_UIScale()
 	-- take UI Scale into consideration
@@ -1649,7 +1645,7 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	end
 	local i = TitanPanel_GetButtonNumber(id)
 	frame = TITAN_PANEL_DISPLAY_PREFIX..TitanPanelSettings.Location[i]
-	-- .Location would tell us teh bar but we still need vert (top / bottom)
+	-- .Location would tell us the bar but we still need vert (top / bottom)
 	vert = TitanBarData[frame].vert
 	position = (vert == TITAN_TOP and TITAN_PANEL_PLACE_TOP or TITAN_PANEL_PLACE_BOTTOM)
 
@@ -1664,7 +1660,7 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	x, y, scale = TitanRightClick_UIScale()
 	
 	ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self);
-	
+--[[ was not used...	
 	local listFrame = _G["DropDownList"..UIDROPDOWNMENU_MENU_LEVEL];
 	local offscreenX, offscreenY = TitanUtils_GetOffscreen(listFrame);
 
@@ -1677,9 +1673,10 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 			listFrame:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", x, 0);
 		end	
 	end
+--]]
 end
 
---[[ local
+--[[ Titan
 NAME: TitanPanelDisplayRightClickMenu_Toggle
 DESC: Call the routine to build the Titan bar menu then place it properly. 
 VARS: 
@@ -1688,16 +1685,10 @@ VARS:
 OUT : None
 NOTE:
 - This routine is for Titan bar. There is a similar routine for the Titan plugins.
+- This is close to TitanPanelRightClickMenu_Toggle but geared to the Titan display bars. This routine allows the Titan display bars to be independent  rather than rely on bars being a 'sort of' plugin.
+- This relies on name="$parentRightClickMenu" being part of the display bar template.
 --]]
 function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
---[[ doc
--- This is close to TitanPanelRightClickMenu_Toggle but geared to the Titan
--- display bars. This routine allows the Titan display bars to be independent 
--- rather than rely on bars being a 'sort of' plugin.
---
--- This relies on name="$parentRightClickMenu" being part of the display 
--- bar template.
---]]
 	if not self:GetName() then
 		return
 	end
@@ -1727,11 +1718,12 @@ function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 	
 	x, y, scale = TitanRightClick_UIScale()
 	
-	ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self);
-	
+	ToggleDropDownMenu(1, nil, menu, frame, TitanUtils_Max(x - 40, 0), 0, nil, self)
+
+--[[ was not used...	
+	local listFrame = _G["DropDownList"..UIDROPDOWNMENU_MENU_LEVEL];
 	local offscreenX, offscreenY = TitanUtils_GetOffscreen(listFrame);
 	if offscreenX == 1 then
-		local listFrame = _G["DropDownList"..UIDROPDOWNMENU_MENU_LEVEL];
 		if position == TITAN_PANEL_PLACE_TOP then 
 			listFrame:ClearAllPoints();
 			listFrame:SetPoint("TOPRIGHT", frame, "BOTTOMLEFT", x, 0);
@@ -1740,10 +1732,11 @@ function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 			listFrame:SetPoint("BOTTOMRIGHT", frame, "TOPLEFT", x, 0);
 		end
 	end
+--]]
 end
 
 --[[ Titan
-NAME: TitanPanelDisplayRightClickMenu_Toggle
+NAME: TitanPanelRightClickMenu_IsVisible
 DESC: Determine if a right click menu is shown. There can only be one. 
 VARS: None
 OUT : 
@@ -1766,7 +1759,112 @@ function TitanPanelRightClickMenu_Close()
 end
 
 --------------------------------------------------------------
+-- Titan utility routines
+
+--[[ Titan
+NAME: TitanUtils_ParseName
+DESC: Parse the player name and return the parts. 
+VARS: 
+- name - the name to break up
+OUT : 
+- string player name only
+- string realm name only
+--]]
+function TitanUtils_ParseName(name)
+--TitanDebug ("_ParseName: "..(name and name or "?"))
+	local server = ""
+	local player = ""
+	if name and name ~= TITAN_PROFILE_NONE then
+		local s, e, ident = string.find(name, TITAN_AT);
+		if s ~= nil then
+			server = string.sub(name, s+1);
+			player = string.sub(name, 1, s-1);
+		end
+	else
+	end
+	return player, server
+end
+
+--[[ Titan
+NAME: TitanUtils_CreateName
+DESC: Given the player name and server and return the Titan name. 
+VARS: 
+- player - 1st part
+- realm - 2nd part. Could be realm or 'custom'
+OUT : 
+- string - Titan name
+--]]
+function TitanUtils_CreateName(player, realm)
+	local p1 = player or "?"
+	local p2 = realm or "?"
+
+	return p1..TITAN_AT..p2
+end
+
+--[[ Titan
+NAME: TitanUtils_GetPlayer
+DESC: Create the player name (toon being played) and return the parts. 
+VARS: None
+OUT : 
+- string Titan player name or nil
+- string player name only
+- string realm name only
+--]]
+function TitanUtils_GetPlayer()
+	local playerName = UnitName("player");
+	local serverName = GetCVar("realmName");
+	local toon = nil
+
+	-- Do nothing if player name is not available
+	if (playerName == nil 
+	or playerName == UNKNOWNOBJECT 
+	or playerName == UKNOWNBEING) then
+		--
+	else
+		toon = playerName..TITAN_AT..serverName
+	end
+
+	return toon, playerName, serverName
+end
+
+--------------------------------------------------------------
 -- Various debug routines
+--[[ Titan
+NAME: TitanPanel_GetVersion
+DESC: Get the Titan version into a string. 
+VARS: None
+OUT : 
+- string containing the version
+--]]
+function TitanPanel_GetVersion()
+	return tostring(GetAddOnMetadata(TITAN_ID, "Version")) or L["TITAN_NA"];
+end
+--[[ Titan
+NAME: TitanPrint
+DESC: Output a message to the user in a consistent format. 
+VARS: 
+- message - string to output
+- msg_type - "info" | "warning" | "error" | "plain"
+OUT : 
+- string - message to chat window
+--]]
+function TitanPrint(message, msg_type)
+	local dtype = ""
+	local pre = TitanUtils_GetGoldText(L["TITAN_PRINT"]..": ".._G["FONT_COLOR_CODE_CLOSE"])
+	if msg_type == "error" then
+		dtype = TitanUtils_GetRedText("Error: ").._G["FONT_COLOR_CODE_CLOSE"]
+	elseif msg_type == "warning" then
+		dtype = "|cFFFFFF00".."Warning: ".._G["FONT_COLOR_CODE_CLOSE"]
+	elseif msg_type == "plain" then
+		pre = ""
+	elseif msg_type == "header" then
+		pre = TitanUtils_GetGoldText(L["TITAN_PANEL"])
+			..TitanUtils_GetGoldText(L["TITAN_PANEL_VERSION_INFO"])
+	end
+	
+	DEFAULT_CHAT_FRAME:AddMessage(pre..dtype..TitanUtils_GetGreenText(message))
+end
+
 function TitanDebug(debug_message, debug_type)
 	local dtype = ""
 	local time_stamp = ""
@@ -1837,12 +1935,35 @@ end
 
 function TitanDumpTimers()
 	str = "Titan-timers: "
-		.."'"..(TitanPanelGetVar("TimerPEW") or "?").."' "
-		.."'"..(TitanPanelGetVar("TimerDualSpec") or "?").."' "
-		.."'"..(TitanPanelGetVar("TimerLDB") or "?").."' "
-		.."'"..(TitanPanelGetVar("TimerAdjust") or "?").."' "
-		.."'"..(TitanPanelGetVar("TimerVehicle") or "?").."' "
-	DEFAULT_CHAT_FRAME:AddMessage(str)
+		.."'"..(TitanAllGetVar("TimerPEW") or "?").."' "
+		.."'"..(TitanAllGetVar("TimerDualSpec") or "?").."' "
+		.."'"..(TitanAllGetVar("TimerLDB") or "?").."' "
+		.."'"..(TitanAllGetVar("TimerAdjust") or "?").."' "
+		.."'"..(TitanAllGetVar("TimerVehicle") or "?").."' "
+	TitanPrint(str, "plain")
+end
+
+function TitanArgConvert (event, a1, a2, a3, a4, a4, a5, a6)
+	local t1 = type(a1)
+	local t2 = type(a2)
+	local t3 = type(a3)
+	local t4 = type(a4)
+	local t5 = type(a5)
+	local t6 = type(a6)
+	if type(a1) == "boolean" then a1 = (a1 and "T" or "F") end
+	if type(a2) == "boolean" then a2 = (a2 and "T" or "F") end
+	if type(a3) == "boolean" then a3 = (a3 and "T" or "F") end
+	if type(a4) == "boolean" then a4 = (a4 and "T" or "F") end
+	if type(a5) == "boolean" then a5 = (a5 and "T" or "F") end
+	if type(a6) == "boolean" then a6 = (a6 and "T" or "F") end
+	TitanDebug(event.." "
+		.."1: "..(a1 or "?").."("..t1..") "
+		.."2: "..(a2 or "?").."("..t2..") "
+		.."3: "..(a3 or "?").."("..t3..") "
+		.."4: "..(a4 or "?").."("..t4..") "
+		.."5: "..(a5 or "?").."("..t5..") "
+		.."6: "..(a6 or "?").."("..t6..") "
+	)
 end
 
 --------------------------------------------------------------
