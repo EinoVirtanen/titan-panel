@@ -28,9 +28,9 @@ function TitanPanelBagButton_OnLoad(self)
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_BAG_MENU_TEXT"],
-		buttonTextFunction = "TitanPanelBagButton_GetButtonText", 
+		buttonTextFunction = "TitanPanelBagButton_GetButtonText",
 		tooltipTitle = L["TITAN_BAG_TOOLTIP"],
-		tooltipTextFunction = "TitanPanelBagButton_GetTooltipText", 
+		tooltipTextFunction = "TitanPanelBagButton_GetTooltipText",
 		icon = "Interface\\AddOns\\TitanBag\\TitanBag",
 		iconWidth = 16,
 		controlVariables = {
@@ -43,8 +43,6 @@ function TitanPanelBagButton_OnLoad(self)
 		savedVariables = {
 			ShowUsedSlots = 1,
 			ShowDetailedInfo = false,
-			CountAmmoPouchSlots = false,
-			CountShardBagSlots = false,
 			CountProfBagSlots = false,
 			ShowIcon = 1,
 			ShowLabelText = 1,
@@ -251,16 +249,6 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 			info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
 			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
---[[
-		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "IgnoreCont" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_BAG_MENU_IGNORE_SLOTS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
-			info = {};
-			info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
-			info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
-			info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
-			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-		end
---]]
 		return
 	end
 	
@@ -273,14 +261,7 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	info.value = "Options"
 	info.hasArrow = 1;
 	UIDropDownMenu_AddButton(info);
---[[
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_BAG_MENU_IGNORE_SLOTS"];
-	info.value = "IgnoreCont"
-	info.hasArrow = 1;
-	UIDropDownMenu_AddButton(info);
---]]
+
 	TitanPanelRightClickMenu_AddSpacer();
 	info = {};
 	info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
