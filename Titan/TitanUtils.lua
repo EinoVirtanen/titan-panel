@@ -2,12 +2,8 @@
 TitanUtils.lua
 This file contains various utility routines used by Titan and routines available to plugin developers. 
 --]]
-Titan__InitializedPEW = nil
-Titan__Initialized_Settings = nil
-
 TITAN_ID = "Titan"
-TITAN_AT = "@"
-
+TITAN_DEBUG_ARRAY_MAX = 100
 TITAN_PANEL_NONMOVABLE_PLUGINS = {};
 TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
 TitanPlugins = {};  -- Used by plugins
@@ -1039,13 +1035,15 @@ function TitanUtils_AddButtonOnBar(bar, id)
 	end 
 
 	local i = TitanPanel_GetButtonNumber(id)
-	if TitanPanelSettings.Location[i] == nil then
-		-- add the plugin
-		table.insert(TitanPanelSettings.Buttons, id);
-	else
-	end
+--[
+TitanDebug("AddB: "..(id or "?").." "..(bar or "?").." "
+..(TitanPanelSettings and "T" or "F").." "..(TitanPanelGetVar(bar.."_Show") and "T" or "F").." "
+..(i or "?").." "
+)
+--]]
 	-- The _GetButtonNumber returns +1 if not found so it is 'safe' to 
 	-- update / add to the Location
+	TitanPanelSettings.Buttons[i] = (id or "?")
 	TitanPanelSettings.Location[i] = (bar or "Bar")
 	TitanPanel_InitPanelButtons();
 end
@@ -1771,7 +1769,6 @@ OUT :
 - string realm name only
 --]]
 function TitanUtils_ParseName(name)
---TitanDebug ("_ParseName: "..(name and name or "?"))
 	local server = ""
 	local player = ""
 	if name and name ~= TITAN_PROFILE_NONE then
@@ -1827,8 +1824,66 @@ function TitanUtils_GetPlayer()
 	return toon, playerName, serverName
 end
 
+--[[ Titan
+NAME: TitanUtils_GetGlobalProfile
+DESC: Return the global profile setting and the global profile name, if any. 
+VARS: None
+OUT : 
+- bool Global profile value
+- string Global profile name or default
+- string player name only or blank
+- string realm name only or blank
+--]]
+function TitanUtils_GetGlobalProfile()
+	local playerName = ""
+	local serverName = ""
+	local glob = TitanAllGetVar("GlobalProfileUse")
+	local toon = TitanAllGetVar("GlobalProfileName")
+
+	if not toon then
+		-- this is a new install or toon
+		toon = TITAN_PROFILE_NONE
+		TitanAllSetVar("GlobalProfileName", TITAN_PROFILE_NONE)
+	end
+	if (toon == TITAN_PROFILE_NONE) then
+		--
+	else
+		-- If the profile name is not the default then split the name
+		playerName, serverName = TitanUtils_ParseName(toon)
+	end
+
+	return glob, toon, playerName, serverName
+end
+
+--[[ Titan
+NAME: TitanUtils_SetGlobalProfile
+DESC: Return the global profile setting and the global profile name, if any. 
+VARS: 
+- bool Global profile value
+- string Global profile name or default
+OUT : None
+--]]
+function TitanUtils_SetGlobalProfile(glob, toon)
+	TitanAllSetVar("GlobalProfileUse", glob)
+	if glob then
+		-- The user asked for global
+		if toon == nil or toon == TITAN_PROFILE_NONE then
+			-- nothing was set before so use current player
+			toon, _, _ = TitanUtils_GetPlayer()
+		end
+	end
+	TitanAllSetVar("GlobalProfileName", toon or TITAN_PROFILE_NONE)
+end
+
 --------------------------------------------------------------
 -- Various debug routines
+--[[
+local function Debug_array(message)
+local idx = TitanDebugArray.index
+	TitanDebugArray.index = mod(TitanDebugArray.index + 1, TITAN_DEBUG_ARRAY_MAX)
+	TitanDebugArray.lines[TitanDebugArray.index] = (date("%m/%d/%y %H:%M:%S".." : ")..message)
+end
+--]]
 --[[ Titan
 NAME: TitanPanel_GetVersion
 DESC: Get the Titan version into a string. 
@@ -1851,6 +1906,7 @@ OUT :
 function TitanPrint(message, msg_type)
 	local dtype = ""
 	local pre = TitanUtils_GetGoldText(L["TITAN_PRINT"]..": ".._G["FONT_COLOR_CODE_CLOSE"])
+	local msg = ""
 	if msg_type == "error" then
 		dtype = TitanUtils_GetRedText("Error: ").._G["FONT_COLOR_CODE_CLOSE"]
 	elseif msg_type == "warning" then
@@ -1862,12 +1918,15 @@ function TitanPrint(message, msg_type)
 			..TitanUtils_GetGoldText(L["TITAN_PANEL_VERSION_INFO"])
 	end
 	
-	DEFAULT_CHAT_FRAME:AddMessage(pre..dtype..TitanUtils_GetGreenText(message))
+	msg = pre..dtype..TitanUtils_GetGreenText(message)
+	DEFAULT_CHAT_FRAME:AddMessage(msg)
+--	Debug_array(msg)
 end
 
 function TitanDebug(debug_message, debug_type)
 	local dtype = ""
 	local time_stamp = ""
+	local msg = ""
 	if debug_type == "error" then
 		dtype = TitanUtils_GetRedText("Error: ")
 	elseif debug_type == "warning" then
@@ -1879,12 +1938,14 @@ function TitanDebug(debug_message, debug_type)
 		time_stamp = TitanUtils_GetGoldText(date("%H:%M:%S")..": ")
 	end
 	
-	_G["DEFAULT_CHAT_FRAME"]:AddMessage(
+	msg =
 		TitanUtils_GetGoldText(L["TITAN_DEBUG"].." ")
 		..time_stamp
 		..dtype
 		..TitanUtils_GetGreenText(debug_message)
-	);
+
+	_G["DEFAULT_CHAT_FRAME"]:AddMessage(msg)
+--	Debug_array(msg)
 	--date("%m/%d/%y %H:%M:%S")
 end
 

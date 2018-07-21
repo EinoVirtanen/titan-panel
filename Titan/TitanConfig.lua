@@ -108,49 +108,49 @@ local optionsControl = {
 				confversiondesc = {
 				order = 1,
 				type = "description",			
-				name = "|cffffd700".."Version"..": "
+				name = "|cffffd700"..L["TITAN_ABOUT_VERSION"]..": "
 					.._G["GREEN_FONT_COLOR_CODE"]..TitanPanel_GetVersion(),
 				cmdHidden = true
 				},
 				confauthordesc = {
 					order = 2,
 					type = "description",
-					name = "|cffffd700".."Author"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_AUTHOR"]..": "
 						.."|cffff8c00"..TitanPanel_GetAuthor(),
 					cmdHidden = true
 				},
 				confcreditsdesc = {
 					order = 3,
 					type = "description",
-					name = "|cffffd700".."Credits"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_CREDITS"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetCredits(),
 					cmdHidden = true
 				},
 				confcatdesc = {
 					order = 4,
 					type = "description",
-					name = "|cffffd700".."Category"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_CATEGORY"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetCategory(),
 					cmdHidden = true
 				},
 				confemaildesc = {
 					order = 5,
 					type = "description",
-					name = "|cffffd700".."Email"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_EMAIL"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetEmail(),
 					cmdHidden = true
 				},
 				confwebsitedesc = {
 					order = 6,
 					type = "description",
-					name = "|cffffd700".."Website"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_WEB"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetWebsite(),
 					cmdHidden = true
 				},
 				conflicensedesc = {
 					order = 7,
 					type = "description",
-					name = "|cffffd700".."License"..": "
+					name = "|cffffd700"..L["TITAN_ABOUT_LICENSE"]..": "
 						.._G["HIGHLIGHT_FONT_COLOR_CODE"]..TitanPanel_GetLicense(),
 					cmdHidden = true
 				},
@@ -919,8 +919,8 @@ local optionsFrames = {
 			set = function() TitanPanelToggleVar("VersionShown") end,
 		},
 		autohidelock = {
-			name = "Lock auto hid bars while in combat", --L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
-			desc = "During combat do not show auto hid bars", --L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
+			name = L["TITAN_PANEL_MENU_AUTOHIDE_IN_COMBAT"],
+			desc = "Lock_auto_hide",
 			order = 303, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("LockAutoHideInCombat") end,
 			set = function() TitanPanelToggleVar("LockAutoHideInCombat") end,
@@ -1009,6 +1009,7 @@ local function TitanUpdateAddonAttempts()
 			local notes = TitanPluginToBeRegistered[idx].notes or ""
 			local category = TitanPluginToBeRegistered[idx].category
 			local ptype = TitanPluginToBeRegistered[idx].plugin_type
+			local btype = TitanPanelButton_GetType(idx)
 			local title = TitanPluginToBeRegistered[idx].name
 			local isChild = TitanPluginToBeRegistered[idx].isChild and true or false
 			if reason ~= TITAN_REGISTERED then
@@ -1035,19 +1036,19 @@ local function TitanUpdateAddonAttempts()
 						},
 						reason = {
 							type = "description",
-							name = TitanUtils_GetGoldText("Status: ")..reason,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_STATUS"]..": ")..reason,
 							cmdHidden = true,
 							order = 2,
 						},
 						issue = {
 							type = "description",
-							name = TitanUtils_GetGoldText("Issue: \n")..issue,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_ISSUE"]..": \n")..issue,
 							cmdHidden = true,
 							order = 3,
 						},
 						notes = {
 							type = "description",
-							name = TitanUtils_GetGoldText("Notes: \n")..notes,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_NOTES"]..": \n")..notes,
 							cmdHidden = true,
 							order = 4,
 						},
@@ -1065,19 +1066,19 @@ local function TitanUpdateAddonAttempts()
 						},
 						ptype = {
 							type = "description",
-							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_TYPE"]..": ")..ptype,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_TYPE"]..": ")..ptype, --.." "..btype,
 							cmdHidden = true,
 							order = 11,
 						},
 						button = {
 							type = "description",
-							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_BUTTON"]..": \n")..button,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_BUTTON"]..": ")..button,
 							cmdHidden = true,
 							order = 12,
 						},
 						num_val = {
 							type = "description",
-							name = TitanUtils_GetGoldText("Table index"..": \n")..num,
+							name = TitanUtils_GetGoldText(L["TITAN_PANEL_ATTEMPTS_TABLE"]..": ")..num,
 							cmdHidden = true,
 							order = 13,
 						},
@@ -1226,23 +1227,23 @@ local function TitanUpdateChars()
 	args["global_header"] = {
 		order = 20,
 		type = "header",
-		name = "Global", --L["TITAN_PANEL_MENU_PROFILE_CUSTOM"].."\n",
+		name = L["TITAN_PANEL_GLOBAL"],
 		cmdHidden = true,
 	}
 	args["global_use"] = {
 		order = 21, type = "toggle", width = "full",
-		name = "Use Global Profile", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
-		desc = "Use the global profile for all characters", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+		name = L["TITAN_PANEL_GLOBAL_USE"],
+		desc = L["TITAN_PANEL_GLOBAL_USE_DESC"],
 		get = function() return TitanAllGetVar("GlobalProfileUse") end,
-		set = function() 
-			TitanVariables_ToggleGlobalUse()
+		set = function()
+			TitanUtils_SetGlobalProfile(not TitanAllGetVar("GlobalProfileUse"), toon)
 			TitanUpdateChars() -- rebuild the toons
 			AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 		end,
 	}
 	args["global_name"] = {
 		order = 22, type = "description", width = "full",
-		name = "Global Profile: "..TitanUtils_GetGoldText(TitanAllGetVar("GlobalProfileName") or "?"),
+		name = L["TITAN_PANEL_GLOBAL_PROFILE"]..": "..TitanUtils_GetGoldText(TitanAllGetVar("GlobalProfileName") or "?"),
 	}
 	args["sp_20"] = {
 		type = "description",
@@ -1301,7 +1302,7 @@ local function TitanUpdateChars()
 						name = L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
 						order = 20, type = "execute", width = "full",
 						func = function(info, v) 
-							TitanVariables_UseSettings(info[1])
+							TitanVariables_UseSettings(info[1], TITAN_PROFILE_USE)
 						end,
 						-- does not make sense to load current character profile or global profile
 						disabled = disallow,
@@ -1352,7 +1353,7 @@ local function TitanUpdateChars()
 					},
 					use_as_global = {
 						order = 41, type = "toggle", width = "full",
-						name = "Use As Global Profile", --L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+						name = L["TITAN_PANEL_GLOBAL_USE_AS"],
 						get = function() return TitanPanelGetVar("GlobalProfileName") == name end,
 						set = function() 
 							if TitanPanelGetVar("GlobalProfileName") == name then 
@@ -1367,11 +1368,11 @@ local function TitanUpdateChars()
 								if TitanAllGetVar("GlobalProfileName") == TITAN_PROFILE_NONE then
 									TitanAllSetVar("GlobalProfileName", TitanSettings.Player)
 								end
-								TitanVariables_InitDetailedSettings(TitanAllGetVar("GlobalProfileName"))
+								TitanVariables_UseSettings(TitanAllGetVar("GlobalProfileName"), TITAN_PROFILE_USE)
 								TitanPrint(
 									L["TITAN_PANEL_MENU_PROFILE"]
 									..":"..(TitanAllGetVar("GlobalProfileName") or "?")
-									..": reseting options..."
+									..": "..L["TITAN_PANEL_GLOBAL_RESET_PART"].."..."
 									, "info")
 							else
 								-- 

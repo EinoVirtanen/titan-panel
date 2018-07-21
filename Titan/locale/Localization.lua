@@ -36,6 +36,10 @@ L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered w
 L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
 L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
 L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
+L["TITAN_PANEL_ATTEMPTS_STATUS"] = "Status"
+L["TITAN_PANEL_ATTEMPTS_ISSUE"] = "Issue"
+L["TITAN_PANEL_ATTEMPTS_NOTES"] = "Notes"
+L["TITAN_PANEL_ATTEMPTS_TABLE"] = "Table index"
 L["TITAN_PANEL_EXTRAS"] = TITAN_PANEL.." Extras"
 L["TITAN_PANEL_EXTRAS_SHORT"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
@@ -73,6 +77,15 @@ L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." toolt
 L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." scale has been reset.";
 L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." button spacing has been reset.";
      
+-- global profile locale
+L["TITAN_PANEL_GLOBAL"] = "Global";     
+L["TITAN_PANEL_GLOBAL_PROFILE"] = "Global Profile";     
+L["TITAN_PANEL_GLOBAL_USE"] = "Use Global Profile";     
+L["TITAN_PANEL_GLOBAL_USE_AS"] = "Use as Global Profile";     
+L["TITAN_PANEL_GLOBAL_USE_DESC"] = "Use a global profile for all characters";     
+L["TITAN_PANEL_GLOBAL_RESET_PART"] = "resetting options";     
+L["TITAN_PANEL_GLOBAL_ERR_1"] = "You may not load a profile when a global profile is in use";     
+
 -- general panel locale
 L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00"..TITAN_PANEL.." Development Team";     
 L["TITAN_PANEL_MENU_TITLE"] = TITAN_PANEL;
@@ -127,6 +140,7 @@ L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Force LDB Launchers to Right-Side";
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"Built-ins","General","Combat","Information","Interface","Profession"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Show Tooltips";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Hide Tooltips in Combat";
+L["TITAN_PANEL_MENU_AUTOHIDE_IN_COMBAT"] = "Lock auto hide bars while in combat";
 L["TITAN_PANEL_MENU_RESET"] = "Reset "..TITAN_PANEL.." to Default";
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";     
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
@@ -144,6 +158,13 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh Plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh Plugin Text and Position";
     
 -- localization strings for AceConfigDialog-3.0     
+L["TITAN_ABOUT_VERSION"] = "Version";
+L["TITAN_ABOUT_AUTHOR"] = "Author";
+L["TITAN_ABOUT_CREDITS"] = "Credits";
+L["TITAN_ABOUT_CATEGORY"] = "Category";
+L["TITAN_ABOUT_EMAIL"] = "Email";
+L["TITAN_ABOUT_WEB"] = "Website";
+L["TITAN_ABOUT_LICENSE"] = "License";
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or  of the screen.";			 
 L["TITAN_TRANS_MENU_TEXT"] = TITAN_PANEL.." Transparency";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparency";

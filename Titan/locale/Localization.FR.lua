@@ -38,6 +38,10 @@ L["TITAN_PANEL_ATTEMPTS_DESC"] = "Les plugins ci-dessous ont cherché à s'enreg
 L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
 L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Catégorie"
 L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Nom du bouton"
+L["TITAN_PANEL_ATTEMPTS_STATUS"] = "Statut"
+L["TITAN_PANEL_ATTEMPTS_ISSUE"] = "Problème"
+L["TITAN_PANEL_ATTEMPTS_NOTES"] = "Notes"
+L["TITAN_PANEL_ATTEMPTS_TABLE"] = "Index dans la table"
 
 L["TITAN_PANEL_EXTRAS"] = TITAN_PANEL.." Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "Plugins non lancés ayant des données de configuration.\n"
@@ -78,6 +82,15 @@ L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."La transparence des
 L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."L'échelle de "..TITAN_PANEL.." a été réinitialisée.";
 L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."L'espacement des boutons de "..TITAN_PANEL.." a été réinitialisé.";
 
+-- global profile locale
+L["TITAN_PANEL_GLOBAL"] = "Global";
+L["TITAN_PANEL_GLOBAL_PROFILE"] = "Profil global";
+L["TITAN_PANEL_GLOBAL_USE"] = "Utiliser le profil global";
+L["TITAN_PANEL_GLOBAL_USE_AS"] = "Utiliser en tant que profil global";
+L["TITAN_PANEL_GLOBAL_USE_DESC"] = "Utiliser un profil global pour tous les persos";
+L["TITAN_PANEL_GLOBAL_RESET_PART"] = "réinitialisation des options";
+L["TITAN_PANEL_GLOBAL_ERR_1"] = "Vous ne devriez pas charger un profil lorsqu'un profil global est en cours d'utilisation";
+
 -- general panel locale
 L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 par le |cffff8c00"..TITAN_PANEL.." Development Team";
 L["TITAN_PANEL_MENU_TITLE"] = TITAN_PANEL;
@@ -87,7 +100,7 @@ L["TITAN_PANEL_MENU_RELOADUI"] = "(Recharge l'interface)";
 L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Colorer le texte";
 L["TITAN_PANEL_MENU_SHOW_ICON"] = "Montrer l'icône";
 L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Montrer le titre";
-L["TITAN_PANEL_MENU_AUTOHIDE"] = "Cacher auto";
+L["TITAN_PANEL_MENU_AUTOHIDE"] = "Cacher automatiquement";
 L["TITAN_PANEL_MENU_CENTER_TEXT"] = "Centrer le texte";
 L["TITAN_PANEL_MENU_DISPLAY_BAR"] = "Afficher la barre";
 L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Ne pas ajuster l'écran";
@@ -132,6 +145,7 @@ L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forcer les launchers du côté droit
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"Interne","Généralités","Combat","Informations","Interface","Métiers"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Afficher les conseils";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Cacher les tooltips en combat";
+L["TITAN_PANEL_MENU_AUTOHIDE_IN_COMBAT"] = "Bloquer l'affichage automatique en combat";
 L["TITAN_PANEL_MENU_RESET"] = "Réinitialiser "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Paramètres du skin";
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Police des panneaux"
@@ -149,6 +163,13 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Rafraîchir les plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Rafraîchit le texte et la position des plugins";
 
 -- localization strings for AceConfigDialog-3.0
+L["TITAN_ABOUT_VERSION"] = "Version";
+L["TITAN_ABOUT_AUTHOR"] = "Auteur";
+L["TITAN_ABOUT_CREDITS"] = "Credits";
+L["TITAN_ABOUT_CATEGORY"] = "Catégorie";
+L["TITAN_ABOUT_EMAIL"] = "Email";
+L["TITAN_ABOUT_WEB"] = "Site web";
+L["TITAN_ABOUT_LICENSE"] = "Licence";
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de barres d'informations. Permet aux utilisateurs d'ajouter des plugins sur les barres placées en haut et/ou en bas de l'écran.";
 L["TITAN_TRANS_MENU_TEXT"] = TITAN_PANEL.." Transparence";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparence";
@@ -212,7 +233,7 @@ L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Utiliser (généralement en augmentant) si
 L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Véhicule";
 L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Utiliser (généralement en augmentant) si les frames ne s'ajustent pas lorsqu'on entre / descend d'un véhicule.";
 
-L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage auto du panneau on/off";
+L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage automatique du panneau on/off";
 
 L["TITAN_BAG_FORMAT"] = "%d/%d";
 L["TITAN_BAG_BUTTON_LABEL"] = "Sacs : ";

@@ -36,6 +36,10 @@ L["TITAN_PANEL_ATTEMPTS_DESC"] = "Ниже, приведены плагины, �
 L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Тип"
 L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Категория"
 L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Название кнопки"
+L["TITAN_PANEL_ATTEMPTS_STATUS"] = "Статус"
+L["TITAN_PANEL_ATTEMPTS_ISSUE"] = "Проблема"
+L["TITAN_PANEL_ATTEMPTS_NOTES"] = "Заметки"
+L["TITAN_PANEL_ATTEMPTS_TABLE"] = "Индекс"
 L["TITAN_PANEL_EXTRAS"] = "Дополнения"
 L["TITAN_PANEL_EXTRAS_SHORT"] = "Дополнения"
 L["TITAN_PANEL_EXTRAS_DESC"] = "Есть плагины с данными конфигурации, которые в настоящее время не загружены.\n"
@@ -72,6 +76,15 @@ L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб шр
 L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Прозрачность шрифта подсказки Titan Panel сброшена.";
 L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб Titan Panel сброшен.";
 L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."Расстояние кнопок Titan Panel сброшено.";
+     
+-- global profile locale
+L["TITAN_PANEL_GLOBAL"] = "Основной";     
+L["TITAN_PANEL_GLOBAL_PROFILE"] = "Основной профиль";     
+L["TITAN_PANEL_GLOBAL_USE"] = "Исп. основной профиль";     
+L["TITAN_PANEL_GLOBAL_USE_AS"] = "Исп. как основной профиль";     
+L["TITAN_PANEL_GLOBAL_USE_DESC"] = "Использовать основной профиль для всех персонажей";     
+L["TITAN_PANEL_GLOBAL_RESET_PART"] = "перенастройка опций";     
+L["TITAN_PANEL_GLOBAL_ERR_1"] = "Вы не можете загрузить профиль, когда используется основной профиль";
 	
 -- general panel locale
 L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00Titan Development Team";
@@ -127,6 +140,7 @@ L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Направить модули за
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"Сборки титана","Общее","Бой","Информация","Интерфейс","Профессия"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Показывать подсказки";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Скрыть подсказки в бою";
+L["TITAN_PANEL_MENU_AUTOHIDE_IN_COMBAT"] = "Закрепить авто-скрытие в бою";
 L["TITAN_PANEL_MENU_RESET"] = "Сброс панели на стандарт";
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Настройки шкурки";	
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Шрифт панели"
@@ -143,7 +157,14 @@ L["TITAN_PANEL_MENU_SHOW"] = "Показать плагин";
 L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Обновить плагины";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Обновить позицию и текст плагинов";
 	
--- localization strings for AceConfigDialog-3.0     
+-- localization strings for AceConfigDialog-3.0
+L["TITAN_ABOUT_VERSION"] = "Версия";
+L["TITAN_ABOUT_AUTHOR"] = "Автор";
+L["TITAN_ABOUT_CREDITS"] = "Исполнители";
+L["TITAN_ABOUT_CATEGORY"] = "Категория";
+L["TITAN_ABOUT_EMAIL"] = "Email";
+L["TITAN_ABOUT_WEB"] = "Сайт";
+L["TITAN_ABOUT_LICENSE"] = "Лицензия";     
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Аддон отображения полосы информации. Позволяет пользователям добавлять вывод данных или плагины модуля запуска на верхнюю панель или нижнюю.";			 
 L["TITAN_TRANS_MENU_TEXT"] = "Прозрачность";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Прозрачность";

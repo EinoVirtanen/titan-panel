@@ -40,6 +40,10 @@ L["TITAN_PANEL_ATTEMPTS_DESC"] = "Los siguientes plugins han solicitado ser acti
 L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Tipo"
 L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Categoría"
 L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Nombre del botón"
+L["TITAN_PANEL_ATTEMPTS_STATUS"] = "Estatus"
+L["TITAN_PANEL_ATTEMPTS_ISSUE"] = "Incidencia"
+L["TITAN_PANEL_ATTEMPTS_NOTES"] = "Notas"
+L["TITAN_PANEL_ATTEMPTS_TABLE"] = "Indice"
 L["TITAN_PANEL_EXTRAS"] = "Extras de "..TITAN_PANEL
 L["TITAN_PANEL_EXTRAS_SHORT"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "Estos plugins tienen cambios en su configuración que aún no han sido cargados.\n"
@@ -78,6 +82,15 @@ L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."La escala de la fue
 L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."La transparencia de los tooltips de Titan Panel ha sido reseteada.";
 L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."La escala de Titan Panel ha sido reseteada.";
 L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."El espaciado de los botones de Titan Panel ha sido reseteado.";
+
+-- global profile locale
+L["TITAN_PANEL_GLOBAL"] = "Global";
+L["TITAN_PANEL_GLOBAL_PROFILE"] = "Perfil Global";
+L["TITAN_PANEL_GLOBAL_USE"] = "Usar Perfil Global";
+L["TITAN_PANEL_GLOBAL_USE_AS"] = "Usar como Perfil Global";
+L["TITAN_PANEL_GLOBAL_USE_DESC"] = "Utiliza un perfil global para todos los personajes";
+L["TITAN_PANEL_GLOBAL_RESET_PART"] = "restableciendo opciones";
+L["TITAN_PANEL_GLOBAL_ERR_1"] = "No se puede cargar un perfil cuando el global está en uso";
 
 -- general panel locale
 L["TITAN_PANEL"] = "Titan Panel";
@@ -142,6 +155,7 @@ L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Desactivar escalado de fuentes";
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"De serie en Titan","General","Combate","Información","Interfaz","Profesión"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Mostrar tooltips";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Ocultar tooltips en combate";
+L["TITAN_PANEL_MENU_AUTOHIDE_IN_COMBAT"] = "Ocultar las barras en combate"
 L["TITAN_PANEL_MENU_RESET"] = "Volver a los ajustes por defecto de "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";
 L["TITAN_PANEL_MENU_FONT"] = "Fuente";
@@ -162,6 +176,13 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Actualizar plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Actualizar texto y posición de plugin";
 
 -- localization strings for AceConfigDialog-3.0     
+L["TITAN_ABOUT_VERSION"] = "Versión";
+L["TITAN_ABOUT_AUTHOR"] = "Autor";
+L["TITAN_ABOUT_CREDITS"] = "Créditos";
+L["TITAN_ABOUT_CATEGORY"] = "Categoría";
+L["TITAN_ABOUT_EMAIL"] = "Email";
+L["TITAN_ABOUT_WEB"] = "Sitio Web";
+L["TITAN_ABOUT_LICENSE"] = "Licencia";
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de la barra de información. Permite a los usuarios añadir orígenes de datos o plugins lanzadores en un panel de control situado en la parte superior o inferior de la pantalla."; 
 L["TITAN_TRANS_MENU_TEXT"] = TITAN_PANEL.." Transparencia";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparencia";

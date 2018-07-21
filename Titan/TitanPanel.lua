@@ -25,18 +25,21 @@ local media = LibStub("LibSharedMedia-3.0")
 
 --------------------------------------------------------------
 --
-
---[[ local
-NAME: TitanPanel_ResetBar
-DESC: Reset the current toon back to default Titan settings. Then reload the UI.
-VARS: None
-OUT : None
---]]
-local function TitanPanel_ResetBar()
-	TitanVariables_ResetDetailedSettings()
-
-	IsTitanPanelReset = true;
-	ReloadUI()
+function TitanPanel_OkToReload()
+	StaticPopupDialogs["TITAN_RESET_RELOAD"] = {
+		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"])
+			.."\n\n"..L["TITAN_PANEL_RESET_WARNING"],
+		button1 = ACCEPT,
+		button2 = CANCEL,
+		OnAccept = function(self)
+			ReloadUI()
+		end,	
+		showAlert = 1,
+		timeout = 0,
+		whileDead = 1,
+		hideOnEscape = 1
+	};
+	StaticPopup_Show("TITAN_RESET_RELOAD");
 end
 
 --[[ Titan
@@ -44,6 +47,8 @@ NAME: TitanPanel_ResetToDefault
 DESC: Give the user a 'are you sure'. If the user accepts then reset current toon back to default Titan settings.
 VARS: None
 OUT : None
+NOTE: 
+- Even if the user was using global profiles they will not when this is done.
 --]]
 function TitanPanel_ResetToDefault()
 	StaticPopupDialogs["TITAN_RESET_BAR"] = {
@@ -52,7 +57,10 @@ function TitanPanel_ResetToDefault()
 		button1 = ACCEPT,
 		button2 = CANCEL,
 		OnAccept = function(self)
-			TitanPanel_ResetBar();
+			TitanVariables_UseSettings(TitanSettings.Player, TITAN_PROFILE_RESET);
+			IsTitanPanelReset = true;
+--TitanPanel_OkToReload()
+			ReloadUI()
 		end,	
 		showAlert = 1,
 		timeout = 0,
@@ -336,14 +344,14 @@ function TitanPanel_PlayerEnteringWorld()
 			ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format")
 		end
 	end
-
+	TitanSettings.Player,_,_ = TitanUtils_GetPlayer()
 	-- Some addons wait to create their LDB component or a Titan addon could
 	-- create additional buttons as needed.
 	-- So we need to sync their variables and set them up
 	TitanUtils_RegisterPluginList()
 
 	-- Init detailed settings only after plugins are registered!
-	TitanVariables_InitDetailedSettings(TitanUtils_GetPlayer())
+	TitanVariables_UseSettings(nil, TITAN_PROFILE_INIT)
 	
 	-- all addons are loaded so update the config (options)
 	-- some could have registered late...
@@ -428,7 +436,6 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 			TitanPanelRegister.TitanPlugins = TitanPlugins
 			TitanPanelRegister.Extras = TitanPluginExtras
 		end
-		
 	end
 	Titan__InitializedPEW = nil
 end
@@ -571,7 +578,7 @@ local function handle_reset_cmds(cmd_list)
 		return
 	end
 	
-	if #cmd == 1 then
+	if p1 == nil then
 		TitanPanel_ResetToDefault();
 	elseif p1 == "tipfont" then
 		TitanPanelSetVar("TooltipFont", 1);
@@ -649,11 +656,9 @@ local function handle_profile_cmds(cmd_list)
 	
 	if p1 == "use" and p2 and p3 then
 		if TitanAllGetVar("GlobalProfileUse") then
-			TitanPrint(
-				"You may not load a profile when a global profile is in use" --L["TITAN_PANEL_MENU_PROFILE"]
-				, "info")
+			TitanPrint(L["TITAN_PANEL_GLOBAL_ERR_1"], "info")
 		else
-			TitanVariables_UseSettings(TitanUtils_CreateName(p2, p3))
+			TitanVariables_UseSettings(TitanUtils_CreateName(p2, p3), TITAN_PROFILE_USE)
 		end
 	else
 		handle_slash_help("profile")
@@ -893,7 +898,7 @@ function TitanPanelBarButtonHider_OnEnter(self)
 	if not index then return end -- sanity check
 
 	-- so the bar does not 'appear' when moused over in combat
-	if InCombatLockdown() then return end 
+	if TitanPanelGetVar("LockAutoHideInCombat") and InCombatLockdown() then return end 
 
 	-- find the relevant bar data
 	local frame = nil
@@ -1303,6 +1308,7 @@ function TitanPanel_RemoveButton(id)
 
 	TitanPanel_ReOrder(i);
 	table.remove(TitanPanelSettings.Buttons, TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id));
+--TitanDebug("_Remove: "..(id or "?").." "..(i or "?"))
 	if currentButton then
 		currentButton:Hide();
 	end
@@ -1547,17 +1553,19 @@ local function TitanPanel_MainMenu()
 		end
 	UIDropDownMenu_AddButton(info);
 
+	local glob, name, player, server = TitanUtils_GetGlobalProfile()
 	info = {};
 	info.text = "Use Global Profile"
 	info.value = "Use Global Profile"				
 	info.func = function() 
-		TitanVariables_ToggleGlobalUse()
+		TitanUtils_SetGlobalProfile(not glob, toon)
+		TitanVariables_UseSettings(nil, TITAN_PROFILE_USE)
 	end;
-	info.checked = TitanAllGetVar("GlobalProfileUse")
+	info.checked = glob --TitanAllGetVar("GlobalProfileUse")
 	info.keepShownOnClick = nil
 	UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	
-	local player, server = TitanUtils_ParseName(TitanAllGetVar("GlobalProfileName"))
+	--local player, server = TitanUtils_ParseName(TitanAllGetVar("GlobalProfileName"))
 	info = {};
 	info.notCheckable = true
 	info.text = "   "..TitanUtils_GetGreenText(server)
@@ -1664,7 +1672,8 @@ local function TitanPanel_PlayerSettingsMenu()
 			info.disabled = TitanAllGetVar("GlobalProfileUse")
 			info.text = L["TITAN_PANEL_MENU_LOAD_SETTINGS"];
 			info.value = index;
-			info.func = function() TitanVariables_UseSettings(index)
+			info.func = function() 
+				TitanVariables_UseSettings(index, TITAN_PROFILE_USE)
 			end
 			UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 			
@@ -1807,7 +1816,7 @@ local function TitanPanel_SettingsSelectionMenu()
 	info.text = L["TITAN_PANEL_MENU_LOAD_SETTINGS"];
 	info.value = UIDROPDOWNMENU_MENU_VALUE;
 	info.func = function() 
-		TitanVariables_UseSettings(UIDROPDOWNMENU_MENU_VALUE) --TitanVariables_InitDetailedSettings(UIDROPDOWNMENU_MENU_VALUE)
+		TitanVariables_UseSettings(UIDROPDOWNMENU_MENU_VALUE, TITAN_PROFILE_USE)
 	end
 	UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	
