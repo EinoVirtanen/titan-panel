@@ -70,7 +70,9 @@ function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
 		-- remove () chars from difficulty
 		local tmpstr = string.gsub(name, "%(", "")
 		tmpstr = string.gsub(tmpstr, "%)", "")
-		if diff == 3 or diff == 4 then
+		if diff == 14 then
+			diffstr = _G["GREEN_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
+		elseif diff == 15 then
 			diffstr = _G["ORANGE_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
 		else
 			diffstr = _G["RED_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
@@ -83,10 +85,11 @@ function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
 		-- remove () chars from difficulty
 		local tmpstr = string.gsub(name, "%(", "")
 		tmpstr = string.gsub(tmpstr, "%)", "")
-		diffstr = _G["GREEN_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
-		if diff == 2 then
+		if diff == 1 then
+			diffstr = _G["GREEN_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
+		elseif diff == 2 then
 			diffstr = _G["ORANGE_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
-		elseif diff == 8 then
+		else
 			diffstr = _G["RED_FONT_COLOR_CODE"]..par1..tmpstr..par2.."|r"
 		end
 	end
@@ -102,24 +105,15 @@ function TitanPanelLootTypeButton_OnEvent(self, event, ...)
 	if event == "CHAT_MSG_SYSTEM" then
 		-- Match difficulty system message to alert addon for possible update
 		-- dungeons
-		local strm1 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY1"]) -- 5 Player "Normal" (difficultyID=1)
-		local strm2 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY2"]) -- 5 Player "Heroic" (difficultyID=2)
---		local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY3"]) -- 5 Player "Mythic" (difficultyID=23)
---		local strm4 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY4"]) -- 5 Player "Timewalker" (difficultyID=24)
---		local strm5 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY5"]) -- 5 Player "Challenge Mode" (difficultyID=8)
---			DUNGEON_DIFFICULTY1="5 Player"
---			DUNGEON_DIFFICULTY2="5 Player (Heroic)"
---			DUNGEON_DIFFICULTY3="Epic (Unused)"
+		local strm1 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY1"]) -- "Normal" (difficultyID=1)
+		local strm2 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY2"]) -- "Heroic" (difficultyID=2)
+		local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY6"]) -- "Mythic" (difficultyID=23)
+		local strm4 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY5"]) -- "Challenge Mode" (difficultyID=8)
 
 		-- raids
-		local strm3 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY1"]) -- 10 Player "Normal" (difficultyID=14)
-		local strm4 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY2"]) -- 10 Player "Heroic" (difficultyID=15)
-		local strm5 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY3"]) -- 10 Player "Mythic" (difficultyID=16)
-		local strm6 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["RAID_DIFFICULTY4"]) -- 
---			RAID_DIFFICULTY1="10 Player"
---			RAID_DIFFICULTY2="25 Player"
---			RAID_DIFFICULTY3="10 Player (Heroic)"
---			RAID_DIFFICULTY4="25 Player (Heroic)"
+		local strm5 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY1"]) -- "Normal" (difficultyID=14)
+		local strm6 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY2"]) -- "Heroic" (difficultyID=15)
+		local strm7 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["PLAYER_DIFFICULTY6"]) -- "Mythic" (difficultyID=16)
 
 --			PLAYER_DIFFICULTY1="Normal"
 --			PLAYER_DIFFICULTY2="Heroic"
@@ -135,7 +129,7 @@ function TitanPanelLootTypeButton_OnEvent(self, event, ...)
 --		local strm8 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY3"]) -- "10 Player" (difficultyID=5)
 --		local strm9 = format( _G["ERR_RAID_DIFFICULTY_CHANGED_S"], _G["LEGACY_RAID_DIFFICULTY4"]) -- "25 Player" (difficultyID=6)
 
-		if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3 or arg1 == strm4 or arg1 == strm5 or arg1 == strm6) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
+		if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3 or arg1 == strm4 or arg1 == strm5 or arg1 == strm6 or arg1 == strm7) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
 			TitanPanelPluginHandle_OnUpdate(updateTable)
 		end
 		return;
@@ -266,7 +260,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["UIDROPDOWNMENU_MENU_VALUE"] == "SetDungeonDiff" then
 		info = {};
-		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY1"].."|r";
+		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY1"].."|r";
 		info.func = function() SetDungeonDifficultyID(1) end
 		info.checked = function() if GetDungeonDifficultyID() == 1 then return true end return false end
 		local inParty = false;
@@ -287,7 +281,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
 		info = {}
-		info.text = _G["RED_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY2"].."|r";
+		info.text = _G["ORANGE_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY2"].."|r";
 		info.func = function() SetDungeonDifficultyID(2) end
 		info.checked = function() if GetDungeonDifficultyID() == 2 then return true end return false end
 		local inParty = false;
@@ -307,10 +301,31 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
---[[		info = {}
-		info.text = _G["RED_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY3"].."|r";
+		info = {}
+		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY6"].."|r";
+		info.func = function() SetDungeonDifficultyID(23) end
+		info.checked = function() if GetDungeonDifficultyID() == 23 then return true end return false end
+		local inParty = false;
+		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
+			inParty = true;
+		end
+		local isLeader = false;
+		if (UnitIsGroupLeader("player")) then
+			isLeader = true;
+		end
+		local inInstance = IsInInstance()
+		local playerlevel = UnitLevel("player")
+		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 100 and GetDungeonDifficultyID() == 23) then
+			info.disabled = true
+		else
+			info.disabled = false
+		end
+		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+		info = {}
+		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY5"].."|r";
 		info.func = function() SetDungeonDifficultyID(8) end
-		info.checked = function() if GetDungeonDifficultyID() == 2 then return true end return false end
+		info.checked = function() if GetDungeonDifficultyID() == 8 then return true end return false end
 		local inParty = false;
 		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
 			inParty = true;
@@ -327,13 +342,13 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 			info.disabled = false
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
---]]
+
 
 	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["UIDROPDOWNMENU_MENU_VALUE"] == "SetRaidDiff" then
 		info = {};
-		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["RAID_DIFFICULTY1"].."|r";
+		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY1"].."|r";
 		info.func = function() SetRaidDifficultyID(1) end
-		info.checked = function() if GetRaidDifficultyID() == 1 then return true end return false end
+		info.checked = function() if GetRaidDifficultyID() == 14 then return true end return false end
 		local inParty = 0;
 		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
 			inParty = 1;
@@ -344,7 +359,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		end
 		local inInstance = IsInInstance()
 		local playerlevel = UnitLevel("player")
-		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 1) then
+		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 14) then
 			info.disabled = 1
 		else
 			info.disabled = false
@@ -352,9 +367,9 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
 		info = {};
-		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["RAID_DIFFICULTY2"].."|r";
+		info.text = _G["ORANGE_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY2"].."|r";
 		info.func = function() SetRaidDifficultyID(2) end
-		info.checked = function() if GetRaidDifficultyID() == 2 then return true end return false end
+		info.checked = function() if GetRaidDifficultyID() == 15 then return true end return false end
 		local inParty = 0;
 		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
 			inParty = 1;
@@ -365,7 +380,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		end
 		local inInstance = IsInInstance()
 		local playerlevel = UnitLevel("player")
-		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 1) then
+		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 15) then
 			info.disabled = 1
 		else
 			info.disabled = false
@@ -373,9 +388,9 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
 		info = {};
-		info.text = _G["RED_FONT_COLOR_CODE"].._G["RAID_DIFFICULTY3"].."|r";
+		info.text = _G["RED_FONT_COLOR_CODE"].._G["PLAYER_DIFFICULTY6"].."|r";
 		info.func = function() SetRaidDifficultyID(3) end
-		info.checked = function() if GetRaidDifficultyID() == 3 then return true end return false end
+		info.checked = function() if GetRaidDifficultyID() == 16 then return true end return false end
 		local inParty = 0;
 		if (UnitExists("party1") or GetNumGroupMembers() > 0) then
 			inParty = 1;
@@ -386,14 +401,14 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		end
 		local inInstance = IsInInstance()
 		local playerlevel = UnitLevel("player")
-		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 1) then
+		if inInstance or (inParty == 1 and isLeader == 0) or (playerlevel < 65 and GetRaidDifficultyID() == 16) then
 			info.disabled = 1
 		else
 			info.disabled = false
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-		info = {};
+--[[		info = {};
 		info.text = _G["RED_FONT_COLOR_CODE"].._G["RAID_DIFFICULTY4"].."|r";
 		info.func = function() SetRaidDifficultyID(4) end
 		info.checked = function() if GetRaidDifficultyID() == 4 then return true end return false end
@@ -413,6 +428,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 			info.disabled = false
 		end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
+--]]
 
 	else
 		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
@@ -435,8 +451,8 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"];
 		info.value = "SetRaidDiff";
-		info.hasArrow = 1;     
-		UIDropDownMenu_AddButton(info);     
+		info.hasArrow = 1;
+		UIDropDownMenu_AddButton(info);
 		info = {};
 		info.notCheckable = true
 		info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
