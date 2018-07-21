@@ -83,10 +83,10 @@ TITAN_PANEL_BUTTONS_PLUGIN_CATEGORY =
 --
 --]]
 --[[ Titan
-TitanBarOrderTitanBarOrder table. The values must match the 'name' in the TitanBarData table!!!
+TitanBarOrder table. The values must match the 'name' in the TitanBarData table!!!
 The values specify the order the options should be ordered in the options pulldown.
 --]]
-TitanBarOrderTitanBarOrder = {"Bar", "Bar2", "AuxBar2", "AuxBar"}
+TitanBarOrder = {"Bar", "Bar2", "AuxBar2", "AuxBar"}
 --[[ Titan
 TitanBarData table. The index must match the 'button' names in the TitanPanel.xml!!!
 The table holds:
