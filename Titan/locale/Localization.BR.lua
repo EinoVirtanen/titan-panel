@@ -150,7 +150,7 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh Plugin Text and Position";
 L["TITAN_PANEL_MENU_SILENT_LOAD"] = "Silent Load";
 
 -- localization strings for AceConfigDialog-3.0
-L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or  of the screen.";			 
+L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or bottom of the screen.";
 L["TITAN_TRANS_MENU_TEXT"] = "Transparência do " .. TITAN_PANEL;
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparência";
 L["TITAN_TRANS_MENU_DESC"] = "Adjust transparency for the "..TITAN_PANEL.." bars and tooltip.";

@@ -330,7 +330,7 @@ function TitanPanel_PlayerEnteringWorld()
 		TitanLDBRefreshButton()
 	else
 		-- Get Profile and Saved Vars
-		TitanVariables_InitTitanSettings();			
+		TitanVariables_InitTitanSettings();
 
 		-- only do this sort of initialization on the first PEW event
 		if not TitanAllGetVar("Silenced") then
@@ -349,7 +349,7 @@ function TitanPanel_PlayerEnteringWorld()
 		TitanPanelTopAnchor:ClearAllPoints();
 		TitanPanelTopAnchor:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
 		TitanPanelBottomAnchor:ClearAllPoints();
-		TitanPanelBottomAnchor:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0); 
+		TitanPanelBottomAnchor:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0);
 
 		-- Ensure the bars are created before the 
 		-- plugins are registered. 
