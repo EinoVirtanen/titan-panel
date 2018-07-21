@@ -325,9 +325,6 @@ local function TitanVariables_InitPlayerSettings()
 		TitanSettings.Players[toon] = {}
 		TitanSettings.Players[toon].Plugins = {}
 		TitanSettings.Players[toon].Panel = {}
-		TitanPlayerSettings["Plugins"] = {}
-		TitanPlayerSettings["Panel"] = {}
-		TitanPlayerSettings["Register"] = {}
 	end	
 	
 	-- Set global variables
