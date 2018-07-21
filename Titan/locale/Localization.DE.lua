@@ -53,7 +53,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      
      -- general panel locale
      L["TITAN_PANEL"] = "Titan Panel";
-     L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 vom "..RED_FONT_COLOR_CODE.."Titan Dev Team"; --SENSITY
+     L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 vom "..RED_FONT_COLOR_CODE.."Titan Development Team"; --SENSITY
      L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
      L["TITAN_PANEL_MENU_HIDE"] = "Ausblenden";
      L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Anpassen";
@@ -102,7 +102,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin rechts"; --SENSITY
      L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Schiebe Starter nach rechts"; --SENSITY
      L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Schriftarten skalieren sperren"; 
-     L["TITAN_PANEL_MENU_CATEGORIES"] = {"Allgemein","Kampf","Informationen","Interface","Beruf"}
+     L["TITAN_PANEL_MENU_CATEGORIES"] = {"Titan Standardplugins","Allgemein","Kampf","Informationen","Interface","Beruf"}
      L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Zeige Tooltips";
      L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Verberge Tooltips im Kampf"; -- Sensity
      L["TITAN_PANEL_MENU_RESET"] = "Einstellungen zur\195\188cksetzen";
@@ -111,6 +111,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
      L["TITAN_PANEL_MENU_ENABLED"] = "Ein"; --SENSITY
      L["TITAN_PANEL_MENU_DISABLED"] = "Aus"; --SENSITY
+L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
+L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
      
      -- localization strings for AceConfigDialog-3.0     
      L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Informationsleisten-Addon. Erlaubt Dateneingaben oder Start-Zusaetze auf einer Kontrollleiste am oberen oder unteren Bildschirmrand.";     --SENSITY           
@@ -290,7 +292,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      L["TITAN_MONEY_GOLD"] = "G";
      L["TITAN_MONEY_SILVER"] = "S";
      L["TITAN_MONEY_COPPER"] = "K";
-     L["TITAN_MONEY_FORMAT"] = "%d".."G"..", %d".."S"..", %d".."K";
+     L["TITAN_MONEY_FORMAT"] = "%d".."G"..", %02d".."S"..", %02d".."K";
      
      L["TITAN_PERFORMANCE_TOOLTIP"] = "Leistung";
      L["TITAN_PERFORMANCE_MENU_TEXT"] = "Leistung";
@@ -404,6 +406,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
           AutoRepitemlabel = "Automatische Reparatur aller Gegenst\195\164nde",
           ShowRepairCost = "Zeige Reparaturkosten",
                       ignoreThrown = "Ignore Thrown",
+		  		ShowItems = "Show Items",
+		  		ShowDiscounts = "Show Discounts",
+		  		ShowCosts = "Show Costs",
+		  		Items = "Items",
+		  		Discounts = "Discounts",
+		  		Costs = "Costs",
+				TooltipOptions = "Tooltip",
      };     
      L["TITAN_REPAIR"] = "Titan Repair"
      L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"

@@ -8,7 +8,8 @@ local LB = LibStub("AceLocale-3.0"):GetLocale("Titan_Volume", true)
 function TitanPanelVolumeButton_OnLoad(self)
 	self.registry = { 
 		id = TITAN_VOLUME_ID,
-		builtIn = 1,
+--		builtIn = 1,
+			category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = LB["TITAN_VOLUME_MENU_TEXT"], 
 		tooltipTitle = LB["TITAN_VOLUME_TOOLTIP"], 

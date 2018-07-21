@@ -31,13 +31,21 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 function TitanPanelAmmoButton_OnLoad(self)
      self.registry = {
           id = TITAN_AMMO_ID,
-          builtIn = 1,
+--          builtIn = 1,
+		category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_AMMO_MENU_TEXT"],
           buttonTextFunction = "TitanPanelAmmoButton_GetButtonText", 
           tooltipTitle = L["TITAN_AMMO_TOOLTIP"],
           icon = "Interface\\AddOns\\TitanAmmo\\TitanThrown",
           iconWidth = 16,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                ShowIcon = 1,
                ShowLabelText = 1,

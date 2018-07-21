@@ -23,12 +23,12 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " semble \195\170tre enregistr\195\169 plusieurs fois. Cela peut causer des probl\195\168mes \195\160 Titan Panel. Veuillez corriger le probl\195\168me."
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Vous ne pouvez pas supprimer votre profil en cours.";
-local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
-local TITAN_PANEL_RELOAD_TEXT = "Si vous voulez continuer cette op\195\169ration, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'."
-L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+	local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
+	local TITAN_PANEL_RELOAD_TEXT = "Si vous voulez continuer cette op\195\169ration, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'."
+	L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
 	.."cela va r\195\169initialiser la/les barres et tous les param\195\168tres de Titan Panel \195\160 leur valeur par d\195\169faut et va recr\195\169er votre profil. "
 	..TITAN_PANEL_RELOAD_TEXT
-L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+	L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."Cela va recharger Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
 
@@ -52,7 +52,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 
 	-- general panel locale
 	L["TITAN_PANEL"] = "Titan Panel";
-	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 par le "..RED_FONT_COLOR_CODE.."Titan Dev Team";
+	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 par le "..RED_FONT_COLOR_CODE.."Titan Development Team";
 	L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
 	L["TITAN_PANEL_MENU_HIDE"] = "Cacher";
 	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Personnaliser";
@@ -101,7 +101,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin du c\195\180t\195\169 droit";
 	L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forcer les launchers du c\195\180t\195\169 droit";
 	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Changement de police d\195\169sactiv\195\169"; 
-	L["TITAN_PANEL_MENU_CATEGORIES"] = {"G\195\169n\195\169ralit\195\169s","Combat","Informations","Interface","M\195\169tiers"}
+	L["TITAN_PANEL_MENU_CATEGORIES"] = {"Modules Titan","G\195\169n\195\169ralit\195\169s","Combat","Informations","Interface","M\195\169tiers"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Afficher les conseils";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Cacher les tooltips en combat";
 	L["TITAN_PANEL_MENU_RESET"] = "R\195\169initialiser Titan Panel";
@@ -110,6 +110,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Police de Titan"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activ\195\169";
 	L["TITAN_PANEL_MENU_DISABLED"] = "D\195\169sactiv\195\169";
+	L["TITAN_PANEL_SHIFT_LEFT"] = "Placer \195\160 gauche";
+	L["TITAN_PANEL_SHIFT_RIGHT"] = "Placer \195\160 droite";
 
 	-- localization strings for AceConfigDialog-3.0
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de barres d'informations. Permet aux utilisateurs d'ajouter des plugins sur les barres plac\195\169es en haut et/ou en bas de l'\195\169cran.";
@@ -188,7 +190,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Ignorer les emplacements des sacs de munitions";
 	L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignorer les emplacements des sacs de fragments d'\195\162me";
 	L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorer les emplacements des sacs sp\195\169cifiques aux m\195\169tiers";
-	L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Cartouchi\195\168re","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"}; -- how to find these items? partial search or full name?
+	L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Cartouchi\195\168re","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"};
 	L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Petite bourse d'\195\162me","Bo\195\174te d'\195\162mes","Bourse d'\195\162me","Sac en gangr\195\169toffe","Ombresac d'\195\169b\195\168ne","Sac en gangr\195\169toffe du Magma", "Sac abyssal"};
 	L["TITAN_BAG_PROF_BAG_NAMES"] = {"Bourse enchant\195\169e en tisse-mage","Sac enchant\195\169 en \195\169toffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac myst\195\169rieux","Bourse d'herbes","Sac d'herbes c\195\169narien","Sacoche de C\195\169narius","Lourde bo\195\174te \195\160 outils","Bo\195\174te \195\160 outils en gangrefer","Boîte \195\160 outils en khorium","Bourse de gemmes","Sac de joyaux","Sac de mineur","Sac de mineur renforc\195\169","Sac de mineur colossal","Sacoche d'artisan du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur","Sac de botanique de Mycah","Sacoche de calligraphie","Sac des poches infinies"};
 
@@ -289,7 +291,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_MONEY_GOLD"] = "o";
 	L["TITAN_MONEY_SILVER"] = "a";
 	L["TITAN_MONEY_COPPER"] = "c";
-	L["TITAN_MONEY_FORMAT"] = "%d".."o"..", %d".."a"..", %d".."c";
+	L["TITAN_MONEY_FORMAT"] = "%d".."o"..", %02d".."a"..", %02d".."c";
 
 	L["TITAN_PERFORMANCE_TOOLTIP"] = "Performances";
 	L["TITAN_PERFORMANCE_MENU_TEXT"] = "Performances";
@@ -353,8 +355,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Montrer le temps jou\195\169 pour cette session";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) meurt, vous gagnez (%d+) points d'exp\195\169rience.";
 	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. des gains : ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "Gains d'XP pour passer de niveau (\195\160 %d XP gagn\195\169): "; -- EN
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "les estimations de gains d'XP pour monter"; -- EN
+	L["TITAN_XP_XPGAINS_LABEL"] = "Gains d'XP pour passer de niveau (\195\160 %d XP gagn\195\169): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "les estimations de gains d'XP pour monter";
 
 	L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Taux de regen"
@@ -403,6 +405,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 		AutoRepitemlabel = "R\195\169paration automatique de tous les objets",
 		ShowRepairCost = "Afficher le co\195\187t de r\195\169paration",
 		ignoreThrown = "Ignorer les armes de jet",
+		ShowItems = "Afficher les objets",
+		ShowDiscounts = "Afficher les r\195\169ductions",
+		ShowCosts = "Afficher les co\195\187ts",
+		Items = "Objets",
+		Discounts = "R\195\169ductions",
+		Costs = "Co\195\187ts",
+		TooltipOptions = "Tooltip",
 	};
 	L["TITAN_REPAIR"] = "Titan Repair"
 	L["TITAN_REPAIR_GBANK_TOTAL"] = "Fonds de la banque de guilde :"

@@ -52,7 +52,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      
      -- general panel locale
   L["TITAN_PANEL"] = "Titan 面板";
-  L["TITAN_PANEL_VERSION_INFO"] = "|cffff8c00Titan Dev Team |cffffffff Presents ".." |cffffffff";     
+  L["TITAN_PANEL_VERSION_INFO"] = "|cffff8c00Titan Development Team |cffffffff Presents ".." |cffffffff";     
   L["TITAN_PANEL_MENU_TITLE"] = "Titan 面板";
   L["TITAN_PANEL_MENU_HIDE"] = "隐藏";
   L["TITAN_PANEL_MENU_CUSTOMIZE"] = "设置";
@@ -101,7 +101,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
   L["TITAN_PANEL_MENU_LDB_SIDE"] = "模块置于右侧";
   L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "强制置于右侧";
   L["TITAN_PANEL_MENU_DISABLE_FONT"] = "禁用字体缩放";
-  L["TITAN_PANEL_MENU_CATEGORIES"] = {"常规插件","战斗插件","信息插件","界面插件","专业技能插件"}
+  L["TITAN_PANEL_MENU_CATEGORIES"] = {"Titan内置插件","常规插件","战斗插件","信息插件","界面插件","专业技能插件"}
   L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "显示提示信息";
   L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "战斗中隐藏提示信息";
   L["TITAN_PANEL_MENU_RESET"] = "重置泰坦面板";
@@ -110,6 +110,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
   L["TITAN_PANEL_MENU_LSM_FONTS"] = "面板字体"
   L["TITAN_PANEL_MENU_ENABLED"] = "启用";
   L["TITAN_PANEL_MENU_DISABLED"] = "禁用";
+L["TITAN_PANEL_SHIFT_LEFT"] = "Shift 左键";
+L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右键";
      
   -- localization strings for AceConfigDialog-3.0     
   L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "信息显示插件. 允许用户在屏幕上方或下方的信息条上添加扩展模块.";			 
@@ -289,7 +291,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
   L["TITAN_MONEY_GOLD"] = "金";
   L["TITAN_MONEY_SILVER"] = "银";
   L["TITAN_MONEY_COPPER"] = "铜";
-  L["TITAN_MONEY_FORMAT"] = "%d".."金"..", %d".."银"..", %d".."铜";
+  L["TITAN_MONEY_FORMAT"] = "%d".."金"..", %02d".."银"..", %02d".."铜";
      
   L["TITAN_PERFORMANCE_TOOLTIP"] = "性能信息";
   L["TITAN_PERFORMANCE_MENU_TEXT"] = "性能";
@@ -403,6 +405,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
           AutoRepitemlabel = "自动修理所有物品",
           ShowRepairCost = "显示修理费用",
 		      ignoreThrown = "忽略投掷武器",
+		  		ShowItems = "Show Items",
+		  		ShowDiscounts = "Show Discounts",
+		  		ShowCosts = "Show Costs",
+		  		Items = "Items",
+		  		Discounts = "Discounts",
+		  		Costs = "Costs",
+				TooltipOptions = "Tooltip",
      };
 	
 	L["TITAN_REPAIR"] = "Titan 修理"

@@ -53,7 +53,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	
 	-- general panel locale
 	L["TITAN_PANEL"] = "Титан Панель";
-	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00Titan Dev Team";
+	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00Titan Development Team";
 	L["TITAN_PANEL_MENU_TITLE"] = "Титан панель";
 	L["TITAN_PANEL_MENU_HIDE"] = "Скрыть";
 	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Настроить";
@@ -102,7 +102,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LDB_SIDE"] = "Плагин справа";
 	L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Направить модули запусков в правую сторону";
 	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Выключить масштабирование шрифтов";
-	L["TITAN_PANEL_MENU_CATEGORIES"] = {"Общее","Бой","Информация","Интерфейс","Профессия"}
+	L["TITAN_PANEL_MENU_CATEGORIES"] = {"Сборки титана","Общее","Бой","Информация","Интерфейс","Профессия"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Показывать подсказки";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Скрыть подсказки в бою";
 	L["TITAN_PANEL_MENU_RESET"] = "Сброс панели на стандарт";
@@ -111,6 +111,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Шрифт панели"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Включен";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Отключен";
+    L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
+    L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
 	
 	-- localization strings for AceConfigDialog-3.0     
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Аддон отображения полосы информации. Позволяет пользователям добавлять вывод данных или плагины модуля запуска на верхнюю панель или нижнюю.";			 
@@ -185,7 +187,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Показывать исп. сумки";
 	L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Показывать доступные слоты";
 	L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Отображать подробную подсказку";
-	L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
+	L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Игнорировать сумки";
 	L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Игнорировать подсумок";
 	L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Игнорировать сумки осколков";
 	L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Игнорировать сумки для профф";
@@ -290,7 +292,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_MONEY_GOLD"] = "з";
 	L["TITAN_MONEY_SILVER"] = "с";
 	L["TITAN_MONEY_COPPER"] = "м";
-	L["TITAN_MONEY_FORMAT"] = "%d".."з"..", %d".."с"..", %d".."м";
+	L["TITAN_MONEY_FORMAT"] = "%d".."з"..", %02d".."с"..", %02d".."м";
 	
 	L["TITAN_PERFORMANCE_TOOLTIP"] = "Производительность";
 	L["TITAN_PERFORMANCE_MENU_TEXT"] = "Производительность";
@@ -404,6 +406,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
           AutoRepitemlabel = "Авто-Ремонт всех предметов",
           ShowRepairCost = "Отображать стоимость ремонта",
 		  ignoreThrown = "Игнорировать метательное оружые",
+		  		ShowItems = "Показать предметы",
+		  		ShowDiscounts = "Показать скидки",
+		  		ShowCosts = "Показать стоимость",
+		  		Items = "Предметы",
+		  		Discounts = "Скидки",
+		  		Costs = "Стоимость",
+				TooltipOptions = "Подсказка",
      };
   L["TITAN_REPAIR"] = "Titan - ремонт"
   L["TITAN_REPAIR_GBANK_TOTAL"] = "Средства гильд банка :"

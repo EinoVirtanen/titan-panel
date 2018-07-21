@@ -26,7 +26,8 @@ local CoordsTimer = nil;
 function TitanPanelCoordsButton_OnLoad(self)
      self.registry = { 
           id = TITAN_COORDS_ID,
-          builtIn = 1,
+--          builtIn = 1,
+			category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_COORDS_MENU_TEXT"],
           buttonTextFunction = "TitanPanelCoordsButton_GetButtonText",
@@ -34,6 +35,13 @@ function TitanPanelCoordsButton_OnLoad(self)
           tooltipTextFunction = "TitanPanelCoordsButton_GetTooltipText",
           icon = "Interface\\AddOns\\TitanCoords\\TitanCoords",
           iconWidth = 16,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                ShowZoneText = 1,
                ShowCoordsOnMap = 1,

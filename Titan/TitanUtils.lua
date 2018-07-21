@@ -1,17 +1,220 @@
-TITAN_PANEL_NONMOVABLE_PLUGINS = {"AutoHide", "AuxAutoHide"};
+Titan__InitializedPEW = nil
+TITAN_PANEL_NONMOVABLE_PLUGINS = {};
 TITAN_PANEL_MENU_FUNC_HIDE = "TitanPanelRightClickMenu_Hide";
 TitanPlugins = {};
 TitanPluginsIndex = {};
+TITAN_NOT_REGISTERED = _G["RED_FONT_COLOR_CODE"].."Not_Registered_Yet".._G["FONT_COLOR_CODE_CLOSE"]
+TITAN_REGISTERED = _G["GREEN_FONT_COLOR_CODE"].."Registered".._G["FONT_COLOR_CODE_CLOSE"]
+TITAN_REGISTER_FAILED = _G["RED_FONT_COLOR_CODE"].."Failed_to_Register".._G["FONT_COLOR_CODE_CLOSE"]
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local media = LibStub("LibSharedMedia-3.0")
 
 function TitanDebug(debug_message)
-	-- Default green color
-	_G["DEFAULT_CHAT_FRAME"]:AddMessage("|cff00ff00" .. L["TITAN_DEBUG"] .. " " .. debug_message);
+	_G["DEFAULT_CHAT_FRAME"]:AddMessage(
+		TitanUtils_GetGoldText(L["TITAN_DEBUG"]) .. " " 
+		.. TitanUtils_GetGreenText(debug_message)
+	);
 end
 
+--
+-- This section for Titan Panel ONLY: Plugin registration routines
+--
+function TitanUtils_PluginToRegister(self, isChildButton) 
+	TitanPluginToBeRegisteredNum = TitanPluginToBeRegisteredNum + 1
+	local cat = ""
+	if self and self.registry then
+		cat = (self.registry.category or "")
+	end
+	TitanPluginToBeRegistered[TitanPluginToBeRegisteredNum] = 
+		{
+		self = self,
+		button = ((self and self:GetName() or "No_clue__Help!".."_"..TitanPluginToBeRegisteredNum)),
+		name = "?",
+		status = TITAN_NOT_REGISTERED,
+		category = cat,
+		isChild = (isChildButton and true or false),
+		issue = "",
+		}
+	-- This will handle plugins that are initialized after Titan registration has run.
+	-- Such as 'load on demand' or just bad timing
+	if Titan__InitializedPEW then
+		local plugin = TitanPluginToBeRegistered[TitanPluginToBeRegisteredNum]
+		TitanUtils_RegisterPlugin(plugin)
+		-- Assume errors will be printed out when registering.
+		TitanDebug("register single plugin "
+			.."'"..(plugin.name or "?").."'"
+			.." : "..(plugin.status or "?")
+			)
+	end
+end
+
+local function TitanUtils_RegisterPluginProtected(plugin)
+	local result = nil
+	local issue = nil
+	local id = nil
+	local cat = nil
+	
+	local self = plugin.self
+	local isChildButton = (plugin.isChild and true or false)
+	
+	if self and self:GetName() then
+--[[
+TitanDebug("RegisterPluginProtected: "
+			.."name: '"..self:GetName().."' "
+			.."child: '"..(isChildButton and "true" or "false").."' "
+			)
+--]]
+		if (isChildButton) then
+			self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
+			self:RegisterForDrag("LeftButton")
+			TitanPanelDetectPluginMethod(self:GetName(), true);
+			result = TITAN_REGISTERED
+			id = "<child>" -- give some indication that this is valid...
+		else 
+			if (self.registry and self.registry.id) then
+				id = self.registry.id
+				if TitanUtils_IsPluginRegistered(id) then
+					-- We have already registered this plugin we have an issue!
+--					TitanPanel_LoadError("Plugin " .. id .. L["TITAN_PANEL_ERROR_DUP_PLUGIN"]);
+					-- Give a reason to the user
+					issue =  "Plugin already loaded."
+				else
+					if (not TitanUtils_TableContainsValue(TitanPluginsIndex, id)) then
+						-- Assign and Sort the list of plugins
+						TitanPlugins[id] = self.registry;
+						table.insert(TitanPluginsIndex, self.registry.id);
+						table.sort(TitanPluginsIndex, 
+							function(a, b)
+							  if TitanPlugins[a].menuText == nil then
+								TitanPlugins[a].menuText = TitanPlugins[a].id;
+							  end
+							  if TitanPlugins[b].menuText == nil then
+								TitanPlugins[b].menuText = TitanPlugins[b].id;
+							  end
+								return string.lower(TitanPlugins[a].menuText) < string.lower(TitanPlugins[b].menuText);
+							end
+						);
+					end
+				end
+				if issue then
+					result = TITAN_REGISTER_FAILED
+				else
+					local pluginID = TitanUtils_GetButtonID(self:GetName());
+					local plugin_id = TitanUtils_GetPlugin(pluginID);
+					if (plugin_id) then
+						self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
+						self:RegisterForDrag("LeftButton")
+						if (plugin_id.id) then
+							TitanPanelDetectPluginMethod(plugin_id.id);
+						end
+					end
+					result = TITAN_REGISTERED
+					-- determine the plugin category
+					cat = (self.registry.category or nil)
+				end
+			else
+				result = TITAN_REGISTER_FAILED
+				if (not self.registry) then
+					issue = "Can not find registry for plugin (self.registry)"
+				end
+				if (self.registry and not self.registry.id) then
+					issue = "Can not determine plugin name (self.registry.id)"
+				end
+			end
+		end
+	else
+		-- if not then attempt to give a reason to the user
+		result = TITAN_REGISTER_FAILED
+		issue = "Can not determine plugin button name"
+	end
+	
+	local ret_val = {}
+	ret_val.issue = (issue or "")
+	ret_val.result = (result or TITAN_REGISTER_FAILED)
+	ret_val.id = (id or "")
+	ret_val.cat = (cat or "General")
+	return ret_val
+end
+
+function TitanUtils_RegisterPlugin(plugin)
+	local call_success, ret_val
+	-- lets be paranoid here...
+	-- Registering plugins that do not play nice can cause real headaches.
+	if plugin and plugin.status == TITAN_NOT_REGISTERED then
+		-- See if the request to register was done right
+		if plugin.self then
+			-- Just in case, catch any errors
+			call_success, -- needed for pcall
+			ret_val =  -- actual return values
+				pcall (TitanUtils_RegisterPluginProtected, plugin)
+--[[
+TitanDebug("_RegisterPlugin: "
+			.."call_success: '"..(call_success and "true" or "false").."' "
+			.."ret_val.result: '"..(ret_val.result or "?").."' "
+			)
+--]]
+			if call_success then
+				-- all is good
+				plugin.status = ret_val.result
+				plugin.issue = ret_val.issue
+				plugin.name = ret_val.id
+				plugin.category = ret_val.cat 
+			else
+				plugin.status = TITAN_REGISTER_FAILED
+				plugin.issue = (ret_val.issue or "Unknown error")
+				plugin.name = "?"
+			end
+		else
+			plugin.status = TITAN_REGISTER_FAILED
+			plugin.issue = "Can not determine plugin button name"
+			plugin.name = "?"
+		end
+		-- Tell the user there was some issue.
+		if not plugin.issue == "" 
+		or plugin.status ~= TITAN_REGISTERED then
+			TitanDebug(TitanUtils_GetRedText("Error Registering Plugin")
+				..TitanUtils_GetGreenText(
+					": "
+					.."issue: '"..(plugin.name or "?_").."' "
+					.."name: '"..(plugin.issue or "?_").."' "
+					.."button: '"..plugin.button.."' "
+					)
+				)
+		end
+	end
+end
+
+function TitanUtils_RegisterPluginList()
+	local result = ""
+	local issue = ""
+	local id
+	if TitanPluginToBeRegisteredNum > 0 then
+		TitanDebug("Register Titan plugins...")
+		for index, value in ipairs(TitanPluginToBeRegistered) do
+			if TitanPluginToBeRegistered[index] then
+				TitanUtils_RegisterPlugin(TitanPluginToBeRegistered[index])
+			end
+		end
+		TitanDebug("Registration process done.")
+	end
+end
+
+function TitanUtils_IsPluginRegistered(id)
+	if (id and TitanPlugins[id]) then
+		return true;
+	else
+		return false;
+	end
+end
+
+--
+-- Plugin button search & manipulation routines
+--
 function TitanUtils_GetNextButtonOnBar(bar, id, side)
+	-- find the next button that is on the same bar and is on the same side
+	-- return nil if not found
 	local index = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id);
 	
 	for i, id in pairs(TitanPanelSettings.Buttons) do
@@ -19,6 +222,103 @@ function TitanUtils_GetNextButtonOnBar(bar, id, side)
 			return i;
 		end
 	end
+end
+
+function TitanUtils_GetFirstButtonOnBar(bar, side)
+	-- find the first button that is on the same bar and is on the same side
+	-- return nil if not found
+	local index = 0
+	
+	for i, id in pairs(TitanPanelSettings.Buttons) do
+		if TitanUtils_GetWhichBar(id) == bar and i > index and TitanPanel_GetPluginSide(id) == side then
+			return i;
+		end
+	end
+end
+
+function TitanUtils_GetPrevButtonOnBar(bar, id, side)
+	-- find the prev button that is on the same bar and is on the same side
+	-- return nil if not found
+	local index = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id);
+	local prev_idx = nil
+	
+	for i, id in pairs(TitanPanelSettings.Buttons) do
+		if TitanUtils_GetWhichBar(id) == bar and i < index and TitanPanel_GetPluginSide(id) == side then
+			prev_idx = i; -- this might be the previous button
+		end
+		if i == index then
+			return prev_idx;
+		end
+	end
+end
+
+function TitanUtils_ShiftButtonOnBarLeft(name)
+	-- Find the button to the left. If there is one, swap it in the array
+	local from_idx = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,name)
+	local side = TitanPanel_GetPluginSide(name)
+	local bar = TitanUtils_GetWhichBar(name)
+	
+	-- This is needed because buttons on Left are placed L to R; 
+	-- buttons on Right are placed R to L
+	if side and side == "Left" then
+		to_idx = TitanUtils_GetPrevButtonOnBar (TitanUtils_GetWhichBar(name), name, side)
+	elseif side and side == "Right" then
+		to_idx = TitanUtils_GetNextButtonOnBar (TitanUtils_GetWhichBar(name), name, side)
+	end
+	
+	if to_idx then
+		TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+	else
+		return
+	end
+end
+
+function TitanUtils_ShiftButtonOnBarRight(name)
+	-- Find the button to the right. If there is one, swap it in the array
+	local from_idx = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,name)
+	local to_idx = nil
+	local side = TitanPanel_GetPluginSide(name)
+	local bar = TitanUtils_GetWhichBar(name)
+	
+	-- this is needed because buttons on Left are placed L to R; 
+	-- buttons on Right are placed R to L
+	if side and side == "Left" then
+		to_idx = TitanUtils_GetNextButtonOnBar (bar, name, side)
+	elseif side and side == "Right" then
+		to_idx = TitanUtils_GetPrevButtonOnBar (bar, name, side)
+	end
+	
+	if to_idx then
+		TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+	else
+		return
+	end
+end
+
+function TitanUtils_SwapButtonOnBar(from_id, to_id)
+	-- Used as part of the shift L / R to swap the buttons
+	local button = TitanPanelSettings.Buttons[from_id]
+	local locale = TitanPanelSettings.Location[from_id]
+	
+	TitanPanelSettings.Buttons[from_id] = TitanPanelSettings.Buttons[to_id]
+	TitanPanelSettings.Location[from_id] = TitanPanelSettings.Location[to_id]
+	TitanPanelSettings.Buttons[to_id] = button
+	TitanPanelSettings.Location[to_id] = locale
+	TitanPanel_InitPanelButtons();
+end
+
+function TitanUtils_AddButtonOnBar(bar, id)
+	-- Add the button to the requested bar - main / aux
+	if (not TitanPanelSettings) then
+		return;
+	end 
+	
+	local i = TitanPanel_GetButtonNumber(id)
+	TitanPanelSettings.Location[i] = (bar or "Bar") -- just case there is nothing stated
+		
+	table.insert(TitanPanelSettings.Buttons, id);	
+	--table.insert(TitanPanelSettings.Location, TITAN_PANEL_SELECTED);
+	TitanPanel_InitPanelButtons();
 end
 
 function TitanUtils_GetRealPosition(id)
@@ -41,6 +341,16 @@ function TitanUtils_GetWhichBar(id)
 	end
 end
 
+function TitanUtils_SetWhichBar(id, bar)
+	local i = TitanPanel_GetButtonNumber(id);
+	if TitanPanelSettings.Location[i] == nil then
+		return
+	else
+		TitanPanelSettings.Location[i] = bar;
+	end
+	TitanPanel_InitPanelButtons();
+end
+
 function TitanUtils_GetDoubleBar(bothbars, framePosition)
 	if framePosition == TITAN_PANEL_PLACE_TOP then
 		return TitanPanelGetVar("DoubleBar")
@@ -51,7 +361,114 @@ function TitanUtils_GetDoubleBar(bothbars, framePosition)
 	end
 end
 
+function TitanUtils_GetButton(id)
+	if (id) then
+		return _G["TitanPanel"..id.."Button"], id;
+	else
+		return nil, nil;
+	end
+end
 
+function TitanUtils_GetButtonID(name)
+	if name then
+		local s, e, id = string.find(name, "TitanPanel(.*)Button");
+		return id;
+	else
+		return nil;
+	end
+end
+
+function TitanUtils_GetParentButtonID(name)
+	local frame = TitanUtils_Ternary(name, _G[name], nil);
+
+	if ( frame and frame:GetParent() ) then
+		return TitanUtils_GetButtonID(frame:GetParent():GetName());
+	end
+end
+
+function TitanUtils_GetButtonIDFromMenu(self)
+	if self and self:GetParent() then
+		if self:GetParent():GetName() == "TitanPanelBarButton" or self:GetParent():GetName() == "TitanPanelAuxBarButton" then
+			return "Bar";
+		elseif self:GetParent():GetParent():GetName() then  
+			-- TitanPanelChildButton     			
+			return TitanUtils_GetButtonID(self:GetParent():GetParent():GetName());		
+		else		
+			-- TitanPanelButton
+			return TitanUtils_GetButtonID(self:GetParent():GetName());		
+		end	
+	end
+end
+
+function TitanUtils_GetPlugin(id)
+	if (id) then
+		return TitanPlugins[id];
+	else
+		return nil;
+	end
+end
+
+function TitanUtils_GetFirstButton(array, isSameType, isIcon, ignoreClock)	
+	local firstButton, isFirstIcon;
+	local size = table.getn(array);
+	local index = 1;
+	
+	if ( isSameType ) then
+		-- Get the first button with the same type
+		while ( index <= size ) do
+			firstButton = TitanUtils_GetButton(array[index]);
+			isFirstIcon = TitanPanelButton_IsIcon(array[index]);
+
+			if ( ( isIcon and isFirstIcon ) or ( not isIcon and not isFirstIcon ) ) then
+				if TitanUtils_GetWhichBar(array[index]) == "AuxBar" then
+					-- Do nothing wrong bar
+				else
+					return firstButton;
+				end
+			end
+			
+			index = index + 1;
+		end
+	else
+		-- Simply get the first button
+		if ( size > 0 ) then
+			return TitanUtils_GetButton(array[1]);
+		end		
+	end
+end
+
+function TitanUtils_GetFirstAuxButton(array, isSameType, isIcon, ignoreClock)	
+	local firstButton, isFirstIcon;
+	local size = table.getn(array);
+	local index = 1;
+	
+	if ( isSameType ) then
+		-- Get the first button with the same type
+		while ( index <= size ) do
+			firstButton = TitanUtils_GetButton(array[index]);
+			isFirstIcon = TitanPanelButton_IsIcon(array[index]);
+
+			if ( ( isIcon and isFirstIcon ) or ( not isIcon and not isFirstIcon ) ) then
+				if TitanUtils_GetWhichBar(array[index]) == "Bar" then
+					-- Do nothing wrong bar
+				else
+					return firstButton;
+				end
+			end
+						
+			index = index + 1;
+		end
+	else
+		-- Simply get the first button
+		if ( size > 0 ) then
+			return TitanUtils_GetButton(array[1]);
+		end		
+	end
+end
+
+--
+-- Frame check & manipulation routines
+--
 function TitanUtils_CheckFrameCounting(frame, elapsed)
 	if (frame:IsVisible()) then
 		if (not frame.frameTimer or not frame.isCounting) then
@@ -94,12 +511,45 @@ function TitanUtils_IsAnyControlFrameVisible()
 	return false;
 end
 
-function TitanUtils_CloseRightClickMenu()
-	if (DropDownList1:IsVisible()) then
-		DropDownList1:Hide();
+function TitanUtils_GetOffscreen(frame)
+	local offscreenX, offscreenY;
+
+	if ( frame and frame:GetLeft() and frame:GetLeft() * frame:GetEffectiveScale() < UIParent:GetLeft() * UIParent:GetEffectiveScale() ) then
+		offscreenX = -1;
+	elseif ( frame and frame:GetRight() and frame:GetRight() * frame:GetEffectiveScale() > UIParent:GetRight() * UIParent:GetEffectiveScale() ) then
+		offscreenX = 1;
+	else
+		offscreenX = 0;
 	end
+
+	if ( frame and frame:GetTop() and frame:GetTop() * frame:GetEffectiveScale() > UIParent:GetTop() * UIParent:GetEffectiveScale() ) then
+		offscreenY = -1;
+	elseif ( frame and frame:GetBottom() and frame:GetBottom() * frame:GetEffectiveScale() < UIParent:GetBottom() * UIParent:GetEffectiveScale() ) then
+		offscreenY = 1;
+	else
+		offscreenY = 0;
+	end
+	
+	--[[
+	TitanDebug(frame:GetName());
+	TitanDebug("frame:GetScale() = "..frame:GetScale());	
+	TitanDebug("frame:GetLeft() = "..frame:GetLeft());	
+	TitanDebug("frame:GetRight() = "..frame:GetRight());	
+	TitanDebug("frame:GetTop() = "..frame:GetTop());	
+	TitanDebug("frame:GetBottom() = "..frame:GetBottom());	
+	TitanDebug("UIParent:GetScale() = "..UIParent:GetScale());	
+	TitanDebug("UIParent:GetLeft() = "..UIParent:GetLeft());	
+	TitanDebug("UIParent:GetRight() = "..UIParent:GetRight());	
+	TitanDebug("UIParent:GetTop() = "..UIParent:GetTop());	
+	TitanDebug("UIParent:GetBottom() = "..UIParent:GetBottom());	
+	TitanDebug("offscreenX = "..offscreenX.." | offscreenY = "..offscreenY);
+	]]--
+	return offscreenX, offscreenY;
 end
 
+--
+-- General util routines
+--
 function TitanUtils_Ternary(a, b, c)
 	if (a) then
 		return b;
@@ -186,94 +636,11 @@ function TitanUtils_GetAbbrTimeText(s)
 	return timeText;
 end
 
-function TitanUtils_GetButton(id)
-	if (id) then
-		return _G["TitanPanel"..id.."Button"], id;
-	else
-		return nil, nil;
-	end
-end
-
-function TitanUtils_GetButtonID(name)
-	if name then
-		local s, e, id = string.find(name, "TitanPanel(.*)Button");
-		return id;
-	else
-		return nil;
-	end
-end
-
-function TitanUtils_GetParentButtonID(name)
-	local frame = TitanUtils_Ternary(name, _G[name], nil);
-
-	if ( frame and frame:GetParent() ) then
-		return TitanUtils_GetButtonID(frame:GetParent():GetName());
-	end
-end
-
-function TitanUtils_GetButtonIDFromMenu(self)
-	if self and self:GetParent() then
-		if self:GetParent():GetName() == "TitanPanelBarButton" or self:GetParent():GetName() == "TitanPanelAuxBarButton" then
-			return "Bar";
-		elseif self:GetParent():GetParent():GetName() then  
-			-- TitanPanelChildButton     			
-			return TitanUtils_GetButtonID(self:GetParent():GetParent():GetName());		
-		else		
-			-- TitanPanelButton
-			return TitanUtils_GetButtonID(self:GetParent():GetName());		
-		end	
-	end
-end
-
 function TitanUtils_GetControlFrame(id)
 	if (id) then
 		return _G["TitanPanel"..id.."ControlFrame"];
 	else
 		return nil;
-	end
-end
-
-function TitanUtils_GetPlugin(id)
-	if (id) then
-		return TitanPlugins[id];
-	else
-		return nil;
-	end
-end
-
-function TitanUtils_IsPluginRegistered(id)
-	if (id and TitanPlugins[id]) then
-		return true;
-	else
-		return false;
-	end
-end
-
-function TitanUtils_RegisterPlugin(registry) 
-	if (registry and registry.id) then
-		local id = registry.id;		
-		if TitanUtils_IsPluginRegistered(id) then
-			-- We have already registered this plugin we have an issue!
-			TitanPanel_LoadError("Plugin " .. id .. L["TITAN_PANEL_ERROR_DUP_PLUGIN"]);
-		else
-			if (not TitanUtils_TableContainsValue(TitanPluginsIndex, id)) then
-				TitanPlugins[id] = registry;
-	--			if (not TitanUtils_TableContainsValue(TITAN_PANEL_NONMOVABLE_PLUGINS, id)) then
-					table.insert(TitanPluginsIndex, registry.id);
-					table.sort(TitanPluginsIndex, 
-						function(a, b)
-						  if TitanPlugins[a].menuText == nil then
-						   TitanPlugins[a].menuText = TitanPlugins[a].id;
-						  end
-						  if TitanPlugins[b].menuText == nil then
-						   TitanPlugins[b].menuText = TitanPlugins[b].id;
-						  end
-							return string.lower(TitanPlugins[a].menuText) < string.lower(TitanPlugins[b].menuText);
-						end
-					);
-	--			end
-			end
-		end	
 	end
 end
 
@@ -301,178 +668,6 @@ function TitanUtils_GetCurrentIndex(table, value)
 	return TitanUtils_TableContainsValue(table, value);
 end
 
-function TitanUtils_GetPreviousButton(table, id, isSameType, ignoreClock)	
-	local index = TitanUtils_GetCurrentIndex(table, id);
-	local isIcon = TitanPanelButton_IsIcon(id);	
-	local previousButton, isPreviousIcon;
-	
-	if ( isSameType ) then
-		-- Get the previous button with the same type
-		while ( index > 1 ) do
-			previousButton = TitanUtils_GetButton(table[index - 1]);
-			isPreviousIcon = TitanPanelButton_IsIcon(table[index - 1]);
-			
-			if ( ( isIcon and isPreviousIcon ) or ( not isIcon and not isPreviousIcon ) ) then
-				if ( ( table[index - 1] == TITAN_CLOCK_ID ) and ignoreClock ) then
-					-- Do nothing, ignore Clock button
-				else
-					return previousButton;
-				end
-			end
-			
-			index = index - 1;
-		end
-	else
-		-- Simply get the previous button
-		if ( index > 1 ) then
-			return TitanUtils_GetButton(table[index - 1]);
-		end		
-	end
-end
-
-function TitanUtils_GetNextButton(table, id, isSameType, ignoreClock)	
-	local index = TitanUtils_GetCurrentIndex(table, id);
-	local isIcon = TitanPanelButton_IsIcon(id);	
-	local nextButton, isNextIcon;
-	
-	if ( isSameType ) then
-		-- Get the next button with the same type
-		while ( table[index + 1] ) do
-			nextButton = TitanUtils_GetButton(table[index + 1]);
-			isNextIcon = TitanPanelButton_IsIcon(table[index + 1]);
-			
-			if ( ( isIcon and isNextIcon ) or ( not isIcon and not isNextIcon ) ) then
-				if ( ( table[index + 1] == TITAN_CLOCK_ID ) and ignoreClock ) then
-					-- Do nothing, ignore Clock button
-				else
-					return nextButton;
-				end
-			end
-			
-			index = index + 1;
-		end
-	else
-		-- Simply get the next button
-		if ( table[index + 1] ) then
-			return TitanUtils_GetButton(table[index + 1]);
-		end		
-	end
-end
-
-function TitanUtils_GetFirstButton(array, isSameType, isIcon, ignoreClock)	
-	local firstButton, isFirstIcon;
-	local size = table.getn(array);
-	local index = 1;
-	
-	if ( isSameType ) then
-		-- Get the first button with the same type
-		while ( index <= size ) do
-			firstButton = TitanUtils_GetButton(array[index]);
-			isFirstIcon = TitanPanelButton_IsIcon(array[index]);
-
-			if ( ( isIcon and isFirstIcon ) or ( not isIcon and not isFirstIcon ) ) then
-				if ( ( array[index] == TITAN_CLOCK_ID ) and ignoreClock ) then
-					-- Do nothing, ignore Clock button
-				elseif TitanUtils_GetWhichBar(array[index]) == "AuxBar" then
-					-- Do nothing wrong bar
-				else
-					return firstButton;
-				end
-			end
-			
-			index = index + 1;
-		end
-	else
-		-- Simply get the first button
-		if ( size > 0 ) then
-			return TitanUtils_GetButton(array[1]);
-		end		
-	end
-end
-
-function TitanUtils_GetFirstAuxButton(array, isSameType, isIcon, ignoreClock)	
-	local firstButton, isFirstIcon;
-	local size = table.getn(array);
-	local index = 1;
-	
-	if ( isSameType ) then
-		-- Get the first button with the same type
-		while ( index <= size ) do
-			firstButton = TitanUtils_GetButton(array[index]);
-			isFirstIcon = TitanPanelButton_IsIcon(array[index]);
-
-			if ( ( isIcon and isFirstIcon ) or ( not isIcon and not isFirstIcon ) ) then
-				if ( ( array[index] == TITAN_CLOCK_ID ) and ignoreClock ) then
-					-- Do nothing, ignore Clock button
-				elseif TitanUtils_GetWhichBar(array[index]) == "Bar" then
-					-- Do nothing wrong bar
-				else
-					return firstButton;
-				end
-			end
-						
-			index = index + 1;
-		end
-	else
-		-- Simply get the first button
-		if ( size > 0 ) then
-			return TitanUtils_GetButton(array[1]);
-		end		
-	end
-end
-
-function TitanUtils_GetLastButton(array, isSameType, isIcon, ignoreClock)	
-	local lastButton, isLastIcon;
-	local size = table.getn(array);
-	local index = size;
-	
-	if ( isSameType ) then
-		-- Get the last button with the same type
-		while ( index > 0 ) do
-			lastButton = TitanUtils_GetButton(array[index]);
-			isLastIcon = TitanPanelButton_IsIcon(array[index]);
-
-			if ( ( isIcon and isLastIcon ) or ( not isIcon and not isLastIcon ) ) then
-				if ( ( array[index] == TITAN_CLOCK_ID ) and ignoreClock ) then
-					-- Do nothing, ignore Clock button
-				else
-					return lastButton;
-				end
-			end
-			
-			index = index - 1;
-		end
-	else
-		-- Simply get the last button
-		if ( size > 0 ) then
-			return TitanUtils_GetButton(array[size]);
-		end		
-	end
-end
-
-function TitanUtils_GetCPNIndexInArray(array, value)
-	if (not array) then
-		return;
-	end
-	
-	local currentIndex, previousIndex, nextIndex;
-	for i, v in array do
-		if (v == value) then
-			currentIndex = i;
-		end
-	end
-	
-	if (currentIndex > 1) then
-		previousIndex = currentIndex - 1;
-	end
-	
-	if (array[currentIndex + 1]) then
-		nextIndex = currentIndex + 1;
-	end
-	
-	return currentIndex, previousIndex, nextIndex;
-end
-
 function TitanUtils_PrintArray(array) 
 	if (not array) then
 		TitanDebug("array is nil");
@@ -492,9 +687,21 @@ function TitanUtils_GetRedText(text)
 	end
 end
 
+function TitanUtils_GetGoldText(text)
+	if (text) then
+		return "|cffffd700"..text.._G["FONT_COLOR_CODE_CLOSE"];
+	end
+end
+
 function TitanUtils_GetGreenText(text)
 	if (text) then
 		return _G["GREEN_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
+	end
+end
+
+function TitanUtils_GetBlueText(text)
+	if (text) then
+		return "|cff0000ff"..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
@@ -558,135 +765,15 @@ function TitanUtils_ToString(text)
 	return TitanUtils_Ternary(text, text, "");
 end
 
-
-function TitanUtils_GetOffscreen(frame)
-	local offscreenX, offscreenY;
-
-	if ( frame and frame:GetLeft() and frame:GetLeft() * frame:GetEffectiveScale() < UIParent:GetLeft() * UIParent:GetEffectiveScale() ) then
-		offscreenX = -1;
-	elseif ( frame and frame:GetRight() and frame:GetRight() * frame:GetEffectiveScale() > UIParent:GetRight() * UIParent:GetEffectiveScale() ) then
-		offscreenX = 1;
-	else
-		offscreenX = 0;
+--
+-- Right click menu routines
+--
+function TitanUtils_CloseRightClickMenu()
+	if (DropDownList1:IsVisible()) then
+		DropDownList1:Hide();
 	end
-
-	if ( frame and frame:GetTop() and frame:GetTop() * frame:GetEffectiveScale() > UIParent:GetTop() * UIParent:GetEffectiveScale() ) then
-		offscreenY = -1;
-	elseif ( frame and frame:GetBottom() and frame:GetBottom() * frame:GetEffectiveScale() < UIParent:GetBottom() * UIParent:GetEffectiveScale() ) then
-		offscreenY = 1;
-	else
-		offscreenY = 0;
-	end
-	
-	--[[
-	TitanDebug(frame:GetName());
-	TitanDebug("frame:GetScale() = "..frame:GetScale());	
-	TitanDebug("frame:GetLeft() = "..frame:GetLeft());	
-	TitanDebug("frame:GetRight() = "..frame:GetRight());	
-	TitanDebug("frame:GetTop() = "..frame:GetTop());	
-	TitanDebug("frame:GetBottom() = "..frame:GetBottom());	
-	TitanDebug("UIParent:GetScale() = "..UIParent:GetScale());	
-	TitanDebug("UIParent:GetLeft() = "..UIParent:GetLeft());	
-	TitanDebug("UIParent:GetRight() = "..UIParent:GetRight());	
-	TitanDebug("UIParent:GetTop() = "..UIParent:GetTop());	
-	TitanDebug("UIParent:GetBottom() = "..UIParent:GetBottom());	
-	TitanDebug("offscreenX = "..offscreenX.." | offscreenY = "..offscreenY);
-	]]--
-	return offscreenX, offscreenY;
 end
 
-
-function TitanUtils_FindInventoryItemWithText(name, description)
-	local bagNum;
-	
-	TitanPanelTooltip:SetOwner(UIParent, "ANCHOR_NONE");
-	for bagNum = 0, 4 do
-		local itemInBagNum;
-		for itemInBagNum = 1, GetContainerNumSlots(bagNum) do
-			local i;
-			local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
-			--Loop through tooltip
-			for i = 1, 15, 1 do
-				local field = _G["TitanPanelTooltipTextLeft" .. i];
-				if (field ~= nil) then
-					local text = field:GetText();
-					if (i == 1) then
-						if ((name ~= nil) and (text ~= name)) then
-							break;
-						else
-							if (description == nil) then
-								return bagNum, itemInBagNum;
-							end
-						end
-					else
-						if text ~=nil then
-							if (string.find(text,description)) then
-								return bagNum, itemInBagNum;
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-	return nil;
-end
-
--- **************************************************************************
--- NAME : TitanUtils_FindInventoryItemWithTextAndSlot(name, description, slotnum)
--- DESC : <research>
--- VARS : <research>
--- **************************************************************************
-function TitanUtils_FindInventoryItemWithTextAndSlot(name, description, slotnum)
-     local bagNum;
-     
-     TitanPanelTooltip:SetOwner(UIParent, "ANCHOR_NONE");
-     for bagNum = 0, 4 do
-          local itemInBagNum;
-          for itemInBagNum = 1, GetContainerNumSlots(bagNum) do
-               local i;
-               local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
-               --Loop through tooltip
-               for i = 1, 15, 1 do
-                    local field = _G["TitanPanelTooltipTextLeft" .. i];
-                    if (field ~= nil) then
-                         local text = field:GetText();
-                         if ((i == 1) and (slotnum > 2)) then
-                              if (text ~= name) then
-                                   break;
-                              else
-                                   return bagNum, itemInBagNum;
-                              end
-                         else
-                              if text ~=nil then
-                                   if (string.find(text,description)) then
-                                        return bagNum, itemInBagNum;
-                                   end
-                              end
-                         end
-                    end
-               end
-          end
-     end
-     return nil;
-end
-
-function TitanUtils_GetItemName(bag, slot)
-	local bagNumber = bag;
-	local name = "";
-	if ( type(bagNumber) ~= "number" ) then
-		bagNumber = tonumber(bag);
-	end
-	TitanPanelTooltip:SetBagItem(bag, slot);
-	name = TitanPanelTooltipTextLeft1:GetText();
-	if name == nil then
-		name = "";
-	end
-	return name;
-end
-
-
--- Former TitanMenu.lua (merged funcs)
 function TitanRightClickMenu_OnLoad(self)
 	local id = TitanUtils_GetButtonIDFromMenu(self);
 	if id then
@@ -698,7 +785,6 @@ function TitanRightClickMenu_OnLoad(self)
 		end
 	end
 end
-
 
 function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	local position = TitanPanelGetVar("Position");
@@ -880,3 +966,213 @@ function TitanPanelRightClickMenu_ToggleColoredText(value)
 	TitanToggleVar(value, "ShowColoredText");
 	TitanPanelButton_UpdateButton(value, 1);
 end
+
+--
+-- Deprecated routines
+--
+--[[
+function TitanUtils_GetPreviousButton(table, id, isSameType, ignoreClock)	
+	local index = TitanUtils_GetCurrentIndex(table, id);
+	local isIcon = TitanPanelButton_IsIcon(id);	
+	local previousButton, isPreviousIcon;
+	
+	if ( isSameType ) then
+		-- Get the previous button with the same type
+		while ( index > 1 ) do
+			previousButton = TitanUtils_GetButton(table[index - 1]);
+			isPreviousIcon = TitanPanelButton_IsIcon(table[index - 1]);
+			
+			if ( ( isIcon and isPreviousIcon ) or ( not isIcon and not isPreviousIcon ) ) then
+				if ( ( table[index - 1] == TITAN_CLOCK_ID ) and ignoreClock ) then
+					-- Do nothing, ignore Clock button
+				else
+					return previousButton;
+				end
+			end
+			
+			index = index - 1;
+		end
+	else
+		-- Simply get the previous button
+		if ( index > 1 ) then
+			return TitanUtils_GetButton(table[index - 1]);
+		end		
+	end
+end
+--]]
+--[[
+function TitanUtils_GetNextButton(table, id, isSameType, ignoreClock)	
+	local index = TitanUtils_GetCurrentIndex(table, id);
+	local isIcon = TitanPanelButton_IsIcon(id);	
+	local nextButton, isNextIcon;
+	
+	if ( isSameType ) then
+		-- Get the next button with the same type
+		while ( table[index + 1] ) do
+			nextButton = TitanUtils_GetButton(table[index + 1]);
+			isNextIcon = TitanPanelButton_IsIcon(table[index + 1]);
+			
+			if ( ( isIcon and isNextIcon ) or ( not isIcon and not isNextIcon ) ) then
+				if ( ( table[index + 1] == TITAN_CLOCK_ID ) and ignoreClock ) then
+					-- Do nothing, ignore Clock button
+				else
+					return nextButton;
+				end
+			end
+			
+			index = index + 1;
+		end
+	else
+		-- Simply get the next button
+		if ( table[index + 1] ) then
+			return TitanUtils_GetButton(table[index + 1]);
+		end		
+	end
+end
+--]]
+--[[
+function TitanUtils_GetLastButton(array, isSameType, isIcon, ignoreClock)	
+	local lastButton, isLastIcon;
+	local size = table.getn(array);
+	local index = size;
+	
+	if ( isSameType ) then
+		-- Get the last button with the same type
+		while ( index > 0 ) do
+			lastButton = TitanUtils_GetButton(array[index]);
+			isLastIcon = TitanPanelButton_IsIcon(array[index]);
+
+			if ( ( isIcon and isLastIcon ) or ( not isIcon and not isLastIcon ) ) then
+				if ( ( array[index] == TITAN_CLOCK_ID ) and ignoreClock ) then
+					-- Do nothing, ignore Clock button
+				else
+					return lastButton;
+				end
+			end
+			
+			index = index - 1;
+		end
+	else
+		-- Simply get the last button
+		if ( size > 0 ) then
+			return TitanUtils_GetButton(array[size]);
+		end		
+	end
+end
+--]]
+--[[
+function TitanUtils_GetCPNIndexInArray(array, value)
+	if (not array) then
+		return;
+	end
+	
+	local currentIndex, previousIndex, nextIndex;
+	for i, v in array do
+		if (v == value) then
+			currentIndex = i;
+		end
+	end
+	
+	if (currentIndex > 1) then
+		previousIndex = currentIndex - 1;
+	end
+	
+	if (array[currentIndex + 1]) then
+		nextIndex = currentIndex + 1;
+	end
+	
+	return currentIndex, previousIndex, nextIndex;
+end
+--]]
+--[[
+function TitanUtils_FindInventoryItemWithText(name, description)
+	local bagNum;
+	
+	TitanPanelTooltip:SetOwner(UIParent, "ANCHOR_NONE");
+	for bagNum = 0, 4 do
+		local itemInBagNum;
+		for itemInBagNum = 1, GetContainerNumSlots(bagNum) do
+			local i;
+			local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
+			--Loop through tooltip
+			for i = 1, 15, 1 do
+				local field = _G["TitanPanelTooltipTextLeft" .. i];
+				if (field ~= nil) then
+					local text = field:GetText();
+					if (i == 1) then
+						if ((name ~= nil) and (text ~= name)) then
+							break;
+						else
+							if (description == nil) then
+								return bagNum, itemInBagNum;
+							end
+						end
+					else
+						if text ~=nil then
+							if (string.find(text,description)) then
+								return bagNum, itemInBagNum;
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	return nil;
+end
+--]]
+--[[
+-- **************************************************************************
+-- NAME : TitanUtils_FindInventoryItemWithTextAndSlot(name, description, slotnum)
+-- DESC : <research>
+-- VARS : <research>
+-- **************************************************************************
+function TitanUtils_FindInventoryItemWithTextAndSlot(name, description, slotnum)
+     local bagNum;
+     
+     TitanPanelTooltip:SetOwner(UIParent, "ANCHOR_NONE");
+     for bagNum = 0, 4 do
+          local itemInBagNum;
+          for itemInBagNum = 1, GetContainerNumSlots(bagNum) do
+               local i;
+               local text = TitanUtils_GetItemName(bagNum, itemInBagNum);
+               --Loop through tooltip
+               for i = 1, 15, 1 do
+                    local field = _G["TitanPanelTooltipTextLeft" .. i];
+                    if (field ~= nil) then
+                         local text = field:GetText();
+                         if ((i == 1) and (slotnum > 2)) then
+                              if (text ~= name) then
+                                   break;
+                              else
+                                   return bagNum, itemInBagNum;
+                              end
+                         else
+                              if text ~=nil then
+                                   if (string.find(text,description)) then
+                                        return bagNum, itemInBagNum;
+                                   end
+                              end
+                         end
+                    end
+               end
+          end
+     end
+     return nil;
+end
+--]]
+--[[
+function TitanUtils_GetItemName(bag, slot)
+	local bagNumber = bag;
+	local name = "";
+	if ( type(bagNumber) ~= "number" ) then
+		bagNumber = tonumber(bag);
+	end
+	TitanPanelTooltip:SetBagItem(bag, slot);
+	name = TitanPanelTooltipTextLeft1:GetText();
+	if name == nil then
+		name = "";
+	end
+	return name;
+end
+--]]

@@ -51,7 +51,7 @@ L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel button 
      
 -- general panel locale
 L["TITAN_PANEL"] = "Titan Panel";
-L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00Titan Dev Team";     
+L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00Titan Development Team";     
 L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
 L["TITAN_PANEL_MENU_HIDE"] = "Hide";
 L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Customize";
@@ -100,7 +100,7 @@ L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Show plugin versions";
 L["TITAN_PANEL_MENU_LDB_SIDE"] = "Right-side plugin";
 L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Force LDB launchers to right-side";
 L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Disable font scaler";
-L["TITAN_PANEL_MENU_CATEGORIES"] = {"General","Combat","Information","Interface","Profession"}
+L["TITAN_PANEL_MENU_CATEGORIES"] = {"Built-ins","General","Combat","Information","Interface","Profession"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Show tooltips";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Hide tooltips in combat";
 L["TITAN_PANEL_MENU_RESET"] = "Reset Panel to Default";
@@ -109,6 +109,8 @@ L["TITAN_PANEL_MENU_FONT"] = "Font";
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
 L["TITAN_PANEL_MENU_ENABLED"] = "Enabled";
 L["TITAN_PANEL_MENU_DISABLED"] = "Disabled";
+L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
+L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
      
 -- localization strings for AceConfigDialog-3.0     
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or bottom of the screen.";			 
@@ -212,7 +214,7 @@ L["TITAN_CLOCK_MENU_TEXT"] = "Clock";
 L["TITAN_CLOCK_MENU_LOCAL_TIME"] = "Show Local Time (L)";
 L["TITAN_CLOCK_MENU_SERVER_TIME"] = "Show Server Time (S)";
 L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"] = "Show Server Adjusted Time (A)";
-L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"] = "Display on far right side";
+L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"] = "Display on right side";
 L["TITAN_CLOCK_MENU_HIDE_GAMETIME"] = "Hide Time/Calendar button";
      
      
@@ -289,7 +291,7 @@ L["TITAN_MEMORY_KBMB_LABEL"] = "KB/MB";
 L["TITAN_MONEY_GOLD"] = "g";
 L["TITAN_MONEY_SILVER"] = "s";
 L["TITAN_MONEY_COPPER"] = "c";
-L["TITAN_MONEY_FORMAT"] = "%d".."g"..", %d".."s"..", %d".."c";
+L["TITAN_MONEY_FORMAT"] = "%d".."g"..", %02d".."s"..", %02d".."c";
      
 L["TITAN_PERFORMANCE_TOOLTIP"] = "Performance Info";
 L["TITAN_PERFORMANCE_MENU_TEXT"] = "Performance";
@@ -404,6 +406,13 @@ L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_C
           AutoRepitemlabel = "Auto Repair all items",
           ShowRepairCost = "Show Repair Cost",
 		  		ignoreThrown = "Ignore Thrown",
+		  		ShowItems = "Show Items",
+		  		ShowDiscounts = "Show Discounts",
+		  		ShowCosts = "Show Costs",
+		  		Items = "Items",
+		  		Discounts = "Discounts",
+		  		Costs = "Costs",
+				TooltipOptions = "Tooltip",
      };
      
      L["TITAN_REPAIR"] = "Titan Repair"

@@ -80,7 +80,8 @@ StaticPopupDialogs["REPAIR_CONFIRMATION"] = {
 function TitanPanelRepairButton_OnLoad(self)
    self.registry = {
       id = TITAN_REPAIR_ID,
-      builtIn = 1,
+--      builtIn = 1,
+			category = "Built-ins",
       version = TITAN_VERSION,
       menuText = L["REPAIR_LOCALE"]["menu"],
       buttonTextFunction = "TitanPanelRepairButton_GetButtonText",
@@ -88,10 +89,16 @@ function TitanPanelRepairButton_OnLoad(self)
       tooltipTextFunction = "TitanPanelRepairButton_GetTooltipText",
       icon = "Interface\\AddOns\\TitanRepair\\TitanRepair",
       iconWidth = 16,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = false
+		},
       savedVariables = {
          ShowIcon = 1,
          ShowLabelText = 1,
-         ShowNames = true,
          ShowMostDamaged = false,
          ShowUndamaged = false,
          ShowPopup = false,
@@ -109,6 +116,9 @@ function TitanPanelRepairButton_OnLoad(self)
          IgnoreThrown = false,
          UseGuildBank = false,
          AutoRepairReport = false,
+         ShowItems = true,
+         ShowDiscounts = true,
+         ShowCosts = true,
       }
    };
 
@@ -147,13 +157,13 @@ end
 --        and set the 'scan in prgress'
 -- **************************************************************************
 function TitanPanelRepairButton_ScanAllItems()
-   if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
+--   if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
       TPR.PleaseCheckBag[0]  = 1;
       TPR.PleaseCheckBag[1]  = 1;
       TPR.PleaseCheckBag[2]  = 1;
       TPR.PleaseCheckBag[3]  = 1;
       TPR.PleaseCheckBag[4]  = 1;
-   end
+--   end
    TPR.PleaseCheckBag[5]  = 1;
 
    TPR.WholeScanInProgress = true;
@@ -214,7 +224,9 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
    -- when a1 is > 4 it means that a bank's bag has been updated
    if ( (event == "BAG_UPDATE")
       and (a1 < 5)
-      and (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1)) then
+--      and (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1)
+		) 
+	then
       -- register to check this bag's items on next appropriate OnUpdate call
       if (TPR.show_debug) then -- this if is not necessary but is here to optimize this part the most possible
          tit_debug_bis("Event " .. event .. " TREATED!");
@@ -233,13 +245,13 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
       if not canRepair then
          return;
       end
-      if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
+--      if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
          TPR.PleaseCheckBag[0]  = 1;
          TPR.PleaseCheckBag[1]  = 1;
          TPR.PleaseCheckBag[2]  = 1;
          TPR.PleaseCheckBag[3]  = 1;
          TPR.PleaseCheckBag[4]  = 1;
-      end
+--      end
       TPR.PleaseCheckBag[5] = 1;
       TitanPanelRepairButton_OnUpdate()
       if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") == 1 then
@@ -283,13 +295,13 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
                TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
                TPR.CouldRepair = false;
           else
-               if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
+--               if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
                TPR.PleaseCheckBag[0]  = 1;
                TPR.PleaseCheckBag[1]  = 1;
                TPR.PleaseCheckBag[2]  = 1;
                TPR.PleaseCheckBag[3]  = 1;
                TPR.PleaseCheckBag[4]  = 1;
-               end
+--               end
                TPR.PleaseCheckBag[5] = 1;
                TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
           end
@@ -690,57 +702,55 @@ function TitanRepair_GetStatusStr(index, short)
    local item_status = TPR.ITEM_STATUS[index];
    local item_frac = item_status.values.item_frac;
 
-   -- skip if empty slot
-   if (item_status.max == 0) then
-      if (short) then
+	-- skip if empty slot
+	if (item_status.max == 0) then
+		if (short) then
+			if (not TPR.WholeScanInProgress) then
+				valueText =  TitanRepair_AutoHighlight(TPR.LastKnownItemFrac, valueText
+					.. " (" .. L["REPAIR_LOCALE"]["WholeScanInProgress"] .. ")");
+			else
+				valueText =  TitanRepair_AutoHighlight(TPR.LastKnownItemFrac, valueText);
+			end
 
-         if (not TPR.WholeScanInProgress) then
-            valueText =  TitanRepair_AutoHighlight(TPR.LastKnownItemFrac, valueText
-                                          .. " (" .. L["REPAIR_LOCALE"]["WholeScanInProgress"] .. ")");
-         else
-            valueText =  TitanRepair_AutoHighlight(TPR.LastKnownItemFrac, valueText);
-         end
+			return valueText;
+		else
+			return nil;
+		end
+	end
 
-         return valueText;
-      else
-         return nil;
-      end
-   end
-
-   -- percent or value
-   if (TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage") or short) then
-      valueText = string.format("%d%%", item_frac * 100);
-   else
-      valueText = string.format("%d / %d", item_status.values.val, item_status.values.max);
-   end
+   -- determine the percent or value per user request
+	if (TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage") or short) then
+		valueText = string.format("%d%%", item_frac * 100);
+	else
+		valueText = string.format("%d / %d", item_status.values.val, item_status.values.max);
+	end
 
 
-   -- color
+   -- determine color
    valueText = TitanRepair_AutoHighlight(item_frac, valueText);
 
-   -- name
+   -- determine the name
    local SlotID, itemColor, itemRarity;
    local itemName = "";
    local itemLabel = "";
 
-   if (not short or TitanGetVar(TITAN_REPAIR_ID, "ShowMostDamaged")) then
-
-      if item_status.slot ~=nil then
-         if item_status.values.item_name==nil
-                        or item_status.values.item_name == "" then
-            valueText = valueText .. " " .. LIGHTYELLOW_FONT_COLOR_CODE..item_status.name;
-            itemLabel = LIGHTYELLOW_FONT_COLOR_CODE..item_status.name;
-         else
-            valueText = valueText .. " "
-                                          ..item_status.values.item_color
-                                          ..item_status.values.item_name;
-            itemLabel = item_status.values.item_color..item_status.values.item_name;
-         end
-      else
-         valueText = valueText .. " " .. LIGHTYELLOW_FONT_COLOR_CODE..item_status.name;
-         itemLabel = LIGHTYELLOW_FONT_COLOR_CODE..item_status.name;
-      end
-   end
+	if (not short or TitanGetVar(TITAN_REPAIR_ID, "ShowMostDamaged")) then
+		if item_status.slot ~=nil then
+			if item_status.values.item_name==nil
+			or item_status.values.item_name == "" then
+				valueText = valueText .. " " .. LIGHTYELLOW_FONT_COLOR_CODE..item_status.name.._G["FONT_COLOR_CODE_CLOSE"];
+				itemLabel = LIGHTYELLOW_FONT_COLOR_CODE..item_status.name.._G["FONT_COLOR_CODE_CLOSE"];
+			else
+				valueText = valueText .. " "
+					..item_status.values.item_color
+					..item_status.values.item_name;
+				itemLabel = item_status.values.item_color..item_status.values.item_name;
+			end
+		else
+			valueText = valueText .. " " .. LIGHTYELLOW_FONT_COLOR_CODE..item_status.name.._G["FONT_COLOR_CODE_CLOSE"];
+			itemLabel = LIGHTYELLOW_FONT_COLOR_CODE..item_status.name.._G["FONT_COLOR_CODE_CLOSE"];
+		end
+	end
 
    -- add repair cost
    -- local item_cost = TitanRepair_GetCostStr(item_status.cost);
@@ -757,21 +767,21 @@ function TitanRepair_GetStatusStr(index, short)
            end
    end
 
-   if ((not short) and item_cost and TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost")) then
-   if (not TPR.MerchantisOpen) and (not TPR.WholeScanInProgress) then
-      if TitanGetVar(TITAN_REPAIR_ID, "DiscountFriendly") then
-        valueText = valueText .. "\t" .. item_cost..GREEN_FONT_COLOR_CODE.." ("..FACTION_STANDING_LABEL5..")";
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountHonored") then
-        valueText = valueText .. "\t" .. item_cost..GREEN_FONT_COLOR_CODE.." ("..FACTION_STANDING_LABEL6..")";
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountRevered") then
-        valueText = valueText .. "\t" .. item_cost..GREEN_FONT_COLOR_CODE.." ("..FACTION_STANDING_LABEL7..")";
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountExalted") then
-        valueText = valueText .. "\t" .. item_cost..GREEN_FONT_COLOR_CODE.." ("..FACTION_STANDING_LABEL8..")";
-      else
-        valueText = valueText .. "\t" .. item_cost;
-      end
-   end
-   end
+	if ((not short) and item_cost and TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost")) then
+		if (not TPR.MerchantisOpen) and (not TPR.WholeScanInProgress) then
+			if TitanGetVar(TITAN_REPAIR_ID, "DiscountFriendly") then
+				valueText = valueText .. "\t" .. item_cost..TitanUtils_GetGreenText(" ("..FACTION_STANDING_LABEL5..")");
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountHonored") then
+				valueText = valueText .. "\t" .. item_cost..TitanUtils_GetGreenText(" ("..FACTION_STANDING_LABEL6..")");
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountRevered") then
+				valueText = valueText .. "\t" .. item_cost..TitanUtils_GetGreenText(" ("..FACTION_STANDING_LABEL7..")");
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountExalted") then
+				valueText = valueText .. "\t" .. item_cost..TitanUtils_GetGreenText(" ("..FACTION_STANDING_LABEL8..")");
+			else
+				valueText = valueText .. "\t" .. item_cost;
+			end
+		end
+	end
 
    if (short) then
       local pos;
@@ -823,6 +833,62 @@ function TitanRepair_GetCostStr(cost)
    return nil;
 end
 
+local function RepairSumTotals()
+	local sums = {}
+   if (not TPR.WholeScanInProgress) then
+
+      local cost = 0;
+      local sum = 0;
+      local costStr = 0;
+      local item_status = {};
+      local item_frac = 0;
+      local frac_counter = 0;
+      local total_frac = 0;
+      local inv_frac = 1 ;
+      local duraitems = 0;
+
+      -- calculate the totals
+		-- traverse through the durability table and get the damage value, 
+		-- item_frac = 1 (undamaged), item_frac < 1 (damaged)
+		for i = 1, table.getn(TPR.ITEM_STATUS) do
+			item_status = TPR.ITEM_STATUS[i].values;
+			item_frac = item_status.item_frac;						
+			-- set the inventory damage to a seperate variable            
+			if TPR.ITEM_STATUS[i].name == INVENTORY_TOOLTIP then
+				inv_frac = item_frac;
+				sums.inven_percent = item_frac ;
+				sums.inven_cost = item_status.cost
+				item_frac = 0;
+			end
+			
+			if (item_status.max ~=0 and TPR.ITEM_STATUS[i].name ~= INVENTORY_TOOLTIP) then
+				frac_counter = frac_counter + item_frac;
+				duraitems = duraitems + 1;
+				sums.equip_cost = (sums.equip_cost or 0) + item_status.cost
+			end
+
+			cost = item_status.cost;
+			sum = sum + cost;
+		end  -- for loop
+
+		-- failsafe if you have no item with a valid durability value
+		if duraitems == 0 then
+			duraitems = 1;
+			frac_counter = 1;
+		end
+
+		--total_frac = frac_counter / 11 ;
+		sums.total_percent = (total_frac + inv_frac) / 2;
+		sums.total_cost = sum
+		sums.equip_percent = frac_counter / duraitems;
+		
+      sums.scan = false
+   else
+      sums.scan = true
+   end
+	
+	return sums
+end
 -- **************************************************************************
 -- NAME : TitanPanelRepairButton_GetButtonText(id)
 -- DESC : <research>
@@ -834,21 +900,8 @@ function TitanPanelRepairButton_GetButtonText(id)
    local itemPercent = 0
    local itemCost = 0
    if TitanGetVar(TITAN_REPAIR_ID, "ShowMostDamaged") then
-      --safeguard check to ensure that most damaged won't return nil
-      itemPercent =  text
-      itemLabel = (itemLabel or "")
-      if TitanGetVar(TITAN_REPAIR_ID, "ShowNames") then
-         itemNamesToShow = itemLabel
-      else
-         itemNamesToShow = "."
-      end
-   else
-      -- all items are to be shown / calculated
-      if TitanGetVar(TITAN_REPAIR_ID, "ShowNames") then
-         itemNamesToShow = "*"
-      else
-         itemNamesToShow = "*"
-      end
+      itemPercent = (text or "")
+      itemNamesToShow = (itemLabel or "")
    end
    -- supports turning off labels
    if (not TPR.WholeScanInProgress) then
@@ -912,21 +965,21 @@ function TitanPanelRepairButton_GetButtonText(id)
          canRepair = CanMerchantRepair();
       end
 
-      if (not TPR.MerchantisOpen or (TPR.MerchantisOpen and not canRepair)) then
-      if TitanGetVar(TITAN_REPAIR_ID, "DiscountFriendly") then
-         sum = sum * 0.95;
-         discountlabel = FACTION_STANDING_LABEL5;
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountHonored") then
-        sum = sum * 0.90;
-        discountlabel = FACTION_STANDING_LABEL6;
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountRevered") then
-        sum = sum * 0.85;
-        discountlabel = FACTION_STANDING_LABEL7;
-      elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountExalted") then
-        sum = sum * 0.80;
-        discountlabel = FACTION_STANDING_LABEL8;
-      end  -- if merchant
-      end  -- if discounts
+		if (not TPR.MerchantisOpen or (TPR.MerchantisOpen and not canRepair)) then
+			if TitanGetVar(TITAN_REPAIR_ID, "DiscountFriendly") then
+				sum = sum * 0.95;
+				discountlabel = FACTION_STANDING_LABEL5;
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountHonored") then
+				sum = sum * 0.90;
+				discountlabel = FACTION_STANDING_LABEL6;
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountRevered") then
+				sum = sum * 0.85;
+				discountlabel = FACTION_STANDING_LABEL7;
+			elseif TitanGetVar(TITAN_REPAIR_ID, "DiscountExalted") then
+				sum = sum * 0.80;
+				discountlabel = FACTION_STANDING_LABEL8;
+			end  -- if merchant
+		end  -- if discounts
 
       -- select which % to show
       if (TitanGetVar(TITAN_REPAIR_ID,"ShowMostDamaged")) then
@@ -945,12 +998,13 @@ function TitanPanelRepairButton_GetButtonText(id)
          discountlabel = ""
       end
 
-      -- Now that the pieces have been created, return the whole string
-      return L["REPAIR_LOCALE"]["button"],
-             text
-                ..costStr
-                ..discountlabel
-                ..itemNamesToShow;
+		-- Now that the pieces have been created, return the whole string
+		return L["REPAIR_LOCALE"]["button"],
+			text
+			..costStr
+			..discountlabel
+			..itemNamesToShow
+--			..(TitanGetVar(TITAN_REPAIR_ID,"ShowInventory" and "*" or "^"))
    else
       return L["REPAIR_LOCALE"]["button"], 
              text .. " (" .. L["REPAIR_LOCALE"]["WholeScanInProgress"] .. ")";
@@ -970,53 +1024,72 @@ function TitanPanelRepairButton_GetTooltipText()
    local cost = 0;
    local sum = 0;
 
+	-- Checking if the user wants to show items several times looks odd
+	-- but we need to calc 'sum' and we need to format the tooltip
+	if (TitanGetVar(TITAN_REPAIR_ID,"ShowItems")) then
+		out = out..TitanUtils_GetGoldText(L["REPAIR_LOCALE"]["Items"])..TitanUtils_GetHighlightText("\n")
+	end
    for i = 1, table.getn(TPR.ITEM_STATUS) do
       cost = TPR.ITEM_STATUS[i].values.cost;
       str, label = TitanRepair_GetStatusStr(i);
 
       sum = sum + cost;
 
-      if ((str) and (TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged") or (cost > 0))) then
-         if TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown")
-            and TPR.ITEM_STATUS[i].values.item_subtype == INVTYPE_THROWN then
-            -- do not show it per user request
-         else
-            out = out .. str .. "\n";
-         end
+		if (TitanGetVar(TITAN_REPAIR_ID,"ShowItems")) then
+			if ((str) and (TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged") or (cost > 0))) then
+				if TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown")
+					and TPR.ITEM_STATUS[i].values.item_subtype == INVTYPE_THROWN then
+					-- do not show it per user request
+				else
+					out = out .. str .. "\n";
+				end
+			end
       end
    end
+	if (TitanGetVar(TITAN_REPAIR_ID,"ShowItems")) then
+		out = out.."\n"
+	end
 
-   if (sum > 0) then
-      if (TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost")) then
-      local costStr = TitanPanelRepair_GetTextGSC(sum);
-      local costfrStr = TitanPanelRepair_GetTextGSC(sum * 0.95);
-      local costhonStr = TitanPanelRepair_GetTextGSC(sum * 0.90);
-      local costrevStr = TitanPanelRepair_GetTextGSC(sum * 0.85);
-      local costexStr = TitanPanelRepair_GetTextGSC(sum * 0.80);
-      if (costStr) then
-         if TPR.MerchantisOpen then
-            out = out .. "\n" .. REPAIR_COST .. " " .. costStr;
-              local canRepair = CanMerchantRepair();
-                  if not canRepair then
-                    out = out .. "\n"
-                          .. GREEN_FONT_COLOR_CODE..L["REPAIR_LOCALE"]["badmerchant"];
-                  end
-         else
-            out = out .. "\n" .. L["REPAIR_LOCALE"]["normal"] .. "\t" .. costStr;
-         end
-         if (not TPR.MerchantisOpen) and (not TPR.WholeScanInProgress) then
-           out = out .. "\n" .. L["REPAIR_LOCALE"]["friendly"] .. "\t" .. costfrStr;
-            out = out .. "\n" .. L["REPAIR_LOCALE"]["honored"] .. "\t" .. costhonStr;
-            out = out .. "\n" .. L["REPAIR_LOCALE"]["revered"] .. "\t" .. costrevStr;
-            out = out .. "\n" .. L["REPAIR_LOCALE"]["exalted"] .. "\t" .. costexStr;
-         end
-      end
-     end
-   else
-      out = out .. "\n" .. L["REPAIR_LOCALE"]["nothing"];
+	if (TitanGetVar(TITAN_REPAIR_ID,"ShowDiscounts")) then
+		if (sum > 0) then
+			out = out..TitanUtils_GetGoldText(L["REPAIR_LOCALE"]["Discounts"])..TitanUtils_GetHighlightText("")
+			local costStr = TitanPanelRepair_GetTextGSC(sum);
+			local costfrStr = TitanPanelRepair_GetTextGSC(sum * 0.95);
+			local costhonStr = TitanPanelRepair_GetTextGSC(sum * 0.90);
+			local costrevStr = TitanPanelRepair_GetTextGSC(sum * 0.85);
+			local costexStr = TitanPanelRepair_GetTextGSC(sum * 0.80);
+			if (costStr) then
+				if TPR.MerchantisOpen then
+					out = out .. "\n" .. TitanUtils_GetHighlightText(REPAIR_COST) .. " " .. costStr;
+					local canRepair = CanMerchantRepair();
+					if not canRepair then
+						out = out .. "\n"
+							.. GREEN_FONT_COLOR_CODE..L["REPAIR_LOCALE"]["badmerchant"];
+					end
+				else
+					out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["normal"]) .. "\t" .. costStr;
+				end
+				if (not TPR.MerchantisOpen) and (not TPR.WholeScanInProgress) then
+					out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["friendly"]) .. "\t" .. costfrStr;
+					out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["honored"]) .. "\t" .. costhonStr;
+					out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["revered"]) .. "\t" .. costrevStr;
+					out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["exalted"]) .. "\t" .. costexStr;
+				end
+			end
+			out = out.."\n\n"
+		end
+  end
+
+	if (TitanGetVar(TITAN_REPAIR_ID,"ShowCosts")) then
+		out = out..TitanUtils_GetGoldText(L["REPAIR_LOCALE"]["Costs"])
+		local sums = RepairSumTotals()
+		out = out .. "\n" .. TitanUtils_GetHighlightText("Total cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.total_cost)
+		out = out .. "\n" .. TitanUtils_GetHighlightText("Equip cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.equip_cost)
+		out = out .. "\n" .. TitanUtils_GetHighlightText("Bags cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.inven_cost)
+		out = out .. "\n\n"
    end
 
-   return out;
+  return out;
 end
 
 -- **************************************************************************
@@ -1075,193 +1148,222 @@ local info;
 	-- level 2
 	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Discount" then
-	 	TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   	info = {};
-   	info.text = L["REPAIR_LOCALE"]["buttonNormal"];
-   	info.checked = not TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
-   	info.disabled = TPR.MerchantisOpen;   
-   	info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["buttonNormal"];
+			info.checked = not TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
+			info.disabled = TPR.MerchantisOpen;   
+			info.func = function()
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+			end
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   	info = {};
-   	info.text = L["REPAIR_LOCALE"]["buttonFriendly"];
-   	info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly");
-   	info.disabled = TPR.MerchantisOpen;   
-   	info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["buttonFriendly"];
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly");
+			info.disabled = TPR.MerchantisOpen;   
+			info.func = function()
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", 1)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+			end
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   	info = {};
-   	info.text = L["REPAIR_LOCALE"]["buttonHonored"];
-   	info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored");
-   	info.disabled = TPR.MerchantisOpen;   
-   	info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["buttonHonored"];
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored");
+			info.disabled = TPR.MerchantisOpen;   
+			info.func = function()
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", 1)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+			end
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   	info = {};
-   	info.text = L["REPAIR_LOCALE"]["buttonRevered"];
-   	info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered");
-   	info.disabled = TPR.MerchantisOpen;   
-   	info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["buttonRevered"];
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered");
+			info.disabled = TPR.MerchantisOpen;   
+			info.func = function()
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", 1)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+			end
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   	info = {};
-   	info.text = L["REPAIR_LOCALE"]["buttonExalted"];
-   	info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
-   	info.disabled = TPR.MerchantisOpen;   
-   	info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", 1)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["buttonExalted"];
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
+			info.disabled = TPR.MerchantisOpen;   
+			info.func = function()
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+				TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", 1)
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+			end
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
-		
+
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-			
+
 			info = {};
-   		info.text = L["REPAIR_LOCALE"]["percentage"];
-   		info.func = TitanRepair_ShowPercentage;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info.text = L["REPAIR_LOCALE"]["percentage"];
+--			info.func = TitanRepair_ShowPercentage;
+			info.func = function()
+				TitanToggleVar(TITAN_REPAIR_ID, "ShowPercentage");
+				TitanPanelButton_UpdateButton(TITAN_REPAIR_ID);
+			end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-	 		info = {};
-   		info.text = L["REPAIR_LOCALE"]["itemnames"];
-   		info.func = TitanRepair_ShowNames;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowNames");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["mostdamaged"];
+			info.func = TitanRepair_ShowMostDamaged;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowMostDamaged");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   		info = {};
-   		info.text = L["REPAIR_LOCALE"]["mostdamaged"];
-   		info.func = TitanRepair_ShowMostDamaged;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowMostDamaged");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["undamaged"];
+			info.func = TitanRepair_ShowUndamaged;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   		info = {};
-   		info.text = L["REPAIR_LOCALE"]["undamaged"];
-   		info.func = TitanRepair_ShowUndamaged;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["showinventory"];
+			info.func = TitanRepair_ShowInventory;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowInventory");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-	 		info = {};
-   		info.text = L["REPAIR_LOCALE"]["showinventory"];
-   		info.func = TitanRepair_ShowInventory;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowInventory");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	 
-	 		info = {};
-   		info.text = L["REPAIR_LOCALE"]["ShowRepairCost"];  --"Show Repair Cost"
-   		info.func = TitanRepair_ShowRepairCost;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	 
-	 		info = {};
-   		info.text = L["REPAIR_LOCALE"]["showdurabilityframe"];
-   		info.func = function() 
-   			TitanToggleVar(TITAN_REPAIR_ID, "ShowDurabilityFrame");
-   			TitanRepair_DurabilityFrame();
-   		end
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-		
-	 		info = {};
-   		info.text = L["REPAIR_LOCALE"]["ignoreThrown"];
-   		info.func = TitanRepair_IgnoreThrown;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-		end
-		
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["ShowRepairCost"];  --"Show Repair Cost"
+			info.func = TitanRepair_ShowRepairCost;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["showdurabilityframe"];
+			info.func = function() 
+			TitanToggleVar(TITAN_REPAIR_ID, "ShowDurabilityFrame");
+			TitanRepair_DurabilityFrame();
+			end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["ignoreThrown"];
+			info.func = TitanRepair_IgnoreThrown;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			end
+
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "AutoRepair" then
 			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["AutoReplabel"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   		info = {};
-   		info.text = L["REPAIR_LOCALE"]["popup"];
-   		info.func = TitanRepair_ShowPop;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPopup");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["popup"];
+			info.func = TitanRepair_ShowPop;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPopup");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
-   		info = {};
-   		info.text = L["REPAIR_LOCALE"]["AutoRepitemlabel"];
-   		info.func = TitanRepair_AutoRep;
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-   
-   		info = {};
-   		info.text = L["TITAN_REPAIR_REPORT_COST_MENU"]
-   		info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "AutoRepairReport"); end
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["AutoRepitemlabel"];
+			info.func = TitanRepair_AutoRep;
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["TITAN_REPAIR_REPORT_COST_MENU"]
+			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "AutoRepairReport"); end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
-		
+
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "GuildBank" then
 			local totalGB = TitanPanelRepair_GetTextGSC(GetGuildBankMoney());
-   		local withdrawGB = TitanPanelRepair_GetTextGSC(GetGuildBankWithdrawMoney());   
-	 		TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_TOTAL"].." "..totalGB, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	 		TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_WITHDRAW"].." "..withdrawGB, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	 		info = {}
-	 		info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
-	 		info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
-   		info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");   
-   		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			local withdrawGB = TitanPanelRepair_GetTextGSC(GetGuildBankWithdrawMoney());   
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_TOTAL"].." "..totalGB, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_WITHDRAW"].." "..withdrawGB, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {}
+			info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
+			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");   
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
-		
-	return
+
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "TooltipOptions" then
+			TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["TooltipOptions"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["ShowItems"];
+			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowItems"); end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowItems");
+			info.keepShownOnClick = 1
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["ShowDiscounts"];
+			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowDiscounts"); end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDiscounts");
+			info.keepShownOnClick = 1
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+
+			info = {};
+			info.text = L["REPAIR_LOCALE"]["ShowCosts"];
+			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "ShowCosts"); end
+			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowCosts");
+			info.keepShownOnClick = 1
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+
+		return
 	end
 	
-	 -- level 1
-   TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_REPAIR_ID].menuText);
-	 
-	 info = {};
-	 info.text = L["TITAN_PANEL_MENU_OPTIONS"];
-	 info.value = "Options"
-	 info.hasArrow = 1;	 
-   UIDropDownMenu_AddButton(info);
+	-- level 1
+	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_REPAIR_ID].menuText);
+
+	info = {};
+	info.text = L["TITAN_PANEL_MENU_OPTIONS"];
+	info.value = "Options"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+
+	info = {};
+	info.text = L["REPAIR_LOCALE"]["AutoReplabel"];
+	info.value = "AutoRepair"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+
+	info = {};
+	info.text = _G["GUILD_BANK"];
+	info.value = "GuildBank"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+
+	info = {};
+	info.text = L["REPAIR_LOCALE"]["discount"];
+	info.value = "Discount"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
    
-   info = {};
-	 info.text = L["REPAIR_LOCALE"]["AutoReplabel"];
-	 info.value = "AutoRepair"
-	 info.hasArrow = 1;	 
-   UIDropDownMenu_AddButton(info);
-   
-   info = {};
-	 info.text = _G["GUILD_BANK"];
-	 info.value = "GuildBank"
-	 info.hasArrow = 1;	 
-   UIDropDownMenu_AddButton(info);
-   
-	 info = {};
-	 info.text = L["REPAIR_LOCALE"]["discount"];
-	 info.value = "Discount"
-	 info.hasArrow = 1;	 
-   UIDropDownMenu_AddButton(info);
-   
+	info = {};
+	info.text = L["REPAIR_LOCALE"]["TooltipOptions"];
+	info.value = "TooltipOptions"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+
    TitanPanelRightClickMenu_AddSpacer();
    TitanPanelRightClickMenu_AddToggleIcon(TITAN_REPAIR_ID);
    TitanPanelRightClickMenu_AddToggleLabelText(TITAN_REPAIR_ID);
@@ -1316,15 +1418,6 @@ function TitanRepair_DurabilityFrame()
 end
 
 -- **************************************************************************
--- NAME : TitanRepair_ShowNames()
--- DESC : <research>
--- **************************************************************************
-function TitanRepair_ShowNames()
-   TitanToggleVar(TITAN_REPAIR_ID, "ShowNames");
-   TitanPanelButton_UpdateButton(TITAN_REPAIR_ID);
-end
-
--- **************************************************************************
 -- NAME : TitanRepair_ShowMostDamaged()
 -- DESC : <research>
 -- **************************************************************************
@@ -1368,12 +1461,7 @@ end
 -- DESC : <research>
 -- **************************************************************************
 function TitanRepair_ShowInventory()
-
-   --if (TPR.WholeScanInProgress) then
-     -- return;
-   --end
-   
-	 tit_debug_bis("TitanRepair_ShowInventory has been called !!");
+	tit_debug_bis("TitanRepair_ShowInventory has been called !!");
    TitanToggleVar(TITAN_REPAIR_ID, "ShowInventory");
    
    if TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") ~= 1 then

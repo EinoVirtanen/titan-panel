@@ -5,10 +5,15 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 function TitanPanelAutoHideButton_OnLoad(self)
 	self.registry = {
 		id = TITAN_AUTOHIDE_ID,
-		builtIn = 1,
+--		builtIn = 1,
+		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_AUTOHIDE_MENU_TEXT"],
 		tooltipTitle = L["TITAN_AUTOHIDE_TOOLTIP"],
+		savedVariables = {
+			DisplayOnRightSide = 1,
+			ForceBar = "Bar",
+		}
 	};
 end
 
@@ -40,10 +45,15 @@ end
 function TitanPanelAuxAutoHideButton_OnLoad(self)
 	self.registry = {
 		id = TITAN_AUXAUTOHIDE_ID,
-		builtIn = 1,
+--		builtIn = 1,
+		category = "Built-ins",
 		version = TITAN_VERSION,
-		menuText = L["TITAN_AUTOHIDE_MENU_TEXT"],
+		menuText = L["TITAN_AUTOHIDE_MENU_TEXT"].." Aux",
 		tooltipTitle = L["TITAN_AUTOHIDE_TOOLTIP"],
+		savedVariables = {
+			DisplayOnRightSide = 1,
+			ForceBar = "AuxBar",
+		}
 	};
 end
 

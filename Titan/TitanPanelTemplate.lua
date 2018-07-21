@@ -25,28 +25,9 @@ function TitanOptionSlider_TooltipText(text, value)
 end
 
 function TitanPanelButton_OnLoad(self, isChildButton)
--- ensure that the 'self' passed is a valid frame reference
- if self and self:GetName() then
-	if (isChildButton) then
-		self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
-		self:RegisterForDrag("LeftButton")
-		TitanPanelDetectPluginMethod(self:GetName(), true);
-	else 
-		TitanUtils_RegisterPlugin(self.registry);		
-		local pluginID = TitanUtils_GetButtonID(self:GetName());
-		local plugin = TitanUtils_GetPlugin(pluginID);
-		if (plugin) then
-			self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
-			self:RegisterForDrag("LeftButton")
-			if (plugin.id) then
-			TitanPanelDetectPluginMethod(plugin.id);
-			end
-		end
-	end
- end
+	-- ensure that 'self' passed is a valid frame reference
+	TitanUtils_PluginToRegister(self, isChildButton)
 end
-
-
 
 function TitanPanelPluginHandle_OnUpdate(table, oldarg)
 local id, updateType = nil
@@ -546,6 +527,7 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 	  	end
 	  end
 		
+		-- hopefully this will be deprecated...
 		for i, _ in ipairs(TITAN_PANEL_NONMOVABLE_PLUGINS) do
 		  if TITAN_PANEL_MOVE_ADDON == TITAN_PANEL_NONMOVABLE_PLUGINS[i] then
 		   nonmovableFrom = true;
@@ -555,16 +537,15 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 		  end
 		end
 		
+		-- switching sides is not allowed
 		if (nonmovableTo == true and nonmovableFrom == false) or (nonmovableTo == false and nonmovableFrom == true) then
 			TITAN_PANEL_DROPOFF_ADDON = nil;
 		end
 		
-		-- protect AuxAutoHide and Clock
-		if (TITAN_PANEL_MOVE_ADDON == "AuxAutoHide" or TITAN_PANEL_DROPOFF_ADDON == "AuxAutoHide") then
-			TITAN_PANEL_DROPOFF_ADDON = nil;
-		end
-		
-		if (TITAN_PANEL_MOVE_ADDON == "Clock" or TITAN_PANEL_DROPOFF_ADDON == "Clock") and TitanGetVar(TITAN_CLOCK_ID, "DisplayOnRightSide") == 1 then
+		-- switching sides is not allowed
+		local from_on_right = (TitanGetVar(TITAN_PANEL_MOVE_ADDON, "DisplayOnRightSide") or false)
+		local to_on_right = (TitanGetVar(TITAN_PANEL_MOVE_ADDON, "DisplayOnRightSide") or false)
+		if (to_on_right == true and from_on_right == false) or (to_on_right == false and from_on_right == true) then
 			TITAN_PANEL_DROPOFF_ADDON = nil;
 		end
 		
@@ -572,8 +553,6 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 		local pickup = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,TITAN_PANEL_MOVE_ADDON);
 		local dropoffbar = TitanUtils_GetWhichBar(TITAN_PANEL_DROPOFF_ADDON);
 		local pickupbar = TitanUtils_GetWhichBar(TITAN_PANEL_MOVE_ADDON);
-		--local side = TitanPanel_GetPluginSide(TITAN_PANEL_DROPOFF_ADDON);
-	  --local nextaddon = TitanUtils_GetNextButtonOnBar(dropoffbar,TITAN_PANEL_DROPOFF_ADDON,side);
 
 		if dropoff ~= nil and dropoff ~= "" then
 			TitanPanelSettings.Buttons[dropoff] = TITAN_PANEL_MOVE_ADDON;

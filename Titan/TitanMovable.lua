@@ -485,10 +485,9 @@ local function Titan_ManageVehicles()
 		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 2)
 end
 
-local function Titan_AdjustUIScale()	
-	-- Refresh panel scale and buttons	
+function Titan_AdjustScale()		
 	TitanPanel_SetScale();
-								
+	
 	TitanPanel_ClearAllBarTextures()
 	TitanPanel_CreateBarTextures()
 
@@ -500,6 +499,11 @@ local function Titan_AdjustUIScale()
 	if (TitanPanelGetVar("AutoHide")) then TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position")) end
 	if (TitanPanelGetVar("AuxAutoHide")) then TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM) end
 	TitanPanel_RefreshPanelButtons();
+end
+
+local function Titan_AdjustUIScale()	
+	-- Refresh panel scale and buttons	
+	Titan_AdjustScale()
 end
 
 

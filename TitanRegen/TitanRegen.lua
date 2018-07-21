@@ -49,12 +49,20 @@ end
 function TitanPanelTitanRegenButton_OnLoad(self)
      self.registry = { 
           id = TITAN_REGEN_ID,
-          builtIn = 1,
+--          builtIn = 1,
+			category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_REGEN_MENU_TEXT"],
           buttonTextFunction = "TitanPanelTitanRegenButton_GetButtonText",
           tooltipTitle = L["TITAN_REGEN_MENU_TOOLTIP_TITLE"],
           tooltipTextFunction = "TitanPanelTitanRegenButton_GetTooltipText",
+		controlVariables = {
+			ShowIcon = false,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                ShowLabelText = 1,
                ShowMPRegen = 1,

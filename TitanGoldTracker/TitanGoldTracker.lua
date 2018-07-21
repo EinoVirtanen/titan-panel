@@ -72,7 +72,8 @@ local _G = getfenv(0);
 function TitanPanelGoldTrackerButton_OnLoad(self)
      self.registry = { 
           id = TITAN_GOLDTRACKER_ID,
-          builtIn = 1,
+ --         builtIn = 1,
+			category = "Built-ins",
           version = TITAN_GOLDTRACKER_VERSION,
           menuText = LB["TITAN_GOLDTRACKER_MENU_TEXT"], 
           tooltipTitle = LB["TITAN_GOLDTRACKER_TOOLTIP"],

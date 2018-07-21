@@ -40,13 +40,21 @@ local PerfTimer = nil;
 function TitanPanelPerformanceButton_OnLoad(self)
      self.registry = {
           id = TITAN_PERFORMANCE_ID,
-          builtIn = 1,
+--         builtIn = 1,
+			category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_PERFORMANCE_MENU_TEXT"],
           buttonTextFunction = "TitanPanelPerformanceButton_GetButtonText";
           tooltipCustomFunction = TitanPanelPerformanceButton_SetTooltip;
           icon = "Interface\\AddOns\\TitanPerformance\\TitanPerformance",
           iconWidth = 16,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                ShowFPS = 1,
                ShowLatency = 1,

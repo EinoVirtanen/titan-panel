@@ -25,12 +25,20 @@ local updateTable = {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
 function TitanPanelClockButton_OnLoad(self)
      self.registry = {
           id = TITAN_CLOCK_ID,
-          builtIn = 1,
+--          builtIn = 1,
+			category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_CLOCK_MENU_TEXT"],
           buttonTextFunction = "TitanPanelClockButton_GetButtonText",
           tooltipTitle = L["TITAN_CLOCK_TOOLTIP"],
           tooltipTextFunction = "TitanPanelClockButton_GetTooltipText",
+		controlVariables = {
+			ShowIcon = false,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                OffsetHour = 0,
                Format = TITAN_CLOCK_FORMAT_12H,

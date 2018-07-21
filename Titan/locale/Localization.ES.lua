@@ -53,7 +53,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	
 	-- general panel locale
 	L["TITAN_PANEL"] = "Titan Panel";
-	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 de la |cffff8c00Titan Dev Team";
+	L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 - |cffff8c00Titan Development Team";
 	L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
 	L["TITAN_PANEL_MENU_HIDE"] = "Ocultar";
 	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Personalizar";
@@ -102,7 +102,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin del lado derecho";
 	L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forzar lanzadores en el lado derecho";
 	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Desactivar escalado de fuentes";
-	L["TITAN_PANEL_MENU_CATEGORIES"] = {"General","Combate","Información","Interfaz","Profesión"}
+	L["TITAN_PANEL_MENU_CATEGORIES"] = {"De serie en Titan","General","Combate","Información","Interfaz","Profesión"}
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Mostrar tooltips";
 	L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Ocultar tooltips en combate";
 	L["TITAN_PANEL_MENU_RESET"] = "Ajustes por defecto del Panel";
@@ -111,6 +111,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Fuente del Panel"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activado";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Desactivado";
+	L["TITAN_PANEL_SHIFT_LEFT"] = "Mayus-Izdo.";
+	L["TITAN_PANEL_SHIFT_RIGHT"] = "Mayus-Dcho.";
 	
 	-- localization strings for AceConfigDialog-3.0     
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de la barra de información. Permite a los usuarios añadir orígenes de datos o plugins lanzadores en un panel de control situado en la parte superior o inferior de la pantalla.";			 
@@ -291,7 +293,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_MONEY_GOLD"] = "o";
 	L["TITAN_MONEY_SILVER"] = "p";
 	L["TITAN_MONEY_COPPER"] = "b";
-	L["TITAN_MONEY_FORMAT"] = "%d".."o"..", %d".."p"..", %d".."b";
+	L["TITAN_MONEY_FORMAT"] = "%d".."o"..", %02d".."p"..", %02d".."b";
 		
 	L["TITAN_PERFORMANCE_TOOLTIP"] = "Monitorización";
 	L["TITAN_PERFORMANCE_MENU_TEXT"] = "Monitorización";
@@ -405,6 +407,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 		AutoRepitemlabel = "Auto reparar todos los objetos",
 		ShowRepairCost = "Mostrar coste de reparar",
 		ignoreThrown = "Ignorar armas arrojadizas",
+		  		ShowItems = "Mostrar objetos",
+		  		ShowDiscounts = "Mostrar descuentos",
+		  		ShowCosts = "Mostrar costes",
+		  		Items = "Objetos",
+		  		Discounts = "Descuentos",
+		  		Costs = "Costes",
+				TooltipOptions = "Tooltip",
 	};
 	L["TITAN_REPAIR"] = "Titan Repair"
 	L["TITAN_REPAIR_GBANK_TOTAL"] = "Efectivo en el banco de la Hermandad: "

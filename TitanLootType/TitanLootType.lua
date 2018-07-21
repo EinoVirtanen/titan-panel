@@ -27,7 +27,8 @@ TitanLootMethod["needbeforegreed"] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED
 function TitanPanelLootTypeButton_OnLoad(self)
      self.registry = {
           id = TITAN_LOOTTYPE_ID,
-          builtIn = 1,
+--          builtIn = 1,
+			category = "Built-ins",
           version = TITAN_VERSION,
           menuText = L["TITAN_LOOTTYPE_MENU_TEXT"],
           buttonTextFunction = "TitanPanelLootTypeButton_GetButtonText", 
@@ -35,6 +36,13 @@ function TitanPanelLootTypeButton_OnLoad(self)
           tooltipTextFunction = "TitanPanelLootTypeButton_GetTooltipText",
           icon = "Interface\\AddOns\\TitanLootType\\TitanLootType",
           iconWidth = 16,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = false
+		},
           savedVariables = {
                ShowIcon = 1,
                ShowLabelText = 1,
