@@ -22,18 +22,28 @@ local TitanMovable = {};
 -- for whatever reason Blizz sets the user placed flag of the vehicle bar causing
 -- the routine to ignore it (not move it)
 local TitanMovableData = {
-	PlayerFrame = {frameName = "PlayerFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	TargetFrame = {frameName = "TargetFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP, iup = false},
+	PlayerFrame = {frameName = "PlayerFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	TargetFrame = {frameName = "TargetFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
 --	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, iup = false},
 --	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, position = TITAN_PANEL_PLACE_TOP, iup = false},
-	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, position = TITAN_PANEL_PLACE_BOTTOM, iup = false},
-	MultiBarRight = {frameName = "MultiBarRight", frameArchor = "BOTTOMRIGHT", xArchor = "RIGHT", y = 98, position = TITAN_PANEL_PLACE_BOTTOM, iup = false},
-	VehicleMenuBar = {frameName = "VehicleMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, position = TITAN_PANEL_PLACE_BOTTOM, iup = true},	
+	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, 
+		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
+		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
+	MultiBarRight = {frameName = "MultiBarRight", frameArchor = "BOTTOMRIGHT", xArchor = "RIGHT", y = 98, 
+		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
+	VehicleMenuBar = {frameName = "VehicleMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
+		position = TITAN_PANEL_PLACE_BOTTOM, iup = true, addonAdj = false},	
 }
 
 local function TitanMovableFrame_CheckThisFrame(frameName)
@@ -44,6 +54,26 @@ local function TitanMovableFrame_CheckThisFrame(frameName)
 	-- For safety check if the frame is in the table to adjust
 	if TitanMovableData[frameName] then
 		table.insert(TitanMovable, frameName)
+	end
+end
+
+function TitanMovable_AddonAdjust(frame, bool)
+	-- called from TitanUtils for a developer API.
+	for index, value in pairs(TitanMovableData) do						
+		frameData = value
+		if frameData then
+			frameName = frameData.frameName;
+		end
+
+		if (frame == frameName) then
+			frameData.addonAdj = bool
+--[[
+TitanDebug("..._AddonAdjust "
+.."f:'"..(frame or "?").."' "
+.."b:"..(bool and "T" or "F").." "
+)
+--]]
+			end
 	end
 end
 
@@ -183,6 +213,7 @@ TitanDebug ("_MoveFrames "
 	-- move them...
 	if not InCombatLockdown() then
 		for index, value in pairs(TitanMovable) do						
+			adj_frame = true -- assume the frame is to be adjusted
 			frameData = TitanMovableData[value];
 			if frameData then
 				frame = _G[frameData.frameName];
@@ -190,8 +221,21 @@ TitanDebug ("_MoveFrames "
 				frameArchor = frameData.frameArchor;
 			end
 
-			if (frame and (not frame:IsUserPlaced())) 
-			or frameData.iup then
+			if (frame and (frame:IsUserPlaced())) 
+--			and not frameData.iup 
+			then
+				-- The user has positioned the frame
+				-- iup adjusts for frames that Blizz seems to set the
+				-- IsUserPlaced...
+				adj_frame = false
+			end
+			if frameData.addonAdj then
+				-- An addon has taken control of the frame
+				adj_frame = false
+			end
+--			or frameData.iup 
+			
+			if adj_frame then
 				xArchor = frameData.xArchor;
 				y = frameData.y;
 				
@@ -437,6 +481,137 @@ function Titan_AdjustScale()
 	end
 end
 
+function Titan_ManageFramesTest1()
+	if Titan__InitializedPEW then
+		-- We know the desired bars are now drawn so we can adjust
+		if InCombatLockdown() then
+		else
+--TitanDebug ("Titan_ManageFramesTest1 ")
+	left = floor(VehicleMenuBar:GetLeft() + 0.5)
+	left = GetScreenWidth() / 2
+	bot = floor(VehicleMenuBar:GetBottom() + 0.5)
+TitanDebug("... VehicleMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+--	point, relFrame, relPoint, xOff, yOff = VehicleMenuBar:GetPoint(VehicleMenuBar:GetNumPoints())
+	VehicleMenuBar:ClearAllPoints()
+	VehicleMenuBar:SetPoint("BOTTOM", TitanPanelBottomAnchor, "TOP", left, 0)
+--	VehicleMenuBar:SetPoint(point, relFrame, relPoint, xOff, TitanPanelBottomAnchor:GetTop()+0)
+	left, _ = VehicleMenuBar:GetCenter()
+	bot = VehicleMenuBar:GetBottom()
+TitanDebug("... VehicleMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+
+		end
+	end
+-- There is a chance the person stays in combat so this could
+-- keep looping...
+end
+
+function Titan_GetFrameOrigPositions()
+	local orig = {}
+	local frameData
+	local point, relTo, relPoint, xOff, yOff = "", {}, "", 0, 0
+	local relFrame = ""
+	for index, value in pairs(TitanMovableData) do						
+		frameData = TitanMovableData[index];
+		if frameData then
+			point, relTo, relPoint, xOff, yOff = "", {}, "", 0, 0
+			frame = _G[frameData.frameName];
+			point, relTo, relPoint, xOff, yOff = frame:GetPoint(frame:GetNumPoints())
+TitanDebug("Orig: "
+..frameData.frameName.." "
+..relTo:GetName() or "?".." "
+)
+			orig = {
+				point = point, 
+				relTo = relTo, 
+				relPoint = relPoint, 
+				xOff = xOff, 
+				yOff = yOff,
+			}
+			TitanMovableOrig[frameData.frameName] = orig
+		end
+	end
+end
+
+function Titan_SetFrameOrigPositions()
+	local left = 0
+	local bot = 0
+	-- TESTING!!!
+TitanDebug("TESTING!!: Setting frames to Titan anchor "
+..(TitanPanelBottomAnchor:GetTop() or "?").." "
+)
+	left = MainMenuBar:GetLeft()
+	left = GetScreenWidth() / 2
+	bot = MainMenuBar:GetBottom()
+TitanDebug("... MainMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+--	local point, relFrame, relPoint, xOff, yOff = MainMenuBar:GetPoint(MainMenuBar:GetNumPoints())
+	MainMenuBar:ClearAllPoints()
+	MainMenuBar:SetPoint("BOTTOM", TitanPanelBottomAnchor, "TOP", left, 0)
+--	MainMenuBar:SetPoint(point, relFrame, relPoint, xOff, TitanPanelBottomAnchor:GetTop()+0)
+	left = MainMenuBar:GetLeft()
+	bot = MainMenuBar:GetBottom()
+TitanDebug("... MainMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+	
+	left = floor(VehicleMenuBar:GetLeft() + 0.5)
+	left = GetScreenWidth() / 2
+	bot = floor(VehicleMenuBar:GetBottom() + 0.5)
+TitanDebug("... VehicleMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+--	point, relFrame, relPoint, xOff, yOff = VehicleMenuBar:GetPoint(VehicleMenuBar:GetNumPoints())
+	VehicleMenuBar:ClearAllPoints()
+	VehicleMenuBar:SetPoint("BOTTOM", TitanPanelBottomAnchor, "TOP", left, 0)
+--	VehicleMenuBar:SetPoint(point, relFrame, relPoint, xOff, TitanPanelBottomAnchor:GetTop()+0)
+	left, _ = VehicleMenuBar:GetCenter()
+	bot = VehicleMenuBar:GetBottom()
+TitanDebug("... VehicleMenuBar "
+..(bot or "?").." "
+..(left or "?").." "
+)
+
+if false then
+	left = MultiBarRight:GetLeft()
+	MultiBarRight:ClearAllPoints()
+	MultiBarRight:SetPoint("BOTTOMLEFT", TitanPanelBottomAnchor, "TOP", left, 98)
+
+	left = TargetFrame:GetLeft()
+	TargetFrame:ClearAllPoints()
+	TargetFrame:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, -4)
+	
+	left = PlayerFrame:GetLeft()
+	PlayerFrame:ClearAllPoints()
+	PlayerFrame:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, -4)
+	
+	left = PartyMemberFrame1:GetLeft()
+	PartyMemberFrame1:ClearAllPoints()
+	PartyMemberFrame1:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, -128)
+	
+	left = TicketStatusFrame:GetLeft()
+	TicketStatusFrame:ClearAllPoints()
+	TicketStatusFrame:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, 0)
+	
+	left = BuffFrame:GetLeft()
+	BuffFrame:ClearAllPoints()
+	BuffFrame:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, -13)
+	
+	left = MinimapCluster:GetLeft()
+	MinimapCluster:ClearAllPoints()
+	MinimapCluster:SetPoint("TOPLEFT", TitanPanelTopAnchor, "BOTTOM", left, 0)
+end
+end
+
 function TitanMovable_SecureFrames()
 	if not TitanPanelAce:IsHooked("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition) then
 		TitanPanelAce:SecureHook("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition) -- FloatingChatFrame
@@ -456,6 +631,8 @@ function TitanMovable_SecureFrames()
 		TitanPanelAce:SecureHook(MainMenuBar, "Hide", Titan_Hook_Adjust_Both) -- HelpFrame.xml
 		TitanPanelAce:SecureHook(VehicleMenuBar, "Show", Titan_Hook_Adjust_Both) -- HelpFrame.xml
 		TitanPanelAce:SecureHook(VehicleMenuBar, "Hide", Titan_Hook_Adjust_Both) -- HelpFrame.xml
+--		TitanPanelAce:SecureHook(VehicleMenuBar, "Show", Titan_ManageFramesTest1) -- HelpFrame.xml
+--		TitanPanelAce:SecureHook(VehicleMenuBar, "Hide", Titan_ManageFramesTest1) -- HelpFrame.xml
 		TitanPanelAce:SecureHook("updateContainerFrameAnchors", Titan_ContainerFrames_Relocate) -- ContainerFrame.lua
 		TitanPanelAce:SecureHook(WorldMapFrame, "Hide", Titan_Hook_Adjust_Both) -- WorldMapFrame.lua
 		TitanPanelAce:SecureHook("BuffFrame_Update", Titan_Hook_Adjust_Both) -- BuffFrame.lua
@@ -470,4 +647,6 @@ function TitanMovable_SecureFrames()
 		TitanPanelAce:SecureHook("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale) -- VideoOptionsFrame.lua
 		TitanPanelAce:SecureHook(VideoOptionsFrame, "Hide", Titan_AdjustUIScale) -- VideoOptionsFrame.xml
 	end
+	
+--	TitanPanelAce:SecureHook(VehicleMenuBar, "SetPoint", Titan_ManageFramesTest1) -- 
 end

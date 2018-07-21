@@ -338,7 +338,8 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 			text:ClearAllPoints();
 			text:SetPoint("LEFT", icon:GetName(), "RIGHT", 2, 1);
 			
-			newButtonWidth = text:GetWidth() + iconButtonWidth + 2;
+--			newButtonWidth = text:GetWidth() + iconButtonWidth + 2;
+			newButtonWidth = text:GetWidth() + iconButtonWidth;
 		else
 			icon:Hide();
 			text:ClearAllPoints();
@@ -347,6 +348,7 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 			newButtonWidth = text:GetWidth();
 		end
 		
+--[
 		if ( setButtonWidth 
 		or button:GetWidth() == 0 
 		or button:GetWidth() - newButtonWidth > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE 
@@ -355,6 +357,7 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 			button:SetWidth(newButtonWidth);
 			TitanPanelButton_Justify();
 		end			
+--]]
 	end
 end
 

@@ -180,7 +180,7 @@ function TitanPanel_SaveCustomProfile()
 			local profileName = concprofileName..TITAN_AT.."TitanCustomProfile";
 			if TitanSettings.Players[profileName] then			
 				local dialogFrame = 
-					taticPopup_Show("TITAN_OVERWRITE_CUSTOM_PROFILE", concprofileName);
+					StaticPopup_Show("TITAN_OVERWRITE_CUSTOM_PROFILE", concprofileName);
 				if dialogFrame then
 					dialogFrame.data = concprofileName;
 				end
@@ -742,6 +742,7 @@ function TitanPanelBarButtonHider_OnEnter(self)
 		TitanPanelBarButton_Show(frame)
 	end
 end
+
 -- Titan features
 function TitanPanelBarButton_ToggleAlign(align)
 	-- toggle between left or center
@@ -1629,17 +1630,5 @@ end
 -- They will be here for a couple releases then deleted.
 
 --[[
-
-local function TitanPanel_Nextbar(var)
-	if TitanPanelGetVar(var) == TITAN_PANEL_BARS_DOUBLE then
-		return "Double";
-	else
-		return "Main";
-	end
-end
-
-function TitanPanel_AddButton(id)
-	TitanUtils_AddButtonOnBar(TITAN_PANEL_SELECTED, id)
-end
 
 --]]

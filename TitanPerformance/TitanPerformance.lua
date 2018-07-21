@@ -129,72 +129,75 @@ end
 -- VARS : id = button ID
 -- **************************************************************************
 function TitanPanelPerformanceButton_GetButtonText(id)     
-     local button = _G["TitanPanelPerformanceButton"];
-     local color, fpsRichText, latencyRichText, memoryRichText;
-     local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
-     local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
-     local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
+	local button = _G["TitanPanelPerformanceButton"];
+	local color, fpsRichText, latencyRichText, memoryRichText;
+	local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
+	local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+	local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
 
-     -- Update real time data
-     TitanPanelPerformanceButton_UpdateData()
-     
-     -- FPS text
-     if ( showFPS ) then
-          local fpsText = format(L["TITAN_FPS_FORMAT"], button.fps);
-          if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
-               color = TitanUtils_GetThresholdColor(TITAN_FPS_THRESHOLD_TABLE, button.fps);
-               fpsRichText = TitanUtils_GetColoredText(fpsText, color);
-          else
-               fpsRichText = TitanUtils_GetHighlightText(fpsText);
-          end
-     end
+	-- Update real time data
+	TitanPanelPerformanceButton_UpdateData()
 
-     -- Latency text
-     if ( showLatency ) then
-          local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latency);     
-          if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
-               color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latency);
-               latencyRichText = TitanUtils_GetColoredText(latencyText, color);
-          else
-               latencyRichText = TitanUtils_GetHighlightText(latencyText);
-          end
-     end
+	-- FPS text
+	if ( showFPS ) then
+		local fpsText = format(L["TITAN_FPS_FORMAT"], button.fps);
+		if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
+			color = TitanUtils_GetThresholdColor(TITAN_FPS_THRESHOLD_TABLE, button.fps);
+			fpsRichText = TitanUtils_GetColoredText(fpsText, color);
+		else
+			fpsRichText = TitanUtils_GetHighlightText(fpsText);
+		end
+	end
 
-     -- Memory text
-     if ( showMemory ) then
-          local memoryText = format(L["TITAN_MEMORY_FORMAT"], button.memory/1024);
-          memoryRichText = TitanUtils_GetHighlightText(memoryText);
-     end
-     
-     if ( showFPS ) then
-          if ( showLatency ) then
-               if ( showMemory ) then
-                    return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
-               else
-                    return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText;
-               end
-          else
-               if ( showMemory ) then
-                    return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
-               else
-                    return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText;
-               end
-          end
-     else
-          if ( showLatency ) then
-               if ( showMemory ) then
-                    return L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
-               else
-                    return L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText;
-               end
-          else
-               if ( showMemory ) then
-                    return L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
-               else
-                    return;
-               end
-          end
-     end
+	-- Latency text
+	if ( showLatency ) then
+		local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latencyHome);     
+		local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
+		if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
+			color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latencyHome);
+			latencyRichText = TitanUtils_GetColoredText(latencyText, color);
+			color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latencyWorld);
+			latencyRichText = latencyRichText.."/"..TitanUtils_GetColoredText(latencyWorldText, color);
+		else
+			latencyRichText = TitanUtils_GetHighlightText(latencyText).."/"..TitanUtils_GetHighlightText(latencyWorldText);
+		end
+	end
+
+	-- Memory text
+	if ( showMemory ) then
+		local memoryText = format(L["TITAN_MEMORY_FORMAT"], button.memory/1024);
+		memoryRichText = TitanUtils_GetHighlightText(memoryText);
+	end
+
+	if ( showFPS ) then
+		if ( showLatency ) then
+			if ( showMemory ) then
+				return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
+			else
+				return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText;
+			end
+		else
+			if ( showMemory ) then
+				return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
+			else
+				return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText;
+			end
+		end
+	else
+		if ( showLatency ) then
+			if ( showMemory ) then
+				return L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
+			else
+				return L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText;
+			end
+		else
+			if ( showMemory ) then
+				return L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
+			else
+				return;
+			end
+		end
+	end
 end
 
 -- **************************************************************************
@@ -228,13 +231,15 @@ function TitanPanelPerformanceButton_SetTooltip()
 
      -- Latency tooltip
      if ( showLatency ) then
-          local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latency);
-          local bandwidthInText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthIn);
+          local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latencyHome);
+		  local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
+         local bandwidthInText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthIn);
           local bandwidthOutText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthOut);
           
           GameTooltip:AddLine("\n");
           GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_LATENCY_TOOLTIP"]));
-          GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY"], TitanUtils_GetHighlightText(latencyText));
+          GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_HOME"], TitanUtils_GetHighlightText(latencyText));
+		  GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_WORLD"], TitanUtils_GetHighlightText(latencyWorldText));
           GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_IN"], TitanUtils_GetHighlightText(bandwidthInText));
           GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"], TitanUtils_GetHighlightText(bandwidthOutText));
      end
@@ -438,64 +443,64 @@ end
 -- DESC : Update button data
 -- **************************************************************************
 function TitanPanelPerformanceButton_UpdateData()
-     local button = _G["TitanPanelPerformanceButton"];
-     local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
-     local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
-     local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
-     local showAddonMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
-     
-     -- FPS Data
-     if ( showFPS ) then
-          button.fps = GetFramerate();     
-          button.fpsSampleCount = button.fpsSampleCount + 1;
-          if (button.fpsSampleCount == 1) then
-               button.minFPS = button.fps;
-               button.maxFPS = button.fps;
-               button.avgFPS = button.fps;
-          else
-               if (button.fps < button.minFPS) then
-                    button.minFPS = button.fps;
-               elseif (button.fps > button.maxFPS) then
-                    button.maxFPS = button.fps;
-               end
-               button.avgFPS = (button.avgFPS * (button.fpsSampleCount - 1) + button.fps) / button.fpsSampleCount;
-          end
-     end
+	local button = _G["TitanPanelPerformanceButton"];
+	local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
+	local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+	local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
+	local showAddonMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
 
-     -- Latency Data
-     if ( showLatency ) then
-          button.bandwidthIn, button.bandwidthOut, button.latency = GetNetStats();
-     end
+	-- FPS Data
+	if ( showFPS ) then
+		button.fps = GetFramerate();     
+		button.fpsSampleCount = button.fpsSampleCount + 1;
+		if (button.fpsSampleCount == 1) then
+			button.minFPS = button.fps;
+			button.maxFPS = button.fps;
+			button.avgFPS = button.fps;
+		else
+			if (button.fps < button.minFPS) then
+				button.minFPS = button.fps;
+			elseif (button.fps > button.maxFPS) then
+				button.maxFPS = button.fps;
+			end
+			button.avgFPS = (button.avgFPS * (button.fpsSampleCount - 1) + button.fps) / button.fpsSampleCount;
+		end
+	end
 
-     -- Memory data
-     if ( showMemory ) or (showAddonMemory == 1) then
-          local previousMemory = button.memory;     
-          button.memory, button.gcThreshold = gcinfo();          
-          if ( not button.startSessionTime ) then
-               -- Initial data
-               local i;
-               button.startSessionTime = time();     
-               button.initialMemory = button.memory;
-                              
-               	for i = 1, GetNumAddOns() do               
-									memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
-               	end
-               
-          elseif (previousMemory and button.memory and previousMemory > button.memory) then
-               -- Reset data after garbage collection
-               local k,i;
-               button.startSessionTime = time();
-               button.initialMemory = button.memory;
-                              
-               	for k in pairs(memUsageSinceGC) do
-									memUsageSinceGC[k] = nil
-               	end
-               
-               	for i = 1, GetNumAddOns() do
-									memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
-               	end                    
-          end
-     end     
+	-- Latency Data
+	if ( showLatency ) then
+		-- bandwidthIn, bandwidthOut, latencyHome, latencyWorld = GetNetStats();
+		button.bandwidthIn, button.bandwidthOut, button.latencyHome, button.latencyWorld = GetNetStats();
+	end
+
+	-- Memory data
+	if ( showMemory ) or (showAddonMemory == 1) then
+		local previousMemory = button.memory;     
+		button.memory, button.gcThreshold = gcinfo();          
+		if ( not button.startSessionTime ) then
+			-- Initial data
+			local i;
+			button.startSessionTime = time();     
+			button.initialMemory = button.memory;
+
+			for i = 1, GetNumAddOns() do               
+				memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
+			end
+		elseif (previousMemory and button.memory and previousMemory > button.memory) then
+			-- Reset data after garbage collection
+			local k,i;
+			button.startSessionTime = time();
+			button.initialMemory = button.memory;
+
+			for k in pairs(memUsageSinceGC) do
+				memUsageSinceGC[k] = nil
+			end
+
+			for i = 1, GetNumAddOns() do
+				memUsageSinceGC[GetAddOnInfo(i)] = GetAddOnMemoryUsage(i)
+			end                    
+		end
+	end     
 end
 
 -- **************************************************************************

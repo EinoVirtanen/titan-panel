@@ -45,6 +45,23 @@ function TitanUtils_SetMinimapAdjust(bool) -- Used by addons
 	-- the Titan minimap adjust.
 	TitanPanelSetVar("MinimapAdjust", not bool)
 end
+
+--[[ doc
+-- frame - is the name (string)
+-- bool  - true if the addon will adjust the frame
+--         false if Titan will adjust
+--
+-- Note: Titan will NOT store the adjust value across a log out / exit
+--]]
+function TitanUtils_AddonAdjust(frame, bool) -- Used by addons
+	-- This is a generic way for other addons that adjust the position
+	-- of the frames that Titan adjusts to have Titan 'back off' 
+	-- and not attempt to adjust the same frames.
+	-- The list of frames Titan adjusts in in TitanMovable.lua.
+	-- If the frame is not in the list that Titan adjusts no action is taken.
+	TitanMovable_AddonAdjust(frame, bool)
+end
+
 --------------------------------------------------------------
 
 -- The routines are useable by plugin developers
@@ -118,6 +135,8 @@ function TitanUtils_GetButtonIDFromMenu(self)
 				ret = temp
 			else
 				-- the frame container is expected to be not named
+				-- This trips when the user right clicks a LDB plugin...
+--[[
 				TitanDebug("Could not determine parent for '"
 				..(pname or "?").."'. "
 				.." It should be a TitanPanelChildButtonTemplate. "
@@ -126,6 +145,7 @@ function TitanUtils_GetButtonIDFromMenu(self)
 				.." is not a TitanPanelChildButtonTemplate then ensure the frame "
 				.."containing the Titan button is not named. "
 				,"error")
+--]]
 			end
 		else		
 			-- TitanPanelButton
@@ -856,7 +876,10 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 				id = self.registry.id
 				if TitanUtils_IsPluginRegistered(id) then
 					-- We have already registered this plugin!
-					issue =  "Plugin already loaded. Please see if another plugin (Titan or LDB enabled) is also loading."
+					issue =  "Plugin already loaded. "
+					.."Please see if another plugin (Titan or LDB enabled) is also loading "
+					.."with the same name.\n"
+					.."<Titan>.registry.id or <LDB>.label"
 				else
 					-- A sanity check just in case it was already in the list
 					if (not TitanUtils_TableContainsValue(TitanPluginsIndex, id)) then
@@ -1076,10 +1099,10 @@ local function TitanRightClickMenu_OnLoad(self)
 		 	UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 		end
 	else
-		TitanDebug("Could not display tooltip. "
-		.."Could not determine Titan ID for "
-		.."'"..(self:GetName() or "?").."'. "
-		,"error")
+		-- TitanDebug("Could not display tooltip. "
+		-- .."Could not determine Titan ID for "
+		-- .."'"..(self:GetName() or "?").."'. "
+		-- ,"error")
 	end
 end
 -- for the display bars
@@ -1292,9 +1315,5 @@ end
 -- These routines will be commented out for a couple releases then deleted.
 --
 --[[
-function TitanUtils_GetDoubleBar(bothbars, framePosition)
-	return 1
-end
-
 
 --]]
