@@ -67,8 +67,6 @@ local TitanMovableData = {
 		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, 
 		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
-	OrderHallCommandBar = {frameName = "OrderHallCommandBar", frameArchor = "TOP", xArchor = "CENTER", y = 0, 
-		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
 		position = TITAN_PANEL_PLACE_BOTTOM, addonAdj = false},
 	MultiBarRight = {frameName = "MultiBarRight", frameArchor = "BOTTOMRIGHT", xArchor = "RIGHT", y = 98, 
@@ -248,10 +246,10 @@ function TitanMovableFrame_CheckFrames(position)
 		-- Move WorldStateAlwaysUpFrame
 		TitanMovableFrame_CheckThisFrame(WorldStateAlwaysUpFrame:GetName());
 
-		-- Move OrderHallCommandBar
+--[[		-- Move OrderHallCommandBar
 		if OrderHallCommandBar then
 			TitanMovableFrame_CheckThisFrame(OrderHallCommandBar:GetName());
-		end
+		end]]--
 	end
 
 	-- check bottom as requested
