@@ -687,49 +687,77 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS"],
 		},
 		optiontooltip = {
 			name = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"],
-			desc = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"],
+--			desc = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"],
 			order = 201, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("ToolTipsShown") end,
 			set = function() TitanPanelToggleVar("ToolTipsShown"); end,
 		},
 		optiontooltipcombat = {
 			name = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"],
-			desc = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"],
+--			desc = L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"],
 			order = 201, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("HideTipsInCombat") end,
 			set = function() TitanPanelToggleVar("HideTipsInCombat"); end,
 		},
 		confdesc = {
-			order = 400,
+			order = 300,
 			type = "header",
 			name = L["TITAN_PANEL_MENU_OPTIONS_FRAMES"],
 		},
 		optionlock = {
 			name = L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
 			desc = L["TITAN_PANEL_MENU_LOCK_BUTTONS"],
-			order = 401, type = "toggle", width = "full",
+			order = 301, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("LockButtons") end,
 			set = function() TitanPanelToggleVar("LockButtons") end,
 		},
 		optionversions = {
 			name = L["TITAN_PANEL_MENU_VERSION_SHOWN"],
-			desc = L["TITAN_PANEL_MENU_VERSION_SHOWN"],
-			order = 402, type = "toggle", width = "full",
+--			desc = L["TITAN_PANEL_MENU_VERSION_SHOWN"],
+			order = 302, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("VersionShown") end,
 			set = function() TitanPanelToggleVar("VersionShown") end,
 		},
+		space_400_1 =
+			{
+				order = 400,
+				type = "description",
+				name = "  ",
+				cmdHidden = true,
+			},
 		optionlaunchers = {
 			name = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"],
---			desc = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"],
-			order = 403, type = "execute", width = "full",
+			order = 401, type = "execute", width = "full",
 			func = function() TitanPanelBarButton_ForceLDBLaunchersRight() end,
 		},
+		space_500_1 =
+			{
+				order = 500,
+				type = "description",
+				name = "  ",
+				cmdHidden = true,
+			},
+		pluginreset = {
+			name = L["TITAN_PANEL_MENU_PLUGIN_RESET"],
+			desc = L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"],
+			order = 501, type = "execute", width = "full",
+			func = function() TitanPanel_InitPanelButtons() end,
+		},
+		space_600_1 =
+			{
+				order = 600,
+				type = "description",
+				name = "  ",
+				cmdHidden = true,
+			},
 		optionreset = {
 			name = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
 --			desc = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
-			order = 404, type = "execute", width = "full",
+			order = 601, type = "execute", width = "full",
 			func = function() TitanPanel_ResetToDefault() end,
-		},
+		}
+		
+		
 	}
  }
 
@@ -868,7 +896,7 @@ function TitanUpdateAddonAttempts()
 end
 
 local optionsExtras = {
-	name = "Titan ".."Extras", --L["TITAN_PANEL_MENU_OPTIONS_BARS"],
+	name = "Titan "..L["TITAN_PANEL_EXTRAS"],
 	type = "group",
 	args = {}
  }
@@ -876,12 +904,9 @@ local function TitanRefreshExtras()
     -- Config Tables changed!
     AceConfigRegistry:NotifyChange("Titan Panel Addon Extras")
 end
-
 local function TitanUpdateExtras()
 	local args = optionsExtras.args
 	local plug_in = nil
-	local attempts = "These are plugins with configuration data that are not currently loaded.\n"
-		.."Note: You must logout before the list changes."
 
 	wipe(args)
 
@@ -889,7 +914,7 @@ local function TitanUpdateExtras()
 	{
 		order = 1,
 		type = "description",
-		name = attempts.."\n",
+		name = L["TITAN_PANEL_EXTRAS_DESC"].."\n",
 		cmdHidden = true
 	}
 	for idx, value in pairs(TitanPluginExtras) do
@@ -911,13 +936,13 @@ local function TitanUpdateExtras()
 						order = 10,
 					},
 					optionreset = {
-						name = "Delete config data",
+						name = L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"],
 						order = 15, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanPluginSettings[info[1]] = nil -- delete the config entry
 							DEFAULT_CHAT_FRAME:AddMessage(
-								TitanUtils_GetGoldText(L["TITAN_PANEL"].." ")
-								.."Configuration entry for '"..info[1].."' has been removed."
+								TitanUtils_GetGoldText(L["TITAN_PANEL"])
+								.." '"..info[1].."' "..L["TITAN_PANEL_EXTRAS_DELETE_MSG"]
 								);
 							TitanRefreshExtras()
 						end,
@@ -926,20 +951,16 @@ local function TitanUpdateExtras()
 			}
 		end
    end
-    
-	TitanRefreshExtras()
 end
 
 local optionsChars = {
-	name = "Titan ".."Chars", --L["TITAN_PANEL_MENU_OPTIONS_BARS"],
+	name = "Titan "..L["TITAN_PANEL_CHARS"],
 	type = "group",
 	args = {}
  }
 local function TitanUpdateChars()
 	local args = optionsChars.args
 	local plug_in = nil
-	local attempts = "These are characters with configuration data.\n"
-		.."Note: You must logout before the list changes."
 
 	wipe(args)
 
@@ -947,7 +968,7 @@ local function TitanUpdateChars()
 	{
 		order = 1,
 		type = "description",
-		name = attempts.."\n",
+		name = L["TITAN_PANEL_CHARS_DESC"].."\n",
 		cmdHidden = true
 	}
 	for idx, value in pairs(TitanSettings.Players) do
@@ -969,13 +990,13 @@ local function TitanUpdateChars()
 						order = 10,
 					},
 					optionreset = {
-						name = "Delete config data",
+						name = L["TITAN_PANEL_CHARS_DELETE_BUTTON"],
 						order = 15, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanSettings.Players[info[1]] = nil -- delete the config entry
 							DEFAULT_CHAT_FRAME:AddMessage(
-								TitanUtils_GetGoldText(L["TITAN_PANEL"].." ")
-								.."Configuration entry for '"..info[1].."' has been removed."
+								TitanUtils_GetGoldText(L["TITAN_PANEL"])
+								.." '"..info[1].."' "..L["TITAN_PANEL_CHARS_DELETE_MSG"]
 								);
 						end,
 					},
@@ -987,11 +1008,11 @@ local function TitanUpdateChars()
    end
     
     -- Config Tables changed!
-    AceConfigRegistry:NotifyChange(L["TITAN_PANEL"])
+    AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 end
 
 local optionsAddons = {
-	name = L["TITAN_PANEL_MENU_PLUGINS"],
+	name = "Titan "..L["TITAN_PANEL_MENU_PLUGINS"],
 	type = "group",
 	args = {}
  }
@@ -1029,7 +1050,7 @@ function TitanUpdateConfigAddons()
 					show =
 					{
 						type = "toggle",
-						name = "Show",
+						name = L["TITAN_PANEL_MENU_SHOW"],
 						order = 3,
 						get = function(info) return (TitanPanel_IsPluginShown(info[1])) end,
 						set = function(info, v) 
@@ -1045,35 +1066,28 @@ function TitanUpdateConfigAddons()
 					},
 				}
 			}
---[[
-			if TitanVarExists(plug_in.id, "ShowIcon") then
+			
+			--ShowIcon
+			if plug_in.controlVariables and plug_in.controlVariables.ShowIcon then
 				args[plug_in.id].args.icon =
 					{
 						type = "toggle",
-						name = "ShowIcon",
+						name = L["TITAN_PANEL_MENU_SHOW_ICON"],
 						order = 4,
-						get = function (info)
-							return (TitanGetVar(info[1], "ShowIcon"))
-							end,
+						get = function(info) return (TitanGetVar(info[1], "ShowIcon")) end,
 						set = function(info, v) 
 							TitanToggleVar(info[1], "ShowIcon");
 							TitanPanelButton_UpdateButton(info[1])
 							end,
 					}
-			else
-				args[plug_in.id].args.icon =
-					{
-						order = 4,
-						type = "description",
-						name = TitanUtils_GetHighlightText(pre.."ShowIcon"),
-						cmdHidden = true
-					}
 			end
-			if TitanVarExists(plug_in.id, "ShowLabelText") then
+
+			--ShowLabel
+			if plug_in.controlVariables and plug_in.controlVariables.ShowLabelText then
 				args[plug_in.id].args.label =
 					{
 						type = "toggle",
-						name = "ShowLabelText",
+						name = L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"],
 						order = 5,
 						get = function(info) return (TitanGetVar(info[1], "ShowLabelText")) end,
 						set = function(info, v) 
@@ -1081,41 +1095,14 @@ function TitanUpdateConfigAddons()
 							TitanPanelButton_UpdateButton(info[1])
 							end,
 					}
-			else
-				args[plug_in.id].args.label =
-					{
-						order = 5,
-						type = "description",
-						name = TitanUtils_GetHighlightText(pre.."ShowLabelText"),
-						cmdHidden = true
-					}
 			end
-			if TitanVarExists(plug_in.id, "ShowColoredText") then
-				args[plug_in.id].args.color_text =
-					{
-						type = "toggle",
-						name = "ShowColoredText",
-						order = 6,
-						get = function(info) return (TitanGetVar(info[1], "ShowColoredText")) end,
-						set = function(info, v) 
-							TitanToggleVar(info[1], "ShowColoredText");
-							TitanPanelButton_UpdateButton(info[1])
-							end,
-					}
-			else
-				args[plug_in.id].args.color_text =
-					{
-						order = 6,
-						type = "description",
-						name = TitanUtils_GetHighlightText(pre.."ShowColoredText"),
-						cmdHidden = true
-					}
-			end
-			if TitanVarExists(plug_in.id, "ShowRegularText") then
+			
+			--ShowRegularText (LDB data sources only atm)
+			if plug_in.controlVariables and plug_in.controlVariables.ShowRegularText then
 				args[plug_in.id].args.regular_text =
 					{
 						type = "toggle",
-						name = "ShowRegularText",
+						name = L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"],
 						order = 7,
 						get = function(info) return (TitanGetVar(info[1], "ShowRegularText")) end,
 						set = function(info, v) 
@@ -1123,42 +1110,47 @@ function TitanUpdateConfigAddons()
 							TitanPanelButton_UpdateButton(info[1])
 							end,
 					}
-			else
-				args[plug_in.id].args.regular_text =
+			end
+			
+			--ShowColoredText
+			if plug_in.controlVariables and plug_in.controlVariables.ShowColoredText then
+				args[plug_in.id].args.color_text =
 					{
-						order = 7,
-						type = "description",
-						name = TitanUtils_GetHighlightText(pre.."ShowRegularText"),
-						cmdHidden = true
+						type = "toggle",
+						name = L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"],
+						order = 6,
+						get = function(info) return (TitanGetVar(info[1], "ShowColoredText")) end,
+						set = function(info, v) 
+							TitanToggleVar(info[1], "ShowColoredText");
+							TitanPanelButton_UpdateButton(info[1])
+							end,
 					}
 			end
-			if TitanVarExists(plug_in.id, "DisplayOnRightSide") then
+
+			-- Right-side plugin
+			if plug_in.controlVariables and plug_in.controlVariables.DisplayOnRightSide then
 				args[plug_in.id].args.right_side =
 					{
 						type = "toggle",
-						name = "DisplayOnRightSide",
+						name = L["TITAN_PANEL_MENU_LDB_SIDE"],
 						order = 8,
 						get = function(info) return (TitanGetVar(info[1], "DisplayOnRightSide")) end,
 						set = function(info, v) 
-							local name = info[1]
-							TitanUtils_xxx(name, TitanPanel_GetPluginSide(name))
+							TitanToggleVar(info[1], "DisplayOnRightSide");
+							TitanPanel_RemoveButton(info[1]);
+							TitanUtils_AddButtonOnBar(TitanUtils_GetWhichBar(info[1]), info[1]);     
+							TitanPanelButton_UpdateButton(info[1])
 							end,
 					}
-			else
-				args[plug_in.id].args.right_side =
-					{
-						order = 8,
-						type = "description",
-						name = pre.."DisplayOnRightSide",
-						cmdHidden = true
-					}
 			end
+--[[
+---------------------------
 --]]
 			args[plug_in.id].args.plugin_position =
 				{
 					order = 50,
 					type = "header",
-					name = "Position",
+					name = L["TITAN_PANEL_MENU_POSITION"],
 				}
 			args[plug_in.id].args.shift_left =
 			{
@@ -1195,8 +1187,8 @@ function TitanUpdateConfigAddons()
 				args[plug_in.id].args.top_bottom =
 				{
 					order = 54, type = "select",
-					name = "Bar", --L["TITAN_SKINS_LIST_TITLE"],
-					desc = "Display on Bar", --L["TITAN_SKINS_SET_DESC"],
+					name = L["TITAN_PANEL_MENU_BAR"],
+					desc = L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"],
 					get = function(info) 
 						return TitanUtils_GetWhichBar(info[1]) end,
 					set = function(info,v)
@@ -1272,9 +1264,9 @@ AceConfigDialog:AddToBlizOptions("Titan Panel Transparency Control", L["TITAN_TR
 AceConfigDialog:AddToBlizOptions("Titan Panel Skin Control", L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Frames", L["TITAN_PANEL_MENU_OPTIONS"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Control", L["TITAN_PANEL_MENU_PLUGINS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", "Attempts", L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", "Extras", L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Addon Chars", "Chars", L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", L["TITAN_PANEL_ATTEMPTS"], L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", L["TITAN_PANEL_EXTRAS"], L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Chars", L["TITAN_PANEL_CHARS"], L["TITAN_PANEL"])
 
 -- Event handlers
 function TitanPanelBarButton:ADDON_LOADED(addon)
@@ -2711,9 +2703,9 @@ StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 		self.editBox:SetFocus();
 	end,
 	OnHide = function(self)
-		if ( ChatFrameEditBox:IsShown() ) then
-			ChatFrameEditBox:SetFocus();
-		end
+--		if ( ChatFrame1EditBox:IsShown() ) then
+--			ChatFrame1EditBox:SetFocus();
+--		end
 		self.editBox:SetText("");
 	end,
 	EditBoxOnEnterPressed = function(self)
@@ -3053,7 +3045,7 @@ function TitanPanel_PlayerSettingsMenu()
 			--ShowRegularText (LDB data sources only atm)
 			if plugin.controlVariables.ShowRegularText then
 				info = {};
-				info.text = "Show plugin text"
+				info.text = L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"]
 				info.value = {id, "ShowRegularText", nil};
 				info.func = function()
 					TitanPanelRightClickMenu_ToggleVar({id, "ShowRegularText", nil})

@@ -31,6 +31,19 @@ if not L then return end
 	L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."Cela va recharger Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
+	L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+	L["TITAN_PANEL_EXTRAS"] = "Extras"
+	L["TITAN_PANEL_EXTRAS_DESC"] = "Plugins non lanc\195\169s ayant des donn\195\169es de configuration.\n"
+		.."Note: Vous devez vous d\195\169connecter pour que les suppressions soient prises en compte."
+	L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Supprimer les donn\195\169es de configuration"
+	L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "les données de configuration ont \195\169t\195\169 supprim\195\169es."
+	L["TITAN_PANEL_CHARS"] = "Personnages"
+	L["TITAN_PANEL_CHARS_DESC"] = "Ces personnages ont des donn\195\169es de configuration.\n"
+		.."Note: Vous devez vous d\195\169connecter pour que les suppressions soient prises en compte."
+	L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Supprimer les donn\195\169es des personnages"
+	L["TITAN_PANEL_CHARS_DELETE_MSG"] = "les données de ce personnage ont \195\169t\195\169 supprim\195\169es."
+	L["TITAN_PANEL_REGISTER_START"] = "Enregistrement des plugins Titan..."
+	L["TITAN_PANEL_REGISTER_END"] = "Enregistrement des plugins effectu\195\169."
 
 	-- slash command help
 	L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -58,9 +71,9 @@ if not L then return end
 	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Personnaliser";
 	L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"] = "(En Combat)";
 	L["TITAN_PANEL_MENU_RELOADUI"] = "(Recharge l'interface)";
-	L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Montre texte color\195\169";
+	L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Colorer le texte";
 	L["TITAN_PANEL_MENU_SHOW_ICON"] = "Montrer l'ic\195\180ne";
-	L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Montrer le texte";
+	L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Montrer le titre";
 	L["TITAN_PANEL_MENU_AUTOHIDE"] = "Cacher auto";
 	L["TITAN_PANEL_MENU_BGMINIMAP"] = "Minicarte du champ de bataille";
 	L["TITAN_PANEL_MENU_CENTER_TEXT"] = "Centrer le texte";
@@ -110,8 +123,15 @@ if not L then return end
 	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Police de Titan"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activ\195\169";
 	L["TITAN_PANEL_MENU_DISABLED"] = "D\195\169sactiv\195\169";
-	L["TITAN_PANEL_SHIFT_LEFT"] = "Placer \195\160 gauche";
-	L["TITAN_PANEL_SHIFT_RIGHT"] = "Placer \195\160 droite";
+	L["TITAN_PANEL_SHIFT_LEFT"] = "D\195\169placer \195\160 gauche";
+	L["TITAN_PANEL_SHIFT_RIGHT"] = "D\195\169placer \195\160 droite";
+	L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Afficher le texte";
+	L["TITAN_PANEL_MENU_POSITION"] = "Position";
+	L["TITAN_PANEL_MENU_BAR"] = "Barre";
+	L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Afficher sur la barre :";
+	L["TITAN_PANEL_MENU_SHOW"] = "Afficher le plugin";
+	L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Rafra\195\174chir les plugins";
+	L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Rafra\195\174chit le texte et la position des plugins";
 
 	-- localization strings for AceConfigDialog-3.0
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de barres d'informations. Permet aux utilisateurs d'ajouter des plugins sur les barres plac\195\169es en haut et/ou en bas de l'\195\169cran.";
@@ -412,6 +432,9 @@ if not L then return end
 		Discounts = "R\195\169ductions",
 		Costs = "Co\195\187ts",
 		TooltipOptions = "Tooltip",
+		CostTotal = "Co\195\187t total",
+		CostBag = "Co\195\187t de l'inventaire",
+		CostEquip = "Co\195\187t de l'\195\169quipement",
 	};
 	L["TITAN_REPAIR"] = "Titan Repair"
 	L["TITAN_REPAIR_GBANK_TOTAL"] = "Fonds de la banque de guilde :"

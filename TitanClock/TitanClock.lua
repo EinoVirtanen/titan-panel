@@ -23,32 +23,31 @@ local updateTable = {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
 -- DESC : Registers the plugin upon it loading
 -- **************************************************************************
 function TitanPanelClockButton_OnLoad(self)
-     self.registry = {
-          id = TITAN_CLOCK_ID,
---          builtIn = 1,
-			category = "Built-ins",
-          version = TITAN_VERSION,
-          menuText = L["TITAN_CLOCK_MENU_TEXT"],
-          buttonTextFunction = "TitanPanelClockButton_GetButtonText",
-          tooltipTitle = L["TITAN_CLOCK_TOOLTIP"],
-          tooltipTextFunction = "TitanPanelClockButton_GetTooltipText",
+	self.registry = {
+		id = TITAN_CLOCK_ID,
+		category = "Built-ins",
+		version = TITAN_VERSION,
+		menuText = L["TITAN_CLOCK_MENU_TEXT"],
+		buttonTextFunction = "TitanPanelClockButton_GetButtonText",
+		tooltipTitle = L["TITAN_CLOCK_TOOLTIP"],
+		tooltipTextFunction = "TitanPanelClockButton_GetTooltipText",
 		controlVariables = {
 			ShowIcon = false,
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = true,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = true,
 		},
-          savedVariables = {
-               OffsetHour = 0,
-               Format = TITAN_CLOCK_FORMAT_12H,
-               TimeMode = "Server",
-               ShowLabelText = false,
-               ShowColoredText = false,
-               DisplayOnRightSide = 1,
-               HideGameTimeMinimap = false,
-          }
-     };
+		savedVariables = {
+			OffsetHour = 0,
+			Format = TITAN_CLOCK_FORMAT_12H,
+			TimeMode = "Server",
+			ShowLabelText = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = 1,
+			HideGameTimeMinimap = false,
+		}
+	};
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 

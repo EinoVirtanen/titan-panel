@@ -213,21 +213,22 @@ end
 -- VARS : button = value of action
 -- **************************************************************************
 function TitanPanelCoordsButton_OnClick(self, button)
-     if (button == "LeftButton" and IsShiftKeyDown()) then
-          if (ChatFrameEditBox:IsVisible()) then
-             if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then
-                 message = TitanUtils_ToString(self.zoneText).." "..
-                    format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
-             elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
-                 message = TitanUtils_ToString(self.zoneText).." "..
-                    format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
-             elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
-                 message = TitanUtils_ToString(self.zoneText).." "..
-                    format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
-             end
-               ChatFrameEditBox:Insert(message);
-          end
-     end
+	if (button == "LeftButton" and IsShiftKeyDown()) then
+		local activeWindow = ChatEdit_GetActiveWindow();
+		if ( activeWindow ) then
+			if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then
+				message = TitanUtils_ToString(self.zoneText).." "..
+				format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
+			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
+				message = TitanUtils_ToString(self.zoneText).." "..
+				format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
+			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
+				message = TitanUtils_ToString(self.zoneText).." "..
+				format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
+			end
+			activeWindow:Insert(message);
+		end
+	end
 end
 
 -- **************************************************************************
@@ -425,8 +426,8 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 	-- calc cursor position on the map
 	local cursorCoordsText, playerCoordsText;
 	local x, y = GetCursorPosition();
-	x = x / WorldMapDetailFrame:GetScale();
-	y = y / WorldMapDetailFrame:GetScale();
+	x = x / WorldMapDetailFrame:GetEffectiveScale();
+	y = y / WorldMapDetailFrame:GetEffectiveScale();
 
 	local centerX, centerY = WorldMapDetailFrame:GetCenter();
 	local width = WorldMapDetailFrame:GetWidth();

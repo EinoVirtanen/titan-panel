@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("Titan","zhCN")
+local L = LibStub("AceLocale-3.0"):NewLocale("Titan","zhCN")
 if not L then return end
 
   L["TITAN_DEBUG"] = "<Titan>";
@@ -31,6 +31,19 @@ L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."这会重新加载titan panel. "
 	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
+	.."Note: You must logout before the list changes."
+L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Delete config data"
+L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "configuration entry for has been removed."
+L["TITAN_PANEL_CHARS"] = "Characters"
+L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data.\n"
+		.."Note: You must logout before the list changes."
+L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
+L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
+L["TITAN_PANEL_REGISTER_START"] = "Register Titan plugins..."
+L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
      
      -- slash command help
   L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."用法: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -112,7 +125,14 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
   L["TITAN_PANEL_MENU_DISABLED"] = "禁用";
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift 左键";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右键";
-     
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_POSITION"] = "Position";
+L["TITAN_PANEL_MENU_BAR"] = "Bar";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
+L["TITAN_PANEL_MENU_SHOW"] = "Show plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
+   
   -- localization strings for AceConfigDialog-3.0     
   L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "信息显示插件. 允许用户在屏幕上方或下方的信息条上添加扩展模块.";			 
   L["TITAN_TRANS_MENU_TEXT_SHORT"] = "透明度";
@@ -412,6 +432,9 @@ L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右键";
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
 				TooltipOptions = "Tooltip",
+				CostTotal = "Total cost",
+				CostBag = "Bag cost",
+				CostEquip = "Equip cost",
      };
 	
 	L["TITAN_REPAIR"] = "Titan 修理"

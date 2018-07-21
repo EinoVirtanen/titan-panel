@@ -32,6 +32,19 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."This will reload Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
      L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Warnung:"..FONT_COLOR_CODE_CLOSE.."Diese Einstellung wird die Leiste(n) zuruecksetzen und das aktuelle Profil erneuern. Fuer WEITER druecke 'Accept' (UI wird neu laden), andernfalls druecke 'Cancel' oder 'Escape'."; --SENSITY
+L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
+	.."Note: You must logout before the list changes."
+L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Delete config data"
+L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "configuration entry for has been removed."
+L["TITAN_PANEL_CHARS"] = "Characters"
+L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data.\n"
+		.."Note: You must logout before the list changes."
+L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
+L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
+L["TITAN_PANEL_REGISTER_START"] = "Register Titan plugins..."
+L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
      
      -- slash command help
      L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Benutzen: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -113,6 +126,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
      L["TITAN_PANEL_MENU_DISABLED"] = "Aus"; --SENSITY
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_POSITION"] = "Position";
+L["TITAN_PANEL_MENU_BAR"] = "Bar";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
+L["TITAN_PANEL_MENU_SHOW"] = "Show plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
      
      -- localization strings for AceConfigDialog-3.0     
      L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Informationsleisten-Addon. Erlaubt Dateneingaben oder Start-Zusaetze auf einer Kontrollleiste am oberen oder unteren Bildschirmrand.";     --SENSITY           
@@ -413,6 +433,9 @@ L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
 				TooltipOptions = "Tooltip",
+				CostTotal = "Total cost",
+				CostBag = "Bag cost",
+				CostEquip = "Equip cost",
      };     
      L["TITAN_REPAIR"] = "Titan Repair"
      L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"

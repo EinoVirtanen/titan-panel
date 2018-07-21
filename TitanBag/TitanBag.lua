@@ -67,20 +67,32 @@ function TitanPanelBagButton_OnEvent(self, event, ...)
 	end
 
 	if event == "BAG_UPDATE" then
+		-- Create the only when the event is active
+		self:SetScript("OnUpdate", TitanPanelBagButton_OnUpdate)
+	end
+--[[
+	if event == "BAG_UPDATE" then
 		-- Throw a timer to update the button 3 seconds after the initial event to avoid "spammy" events     	
 		if not BagTimer then     		     		     			
 			BagTimer = AceTimer.ScheduleTimer("TitanPanelBag", TitanPanelBagButton_OnUpdate, 3, updateTable)
 		end
 	end
+--]]
 end
 
-
+function TitanPanelBagButton_OnUpdate(self)
+	-- update the button
+	TitanPanelPluginHandle_OnUpdate(updateTable)
+	-- remove until the next bag event
+	self:SetScript("OnUpdate", nil)
+end
+--[[
 function TitanPanelBagButton_OnUpdate(table)
 	TitanPanelPluginHandle_OnUpdate(table)	    
 	AceTimer.CancelAllTimers("TitanPanelBag")
 	BagTimer = nil; 
 end
-
+--]]
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
 -- DESC : Opens all bags on a LeftClick

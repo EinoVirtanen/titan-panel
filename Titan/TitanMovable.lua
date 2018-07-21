@@ -144,7 +144,7 @@ function TitanMovableFrame_MoveFrames(position, override)
 				-- properly adjust buff frame(s) if GM Ticket is visible
 				if (frameName == "TemporaryEnchantFrame" or frameName == "ConsolidatedBuffs")
 					and TicketStatusFrame:IsVisible() and TitanPanelGetVar("TicketAdjust") then
-					yOffset = (-TicketStatusFrame:GetHeight())
+					yOffset = (-TicketStatusFrame:GetHeight()) + panelYOffset
 				else
 					yOffset = y + panelYOffset;
 				end

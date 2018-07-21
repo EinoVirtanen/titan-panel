@@ -30,6 +30,19 @@ L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."This will reload Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
+	.."Note: You must logout before the list changes."
+L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Delete config data"
+L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "configuration entry for has been removed."
+L["TITAN_PANEL_CHARS"] = "Characters"
+L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data.\n"
+		.."Note: You must logout before the list changes."
+L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
+L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
+L["TITAN_PANEL_REGISTER_START"] = "Register Titan plugins..."
+L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 
 -- slash command help
 L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -111,7 +124,14 @@ L["TITAN_PANEL_MENU_ENABLED"] = "Enabled";
 L["TITAN_PANEL_MENU_DISABLED"] = "Disabled";
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
-     
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_POSITION"] = "Position";
+L["TITAN_PANEL_MENU_BAR"] = "Bar";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
+L["TITAN_PANEL_MENU_SHOW"] = "Show plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
+    
 -- localization strings for AceConfigDialog-3.0     
 L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or bottom of the screen.";			 
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparency";
@@ -412,8 +432,11 @@ L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_C
 		  		Items = "Items",
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
-				TooltipOptions = "Tooltip",
-     };
+				CostTotal = "Total cost",
+				CostBag = "Bag cost",
+				CostEquip = "Equip cost",
+ 				TooltipOptions = "Tooltip",
+    };
      
      L["TITAN_REPAIR"] = "Titan Repair"
      L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"

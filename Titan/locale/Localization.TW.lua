@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("Titan","zhTW")
+local L = LibStub("AceLocale-3.0"):NewLocale("Titan","zhTW")
 if not L then return end
   L["TITAN_DEBUG"] = "<Titan>";
   L["TITAN_INFO"] = "<Titan>"
@@ -30,6 +30,19 @@ L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."這會重新載入泰坦面板. "
 	..TITAN_PANEL_RELOAD_TEXT
+L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
+	.."Note: You must logout before the list changes."
+L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Delete config data"
+L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "configuration entry for has been removed."
+L["TITAN_PANEL_CHARS"] = "Characters"
+L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data.\n"
+		.."Note: You must logout before the list changes."
+L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
+L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
+L["TITAN_PANEL_REGISTER_START"] = "Register Titan plugins..."
+L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 	
 	-- slash command help
   L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."輸入: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -111,6 +124,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
   L["TITAN_PANEL_MENU_DISABLED"] = "停用";
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift 左鍵";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右鍵";
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_POSITION"] = "Position";
+L["TITAN_PANEL_MENU_BAR"] = "Bar";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
+L["TITAN_PANEL_MENU_SHOW"] = "Show plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 
 	-- localization strings for AceConfigDialog-3.0     
   L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "顯示狀態列插件資訊。允許使用者在螢幕控制面板的上方或下方加入資料或快捷列插件。";			 
@@ -411,6 +431,9 @@ L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右鍵";
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
 				TooltipOptions = "Tooltip",
+				CostTotal = "Total cost",
+				CostBag = "Bag cost",
+				CostEquip = "Equip cost",
 	};
 	L["TITAN_REPAIR"] = "泰坦修理"
   L["TITAN_REPAIR_GBANK_TOTAL"] = "公會銀行資金 :"

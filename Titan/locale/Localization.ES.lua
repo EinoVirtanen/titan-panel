@@ -32,6 +32,19 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."Esto recargará el panel Titan."
 	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Cuidado:"..FONT_COLOR_CODE_CLOSE.."Esta opción reseteará la configuración de tus barras y panel a los valores por defecto, y recreará tu perfil actual. Si deseas continuar con esta opreación, pulsa 'Aceptar' (se recargará tu interface), de lo contrario pulsa 'Cancelar' o la tecla 'Escape'.";
+L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_EXTRAS_DESC"] = "Estos plugins tienen cambios en su configuración que aún no han sido cargados.\n"
+	.."Nota: Has de desconectar del juego para que la lista se actualice."
+L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Borar cambios de configuración"
+L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "eliminados los cambios de configuración."
+L["TITAN_PANEL_CHARS"] = "Personajes"
+L["TITAN_PANEL_CHARS_DESC"] = "Estos personajes tienen cambios en su configuración.\n"
+		.."Nota: Has de desconectar del juego para que la lista se actualice."
+L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Borrar datos del persojane"
+L["TITAN_PANEL_CHARS_DELETE_MSG"] = "eliminados los datos del personaje."
+L["TITAN_PANEL_REGISTER_START"] = "Registrar plugins Titans..."
+L["TITAN_PANEL_REGISTER_END"] = "Proceso de registro completado."
   
 	-- slash command help
 	L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -113,6 +126,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_DISABLED"] = "Desactivado";
 	L["TITAN_PANEL_SHIFT_LEFT"] = "Mayus-Izdo.";
 	L["TITAN_PANEL_SHIFT_RIGHT"] = "Mayus-Dcho.";
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Mostrar texto del plugin";
+L["TITAN_PANEL_MENU_POSITION"] = "Posición";
+L["TITAN_PANEL_MENU_BAR"] = "Barra";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Mostrar en Barra";
+L["TITAN_PANEL_MENU_SHOW"] = "Mostrar plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Actualizar plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Actualizar texto y posición de plugin";
 	
 	-- localization strings for AceConfigDialog-3.0     
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de la barra de información. Permite a los usuarios añadir orígenes de datos o plugins lanzadores en un panel de control situado en la parte superior o inferior de la pantalla.";			 
@@ -414,6 +434,9 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 		  		Discounts = "Descuentos",
 		  		Costs = "Costes",
 				TooltipOptions = "Tooltip",
+				CostTotal = "Total cost", -- english
+				CostBag = "Coste de bolsas",
+				CostEquip = "Coste del equipo",
 	};
 	L["TITAN_REPAIR"] = "Titan Repair"
 	L["TITAN_REPAIR_GBANK_TOTAL"] = "Efectivo en el banco de la Hermandad: "

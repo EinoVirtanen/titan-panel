@@ -25,13 +25,26 @@ if not L then return end
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Вы не можете удалить свой текущий профиль.";
 local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Внимание : "..FONT_COLOR_CODE_CLOSE
 local TITAN_PANEL_RELOAD_TEXT = "Если вы желаете продолжить данную операцию, нажмите 'Accept' (ваш UI будет перезагружен), емли нет, жмите 'Cancel' или клавишу 'Escape'."
-L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
+    L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
 	.."Данные настройки сбросять ваши панели на стандартные настройки и обновят ваш текущий профиль. "
 	..TITAN_PANEL_RELOAD_TEXT
-L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
+    L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."Это перезагрузит Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Предупреждение:"..FONT_COLOR_CODE_CLOSE.."Будут сброшены настройки ваших полос(ы) и панели на стандартные значения и будет пересоздан ваш текущий профиль. Если вы уверены в своих действиях, и хотите продолжить, то нажмите 'Accept' (ваш интерфей перезагрузится), или же нажмите 'Cancel' или клавишу 'Escape'.";
+    L["TITAN_PANEL_ATTEMPTS"] = "Подчинения"
+	L["TITAN_PANEL_EXTRAS"] = "Дополнения"
+    L["TITAN_PANEL_EXTRAS_DESC"] = "Есть плагины с данными конфигурации, которые в настоящее время не загружены.\n"
+	.."Заметка: Для изменений в этом списке, вы должны выйти из игры"
+    L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Удалить данные конфигурации"
+    L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "запись конфигурации была удалена."
+    L["TITAN_PANEL_CHARS"] = "Персонажи"
+    L["TITAN_PANEL_CHARS_DESC"] = "Тут есть персонажы с данными настройки.\n"
+		.."Заметка: Для изменений в этом списке, вы должны выйти из игры."
+    L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Удалить данные персонажа"
+    L["TITAN_PANEL_CHARS_DELETE_MSG"] = "данные персонажа были удалены."
+    L["TITAN_PANEL_REGISTER_START"] = "Регистрация Titan плагинов..."
+    L["TITAN_PANEL_REGISTER_END"] = "Процесс регистрации завершен."
 	
 	-- slash command help
 	L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Используйте: |cffffffff/tp {reset | reset tipfont/tipalpha/panelscale/spacing}";
@@ -111,8 +124,15 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Шрифт панели"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Включен";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Отключен";
-    L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
-    L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
+    L["TITAN_PANEL_SHIFT_LEFT"] = "Сдвиг в лева";
+    L["TITAN_PANEL_SHIFT_RIGHT"] = "Сдвиг в права";
+    L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Показать текст плагина";
+    L["TITAN_PANEL_MENU_POSITION"] = "Позиция";
+    L["TITAN_PANEL_MENU_BAR"] = "Панель";
+    L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Показать на панели";
+    L["TITAN_PANEL_MENU_SHOW"] = "Показать плагин";
+    L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Обновить плагины";
+    L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Обновить позицию и текст плагинов";
 	
 	-- localization strings for AceConfigDialog-3.0     
 	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Аддон отображения полосы информации. Позволяет пользователям добавлять вывод данных или плагины модуля запуска на верхнюю панель или нижнюю.";			 
@@ -411,8 +431,11 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 		  		ShowCosts = "Показать стоимость",
 		  		Items = "Предметы",
 		  		Discounts = "Скидки",
-		  		Costs = "Стоимость",
-				TooltipOptions = "Подсказка",
+		  		TooltipOptions = "Подсказка",
+				Costs = "Стоимость",
+				CostTotal = "Всего",
+				CostBag = "Того что в сумках",
+				CostEquip = "Того что на персонаже",
      };
   L["TITAN_REPAIR"] = "Titan - ремонт"
   L["TITAN_REPAIR_GBANK_TOTAL"] = "Средства гильд банка :"

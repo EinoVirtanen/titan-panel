@@ -240,13 +240,13 @@ function TitanUtils_RegisterPluginList()
 	local issue = ""
 	local id
 	if TitanPluginToBeRegisteredNum > 0 then
-		TitanDebug("Register Titan plugins...")
+		TitanDebug(L["TITAN_PANEL_REGISTER_START"])
 		for index, value in ipairs(TitanPluginToBeRegistered) do
 			if TitanPluginToBeRegistered[index] then
 				TitanUtils_RegisterPlugin(TitanPluginToBeRegistered[index])
 			end
 		end
-		TitanDebug("Registration process done.")
+		TitanDebug(L["TITAN_PANEL_REGISTER_END"])
 	end
 end
 

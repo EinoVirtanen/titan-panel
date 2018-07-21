@@ -1083,9 +1083,9 @@ function TitanPanelRepairButton_GetTooltipText()
 	if (TitanGetVar(TITAN_REPAIR_ID,"ShowCosts")) then
 		out = out..TitanUtils_GetGoldText(L["REPAIR_LOCALE"]["Costs"])
 		local sums = RepairSumTotals()
-		out = out .. "\n" .. TitanUtils_GetHighlightText("Total cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.total_cost)
-		out = out .. "\n" .. TitanUtils_GetHighlightText("Equip cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.equip_cost)
-		out = out .. "\n" .. TitanUtils_GetHighlightText("Bags cost").. "\t" .. TitanPanelRepair_GetTextGSC(sums.inven_cost)
+		out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["CostTotal"]).. "\t" .. TitanPanelRepair_GetTextGSC(sums.total_cost)
+		out = out .. "\n\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["CostEquip"]).. "\t" .. TitanPanelRepair_GetTextGSC(sums.equip_cost)
+		out = out .. "\n" .. TitanUtils_GetHighlightText(L["REPAIR_LOCALE"]["CostBag"]).. "\t" .. TitanPanelRepair_GetTextGSC(sums.inven_cost)
 		out = out .. "\n\n"
    end
 
