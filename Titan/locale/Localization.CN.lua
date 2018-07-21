@@ -262,6 +262,9 @@ if not L then return end
   L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Roll点";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "左键单击将Roll点.";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "右键点击选择Roll点类型.";
+  L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
      
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -337,6 +340,8 @@ if not L then return end
   L["TITAN_XP_UNKNOWN"] = "未知";
   L["TITAN_XP_KILLS_LABEL"] = "升级所需击杀数 (基于最后一个的经验 %d): ";
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "预估击杀数: ";
+  L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
      
   L["TITAN_REGEN_MENU_TEXT"] = "恢复"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "恢复速度"
@@ -387,15 +392,15 @@ if not L then return end
 		      ignoreThrown = "忽略投掷武器",
      };
 	
-	L["TITAN_REPAIR"] = "Titan Repair"
-  L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
-  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
-  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
-  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
-  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
-  L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
-  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
-  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+	L["TITAN_REPAIR"] = "Titan 修理"
+  L["TITAN_REPAIR_GBANK_TOTAL"] = "公会银行总资金 :"
+  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "公会银行允许的费用 :"
+  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "使用公会银行资金"
+  L["TITAN_REPAIR_GBANK_NOMONEY"] = "公会银行余额不足或者你超过了允许的使用量."
+  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "你没有公会或你没有权限使用公会资金来修理."
+  L["TITAN_REPAIR_CANNOT_AFFORD"] = "现在，至少，你没钱来修理."
+  L["TITAN_REPAIR_REPORT_COST_MENU"] = "报告修理费到聊天频道"
+  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "修理花费 "
      
   L["TITAN_PLUGINS_MENU_TITLE"] = "扩展模块"; 
   

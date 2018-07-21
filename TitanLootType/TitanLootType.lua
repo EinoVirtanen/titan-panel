@@ -38,11 +38,28 @@ function TitanPanelLootTypeButton_OnLoad(self)
                ShowIcon = 1,
                ShowLabelText = 1,
                RandomRoll = 100,
+               ShowDungeonDiff = false,
           }
      };     
 
     self:RegisterEvent("PARTY_MEMBERS_CHANGED");
     self:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
+    self:RegisterEvent("CHAT_MSG_SYSTEM");
+end
+
+function TitanPanelLootTypeButton_GetDungeonDifficultyText(withpar)
+ 	local diffstr = "|cffffff9a".._G["UNKNOWN"].."|r"
+ 	local par1, par2 = "", ""
+ 	local diff = GetCurrentDungeonDifficulty()
+ 	if withpar then par1, par2 = "(", ")" end
+ 	if diff == 1 then 
+ 		diffstr = _G["GREEN_FONT_COLOR_CODE"]..par1.._G["DUNGEON_DIFFICULTY1"]..par2.."|r"
+ 	elseif diff == 2 then		
+		diffstr = _G["RED_FONT_COLOR_CODE"]..par1.._G["DUNGEON_DIFFICULTY2"]..par2.."|r"
+	elseif diff == 3 and _G["DUNGEON_DIFFICULTY3"] then
+		diffstr = "|cffa335ee"..par1.._G["DUNGEON_DIFFICULTY3"]..par2.."|r"
+	end
+	return diffstr
 end
 
 -- **************************************************************************
@@ -50,7 +67,19 @@ end
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
 function TitanPanelLootTypeButton_OnEvent(self, event, ...)
-		 TitanPanelPluginHandle_OnUpdate({TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL})     
+			local arg1 = ...;
+			if event == "CHAT_MSG_SYSTEM" then
+				-- Match difficulty system message to alert addon for possible update
+  			local strm1 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY1"])
+  			local strm2 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY2"])
+  			local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY3"])
+  			
+  			if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
+  				TitanPanelPluginHandle_OnUpdate({TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL})
+				end
+				return;
+			end
+		 TitanPanelPluginHandle_OnUpdate({TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL})
 end
 
 -- **************************************************************************
@@ -59,7 +88,7 @@ end
 -- VARS : id = button ID
 -- **************************************************************************
 function TitanPanelLootTypeButton_GetButtonText(id)
-     local lootTypeText, lootThreshold, color;
+     local lootTypeText, lootThreshold, color, dungeondiff;
      if (GetNumPartyMembers() > 0) or (GetNumRaidMembers() > 0) then
           lootTypeText = TitanLootMethod[GetLootMethod()].text;
           lootThreshold = GetLootThreshold();
@@ -69,7 +98,13 @@ function TitanPanelLootTypeButton_GetButtonText(id)
           color = HIGHLIGHT_FONT_COLOR;
      end
      
-     return L["TITAN_LOOTTYPE_BUTTON_LABEL"], TitanUtils_GetColoredText(lootTypeText, color);
+     if TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
+     	dungeondiff = " "..TitanPanelLootTypeButton_GetDungeonDifficultyText(true)
+     else
+     	dungeondiff = "";
+     end
+     
+     return L["TITAN_LOOTTYPE_BUTTON_LABEL"], TitanUtils_GetColoredText(lootTypeText, color)..dungeondiff;
 end
 
 -- **************************************************************************
@@ -83,15 +118,17 @@ function TitanPanelLootTypeButton_GetTooltipText()
           local itemQualityDesc = _G["ITEM_QUALITY"..lootThreshold.."_DESC"];
           local color = ITEM_QUALITY_COLORS[lootThreshold];
           return ""..
-               LOOT_METHOD..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
-               LOOT_THRESHOLD..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..
+          			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyText().."\n"..
+               _G["LOOT_METHOD"]..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
+               _G["LOOT_THRESHOLD"]..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..               
                TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
                TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
-     else
-          return TitanUtils_GetNormalText(ERR_NOT_IN_GROUP).."\n"..
+    else
+          return L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyText().."\n"..
+          TitanUtils_GetNormalText(ERR_NOT_IN_GROUP).."\n"..
           TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
           TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
-     end
+    end
 end
 
 -- **************************************************************************
@@ -128,7 +165,7 @@ end
 -- DESC : Display rightclick menu options
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareLootTypeMenu()
-	if ( UIDROPDOWNMENU_MENU_LEVEL == 2 ) then
+	if UIDROPDOWNMENU_MENU_LEVEL == 2  and UIDROPDOWNMENU_MENU_VALUE == "RandomRoll" then
 	local info = {};
  
 	info.text = "100";
@@ -142,12 +179,62 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 	info.func = TitanPanelLootType_Random1000;
 	info.checked = TitanPanelLootType_GetRoll(info.value);
 	UIDropDownMenu_AddButton(info,UIDROPDOWNMENU_MENU_LEVEL);
+	
+ elseif UIDROPDOWNMENU_MENU_LEVEL == 2  and UIDROPDOWNMENU_MENU_VALUE == "SetDungeonDiff" then
+ local info = {};
+ info.text = _G["GREEN_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY1"].."|r";
+ info.func = function() SetDungeonDifficulty(1) end
+ info.checked = function() if tonumber(GetCurrentDungeonDifficulty()) == 1 then return true end return false end
+ local inParty = 0;
+ 	if (UnitExists("party1") or UnitInRaid("player")) then
+		inParty = 1;
+	end
+	local isLeader = 0;
+	 if (IsPartyLeader() or IsRaidLeader()) then
+		isLeader = 1;
+	 end
+	local inInstance = IsInInstance()
+	local playerlevel = UnitLevel("player")
+	 if inInstance or (inParty == 1 and isLeader == 0) or playerlevel < 65 then
+		info.disabled = 1
+	 else
+	 	info.disabled = false
+	 end
+ UIDropDownMenu_AddButton(info,UIDROPDOWNMENU_MENU_LEVEL);
+ 
+ info = {}
+ info.text = _G["RED_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY2"].."|r";
+ info.func = function() SetDungeonDifficulty(2) end
+ info.checked = function() if tonumber(GetCurrentDungeonDifficulty()) == 2 then return true end return false end
+ local inParty = 0;
+ 	if (UnitExists("party1") or UnitInRaid("player")) then
+		inParty = 1;
+	end
+	local isLeader = 0;
+	 if (IsPartyLeader() or IsRaidLeader()) then
+		isLeader = 1;
+	 end
+	local inInstance = IsInInstance()
+	local playerlevel = UnitLevel("player")
+	 if inInstance or (inParty == 1 and isLeader == 0) or playerlevel < 65 then
+		info.disabled = 1
+	 else
+	 	info.disabled = false
+	 end
+ UIDropDownMenu_AddButton(info,UIDROPDOWNMENU_MENU_LEVEL);
  
  else
      TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
-     local info;
-		 info = {};
+     local info = {};
+     TitanPanelRightClickMenu_AddToggleVar(L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"], TITAN_LOOTTYPE_ID, "ShowDungeonDiff")
+     info = {}
+     info.text = L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"];
+     info.value = "SetDungeonDiff";
+     info.hasArrow = 1;     
+     UIDropDownMenu_AddButton(info);
+     info = {};
 		 info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
+		 info.value = "RandomRoll";
      info.hasArrow = 1;
      UIDropDownMenu_AddButton(info);
      TitanPanelRightClickMenu_AddSpacer();

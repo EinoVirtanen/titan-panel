@@ -313,6 +313,7 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Scope %(%+(%d+) Critical Strike Rating%)", effect = "CRIT" },
 	{ pattern = "Scope %(%+(%d+) Damage%)", effect = "RANGEDDMG" },
 	
+	{ pattern = "Blindaje de titanio", effect = "BLOCKVALUE", value = 40 },
 	{ pattern = "Cadena de titanio", effect = "TOHIT", value = 28 },	
 	{ pattern = "Caminante del hielo", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
 	{ pattern = "Escarcha de alma", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
@@ -361,6 +362,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] = "ID de gema 3: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] = "Rojo";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "Azul";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "Amarillo";
+L["BONUSSCANNER_GEMPRISM_LABEL"] = "Prismático";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Nivel medio de objetos";
 L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Los cambios tendrán efecto cuando el interface se vuelva a cargar.";
 L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";

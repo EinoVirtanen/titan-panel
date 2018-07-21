@@ -1,3 +1,19 @@
+5.0 (hotfix) Tristanian 2009.06.02
+- Fixed an issue with the LDB feed not properly reporting special rating bonuses details, on the button (eg. defense, expertise).
+------------------------------------------------
+5.0 Tristanian 2009.05.24
+- Major update.
+- Added support for CUSTOM_CLASS_COLORS.
+- Added Titanium Plating bonus.
+- Added new pattern for Vitality.
+- Added some missings gem ID's (stormjewels etc).
+- Added ItemHasEnchant(itemlink) method.
+- Added GetEmptySockets(itemlink) method.
+- Modified the GetGemSum method to detect up to 4 gemmed sockets.
+- Added detection method for engineering enchants.
+- Added support for Prismatic Gems. Modified ScanEquipment method. It now returns bonuses, bonuses_details, RedGems, YellowGems, BlueGems, PrismaticGems, AverageiLevel.
+- Updated LDB feed to support the latest changes.
+------------------------------------------------
 4.9 Tristanian 2009.04.24
 - Implemented a 1 second delay when scanning a target via the /bscan target slash command to ensure gear is properly parsed and 
 bonuses are properly counted.

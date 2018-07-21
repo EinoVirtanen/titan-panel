@@ -9,7 +9,8 @@
 ## X-Category: Inventory
 ## X-Email: tristanian@live.com
 ## SavedVariables: BonusScannerBrokerConfig
-## Version: 1.1
+## Version: 1.2
+## X-Child-Of: BonusScanner
 
 embeds.xml
 locale\locale-enUS.lua

@@ -426,6 +426,24 @@ local function Titan_ManageVehicles()
 		TitanMovableModule:ScheduleTimer(Titan_ManageFramesNew, 1)
 end
 
+local function Titan_AdjustUIScale()	
+	-- Refresh panel scale and buttons	
+	TitanPanel_SetScale();
+								
+	TitanPanel_ClearAllBarTextures()
+	TitanPanel_CreateBarTextures()
+
+	TitanPanel_SetPosition("TitanPanelBarButton", TitanPanelGetVar("Position"));
+	TitanPanel_SetTexture("TitanPanelBarButton", TitanPanelGetVar("Position"));
+	TitanPanel_CreateBarTextures()
+	TitanPanel_SetTexture("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM);
+	-- Handle AutoHide
+	if (TitanPanelGetVar("AutoHide")) then TitanPanelBarButton_Hide("TitanPanelBarButton", TitanPanelGetVar("Position")) end
+	if (TitanPanelGetVar("AuxAutoHide")) then TitanPanelBarButton_Hide("TitanPanelAuxBarButton", TITAN_PANEL_PLACE_BOTTOM) end
+	TitanPanel_RefreshPanelButtons();
+end
+
+
 -- Titan Hooks
 -- Overwrite Blizzard Frame positioning functions	
 TitanMovableModule:SecureHook("TicketStatusFrame_OnEvent", Titan_TicketStatusFrame_OnEvent)
@@ -436,3 +454,10 @@ TitanMovableModule:SecureHook(WorldMapFrame, "Hide", Titan_ManageFramesNew)
 TitanMovableModule:SecureHook("UIParent_ManageFramePositions", Titan_ManageFramesNew)
 TitanMovableModule:SecureHook("VehicleSeatIndicator_SetUpVehicle", Titan_ManageVehicles)
 TitanMovableModule:SecureHook("VehicleSeatIndicator_UnloadTextures", Titan_ManageVehicles)
+-- Properly Adjust UI Scale if set
+-- Note: These are the least intrusive hooks we could think of, to properly adjust the Titan Bar(s)
+-- without having to resort to a SetCvar secure hook. Any addon using SetCvar should make sure to use the 3rd
+-- argument in the API call and trigger the CVAR_UPDATE event with an appropriate argument so that other addons
+-- can detect this behavior and fire their own functions (where applicable).
+TitanMovableModule:SecureHook("VideoOptionsFrameOkay_OnClick", Titan_AdjustUIScale)
+TitanMovableModule:SecureHook(VideoOptionsFrame, "Hide", Titan_AdjustUIScale)

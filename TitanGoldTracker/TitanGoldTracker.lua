@@ -343,10 +343,7 @@ function TitanPanelRightClickMenu_PrepareGoldTrackerMenu()
      -- Function to clear the enter database     
      local info = {};
      info.text = LB["TITAN_GOLDTRACKER_CLEAR_DATA_TEXT"];
-     info.func = function () 
-     local frame = _G["TitanPanelGoldTrackerButton"]
-     TitanPanelGoldTrackerButton_ClearData(frame)
-      end
+     info.func = TitanGoldTracker_ClearDB;
      UIDropDownMenu_AddButton(info);
      
      TitanPanelRightClickMenu_AddCommand(LB["TITAN_GOLDTRACKER_RESET_SESS_TEXT"], TITAN_GOLDTRACKER_ID, "TitanPanelGoldTrackerButton_ResetSession");
@@ -657,4 +654,21 @@ function TitanGoldTracker_OpenCoinPickupFrame(multiplier, maxMoney, parent)
      end
      CoinPickupFrame:Show();
      --PlaySound("igBackPackCoinSelect");
+end
+
+function TitanGoldTracker_ClearDB()
+	StaticPopupDialogs["TITANGOLDTRACKER_CLEAR_DATABASE"] = {
+	text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"].." "..LB["TITAN_GOLDTRACKER_MENU_TEXT"]).."\n\n"..LB["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = function(self)
+	local frame = _G["TitanPanelGoldTrackerButton"]
+  TitanPanelGoldTrackerButton_ClearData(frame)
+	end,	
+	showAlert = 1,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = 1
+	};
+	StaticPopup_Show("TITANGOLDTRACKER_CLEAR_DATABASE");
 end

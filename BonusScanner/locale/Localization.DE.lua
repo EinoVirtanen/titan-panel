@@ -356,6 +356,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] = "Edelstein3 ID: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] = "Rot";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "Blau";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "Gelb";
+L["BONUSSCANNER_GEMPRISM_LABEL"] = "Prismatic";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
 L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Changes will take effect after the UI has been reloaded.";
 L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";

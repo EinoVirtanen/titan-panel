@@ -356,6 +356,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] 		= "ID de la gemme 3: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] 		= "Rouge";
 L["BONUSSCANNER_GEMBLUE_LABEL"] 		= "Bleu";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] 		= "Jaune";
+L["BONUSSCANNER_GEMPRISM_LABEL"] = "Prismatique";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
 L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Les changements prendront effet apr\195\168s rechargement de l'UI.";
 L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "Plugin LDB BonusScanner ";

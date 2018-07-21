@@ -30,3 +30,4 @@ if not L then return end
 	L["TITAN_GOLDTRACKER_DELETE_PLAYER"] = "Eliminar personaje";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY"] = "Alianza";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE"] = "Horda";
+	L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Cuidado: "..FONT_COLOR_CODE_CLOSE.."Esta opción purgará los datos de Gold Tracker. Si deseas seguir con esta operación, pulsa 'Aceptar', de lo contrario pulsa 'Cancelar' o la tecla 'Escape'.";

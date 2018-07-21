@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.6 Beta May 2nd, 2009                    --
+--   Latest version: 2.7 Beta May 16th, 2009                   --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -296,13 +296,16 @@ function LDBToTitan:TitanLDBTextUpdate(_, name,  attr, value, dataobj)
   --DEFAULT_CHAT_FRAME:AddMessage("LDB:"..name..".".. attr.. " was changed to ".. tostring(value))
   --end
   if attr == "value" then
-  LDBAttrs[name].value = value;
+  	LDBAttrs[name].value = value;
   end
   if attr == "suffix" then
-  LDBAttrs[name].suffix = value;
+  	LDBAttrs[name].suffix = value;
   end
   if attr == "text" then
-  LDBAttrs[name].text = value;
+  	LDBAttrs[name].text = value;
+  end
+  if attr == "label" then
+  	LDBAttrs[name].label = value;
   end
   TitanPanelButton_UpdateButton("LDBT_"..name)
 end
@@ -425,6 +428,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
        else
        	LDBAttrs[name].label = "";
        end
+       ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_label", "TitanLDBTextUpdate") -- register the label callback anyway in case a plugin changes label 
        
        if obj.suffix then
        	LDBAttrs[name].suffix = obj.suffix;
@@ -447,7 +451,7 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
        	else
        		LDBAttrs[name].text = name;
        	end
-       	 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_text", "TitanLDBTextUpdate") -- register the callback anyhow in case a plugin changes text via a timed update
+       	 ldb.RegisterCallback(self, "LibDataBroker_AttributeChanged_"..name.."_text", "TitanLDBTextUpdate") -- register the callback anyway in case a plugin changes text via a timed update
        end
          
        

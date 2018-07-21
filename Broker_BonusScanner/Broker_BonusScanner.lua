@@ -17,7 +17,7 @@ end)
 
 local _G = getfenv(0)
 local BSVersion = GetAddOnMetadata("BonusScanner", "Version")
-local bonuses, AverageiLvl, GRed, GYellow, GBlue = {}, 0, 0, 0, 0
+local bonuses, AverageiLvl, GRed, GYellow, GBlue, GPrismatic = {}, 0, 0, 0, 0, 0
 
 local BONUSSCANNER_EFFECTS = {
 	{ effect = "STR", cat = "ATT" },
@@ -985,6 +985,7 @@ function BSBroker:Update()
 	GRed = BonusScanner.GemsRed or 0
 	GYellow = BonusScanner.GemsYellow or 0
 	GBlue = BonusScanner.GemsBlue or 0
+	GPrismatic = BonusScanner.GemsPrismatic or 0
 	self:ButtonUpdate()
 end
 
@@ -1006,8 +1007,8 @@ function BSBroker:ButtonUpdate()
 						for _,e in pairs (BONUSSCANNER_EFFECTS) do
 							if e.effect == i and e.pformat then							
 								local level = UnitLevel("player")
-								local specialrating, normalrating = BonusScanner:ProcessSpecialBonus (i, bonuses[i], level)
-									if i == "TOHIT" or (i == "HASTE" and specialrating ~= "") then
+								local specialrating, normalrating = BonusScanner:ProcessSpecialBonus (i, bonuses[i], level)									
+										if specialrating ~= "" then
 										table.insert(buttonlist, specialrating.."  ") -- specialrating is already formatted
 									else
 										table.insert(buttonlist, format(e.pformat, normalrating).."  ") -- we have to format normalrating
@@ -1078,7 +1079,7 @@ function BSBroker.obj.OnTooltipShow(tooltip)
 	
 	-- Handle Gems (BonusScanner version 3.2 and above)
 	
-	if (GRed ~= 0 or GYellow ~= 0 or GBlue ~= 0) and BSVersion >= "3.2" and BonusScannerBrokerConfig.ShowGems then
+	if (GRed ~= 0 or GYellow ~= 0 or GBlue ~= 0 or GPrismatic ~= 0) and BSVersion >= "3.2" and BonusScannerBrokerConfig.ShowGems then
 		tooltip:AddLine(" ")
 		tooltip:AddLine(_G["GREEN_FONT_COLOR_CODE"]..L["BONUSSCANNER_CAT_GEMS"]..":".."|r")	
 		if GRed ~= 0 then
@@ -1089,6 +1090,9 @@ function BSBroker.obj.OnTooltipShow(tooltip)
 		end	
 		if GBlue ~= 0 then
 			tooltip:AddDoubleLine(L["BONUSSCANNER_GEMCOUNT_LABEL"].."|cff2459ff"..L["BONUSSCANNER_GEMBLUE_LABEL"]..":", _G["HIGHLIGHT_FONT_COLOR_CODE"]..GBlue)
+		end
+		if GPrismatic ~= 0 then
+			tooltip:AddDoubleLine(L["BONUSSCANNER_GEMCOUNT_LABEL"].._G["HIGHLIGHT_FONT_COLOR_CODE"]..L["BONUSSCANNER_GEMPRISM_LABEL"]..":", _G["HIGHLIGHT_FONT_COLOR_CODE"]..GPrismatic)
 		end
 	end
 end

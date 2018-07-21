@@ -101,12 +101,12 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "R\195\169initialiser Titan Panel";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Param\195\168tres du skin";
 	L["TITAN_PANEL_MENU_FONT"] = "Police";
-	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
+	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Police de Titan"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Activ\195\169";
 	L["TITAN_PANEL_MENU_DISABLED"] = "D\195\169sactiv\195\169";
 
 	-- localization strings for AceConfigDialog-3.0
-	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de barres d'informations. Permet aux utilisateurs d'ajouter des plugins sur les barres placées en haut et/ou en bas de l'écran.";
+	L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Addon de barres d'informations. Permet aux utilisateurs d'ajouter des plugins sur les barres plac\195\169es en haut et/ou en bas de l'\195\169cran.";
 	L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparence";
 	L["TITAN_TRANS_MENU_DESC"] = "Ajuste la transparence pour les barres Titan et les tooltips.";
 	L["TITAN_TRANS_MAIN_CONTROL_TITLE"] = "Barre principale";
@@ -147,11 +147,11 @@ if not L then return end
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes :|r Lors de l'ajout d'un nouveau skin, assurez-vous que le dossier contenant votre artwork a bien \195\169t\195\169 cr\195\169\195\169 avant de charger 'World of Warcraft' et que le chemin entr\195\169 ici y corresponde exactement (les chemins sont sensibles \195\160 la casse et se terminent toujours par '\\' ).";
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "R\195\169init. la liste";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "R\195\169initialise la liste de skin aux skins int\195\169gr\195\169s.";
-	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
-	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
-	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
-	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
-	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "S\195\169lectionne la police pour les divers plugins sur les barres de Titan.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Taille de police";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "S\195\169lectionne la taille des polices pour les divers plugins sur les barres de Titan.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Altitude des frames";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Ajuste l'altitude des frames pour les barres de Titan.";
 	-- /end localization strings for AceConfigDialog-3.0
 
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage auto du panneau on/off";
@@ -183,7 +183,7 @@ if not L then return end
 	L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorer les emplacements des sacs sp\195\169cifiques aux m\195\169tiers";
 	L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Cartouchi\195\168re","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"}; -- how to find these items? partial search or full name?
 	L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Petite bourse d'\195\162me","Bo\195\174te d'\195\162mes","Bourse d'\195\162me","Sac en gangr\195\169toffe","Ombresac d'\195\169b\195\168ne","Sac en gangr\195\169toffe du Magma", "Sac abyssal"};
-	L["TITAN_BAG_PROF_BAG_NAMES"] = {"Bourse enchant\195\169e en tisse-mage","Sac enchant\195\169 en \195\169toffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac mystérieux","Bourse d'herbes","Sac d'herbes c\195\169narien","Sacoche de C\195\169narius","Lourde bo\195\174te \195\160 outils","Bo\195\174te \195\160 outils en gangrefer","Boîte à outils en khorium","Bourse de gemmes","Sac de joyaux","Sac de mineur","Sac de mineur renforc\195\169","Sac de mineur colossal","Sacoche d'artisan du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur","Sac de botanique de Mycah","Sacoche de calligraphie","Sac des poches infinies"};
+	L["TITAN_BAG_PROF_BAG_NAMES"] = {"Bourse enchant\195\169e en tisse-mage","Sac enchant\195\169 en \195\169toffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac myst\195\169rieux","Bourse d'herbes","Sac d'herbes c\195\169narien","Sacoche de C\195\169narius","Lourde bo\195\174te \195\160 outils","Bo\195\174te \195\160 outils en gangrefer","Boîte \195\160 outils en khorium","Bourse de gemmes","Sac de joyaux","Sac de mineur","Sac de mineur renforc\195\169","Sac de mineur colossal","Sacoche d'artisan du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur","Sac de botanique de Mycah","Sacoche de calligraphie","Sac des poches infinies"};
 
 	L["TITAN_BGMINIMAP_MENU_TEXT"] = "Minicarte du champ de bataille"
 	L["TITAN_BGMINIMAP_TOOLTIP"] = "Afficher/Cacher la minicarte du champ de bataille"
@@ -262,6 +262,9 @@ if not L then return end
 	L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Lancer les d\195\169s";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Astuce : clic pour un jet de d\195\169s.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "S\195\169lectionnez la plage du lancer de d\195\169s via le clic droit.";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Difficult\195\169 du donjon";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Affiche la difficult\195\169 du donjon";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Change la difficult\195\169 du donjon";
 
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."Mo";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -337,6 +340,8 @@ if not L then return end
 	L["TITAN_XP_UNKNOWN"] = "Inconnu";
 	L["TITAN_XP_KILLS_LABEL"] = "Mobs \195\160 tuer avant niveau (\195\160 %d XP par mob) : ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Mobs \195\160 tuer : ";
+	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Temps jou\195\169 pour cette session : ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Montrer le temps jou\195\169 pour cette session";
 
 	L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Taux de regen"
@@ -387,13 +392,13 @@ if not L then return end
 		ignoreThrown = "Ignorer les armes de jet",
 	};
 	L["TITAN_REPAIR"] = "Titan Repair"
-  L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
-  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
-  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
-  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
-  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
-  L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
-  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
-  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+	L["TITAN_REPAIR_GBANK_TOTAL"] = "Fonds de la banque de guilde :"
+	L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Retrait autoris\195\169 :"
+	L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Utiliser les fonds de la banque de guilde"
+	L["TITAN_REPAIR_GBANK_NOMONEY"] = "La banque de guilde ne peut pas payer les r\195\169parations, ou vous ne pouvez pas retirer autant."
+	L["TITAN_REPAIR_GBANK_NORIGHTS"] = "Vous n'\195\170tes soit pas dans une guilde, soit vous n'avez pas le droit d'utiliser la banque de guilde pour r\195\169parer vos objets."
+	L["TITAN_REPAIR_CANNOT_AFFORD"] = "Vous n'avez pas assez pour payer les r\195\169parations."
+	L["TITAN_REPAIR_REPORT_COST_MENU"] = "Annoncer les co\195\187t de r\195\169paration sur le chat"
+	L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Co\195\187t des r\195\169parations : "
 
 	L["TITAN_PLUGINS_MENU_TITLE"] = "Plug-ins";

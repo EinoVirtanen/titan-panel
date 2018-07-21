@@ -101,7 +101,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_RESET"] = "Сброс панели на стандарт";
 	L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Настройки шкурки";	
 	L["TITAN_PANEL_MENU_FONT"] = "Шрифт";
-	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
+	L["TITAN_PANEL_MENU_LSM_FONTS"] = "Шрифт панели"
 	L["TITAN_PANEL_MENU_ENABLED"] = "Включен";
 	L["TITAN_PANEL_MENU_DISABLED"] = "Отключен";
 	
@@ -147,11 +147,11 @@ if not L then return end
 	L["TITAN_SKINS_NOTES"] = "|cff19ff19Совет:|r Добавляя новую шкурку, пожалуйста убедитесь, что папка, содержащая ваши художественные работы, была создана до загрузки 'World of Warcraft', и путь, введенный здесь, полностью соответствует реальному пути (пути вводите с учетом регистра и всегда заканчивайте '\\' символами).";
 	L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Сброс на стандартные значения";
 	L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Сбросить список шкурок на стандартное значение.";
-	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
-	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
-	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
-	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
-	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
+	L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Выберите тип шрифтов для различных плагинов на Титан панеле.";
+	L["TITAN_PANEL_MENU_FONT_SIZE"] = "Размер шрифта";
+	L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Установка размера шрифта панели.";
+	L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Слои фрейма панели";
+	L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Регулировка слоя фрейма панелей Титана.";
 	-- /end localization strings for AceConfigDialog-3.0
 	
 	L["TITAN_AUTOHIDE_TOOLTIP"] = "Авто-скрытие панели вкл/выкл";
@@ -262,6 +262,9 @@ if not L then return end
 	L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Случайный бросок костей";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Совет: ЛКМ для броска костей.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Совет: ПКМ для выбора типа броска костей из меню.";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."мб";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -337,6 +340,8 @@ if not L then return end
 	L["TITAN_XP_UNKNOWN"] = "неизвестно";
 	L["TITAN_XP_KILLS_LABEL"] = "Убийств до уровня (%d опыта полученно): ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. Убийств: ";
+	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Регенерация"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Информация о регенерации"
@@ -359,12 +364,12 @@ if not L then return end
           menu = "Информация о прочности амуниции",
           tooltip = "Информация о прочности амуниции",
           button = "Прочность: ",
-          normal = "Стоимость реставрации (Стандарт): ",
-          friendly = "Стоимость реставрации (Дружелюбие): ",
-          honored = "Стоимость реставрации (Уважение): ",
-          revered = "Стоимость реставрации (Почтение): ",
-          exalted = "Стоимость реставрации (Превознесение): ",
-          buttonNormal = "Показать Стандарт",
+          normal = "Стоимость ремонта (Стандарт): ",
+          friendly = "Стоимость ремонта (Дружелюбие): ",
+          honored = "Стоимость ремонта (Уважение): ",
+          revered = "Стоимость ремонта (Почтение): ",
+          exalted = "Стоимость ремонта (Превознесение): ",
+          buttonNormal = "Показать обычное",
           buttonFriendly = "Показать Дружелюбие (5%)",
           buttonHonored = "Показать Уважение (10%)",
           buttonRevered = "Показать Почтение (15%)",
@@ -376,24 +381,24 @@ if not L then return end
           undamaged = "Показывать неповреждённые предметы",
           discount = "Скидка",
           nothing = "Нет поврежденных вещей.",
-          confirmation = "Вы хотите отреставрировать все одетые предметы?",
-          badmerchant = "Этот торговец не может реставрировать.",
-          popup = "Показать всплывающее меню реставрации",
+          confirmation = "Вы хотите отремонтировать все одетые предметы?",
+          badmerchant = "Этот торговец не может ремонтировать.",
+          popup = "Показать всплывающее меню ремонта",
           showinventory = "Подсчет повреждение инвентаря",
           WholeScanInProgress = "Обновление...",
-          AutoReplabel = "Авто-Рестоврация",
-          AutoRepitemlabel = "Авто-Рестоврация всех предметов",
-          ShowRepairCost = "Отображать стоимость рестоврации",
-		  ignoreThrown = "Игнорировать метательное оруж.",
+          AutoReplabel = "Авто-Ремонт",
+          AutoRepitemlabel = "Авто-Ремонт всех предметов",
+          ShowRepairCost = "Отображать стоимость ремонта",
+		  ignoreThrown = "Игнорировать метательное оружые",
      };
-	L["TITAN_REPAIR"] = "Titan Repair"
-  L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
-  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
-  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
-  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
-  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
-  L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
-  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
-  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+  L["TITAN_REPAIR"] = "Titan - ремонт"
+  L["TITAN_REPAIR_GBANK_TOTAL"] = "Средства гильд банка :"
+  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Доступная сумма из гильд банка :"
+  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Использовать средства гильд банка"
+  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Гильд Банк не в состоянии заплотить за ремонт, или вы не можете воспользоваться такой суммой."
+  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "Вы не состоите в гильдии либо у вас нет полномочий использовать средства с гильд банка для ремонта ваших предметов."
+  L["TITAN_REPAIR_CANNOT_AFFORD"] = "В данный момент вы не в состоянии отремонтироваться."
+  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Сообщить цену ремонта в чат"
+  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Ремонт обошелся в "
      
 	L["TITAN_PLUGINS_MENU_TITLE"] = "Плагины";

@@ -9,7 +9,6 @@ L["BONUSSCANNER_NAMES"] = {
 	SPI 		= "Spirit",
 	ARMOR 	= "Armor",
 
-
 --Resistances
 	ARCANERES = "Arcane Resistance",	
 	FIRERES 	= "Fire Resistance",
@@ -313,11 +312,18 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "%+18 Stamina and  Stun Duration Reduced by 15%% Stun Resist", effect = {"STA", "PERCSTUN"}, value = {18, 15} },
 	{ pattern = "%+18 Spell Power and %+4 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {18, 4} },
 	{ pattern = "%+24 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {24, 6} },
-	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },	
+	{ pattern = "%+61 Spell Power and %+6 Mana/5 seconds", effect = {"SPELLPOW", "MANAREG"}, value = {61, 6} },
 	
+-- Death Knight Runes
+	{ pattern = "Rune of Spellbreaking", effect = "PERCSILENCE", value = 50 },
+	{ pattern = "Rune of Spellshattering", effect = "PERCSILENCE", value = 50 },
+	{ pattern = "Rune of the Stoneskin Gargoyle", effect = "DEFENSE", value = 25 },
+
 -- rest of custom patterns
   { pattern = "Increases attack power by (%d+) in Cat, Bear, Dire Bear, and Moonkin forms only%.", effect = "ATTACKPOWERFERAL" },
 	{ pattern = "Mana Regen (%d+) per 5 sec", effect = "MANAREG" },
+	{ pattern = "%+(%d+)% Health and Mana every 5 sec", effect = {"MANAREG", "HEALTHREG"} },
+	
 	{ pattern = "Reinforced %(%+(%d+) Armor%)", effect = "ARMOR" },
 	{ pattern = "%+2%% Threat and 10 Parry Rating", effect = {"THREATINCREASE","PARRY"}, value = {2 , 10} },
 	{ pattern = "%+(%d+)%% Threat", effect = "THREATINCREASE" },
@@ -329,7 +335,8 @@ L["BONUSSCANNER_PATTERNS_OTHER"] = {
 	{ pattern = "Greater Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {6, 6} },
 	{ pattern = "Vitality", effect = { "MANAREG", "HEALTHREG"}, value = {4, 4} },
 	{ pattern = "Accuracy", effect = { "CRIT", "TOHIT"}, value = {25, 25} },
-	{ pattern = "Titanium Weapon Chain", effect = "TOHIT", value = 28 },	
+	{ pattern = "Titanium Weapon Chain", effect = "TOHIT", value = 28 },
+	{ pattern = "Titanium Plating", effect = "BLOCKVALUE", value = 40 },
 	{ pattern = "Icewalker", effect = { "CRIT", "TOHIT"}, value = {12, 12} },
 	{ pattern = "Soulfrost", effect = {"FROSTDMG", "SHADOWDMG"}, value = {54, 54} },
 	{ pattern = "Sunfire", effect = {"ARCANEDMG", "FIREDMG"}, value = {50, 50} },
@@ -374,6 +381,7 @@ L["BONUSSCANNER_GEM3ID_LABEL"] = "Gem3 ID: |cffffffff";
 L["BONUSSCANNER_GEMRED_LABEL"] = "Red";
 L["BONUSSCANNER_GEMBLUE_LABEL"] = "Blue";
 L["BONUSSCANNER_GEMYELLOW_LABEL"] = "Yellow";
+L["BONUSSCANNER_GEMPRISM_LABEL"] = "Prismatic";
 L["BONUSSCANNER_AVERAGE_ILVL_LABEL"] = "Average item Level";
 L["BONUSSCANNER_NEEDS_RELOADUI_LABEL"] = "Changes will take effect after the UI has been reloaded.";
 L["BONUSSCANNER_LDB_PLUGIN_LABEL"] = "BonusScanner LDB Plugin ";

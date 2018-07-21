@@ -261,6 +261,9 @@ if not L then return end
   L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "隨機擲骰";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "提示: 左鍵隨機擲骰。";
   L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "右鍵從選單中選擇擲骰類型。";
+  L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
 	
   L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
   L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -336,6 +339,8 @@ if not L then return end
   L["TITAN_XP_UNKNOWN"] = "未知";
   L["TITAN_XP_KILLS_LABEL"] = "升級還需的擊殺數(上次獲得 %d EXP): ";
   L["TITAN_XP_KILLS_LABEL_SHORT"] = "預估擊殺數: ";
+  L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
 	
   L["TITAN_REGEN_MENU_TEXT"] = "角色恢復速度"
   L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]	= "恢復速率"
@@ -385,15 +390,15 @@ if not L then return end
           ShowRepairCost = "顯示修裝費用",
 		      ignoreThrown = "忽略投擲武器",
 	};
-	L["TITAN_REPAIR"] = "Titan Repair"
-  L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
-  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
-  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
-  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
-  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
-  L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
-  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
-  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+	L["TITAN_REPAIR"] = "泰坦修理"
+  L["TITAN_REPAIR_GBANK_TOTAL"] = "公會銀行資金 :"
+  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "你可以使用的資金 :"
+  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "使用公會資金修理"
+  L["TITAN_REPAIR_GBANK_NOMONEY"] = "公會資金不足或者你超過了允許的修理費用."
+  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "你沒有公會或者你沒有使用公會資金修理的許可."
+  L["TITAN_REPAIR_CANNOT_AFFORD"] = "你現在支付不起修理費用."
+  L["TITAN_REPAIR_REPORT_COST_MENU"] = "輸出修理費用到聊天頻道"
+  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "修理費用是 "
 
   L["TITAN_PLUGINS_MENU_TITLE"] = "擴展插件";
   

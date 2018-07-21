@@ -1,5 +1,5 @@
 ﻿--------------------------------------------------
--- BonusScanner Continued v4.9
+-- BonusScanner Continued v5.0
 -- Originally developed by Crowley <crowley@headshot.de>
 -- performance improvements by Archarodim
 -- Updated for WoW 2.0 by jmlsteele
@@ -15,7 +15,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("BonusScanner", true)
 local _G = getfenv(0);
 
 -- Initialize globals/tables
-local BONUSSCANNER_VERSION = "4.9";
+local BONUSSCANNER_VERSION = "5.0";
 
 -- Patterns
 local BONUSSCANNER_PATTERN_SETNAME = "^(.*) %(%d/%d%)$";
@@ -26,6 +26,7 @@ local bsDPSTemplate1 = string.gsub(_G["DPS_TEMPLATE"], "%%.1f", "(%%d+%%.%%d+)")
 local bsDPSTemplate2 = string.gsub(_G["DPS_TEMPLATE"], "%%.1f", "(%%d+%%,%%d+)")
   
 local ItemCache = {}; -- Cache table for items
+local nosetcheck;
   
 BonusScanner = {
 	bonuses = {};
@@ -38,6 +39,7 @@ BonusScanner = {
 		GemsRed = 0; 
 		GemsYellow = 0;
 		GemsBlue = 0;
+		GemsPrismatic = 0;
 		
 		-- average item level
 		AverageiLvl = 0;
@@ -52,6 +54,7 @@ BonusScanner = {
 		GemsRed = 0,
 		GemsYellow = 0,
 		GemsBlue = 0,
+		GemsPrismatic = 0,
 		AverageiLvl = 0
 	};
 
@@ -148,8 +151,8 @@ local BonusScanner_Gems = {
 { itemID = "25894", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Swift Skyfire Diamond
 { itemID = "25898", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Tenacious Earthstorm Diamond
 	-- Enchanter Created
-{ itemID = "22460", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Prismatic Sphere
-{ itemID = "22459", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Void Sphere
+{ itemID = "22460", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Prismatic Sphere
+{ itemID = "22459", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Void Sphere
 	-- PvP Purchased Rare Meta Gems (Terrokar Spirit Towers)
 { itemID = "28557", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Swift Starfire Diamond
 { itemID = "28556", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Swift Windfire Diamond
@@ -329,20 +332,22 @@ local BonusScanner_Gems = {
 -- WOTLK !
 -- Red
 { itemID = "40111", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Bold Cardinal Ruby
+{ itemID = "45862", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Bold Stormjewel
 { itemID = "40114", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Bright Cardinal Ruby
 { itemID = "40112", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Delicate Cardinal Ruby
+{ itemID = "45879", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Delicate Stormjewel
 { itemID = "40116", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Flashing Cardinal Ruby
 { itemID = "40117", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Fractured Cardinal Ruby
 { itemID = "34835", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Omar's Gem of POWAH
 { itemID = "40118", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Precise Cardinal Ruby
 { itemID = "40113", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Runed Cardinal Ruby
+{ itemID = "45883", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Runed Stormjewel
 { itemID = "40115", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Subtle Cardinal Ruby
 { itemID = "39996", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Bold Scarlet Ruby
 { itemID = "39999", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Bright Scarlet Ruby
 { itemID = "39997", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Delicate Scarlet Ruby
 { itemID = "40001", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Flashing Scarlet Ruby
 { itemID = "40002", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Fractured Scarlet Ruby
-{ itemID = "40003", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Precise Scarlet Ruby
 { itemID = "40003", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Precise Scarlet Ruby
 { itemID = "39998", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Runed Scarlet Ruby
 { itemID = "40000", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Subtle Scarlet Ruby
@@ -365,9 +370,12 @@ local BonusScanner_Gems = {
 { itemID = "39907", red = 1, yellow = 0, blue = 0, meta = 0 }, -- Subtle Bloodstone
 -- Yellow
 { itemID = "40123", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Brilliant King's Amber
+{ itemID = "45882", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Brilliant Stormjewel
+{ itemID = "44066", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Kharmaa's Grace
 { itemID = "40127", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Mystic King's Amber
 { itemID = "40128", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Quick King's Amber
 { itemID = "40125", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Rigid King's Amber
+{ itemID = "45987", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Rigid Stormjewel
 { itemID = "40124", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Smooth King's Amber
 { itemID = "40126", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Thick King's Amber
 { itemID = "40012", red = 0, yellow = 1, blue = 0, meta = 0 }, -- Brilliant Autumn's Glow
@@ -391,7 +399,9 @@ local BonusScanner_Gems = {
 -- Blue
 { itemID = "40121", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Lustrous Majestic Zircon
 { itemID = "40119", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Solid Majestic Zircon
+{ itemID = "45880", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Solid Stormjewel
 { itemID = "40120", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Sparkling Majestic Zircon
+{ itemID = "45881", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Sparkling Stormjewel
 { itemID = "40122", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Stormy Majestic Zircon
 { itemID = "40010", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Lustrous Sky Sapphire
 { itemID = "37430", red = 0, yellow = 0, blue = 1, meta = 0 }, -- Solid Sky Sapphire
@@ -657,28 +667,28 @@ local BonusScanner_Gems = {
 { itemID = "44089", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Trenchant Earthshatter Diamond
 { itemID = "41382", red = 0, yellow = 0, blue = 0, meta = 1 }, -- Trenchant Earthsiege Diamond
 -- Prismatic
-{ itemID = "42142", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Bold Dragon's Eye
-{ itemID = "36766", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Bright Dragon's Eye
-{ itemID = "42148", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Brilliant Dragon's Eye
-{ itemID = "42143", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Delicate Dragon's Eye
-{ itemID = "42152", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Flashing Dragon's Eye
-{ itemID = "42153", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Fractured Dragon's Eye
-{ itemID = "42146", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Lustrous Dragon's Eye
-{ itemID = "42158", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Mystic Dragon's Eye
-{ itemID = "42154", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Precise Dragon's Eye
-{ itemID = "42150", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Quick Dragon's Eye
-{ itemID = "42156", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Rigid Dragon's Eye
-{ itemID = "42144", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Runed Dragon's Eye
-{ itemID = "42149", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Smooth Dragon's Eye
-{ itemID = "36767", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Solid Dragon's Eye
-{ itemID = "42145", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Sparkling Dragon's Eye
-{ itemID = "42155", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Stormy Dragon's Eye
-{ itemID = "42151", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Subtle Dragon's Eye
-{ itemID = "42157", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Thick Dragon's Eye
-{ itemID = "34143", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Chromatic Sphere
-{ itemID = "42702", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Enchanted Tear
-{ itemID = "34142", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Infinite Sphere
-{ itemID = "42701", red = 1, yellow = 1, blue = 1, meta = 0 }, -- Enchanted Pearl
+{ itemID = "42142", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Bold Dragon's Eye
+{ itemID = "36766", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Bright Dragon's Eye
+{ itemID = "42148", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Brilliant Dragon's Eye
+{ itemID = "42143", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Delicate Dragon's Eye
+{ itemID = "42152", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Flashing Dragon's Eye
+{ itemID = "42153", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Fractured Dragon's Eye
+{ itemID = "42146", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Lustrous Dragon's Eye
+{ itemID = "42158", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Mystic Dragon's Eye
+{ itemID = "42154", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Precise Dragon's Eye
+{ itemID = "42150", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Quick Dragon's Eye
+{ itemID = "42156", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Rigid Dragon's Eye
+{ itemID = "42144", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Runed Dragon's Eye
+{ itemID = "42149", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Smooth Dragon's Eye
+{ itemID = "36767", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Solid Dragon's Eye
+{ itemID = "42145", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Sparkling Dragon's Eye
+{ itemID = "42155", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Stormy Dragon's Eye
+{ itemID = "42151", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Subtle Dragon's Eye
+{ itemID = "42157", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Thick Dragon's Eye
+{ itemID = "34143", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Chromatic Sphere
+{ itemID = "42702", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Enchanted Tear
+{ itemID = "34142", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Infinite Sphere
+{ itemID = "42701", red = 0, yellow = 0, blue = 0, meta = 0, prismatic = 1 }, -- Enchanted Pearl
 };
 
 -- bonus effects, basically a refined version of bonus names indexed by category
@@ -792,19 +802,26 @@ local HasteClasses31 = {
 	DRUID = true
 }
 
+local SpecialEnchants = {
+[3605] = { AGI = 15, }, -- Flexweave underlay
+[3859] = { SPELLPOW = 18, }, -- Springy Arachnoweave
+[3606] = { CRIT = 16, }, -- Nitro Boosts
+}
+
 local function ClassColorise(class, localizedclass)
 if not class then return localizedclass or "" end
 	local classUpper = strupper(class)
 	local pclass = string.gsub(classUpper, " ", "")
-	local r = string.format("%x", math.floor(_G["RAID_CLASS_COLORS"][pclass].r * 255))
+	local colortable = _G["CUSTOM_CLASS_COLORS"] or _G["RAID_CLASS_COLORS"]
+	local r = string.format("%x", math.floor(colortable[pclass].r * 255))
 	if strlen(r) == 1 then
 		r = "0"..r
 	end
-	local g = string.format("%x", math.floor(_G["RAID_CLASS_COLORS"][pclass].g * 255))
+	local g = string.format("%x", math.floor(colortable[pclass].g * 255))
 	if strlen(g) == 1 then
 		g = "0"..g
 	end
-	local b = string.format("%x", math.floor(_G["RAID_CLASS_COLORS"][pclass].b * 255))
+	local b = string.format("%x", math.floor(colortable[pclass].b * 255))
 	if strlen(b) == 1 then
 		b = "0"..b
 	end
@@ -890,6 +907,42 @@ function BonusScanner:GetSlotBonus(bonus, slotname)
 	return 0;
 end
 
+function BonusScanner:ItemHasEnchant(itemlink)
+	if not itemlink or itemlink == "" then return false, nil end
+	local _, enchantID = itemlink:match("item:(%-?%d+):(%-?%d+)");
+	if enchantID and enchantID ~= "0" then return true, tonumber(enchantID) end
+	return false, nil;
+end
+
+function BonusScanner:GetEmptySockets(itemlink)
+ if not itemlink or itemlink == "" then return 0,0,0,0 end
+ local i, emptyMetaSockets, emptyRedSockets, emptyBlueSockets, emptyYellowSockets = nil, 0, 0, 0, 0
+ local emptyMetaTexture = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Meta"
+ local emptyRedTexture = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Red"
+ local emptyBlueTexture = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Blue"
+ local emptyYellowTexture = "Interface\\ItemSocketingFrame\\UI-EmptySocket-Yellow"
+ -- clear the textures first
+ for i = 1, 4 do
+ 	if _G["BonusScannerTooltipTexture"..i] then
+ 		_G["BonusScannerTooltipTexture"..i]:SetTexture("");
+ 	end
+ end
+ BonusScannerTooltip:SetOwner(_G["BonusScannerFrame"],"ANCHOR_NONE");
+ BonusScannerTooltip:ClearLines();
+ BonusScannerTooltip:SetHyperlink(itemlink);
+ for i = 1, 4 do
+ 	local temp = _G["BonusScannerTooltipTexture"..i]:GetTexture();
+ 	-- texture check
+ 	--if temp then DEFAULT_CHAT_FRAME:AddMessage(i..": "..temp) end --debug code
+ 	if temp and temp == emptyMetaTexture then emptyMetaSockets = emptyMetaSockets + 1 end
+ 	if temp and temp == emptyRedTexture then emptyRedSockets = emptyRedSockets + 1 end
+ 	if temp and temp == emptyYellowTexture then emptyYellowSockets = emptyYellowSockets + 1 end 	
+ 	if temp and temp == emptyBlueTexture then emptyBlueSockets = emptyBlueSockets + 1 end 	
+ end
+ return emptyMetaSockets, emptyRedSockets, emptyYellowSockets, emptyBlueSockets
+end
+
+
 function BonusScanner:ProcessSpecialBonus (bonus, value, level, class)	
 	local specialval = "";
 	local points = BonusScanner:GetRatingBonus(bonus, value, level, class);
@@ -920,12 +973,12 @@ local i;
 local tempGemRed = 0;
 local tempGemYellow = 0;
 local tempGemBlue = 0;
-local gem1itemID;
-local gem2itemID;
-local gem3itemID;
+local tempGemPrismatic = 0;
+local gem1itemID, gem2itemID, gem3itemID, gem4itemID;
 local gem1name, gem1Link = GetItemGem(link, 1);
 local gem2name, gem2Link = GetItemGem(link, 2);
 local gem3name, gem3Link = GetItemGem(link, 3);
+local gem4name, gem4Link = GetItemGem(link, 4);
   if gem1name then
   	gem1itemID = gem1Link:match("item:(%-?%d+)") or nil;  
   end
@@ -935,6 +988,9 @@ local gem3name, gem3Link = GetItemGem(link, 3);
   if gem3name then
   	gem3itemID = gem3Link:match("item:(%-?%d+)") or nil;  
   end
+  if gem4name then
+  	gem4itemID = gem4Link:match("item:(%-?%d+)") or nil;  
+  end
 
 	for _,i in pairs (BonusScanner_Gems) do
 		if gem1itemID then
@@ -942,6 +998,7 @@ local gem3name, gem3Link = GetItemGem(link, 3);
 					tempGemRed = tempGemRed + i.red;
 					tempGemYellow = tempGemYellow + i.yellow;
 					tempGemBlue = tempGemBlue + i.blue;
+					if i.prismatic then tempGemPrismatic = tempGemPrismatic + i.prismatic; end -- prismatic gem support
 				end
 		end
 		if gem2itemID then
@@ -949,6 +1006,7 @@ local gem3name, gem3Link = GetItemGem(link, 3);
 					tempGemRed = tempGemRed + i.red;
 					tempGemYellow = tempGemYellow + i.yellow;
 					tempGemBlue = tempGemBlue + i.blue;
+					if i.prismatic then tempGemPrismatic = tempGemPrismatic + i.prismatic; end -- prismatic gem support
 				end
 		end
 		if gem3itemID then
@@ -956,11 +1014,20 @@ local gem3name, gem3Link = GetItemGem(link, 3);
 					tempGemRed = tempGemRed + i.red;
 					tempGemYellow = tempGemYellow + i.yellow;
 					tempGemBlue = tempGemBlue + i.blue;
+					if i.prismatic then tempGemPrismatic = tempGemPrismatic + i.prismatic; end -- prismatic gem support
+				end
+		end
+		if gem4itemID then
+				if i.itemID == gem4itemID then
+					tempGemRed = tempGemRed + i.red;
+					tempGemYellow = tempGemYellow + i.yellow;
+					tempGemBlue = tempGemBlue + i.blue;
+					if i.prismatic then tempGemPrismatic = tempGemPrismatic + i.prismatic; end -- prismatic gem support
 				end
 		end
 		
 	end
-	return tempGemRed, tempGemYellow, tempGemBlue;
+	return tempGemRed, tempGemYellow, tempGemBlue, tempGemPrismatic;
 end 
 
 function BonusScanner.ProcessTooltip(tooltip, name, link)
@@ -973,7 +1040,7 @@ local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSub
 --check to avoid errors if item is not in the player's cache		
 		if not itemLink then return end
 --get properties of item		
-local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instanceID = itemLink:match(
+local baseID, enchantID, gem1ID, gem2ID, gem3ID, gem4ID, suffixID, instanceID = itemLink:match(
 	  "item:(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+)"
 	);
 --if the item has an older format, use this to get the properties
@@ -982,6 +1049,7 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 		gem1ID = "0";
 		gem2ID = "0";
 		gem3ID = "0";
+		gem4ID = "0";
 	end		
 	
 	if BonusScannerConfig.basiciteminfo == 1 then
@@ -999,29 +1067,31 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 	local GemnoRed = 0;
 	local GemnoYellow = 0;
 	local GemnoBlue = 0;
+	local GemnoPrismatic = 0;
 	local cat = ""; 
 	local nobonus = true;
 	local ifound = false;
 	
 	-- search the addon cache to locate the itemlink
 	-- search for baseID, enchantID, socketed gems and suffixID (for green items). This should cover everything
-	for _,f in pairs (ItemCache) do
-	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.suffixID==suffixID then
+	for _,f in pairs (ItemCache) do	
+	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.gem4ID==gem4ID and f.suffixID==suffixID then
 	bonuses = f.cbonuses;
 	GemnoRed = f.gemsred;
 	GemnoYellow = f.gemsyellow;
 	GemnoBlue = f.gemsblue;
+	GemnoPrismatic = f.gemsprismatic;
 	ifound = true;
 	end
 	end
 	--ONLY if the item is not in the addon cache do we scan it
 	if (ifound) then
-	else
+	else	
 	bonuses = BonusScanner:ScanItem(link);
-	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" then
-	GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(link);
+	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" or gem4ID~="0" then
+	GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic = BonusScanner:GetGemSum(link);
 	end
-	 tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, ilvl=itemLevel, cbonuses=bonuses});
+	 tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, gem4ID=gem4ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, gemsprismatic=GemnoPrismatic, ilvl=itemLevel, cbonuses=bonuses});
 	end
 					
 	if (bonuses) then
@@ -1056,7 +1126,7 @@ tooltip:AddLine(L["BONUSSCANNER_BONUSSUM_LABEL"]);
 	end
 	
 	  if IsControlKeyDown() or BonusScannerConfig.showgemcount == 1 then
- 	if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 then
+ 	if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 or GemnoPrismatic~=0 then
  	tooltip:AddLine(GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_CAT_GEMS"]..":");
  	end
  	if GemnoRed~=0 then
@@ -1067,8 +1137,11 @@ tooltip:AddLine(L["BONUSSCANNER_BONUSSUM_LABEL"]);
  	end
  	if GemnoBlue~=0 then
  	tooltip:AddLine(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_GEMCOUNT_LABEL"].."|cff2459ff"..L["BONUSSCANNER_GEMBLUE_LABEL"]..LIGHTYELLOW_FONT_COLOR_CODE..": "..HIGHLIGHT_FONT_COLOR_CODE..GemnoBlue);
-  	end
-  	  end --end IsControlKeyDown()
+  end
+  if GemnoPrismatic~=0 then
+ 	tooltip:AddLine(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_GEMCOUNT_LABEL"]..HIGHLIGHT_FONT_COLOR_CODE..L["BONUSSCANNER_GEMPRISM_LABEL"]..LIGHTYELLOW_FONT_COLOR_CODE..": "..HIGHLIGHT_FONT_COLOR_CODE..GemnoPrismatic);
+  end
+  	end --end IsControlKeyDown()
 	
 tooltip:Show();
 		end --end (nobonus)
@@ -1130,7 +1203,7 @@ end
 
 
 function BonusScanner_OnUpdate()
-	BonusScanner.bonuses, BonusScanner.bonuses_details, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue, BonusScanner.AverageiLvl = BonusScanner:ScanEquipment("player"); -- scan the equiped items
+	BonusScanner.bonuses, BonusScanner.bonuses_details, BonusScanner.GemsRed, BonusScanner.GemsYellow, BonusScanner.GemsBlue, BonusScanner.GemsPrismatic, BonusScanner.AverageiLvl = BonusScanner:ScanEquipment("player"); -- scan the equiped items
 	BonusScanner_Update();	  -- call the update function (for the mods using this library)	
 end
 
@@ -1143,7 +1216,7 @@ local name = GetUnitName("target")
 		return;
 	end
 
-  	local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue, AverageiLvl = BonusScanner:ScanEquipment("target"); -- scan the equiped items
+  	local bonuses, details, GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic, AverageiLvl = BonusScanner:ScanEquipment("target"); -- scan the equiped items
 			
 			-- if bonuses exists (Todo:  Figure out whether bonuses is empty) then continue
 			-- also check if the target is within inspection range
@@ -1156,7 +1229,7 @@ local name = GetUnitName("target")
 					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_IBONUS_LABEL"].."|cffffd200"..name.."|r"..LIGHTYELLOW_FONT_COLOR_CODE..", ".._G["LEVEL"].." "..UnitLevel("target").." "..ClassColorise(select(2,UnitClass("target")), UnitClass("target") ));
 					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_AVERAGE_ILVL_LABEL"]..": ".."|cffffd200"..AverageiLvl.."|r")
 				end
-				BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);			
+				BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic);	
 			else
 				DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_INVALIDTAR_LABEL"]);
 			end
@@ -1175,6 +1248,7 @@ function BonusScanner:ScanEquipment(target)
 	BonusScanner.temp.GemsRed = 0;
 	BonusScanner.temp.GemsYellow = 0;
 	BonusScanner.temp.GemsBlue = 0;
+	BonusScanner.temp.GemsPrismatic = 0;
 	BonusScanner.temp.AverageiLvl = 0;
 	
 	  BonusScannerTooltip:SetOwner(_G["BonusScannerFrame"],"ANCHOR_NONE");
@@ -1191,6 +1265,7 @@ function BonusScanner:ScanEquipment(target)
 	local GemnoRed = 0;
 	local GemnoYellow = 0;
 	local GemnoBlue = 0;
+	local GemnoPrismatic = 0;
 
 if hasItem and GetInventoryItemLink(target, slotid) then
 
@@ -1200,7 +1275,7 @@ if hasItem and GetInventoryItemLink(target, slotid) then
 if itemLink then
 		
 --get properties of item		
-local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instanceID = itemLink:match(
+local baseID, enchantID, gem1ID, gem2ID, gem3ID, gem4ID, suffixID, instanceID = itemLink:match(
 	  "item:(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+)"
 	);
 --if the item has an older format, use this to get the properties
@@ -1209,16 +1284,18 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 		gem1ID = "0";
 		gem2ID = "0";
 		gem3ID = "0";
+		gem4ID = "0";
 	end	
 
 --search the addon cache to locate the itemlink
 	--search for baseID, enchantID, socketed gems and suffixID (for green items). This should cover everything
 	for _,f in pairs (ItemCache) do
-	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.suffixID==suffixID then
+	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.gem4ID==gem4ID and f.suffixID==suffixID then
 	tbonuses = f.cbonuses;
 	GemnoRed = f.gemsred;
 	GemnoYellow = f.gemsyellow;
 	GemnoBlue = f.gemsblue;
+	GemnoPrismatic = f.gemsprismatic;
 	itemLevels[slotname] = f.ilvl or 0;
 	ifound = true;
 	end
@@ -1228,15 +1305,16 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 	else
 	tbonuses = BonusScanner:ScanItem(itemLink);
 	itemLevels[slotname] = select(4, GetItemInfo(itemLink)) or 0;
-	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" then
-	GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemLink);
-	end
-	tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, ilvl=itemLevels[slotname], cbonuses=tbonuses});
+	if gem1ID~="0" or gem2ID~="0" or gem3ID~="0" or gem4ID~="0" then
+	GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic = BonusScanner:GetGemSum(itemLink);
+	end	
+	tinsert(ItemCache, {baseID=baseID, enchantID=enchantID, gem1ID=gem1ID, gem2ID=gem2ID, gem3ID=gem3ID, gem4ID=gem4ID, suffixID=suffixID, setname=BonusScanner.temp.set, gemsred=GemnoRed, gemsyellow=GemnoYellow, gemsblue=GemnoBlue, gemsprismatic=GemnoPrismatic, ilvl=itemLevels[slotname], cbonuses=tbonuses});
 	end
 	
 	BonusScanner.temp.GemsRed = BonusScanner.temp.GemsRed + GemnoRed;
 	BonusScanner.temp.GemsYellow = BonusScanner.temp.GemsYellow + GemnoYellow;
 	BonusScanner.temp.GemsBlue = BonusScanner.temp.GemsBlue + GemnoBlue;
+	BonusScanner.temp.GemsPrismatic = BonusScanner.temp.GemsPrismatic + GemnoPrismatic;
 	
 end --end if itemLink		
 end --end if (hasItem) 
@@ -1278,7 +1356,7 @@ if hasItem and GetInventoryItemLink(target, slotid) then
 if itemLink then
 		
 --get properties of item		
-local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instanceID = itemLink:match(
+local baseID, enchantID, gem1ID, gem2ID, gem3ID, gem4ID, suffixID, instanceID = itemLink:match(
 	  "item:(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+):(%-?%d+)"
 	);
 --if the item has an older format, use this to get the properties
@@ -1287,6 +1365,7 @@ local baseID, enchantID, gem1ID, gem2ID, gem3ID, socketBonusID, suffixID, instan
 		gem1ID = "0";
 		gem2ID = "0";
 		gem3ID = "0";
+		gem4ID = "0";
 	end
 
 local setnotcached = true;
@@ -1294,7 +1373,7 @@ local setnotcached = true;
 -- search the addon cache to locate the itemlink
 	-- if the item is a set item, we scan it to get the setbonus (if available)
 	for _,f in pairs (ItemCache) do
-	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.suffixID==suffixID and (f.setname~="" or slotname=="Head") then
+	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.gem4ID==gem4ID and f.suffixID==suffixID and (f.setname~="" or slotname=="Head") then
 		  for _,k in pairs (SetCache) do
 	   		if k.setname==f.setname then
 	   				setnotcached=false;
@@ -1316,7 +1395,7 @@ local setnotcached = true;
 	
 	 end --end if f.baseID==baseID...
 	
-	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.suffixID==suffixID and (f.setname=="" or setnotcached==false) and slotname~="Head" then
+	if f.baseID==baseID and f.enchantID==enchantID and f.gem1ID==gem1ID and f.gem2ID==gem2ID and f.gem3ID==gem3ID and f.gem4ID==gem4ID and f.suffixID==suffixID and (f.setname=="" or setnotcached==false) and slotname~="Head" then
 	--DEFAULT_CHAT_FRAME:AddMessage("Using Cached data for :"..itemLink);
 	tbonuses = f.cbonuses; 
 	end
@@ -1334,13 +1413,13 @@ end --end if itemLink
 end --end if (hasItem) 
 end --end for
 
-	return BonusScanner.temp.bonuses, BonusScanner.temp.details, BonusScanner.temp.GemsRed, BonusScanner.temp.GemsYellow, BonusScanner.temp.GemsBlue, BonusScanner.temp.AverageiLvl;
+	return BonusScanner.temp.bonuses, BonusScanner.temp.details, BonusScanner.temp.GemsRed, BonusScanner.temp.GemsYellow, BonusScanner.temp.GemsBlue, BonusScanner.temp.GemsPrismatic, BonusScanner.temp.AverageiLvl;
 end
 
 function BonusScanner:ScanItem(itemlink)
+		if not itemlink or itemlink == "" then return end
 		local k;
-		local name = GetItemInfo(itemlink);
-		if(name) and name ~="" then		
+		local _, enchantID = itemlink:match("item:(%-?%d+):(%-?%d+)");		
 		BonusScanner.temp.bonuses = {};
 		BonusScanner.temp.sets = {};
 		BonusScanner.temp.set = "";
@@ -1349,9 +1428,17 @@ function BonusScanner:ScanItem(itemlink)
 	  BonusScannerTooltip:ClearLines();
 	  BonusScannerTooltip:SetHyperlink(itemlink);
 		BonusScanner:ScanTooltip();
-		return BonusScanner.temp.bonuses;
+		-- Second pass for special enchants
+		if enchantID and enchantID~= "0" then		
+			k = SpecialEnchants[tonumber(enchantID)]
+			if k then								
+				local effect, value;
+				for effect, value in pairs(k) do
+					BonusScanner:AddValue(effect, value)
+				end
+			end
 		end
-	return false;
+		return BonusScanner.temp.bonuses;
 end
 
 function BonusScanner:ScanTooltip()
@@ -1690,8 +1777,8 @@ IsItem=nil;
 		
 		BonusScannerTooltip:SetOwner(_G["BonusScannerFrame"],"ANCHOR_NONE");
 			local bonuses = BonusScanner:ScanItem(itemlink);
-			local GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemlink);
-			local nobonus= true;
+			local GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic = BonusScanner:GetGemSum(itemlink);
+			local nobonus = true;
 						
 			if next (bonuses) == nil then
 			else
@@ -1706,7 +1793,7 @@ IsItem=nil;
 			DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_IBONUS_LABEL"]..cmd);
 		  end
 		  IsItem=1;
-	  	BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);
+	  	BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic);
 		  else
 		  DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE .. L["BONUSSCANNER_NOBONUS_LABEL"]);
 		  end --end if not (nobonus) 
@@ -1816,8 +1903,8 @@ IsItem=nil;
 				local hasItem = BonusScannerTooltip:SetInventoryItem("player", slotid);				
 				if hasItem and GetInventoryItemLink("player", slotid) then
 				_, itemLink = BonusScannerTooltip:GetItem();
-				local GemnoRed, GemnoYellow, GemnoBlue = BonusScanner:GetGemSum(itemLink);		  	
-		    BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue);
+				local GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic = BonusScanner:GetGemSum(itemLink);		  	
+		    BonusScanner:PrintInfo(bonuses, GemnoRed, GemnoYellow, GemnoBlue, GemnoPrismatic);
 		    end
 		  	return
 		end;
@@ -1913,7 +2000,7 @@ for _, bonus in pairs(BONUSSCANNER_EFFECTS) do
 
 end --end function
 
-function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
+function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue,GemnoPrismatic)
 	local bonus, name, e, level, class, ratingval;
 	local cat = "";
 		
@@ -1967,7 +2054,7 @@ function BonusScanner:PrintInfo(bonuses,GemnoRed,GemnoYellow,GemnoBlue)
 	end --end for
 	
 if not (WhisperParam) then	
-	if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 then
+	if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 or GemnoPrismatic~=0 then
 					DEFAULT_CHAT_FRAME:AddMessage(GREEN_FONT_COLOR_CODE..L["BONUSSCANNER_CAT_GEMS"]..":");
 				 end
 				 if GemnoRed~=0 then
@@ -1979,8 +2066,11 @@ if not (WhisperParam) then
 				if GemnoBlue~=0 then
 					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_GEMCOUNT_LABEL"].."|cff2459ff"..L["BONUSSCANNER_GEMBLUE_LABEL"]..LIGHTYELLOW_FONT_COLOR_CODE..": "..HIGHLIGHT_FONT_COLOR_CODE..GemnoBlue);
 				 end
+				 if GemnoPrismatic~=0 then
+					DEFAULT_CHAT_FRAME:AddMessage(LIGHTYELLOW_FONT_COLOR_CODE..L["BONUSSCANNER_GEMCOUNT_LABEL"]..HIGHLIGHT_FONT_COLOR_CODE..L["BONUSSCANNER_GEMPRISM_LABEL"]..LIGHTYELLOW_FONT_COLOR_CODE..": "..HIGHLIGHT_FONT_COLOR_CODE..GemnoPrismatic);
+				 end
 	else
-	  if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 then
+	  if GemnoRed~=0 or GemnoYellow~=0 or GemnoBlue~=0 or GemnoPrismatic~=0 then
 					SendChatMessage(L["BONUSSCANNER_CAT_GEMS"]..":","WHISPER",nil,WhisperParam);
 				 end
 				 if GemnoRed~=0 then
@@ -1991,6 +2081,9 @@ if not (WhisperParam) then
 				 end
 				if GemnoBlue~=0 then
 					SendChatMessage(L["BONUSSCANNER_GEMCOUNT_LABEL"]..L["BONUSSCANNER_GEMBLUE_LABEL"]..": "..GemnoBlue,"WHISPER",nil,WhisperParam);
+				 end
+				if GemnoPrismatic~=0 then
+					SendChatMessage(L["BONUSSCANNER_GEMCOUNT_LABEL"]..L["BONUSSCANNER_GEMPRISM_LABEL"]..": "..GemnoPrismatic,"WHISPER",nil,WhisperParam);
 				 end
  end
 end --end function

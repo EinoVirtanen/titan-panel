@@ -8,7 +8,7 @@ if not L then return end
 	L["TITAN_GOLDTRACKER_DB_CLEARED"] = "Titan Gold Tracker - Base vid\195\169e.";
 	L["TITAN_GOLDTRACKER_SESSION_RESET"] = "Titan Gold Tracker - Session remise \195\160 z\195\169ro.";
 	L["TITAN_GOLDTRACKER_MENU_TEXT"] = "Gold Tracker";
-	L["TITAN_GOLDTRACKER_TOOLTIP"] = "Gold Info";
+	L["TITAN_GOLDTRACKER_TOOLTIP"] = "Infos sur les richesses";
 	L["TITAN_GOLDTRACKER_TOGGLE_PLAYER_TEXT"] = "Afficher l'or du joueur";
 	L["TITAN_GOLDTRACKER_TOGGLE_ALL_TEXT"] = "Afficher l'or sur le serveur";
 	L["TITAN_GOLDTRACKER_SESS_EARNED"] = "Gagn\195\169 cette session";
@@ -30,3 +30,4 @@ if not L then return end
 	L["TITAN_GOLDTRACKER_DELETE_PLAYER"] = "Supprimer ce personnage";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY"] = "Alliance";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE"] = "Horde";
+	L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE.."Ceci va r\195\169initialiser toutes les donn\195\169es de Gold Tracker. Si vous voulez continuer, cliquez sur 'Accepter', sinon 'Annuler' ou la touche 'Echap'.";

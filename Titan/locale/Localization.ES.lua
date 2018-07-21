@@ -263,6 +263,9 @@ if not L then return end
 	L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Tirar dados";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Consejo: Click-Izq. para tirar dados.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Seleccione el valor de la tirada de dados con el menu de Click-Der.";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dificultad de Mazmorra";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Mostrar dificultad de Mazmorra";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Establecer dificultad de Mazmorra";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -338,6 +341,8 @@ if not L then return end
 	L["TITAN_XP_UNKNOWN"] = "Desconocido";
 	L["TITAN_XP_KILLS_LABEL"] = "Muertes para subir (a %d XP ganados la última vez): ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Muertes estimadas: ";
+	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Tiempo en esta sesión: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Mostrar tiempo en esta sesión";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Regeneración"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Ratios de regeneración"
@@ -394,7 +399,7 @@ if not L then return end
 	L["TITAN_REPAIR_GBANK_NOMONEY"] = "El banco de la Hermandad no puede permitirse el coste de la reparación, o no puedes retirar tanto dinero."
 	L["TITAN_REPAIR_GBANK_NORIGHTS"] = "O no perteneces a una Hermandad, o no tienes permiso para usar el banco de la Hermandad para reparar tus objetos."
 	L["TITAN_REPAIR_CANNOT_AFFORD"] = "No puedes permitirte reparar, en este momento."
-	L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
-  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+	L["TITAN_REPAIR_REPORT_COST_MENU"] = "Informar en el chat del coste de la reparación"
+	L["TITAN_REPAIR_REPORT_COST_CHAT"] = "El coste de la reparación ha sido "
 
 	L["TITAN_PLUGINS_MENU_TITLE"] = "Plug-ins";

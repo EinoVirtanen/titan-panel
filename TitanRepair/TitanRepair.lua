@@ -1285,8 +1285,8 @@ end
 -- DESC : <research>
 -- **************************************************************************
 function TitanRepair_DurabilityFrame()
-   if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then
-   	if not DurabilityFrame:IsVisible() then      
+   if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then   
+   	if not DurabilityFrame:IsVisible() then
     	DurabilityFrame:Show()
    	end
    else

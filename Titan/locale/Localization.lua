@@ -262,6 +262,9 @@ L["TITAN_LOOTTYPE_MENU_TEXT"] = "Loot Type";
 L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Random Roll";
 L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Hint: Left-click for random roll.";
 L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Select roll type from right-click menu.";
+L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
+L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
+L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
      
 L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -337,6 +340,8 @@ L["TITAN_XP_UPDATE_PENDING"] = "Updating...";
 L["TITAN_XP_UNKNOWN"] = "Unknown";
 L["TITAN_XP_KILLS_LABEL"] = "Kills to level (at %d XP gained last): ";
 L["TITAN_XP_KILLS_LABEL_SHORT"] = "Est. Kills: ";
+L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
+L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
      
 L["TITAN_REGEN_MENU_TEXT"] = "Regen"
 L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Regen Info"
