@@ -1385,7 +1385,7 @@ function TitanPanel_SetPosition(frame, position)
 		if frame == "TitanPanelBarButton" then			
 			local titanTexture = _G["TitanPanelBackground"..numOfTextures + 1]			
 			titanTexture:ClearAllPoints();
-			titanTexture:SetPoint("BOTTOMLEFT", "TitanPanelBackground0", "BOTTOMLEFT", 0, -25);
+			titanTexture:SetPoint("BOTTOMLEFT", "TitanPanelBackground0", "BOTTOMLEFT", 0, -24);
 		end
 		frName:ClearAllPoints();
 		frName:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
@@ -1394,7 +1394,7 @@ function TitanPanel_SetPosition(frame, position)
 		if frame == "TitanPanelBarButton" then
 			local titanTexture = _G["TitanPanelBackground"..numOfTextures + 1]			
 			titanTexture:ClearAllPoints();
-			titanTexture:SetPoint("BOTTOMLEFT", "TitanPanelBackground0", "BOTTOMLEFT", 0, 25);
+			titanTexture:SetPoint("BOTTOMLEFT", "TitanPanelBackground0", "BOTTOMLEFT", 0, 24);
 		end
 		frName:ClearAllPoints();
 		frName:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0); 

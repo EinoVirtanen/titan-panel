@@ -6,11 +6,11 @@
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
-TITAN_REPAIR_ID = "Repair";
 Titan_Repair = {}
 local TPR = Titan_Repair
+local TITAN_REPAIR_ID = "Repair";
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0")
+local TitanRepairModule = LibStub("AceAddon-3.0"):NewAddon("TitanRepair", "AceHook-3.0", "AceTimer-3.0")
 local _G = getfenv(0);
 TPR.ITEM_STATUS = {};
 TPR.ITEM_BAG = {};
@@ -40,14 +40,10 @@ TPR.INVENTORY_STATUS[4] = { values = {}, name = INVENTORY_TOOLTIP };
 -- ******************************** Variables *******************************
 TPR.INDEX = 0;
 TPR.MONEY = 0;
-TPR.UpdateCheckDelay = 2; -- 2 seconds must elaps between scans
 TPR.WholeScanInProgress = false;
-TPR.UpdateEquipCheck = 30; -- 30 seconds must elaps between Equiped scans
-TPR.DelayTimer = 0; -- init the timer
 TPR.EquipedMinIndex = 0; -- keep a record of the most damaged equiped item (used when removing the most damaged item placed in the inventory to switch on an equiped index)
 TPR.PleaseCheckBag = { };
 TPR.CouldRepair = false;
-TPR.CheckForUpdate = false; -- tells the TitanPanelRepairButton_OnUpdate() function that it has something to do
 TPR.MerchantisOpen = false;
 TPR.PleaseCheckBag[0]  = 0; -- TPR.PleaseCheckBag element values meaning:
 TPR.PleaseCheckBag[1]  = 0; --  0 means "This bag did not changed, no need to scan it"
@@ -55,7 +51,6 @@ TPR.PleaseCheckBag[2]  = 0; --  1 means "Please Check This Bag"
 TPR.PleaseCheckBag[3]  = 0; --  2 means "Yes I'm checking, don't disturb me"
 TPR.PleaseCheckBag[4]  = 0;
 TPR.PleaseCheckBag[5]  = 0; -- this will be used for equiped items, not very good but simplify the code...
-local InitialLoad = 0; -- Found no use of this
 TPR.show_debug = false; -- will tell you a lot about what's happening
 
 StaticPopupDialogs["REPAIR_CONFIRMATION"] = {
@@ -64,8 +59,9 @@ StaticPopupDialogs["REPAIR_CONFIRMATION"] = {
     button2 = NO,
     OnAccept = function(self)
      TitanRepair_RepairItems();
-     TitanPanelRepairButton_ScanAllItems();
-     TPR.CheckForUpdate = true;
+     TitanPanelRepairButton_ScanAllItems();     
+     TitanRepairModule:CancelAllTimers()
+     TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 2)
      TPR.CouldRepair = false;
     end,
     OnShow = function(self)
@@ -173,6 +169,38 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
 
    -- NOTE that events test are done in probability order:
    -- The events that fires the most are tested first
+      
+   if event == "UNIT_INVENTORY_CHANGED" and a1 == "player" then
+   		TPR.PleaseCheckBag[5] = 1
+      TitanRepairModule:CancelAllTimers()
+      TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
+   	return
+   end
+   
+   if event == "PLAYER_MONEY" and TPR.MerchantisOpen == true and CanMerchantRepair() then
+   		TitanPanelRepairButton_ScanAllItems()
+      TitanRepairModule:CancelAllTimers()
+      TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
+   	return
+   end
+   
+   if event == "PLAYER_REGEN_ENABLED" then
+   		TitanPanelRepairButton_ScanAllItems()
+      TitanPanelRepairButton_OnUpdate()
+   	return
+   end
+   
+   if event == "PLAYER_DEAD" then
+   		TitanPanelRepairButton_ScanAllItems()
+      TitanPanelRepairButton_OnUpdate()
+   	return
+   end
+   
+   if event == "PLAYER_UNGHOST" then
+   		TitanPanelRepairButton_ScanAllItems()      
+      TitanPanelRepairButton_OnUpdate()
+   	return
+   end
 
    if (event == "UPDATE_INVENTORY_ALERTS") then
       -- register to check the equiped items on next appropriate OnUpdate call
@@ -180,7 +208,7 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
          tit_debug_bis("Event " .. event .. " TREATED!");
       end
       TPR.PleaseCheckBag[5] = 1;
-      TPR.CheckForUpdate = true;
+      TitanPanelRepairButton_OnUpdate()
       return;
    end
 
@@ -195,7 +223,8 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
 
       TPR.PleaseCheckBag[5] = 1;
       TPR.PleaseCheckBag[a1] = 1;
-      TPR.CheckForUpdate = true;
+      TitanRepairModule:CancelAllTimers()
+      TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 3)
       return;
    end
 
@@ -213,12 +242,11 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
          TPR.PleaseCheckBag[4]  = 1;
       end
       TPR.PleaseCheckBag[5] = 1;
-      TPR.CheckForUpdate = true;
+      TitanPanelRepairButton_OnUpdate()
       if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") == 1 then
          local repairCost, canRepair = GetRepairAllCost();
          if (canRepair) then
             TPR.CouldRepair = true;
-            --local invcost = TitanRepair_GetRepairInvCost();
             if (repairCost > 0) then
                TPR.MONEY = repairCost;
                StaticPopup_Show("REPAIR_CONFIRMATION");
@@ -234,7 +262,8 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
              if (repairCost > 0) then
                TitanRepair_RepairItems();
                TitanPanelRepairButton_ScanAllItems();
-               TPR.CheckForUpdate = true;
+               TitanRepairModule:CancelAllTimers()
+      				 TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 2)
                TPR.CouldRepair = false;
              end
           end
@@ -244,14 +273,15 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
    end
 
    if ( event == "MERCHANT_CLOSED" ) then
+   		TitanRepairModule:CancelAllTimers()
       TPR.MerchantisOpen = false;
           StaticPopup_Hide("REPAIR_CONFIRMATION");
           -- When an object is repaired in a bag, 
-          -- the BAG_UPDATE event is not sent... :'(
+          -- the BAG_UPDATE event is not sent
           -- so we rescan all
           if (TPR.CouldRepair) then
                TitanPanelRepairButton_ScanAllItems();
-               TPR.CheckForUpdate = true;
+               TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
                TPR.CouldRepair = false;
           else
                if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
@@ -262,8 +292,8 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
                TPR.PleaseCheckBag[4]  = 1;
                end
                TPR.PleaseCheckBag[5] = 1;
-               TPR.CheckForUpdate = true;
-          end;
+               TitanRepairModule:ScheduleTimer(TitanPanelRepairButton_OnUpdate, 1)
+          end
           return;
    end
 
@@ -271,11 +301,15 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
           self:RegisterEvent("BAG_UPDATE");
           self:RegisterEvent("UPDATE_INVENTORY_ALERTS");
           self:RegisterEvent("MERCHANT_SHOW");
-          self:RegisterEvent("MERCHANT_CLOSED");          
-          -- Check everything on world enter (at init and after zoning)
-          -- (NOTE: this will take 6 * TPR.UpdateCheckDelay seconds to update)
+          self:RegisterEvent("MERCHANT_CLOSED");
+          self:RegisterEvent("PLAYER_REGEN_ENABLED")
+          self:RegisterEvent("PLAYER_DEAD")
+          self:RegisterEvent("PLAYER_UNGHOST")
+          self:RegisterEvent("PLAYER_MONEY");
+          self:RegisterEvent("UNIT_INVENTORY_CHANGED");
+          -- Check everything on world enter (at init and after zoning)          
           TitanPanelRepairButton_ScanAllItems();
-          TPR.CheckForUpdate = true;
+          TitanPanelRepairButton_OnUpdate()
           return;
    end
 
@@ -284,6 +318,11 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
           self:UnregisterEvent("UPDATE_INVENTORY_ALERTS");
           self:UnregisterEvent("MERCHANT_SHOW");
           self:UnregisterEvent("MERCHANT_CLOSED");
+          self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+          self:UnregisterEvent("PLAYER_DEAD")
+          self:UnregisterEvent("PLAYER_UNGHOST")
+          self:UnregisterEvent("PLAYER_MONEY");
+          self:UnregisterEvent("UNIT_INVENTORY_CHANGED");
           return;
    end
 
@@ -306,47 +345,15 @@ end
 -- DESC : <research>
 -- VARS : elapsed = <research>
 -- **************************************************************************
-function TitanPanelRepairButton_OnUpdate(self, Elapsed)
-   TPR.UpdateEquipCheck = TPR.UpdateEquipCheck - Elapsed;
-   if (TPR.UpdateEquipCheck <= 0 ) then
-      if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) and TPR.MerchantisOpen then
-         TPR.PleaseCheckBag[0]  = 1;
-         TPR.PleaseCheckBag[1]  = 1;
-         TPR.PleaseCheckBag[2]  = 1;
-         TPR.PleaseCheckBag[3]  = 1;
-         TPR.PleaseCheckBag[4]  = 1;
-      end
-      TPR.PleaseCheckBag[5] = 1;
-      TPR.CheckForUpdate = true;
-      TPR.UpdateEquipCheck = 30;
-   end
-
-   -- Note that TPR.CheckForUpdate is a boolean value, 
-   -- boolean values are easier to test for the cpu
-   if (not TPR.CheckForUpdate) then
-      return;
-   end
-   TPR.CheckForUpdate = false; -- this is the first thing we do so another event that fires while we are here can set it to true
-
+function TitanPanelRepairButton_OnUpdate()
    -- test if a "bag" needs to be scanned
    for tocheck = 0, 5 do
 
       -- if there is one
-      if (TPR.PleaseCheckBag[tocheck] == 1) then
-
-         TPR.CheckForUpdate = true; -- so TPR.CheckForUpdate will remain false only if there WAS nothing to do :-) (The WAS is important)
-                               -- and ONLY if no event fires while we were in this loop... We can't miss anything :-D
-
-         -- increase the delay timer
-         TPR.DelayTimer = TPR.DelayTimer + Elapsed;
-
-         -- if enough time has elapsed
-         if (TPR.DelayTimer > TPR.UpdateCheckDelay) then
-
+      if TPR.PleaseCheckBag[tocheck] == 1 then
+      
             -- we are checking...
-            TPR.PleaseCheckBag[tocheck] = 2;
-            -- reset the timer, next update will be made once TPR.UpdateCheckDelay seconds have elapsed from now
-            TPR.DelayTimer = 0;
+            TPR.PleaseCheckBag[tocheck] = 2            
 
             if (tocheck ~= 5) then  -- call update inventory function (I've put this test first because there is 5 chances on 6 that it returns true)
                tit_debug_bis("Update: Checking bag " .. tocheck .. " as requested");
@@ -358,24 +365,13 @@ function TitanPanelRepairButton_OnUpdate(self, Elapsed)
 
             -- test if another check was requested during this update
                     -- (avoid to missing something... rare but still)
-            if (TPR.PleaseCheckBag[tocheck] ~= 1) then
+            if TPR.PleaseCheckBag[tocheck] ~= 1 then
                -- Check completed
                TPR.PleaseCheckBag[tocheck] = 0;
             end
-
-            -- we break here since we don't have time to scan anything else.
-            break;
-         else
-            break;
-         end
+           
       end
    end
-
-   --These lines are commented because they're here just for debugging...
-   --if (not TPR.CheckForUpdate) then
-      --if we get here it means there was nothing to update (we've gone through 0 to 5 without hitting a bag to check that would have set TPR.CheckForUpdatep to true)
-      --tit_debug_bis("***No more \"Please\" to handle, easy mode on");
-   --end
 end;
 
 -- **************************************************************************
@@ -879,16 +875,14 @@ function TitanPanelRepairButton_GetButtonText(id)
          -- item_frac = 1 (undamaged), item_frac < 1 (damaged)
          for i = 1, table.getn(TPR.ITEM_STATUS) do
             item_status = TPR.ITEM_STATUS[i].values;
-            item_frac = item_status.item_frac;
-
-            -- set the inventory damage to a seperate variable
-            if item_status.name == INVENTORY_TOOLTIP then
+            item_frac = item_status.item_frac;						
+            -- set the inventory damage to a seperate variable            
+            if TPR.ITEM_STATUS[i].name == INVENTORY_TOOLTIP then
                inv_frac = item_frac;
                item_frac = 0;
             end
-
-            if (item_status.max ~=0 and item_status.name ~= INVENTORY_TOOLTIP)
-                        then
+            
+            if (item_status.max ~=0 and TPR.ITEM_STATUS[i].name ~= INVENTORY_TOOLTIP) then
                frac_counter = frac_counter + item_frac;
                duraitems = duraitems + 1;
             end
@@ -905,7 +899,7 @@ function TitanPanelRepairButton_GetButtonText(id)
 
            --total_frac = frac_counter / 11 ;
            total_frac = frac_counter / duraitems ;
-
+           					
          if (TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") == 1) then
             total_frac = (total_frac + inv_frac) / 2;
          end
@@ -1157,35 +1151,37 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPercentage");
    UIDropDownMenu_AddButton(info);
 
--- local info = {};
+	 info = {};
    info.text = L["REPAIR_LOCALE"]["itemnames"];
    info.func = TitanRepair_ShowNames;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowNames");
    UIDropDownMenu_AddButton(info);
 
--- local info = {};
+   info = {};
    info.text = L["REPAIR_LOCALE"]["mostdamaged"];
    info.func = TitanRepair_ShowMostDamaged;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowMostDamaged");
    UIDropDownMenu_AddButton(info);
 
--- local info = {};
+   info = {};
    info.text = L["REPAIR_LOCALE"]["undamaged"];
    info.func = TitanRepair_ShowUndamaged;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowUndamaged");
    UIDropDownMenu_AddButton(info);
 
--- local info = {};
+	 info = {};
    info.text = L["REPAIR_LOCALE"]["showinventory"];
    info.func = TitanRepair_ShowInventory;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowInventory");
    UIDropDownMenu_AddButton(info);
-
+	 
+	 info = {};
    info.text = L["REPAIR_LOCALE"]["ShowRepairCost"];  --"Show Repair Cost"
    info.func = TitanRepair_ShowRepairCost;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowRepairCost");
    UIDropDownMenu_AddButton(info);
-
+	 
+	 info = {};
    info.text = L["REPAIR_LOCALE"]["showdurabilityframe"];
    info.func = function() 
    	TitanToggleVar(TITAN_REPAIR_ID, "ShowDurabilityFrame");
@@ -1193,7 +1189,8 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
    end
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame");
    UIDropDownMenu_AddButton(info);
-
+		
+	 info = {};
    info.text = L["REPAIR_LOCALE"]["ignoreThrown"];
    info.func = TitanRepair_IgnoreThrown;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"IgnoreThrown");
@@ -1202,13 +1199,13 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
    TitanPanelRightClickMenu_AddSpacer();
    TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["AutoReplabel"]);
 
-   local info = {};
+   info = {};
    info.text = L["REPAIR_LOCALE"]["popup"];
    info.func = TitanRepair_ShowPop;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPopup");
    UIDropDownMenu_AddButton(info);
 
-   local info = {};
+   info = {};
    info.text = L["REPAIR_LOCALE"]["AutoRepitemlabel"];
    info.func = TitanRepair_AutoRep;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
@@ -1268,6 +1265,7 @@ function TitanRepair_IgnoreThrown()
    TitanToggleVar(TITAN_REPAIR_ID, "IgnoreThrown");
    -- Need to recalc the cost at least. May have to change most damaged item.
    TitanPanelRepairButton_ScanAllItems()
+   TitanPanelRepairButton_OnUpdate()
    TitanPanelButton_UpdateButton(TITAN_REPAIR_ID);
 end
 
@@ -1348,18 +1346,19 @@ end
 -- **************************************************************************
 function TitanRepair_ShowInventory()
 
-   if (TPR.WholeScanInProgress) then
-      return;
-   end
-
-   tit_debug_bis("TitanRepair_ShowInventory has been called !!");
+   --if (TPR.WholeScanInProgress) then
+     -- return;
+   --end
+   
+	 tit_debug_bis("TitanRepair_ShowInventory has been called !!");
    TitanToggleVar(TITAN_REPAIR_ID, "ShowInventory");
-
+   
    if TitanGetVar(TITAN_REPAIR_ID,"ShowInventory") ~= 1 then
       TitanPanelRepairButton_ResetStatus(TPR.ITEM_STATUS[12].values)
    end
+         
    TitanPanelRepairButton_ScanAllItems();
-   TPR.CheckForUpdate = true;
+   TitanPanelRepairButton_OnUpdate()
 end
 
 -- **************************************************************************

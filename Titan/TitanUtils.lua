@@ -128,6 +128,7 @@ function TitanUtils_Max(a, b)
 end
 
 function TitanUtils_GetEstTimeText(s)
+	if not s then return L["TITAN_NA"] end
 	if (s < 0) then
 		return L["TITAN_NA"];
 	elseif (s < 60) then
@@ -142,6 +143,8 @@ function TitanUtils_GetEstTimeText(s)
 end
 
 function TitanUtils_GetFullTimeText(s)
+if not s then return L["TITAN_NA"] end
+
 	if (s < 0) then
 		return L["TITAN_NA"];
 	end
@@ -156,6 +159,8 @@ function TitanUtils_GetFullTimeText(s)
 end
 
 function TitanUtils_GetAbbrTimeText(s)
+	if not s then return L["TITAN_NA"] end
+
 	if (s < 0) then
 		return L["TITAN_NA"];
 	end

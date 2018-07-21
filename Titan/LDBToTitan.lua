@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.8 Beta June 3rd, 2009                   --
+--   Latest version: 2.8 Beta June 16th, 2009                  --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -56,8 +56,8 @@ local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
-local Tablet = AceLibrary("Tablet-2.0")
-local LibQTip = LibStub("LibQTip-1.0")
+local Tablet = nil
+local LibQTip = nil
 local media = LibStub("LibSharedMedia-3.0")
 local LDBAttrs = {};
 
@@ -223,23 +223,26 @@ local TitanPluginframe = _G["TitanPanel".."LDBT_"..name.."Button"];
 	  	end)	  
 	else
 	
-	TitanPluginframe:SetScript("OnEnter", function(self)	
+	TitanPluginframe:SetScript("OnEnter", function(self)
+	-- Check for tooltip libs without embedding them 
+	if AceLibrary:HasInstance("Tablet-2.0") then Tablet = AceLibrary("Tablet-2.0") end
+	LibQTip = LibStub("LibQTip-1.0", true)
 	-- Check to see if we allow tooltips to be shown
 		if not TitanPanelGetVar("ToolTipsShown") or (TitanPanelGetVar("HideTipsInCombat") and InCombatLockdown()) then
 		-- if a plugin is using tablet, then detach and close the tooltip
-			if Tablet:IsRegistered(TitanPluginframe) and Tablet:IsAttached(TitanPluginframe) then
+			if Tablet and Tablet:IsRegistered(TitanPluginframe) and Tablet:IsAttached(TitanPluginframe) then
 				Tablet:Detach(TitanPluginframe);
 				Tablet:Close(TitanPluginframe);
 			end
 			return;
 		else			
 		-- if a plugin is using tablet, then re-attach the tooltip (it will auto-open on mouseover)
-		  if Tablet:IsRegistered(TitanPluginframe) and not Tablet:IsAttached(TitanPluginframe) then
+		  if Tablet and Tablet:IsRegistered(TitanPluginframe) and not Tablet:IsAttached(TitanPluginframe) then
 		  	Tablet:Attach(TitanPluginframe);
 		  end
 		end
 		-- if a plugin is using tablet then set its transparency and font size accordingly
-			if Tablet:IsRegistered(TitanPluginframe) then
+			if Tablet and Tablet:IsRegistered(TitanPluginframe) then
 				Tablet:SetTransparency(TitanPluginframe, TitanPanelGetVar("TooltipTrans"))
 				if not TitanPanelGetVar("DisableTooltipFont") then
 					Tablet:SetFontSizePercent(TitanPluginframe, TitanPanelGetVar("TooltipFont"))
@@ -257,25 +260,27 @@ local TitanPluginframe = _G["TitanPanel".."LDBT_"..name.."Button"];
 			end
 			TitanPanelButton_OnEnter(self);			
 			-- LibQTip-1.0 support code
-			local tt = nil
-			local key, tip
-			for key, tip in LibQTip:IterateTooltips() do
-				if tip then
-					local _, relativeTo = tip:GetPoint()
-						if relativeTo and relativeTo:GetName() == TitanPluginframe:GetName() then
-							tt = tip
-							break
-						end
+			if LibQTip then
+				local tt = nil
+				local key, tip
+				for key, tip in LibQTip:IterateTooltips() do
+					if tip then
+						local _, relativeTo = tip:GetPoint()
+							if relativeTo and relativeTo:GetName() == TitanPluginframe:GetName() then
+								tt = tip
+								break
+							end
+					end
 				end
-			end
-			if tt then
-				-- set transparency
-				local red, green, blue, _ = tt:GetBackdropColor()
-				local red2, green2, blue2, _ = tt:GetBackdropBorderColor()
-				tt:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"))
-				tt:SetBackdropBorderColor(red2,green2,blue2,TitanPanelGetVar("TooltipTrans"))				
-			end
+				if tt then
+					-- set transparency
+					local red, green, blue, _ = tt:GetBackdropColor()
+					local red2, green2, blue2, _ = tt:GetBackdropBorderColor()
+					tt:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"))
+					tt:SetBackdropBorderColor(red2,green2,blue2,TitanPanelGetVar("TooltipTrans"))				
+				end
 		-- /LibQTip-1.0 support code
+			end
 		end)
 		
 		TitanPluginframe:SetScript("OnLeave", function(self)
@@ -315,12 +320,15 @@ function TitanLDBShowText(name)
   local nametrim = string.gsub (name, "LDBT_", "");
   local fontstring = _G["TitanPanelLDBT_"..nametrim.."ButtonText"];
   local displayValue, displaySuffix, displayText = "", "", ""
+  local separator = ": "
   
   -- Check for display text
   if TitanGetVar(name, "ShowRegularText") then
   	if LDBAttrs[nametrim].value then displayValue = LDBAttrs[nametrim].value end
   	if LDBAttrs[nametrim].suffix then displaySuffix = LDBAttrs[nametrim].suffix end
   	if LDBAttrs[nametrim].text then displayText = LDBAttrs[nametrim].text end
+  else
+  	separator = ""
   end
   
   -- Fix color text issues
@@ -333,9 +341,9 @@ function TitanLDBShowText(name)
    if LDBAttrs[nametrim].suffix and LDBAttrs[nametrim].suffix ~="" then   	
    	if LDBAttrs[nametrim].label and LDBAttrs[nametrim].label~="" then
    			if TitanGetVar(name, "ShowColoredText") then   			
-   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  ", TitanUtils_GetGreenText(displayValue.." "..displaySuffix);
+   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..separator, TitanUtils_GetGreenText(displayValue.." "..displaySuffix);
    			else   			
-   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  ", TitanUtils_GetHighlightText(displayValue.." "..displaySuffix);
+   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..separator, TitanUtils_GetHighlightText(displayValue.." "..displaySuffix);
    			end
    	else
    			if TitanGetVar(name, "ShowColoredText") then   			
@@ -353,9 +361,9 @@ function TitanLDBShowText(name)
    else    
     if LDBAttrs[nametrim].label and LDBAttrs[nametrim].label~="" then
         if TitanGetVar(name, "ShowColoredText") then        	
-        	return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  " , TitanUtils_GetGreenText(displayText);
+        	return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..separator, TitanUtils_GetGreenText(displayText);
         else   				
-   				return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  " , TitanUtils_GetHighlightText(displayText);
+   				return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..separator, TitanUtils_GetHighlightText(displayText);
    			end
     else
    			if TitanGetVar(name, "ShowColoredText") then   				

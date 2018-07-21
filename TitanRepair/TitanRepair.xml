@@ -13,10 +13,7 @@
 					</OnLoad>
 					<OnEvent>
 						TitanPanelRepairButton_OnEvent(self, event, ...);
-					</OnEvent>
-					<OnUpdate>
-						TitanPanelRepairButton_OnUpdate(self, elapsed);
-					</OnUpdate>
+					</OnEvent>					
 				</Scripts>
 			</Button>
 		</Frames>

@@ -15,7 +15,7 @@ TITAN_PANEL_UPDATE_ALL = 3;
 
 -- Library instances
 local AceTimer = LibStub("AceTimer-3.0")
-local LibQTip = LibStub("LibQTip-1.0")
+local LibQTip = nil
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 
@@ -27,7 +27,7 @@ function TitanPanelButton_OnLoad(self, isChildButton)
 -- ensure that the 'self' passed is a valid frame reference
  if self and self:GetName() then
 	if (isChildButton) then
-		self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+		self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
 		self:RegisterForDrag("LeftButton")
 		TitanPanelDetectPluginMethod(self:GetName(), true);
 	else 
@@ -35,7 +35,7 @@ function TitanPanelButton_OnLoad(self, isChildButton)
 		local pluginID = TitanUtils_GetButtonID(self:GetName());
 		local plugin = TitanUtils_GetPlugin(pluginID);
 		if (plugin) then
-			self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+			self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
 			self:RegisterForDrag("LeftButton")
 			if (plugin.id) then
 			TitanPanelDetectPluginMethod(plugin.id);
@@ -497,19 +497,22 @@ function TitanPanelButton_OnDragStart(self, ChildButton)
 				TitanPanelRightClickMenu_Close();
 			end
 		if AceLibrary:HasInstance("Dewdrop-2.0") then AceLibrary("Dewdrop-2.0"):Close() end
-		if AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end		
+		if AceLibrary:HasInstance("Tablet-2.0") then AceLibrary("Tablet-2.0"):Close() end
 		GameTooltip:Hide();
 		-- LibQTip-1.0 support code
-		local key, tip
-			for key, tip in LibQTip:IterateTooltips() do
-				if tip then
-					local _, relativeTo = tip:GetPoint()
-						if relativeTo and relativeTo:GetName() == self:GetName() then
-							tip:Hide()
-							break
-						end
+		LibQTip = LibStub("LibQTip-1.0", true)
+		if LibQTip then
+			local key, tip
+				for key, tip in LibQTip:IterateTooltips() do
+					if tip then
+						local _, relativeTo = tip:GetPoint()
+							if relativeTo and relativeTo:GetName() == self:GetName() then
+								tip:Hide()
+								break
+							end
+					end
 				end
-			end
+		end
 		-- /LibQTip-1.0 support code
 		TITAN_PANEL_MOVE_ADDON = TitanUtils_GetButtonID(self:GetName());
 		if ChildButton then
