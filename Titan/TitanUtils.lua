@@ -13,13 +13,6 @@ local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local media = LibStub("LibSharedMedia-3.0")
 
--- Declare the Ace routines once
-TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanel", "AceHook-3.0", "AceTimer-3.0")
---local AceTimer = LibStub("AceTimer-3.0")
--- i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
--- or
--- i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
---
 --------------------------------------------------------------
 -- The routines in this section are useable by addon developers
 --

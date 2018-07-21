@@ -25,6 +25,7 @@ local numOfTexturesHider = 0;
 
 -- Library references
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
+local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
 
 -- Titan local helper funcs
@@ -387,10 +388,7 @@ end
 	-- On longer game loads (log in, reload, instances, etc Titan will adjust
 	-- then Blizz will adjust putting the action buttons over / under Titan
 	-- if the user has aux 1/2 shown.
-	local timer = TitanTimers["EnterWorld"]
-	if timer then
-		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
-	end
+	TitanMovable_AdjustTimer("EnterWorld")
 end
 
 --
@@ -469,10 +467,7 @@ function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 end
 
 function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
-	local timer = TitanTimers["DualSpec"]
-	if timer then
-		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
-	end
+	TitanMovable_AdjustTimer("DualSpec")
 end
 
 local function arg_convert (event, a1, a2, a3, a4, a4, a5, a6)
@@ -499,16 +494,10 @@ local t6 = type(a6)
 end
 
 function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
-	local timer = TitanTimers["Vehicle"]
-	if timer then
-		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
-	end
+	TitanMovable_AdjustTimer("Vehicle")
 end
 function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
-	local timer = TitanTimers["Vehicle"]
-	if timer then
-		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
-	end
+	TitanMovable_AdjustTimer("Vehicle")
 end
 --
 --
@@ -1044,7 +1033,7 @@ function TitanPanel_RemoveButton(id)
 	-- safeguard to destroy any active plugin timers based on a fixed naming
 	-- convention : TitanPanel..id, eg. "TitanPanelClock"
 	-- this prevents "rogue" timers being left behind by lack of an OnHide check
-	if id then TitanPanelAce.CancelAllTimers("TitanPanel"..id) end
+	if id then AceTimer.CancelAllTimers("TitanPanel"..id) end
 
 	TitanPanel_ReOrder(i);
 	table.remove(TitanPanelSettings.Buttons, TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id));

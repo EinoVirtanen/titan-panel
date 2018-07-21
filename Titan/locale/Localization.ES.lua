@@ -112,13 +112,17 @@ L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Grabar";
 --L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Barra superior doble";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuración";
 L["TITAN_PANEL_OPTIONS"] = "Opciones";
+L["TITAN_PANEL_MENU_TOP"] = "Superior"
+L["TITAN_PANEL_MENU_TOP2"] = "Superior 2"
+L["TITAN_PANEL_MENU_BOTTOM"] = "Inferior"
+L["TITAN_PANEL_MENU_BOTTOM2"] = "Inferior 2"
 L["TITAN_PANEL_MENU_OPTIONS"] = "Tooltips y Marcos de "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Tooltips y Marcos";
 L["TITAN_PANEL_MENU_TOP_BARS"] = "Barras superiores";
 L["TITAN_PANEL_MENU_BOTTOM_BARS"] = "Barras inferiores";
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Barras";
-L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = "Barras "..TITAN_PANEL;
-L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Barras Auxiliares "..TITAN_PANEL;
+L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = "Barras superiores "..TITAN_PANEL;
+L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Barras inferiores "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Marcos";
 L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
@@ -211,11 +215,11 @@ L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Establece la prioridad de visionado d
 -- /end localization strings for AceConfigDialog-3.0
 
 L["TITAN_PANEL_MENU_ADV"] = "Avanzado";
-L["TITAN_PANEL_MENU_ADV_DESC"] = "Establece temporizadores sólo si tienes problemas de desajuste con los marcos.".."\n";
+L["TITAN_PANEL_MENU_ADV_DESC"] = "Cambia el retraso tras eventos sólo si tienes problemas de desajuste con los marcos.".."\n";
 L["TITAN_PANEL_MENU_ADV_PEW"] = "Entrando en el reino";
-L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Úsalo si los marcos no se ajustan al entrar o salir del reino o de una instancia.";
+L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Cambia el valor (habitualmente incrementándolo) si los marcos no se ajustan al entrar o salir del reino o de una instancia.";
 L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Vehículo";
-L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Úsalo si los marcos no se ajustan al entrar o salir de un vehículo.";
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Cambia el valor (habitualmente incrementándolo) si los marcos no se ajustan al entrar o salir de un vehículo.";
 
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Activar/Desactivar la característica de auto-ocultación de "..TITAN_PANEL;
 --L["TITAN_AUTOHIDE_MENU_TEXT"] = "Auto-ocultar";

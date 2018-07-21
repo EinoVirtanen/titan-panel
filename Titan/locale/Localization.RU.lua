@@ -18,8 +18,7 @@ L["TITAN_MILLISECOND"] = "мс";
 L["TITAN_KILOBYTES_PER_SECOND"] = "КБ/с";
 L["TITAN_KILOBITS_PER_SECOND"] = "кбит/с"
 L["TITAN_MEGABYTE"] = "мб";
-L["TITAN_NONE"] = "Нету";
-	
+L["TITAN_NONE"] = "Нету";	
 --L["TITAN_MOVABLE_TOOLTIP"] = "Тяните для перемещения";
 
 L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " возможно зарегистрирован дважды, не удается загрузить Titan panel, пожалуйста исправьте эту проблему"
@@ -64,7 +63,7 @@ L["TITAN_PANEL_SLASH_STRING9"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans:
 L["TITAN_PANEL_SLASH_STRING10"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffОткрывает интерфейс Ace3 контроля шкурок.";
 L["TITAN_PANEL_SLASH_STRING11"] = LIGHTYELLOW_FONT_COLOR_CODE.."Для помощи по BonusScanner, введите : |cffffffff/bscan";
 	
-	-- slash command responses
+-- slash command responses
 L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб шрифта подсказки Titan Panel сброшен.";
 L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Прозрачность шрифта подсказки Titan Panel сброшена.";
 L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб Titan Panel сброшен.";
@@ -110,8 +109,14 @@ L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Сохранить";
 --L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Двойные полосы";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Конфигурация";
 L["TITAN_PANEL_OPTIONS"] = "Опции";
+L["TITAN_PANEL_MENU_TOP"] = "Верх"
+L["TITAN_PANEL_MENU_TOP2"] = "Верх 2"
+L["TITAN_PANEL_MENU_BOTTOM"] = "Низ"
+L["TITAN_PANEL_MENU_BOTTOM2"] = "Низ 2"
 L["TITAN_PANEL_MENU_OPTIONS"] = "Подсказки и фреймы Титан панели";
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Подсказки и фреймы";
+L["TITAN_PANEL_MENU_TOP_BARS"] = "Верхняя панель"
+L["TITAN_PANEL_MENU_BOTTOM_BARS"] = "Нижняя панель"
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Панели";
 L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = "Панели Титана";
 L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Дополнительные панели";
@@ -171,7 +176,9 @@ L["TITAN_UISCALE_BUTTON_SLIDER_DESC"] = "Регулировка простран
 L["TITAN_UISCALE_ICON_SLIDER_DESC"] = "Регулировка пространства между плагинами с правой стороны  стороне плагинов.Adjusts the space between right-side plugins.";
 L["TITAN_UISCALE_TOOLTIP_SLIDER_DESC"] = "Регулировка размера подсказки различных плагинов.";
 L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Отключить контроль масштабирования шрифта подсказок Титана.";
+
 L["TITAN_SKINS_TITLE"] = "Шкурки";
+L["TITAN_SKINS_OPTIONS_CUSTOM"] = "Шкурки - Свои";
 L["TITAN_SKINS_TITLE_CUSTOM"] = "Свои шкурки";
 L["TITAN_SKINS_MAIN_DESC"] = "Все пользовательские шкурки находятся в: \n"
 			.."..\\AddOns\\Titan\\Artwork\\Custom\\<Skin Folder>\\ ".."\n"
@@ -204,6 +211,13 @@ L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Установка размера шри
 L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Слои фрейма панели";
 L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Регулировка слоя фрейма панелей Титана.";
 -- /end localization strings for AceConfigDialog-3.0
+
+L["TITAN_PANEL_MENU_ADV"] = "Дополнительно";
+L["TITAN_PANEL_MENU_ADV_DESC"] = "Изменить таймеры, только если у вас возникли проблемы с подстройкой фреймов.".."\n";
+L["TITAN_PANEL_MENU_ADV_PEW"] = "Вход в мир";
+L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Изменить значение (обычно повысить) если фреймы не подстраиваются при входе / выходе в мир или подземелье.";
+L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Транспорт";
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Change value (usually increase) если фреймы не подстраиваются при входе / выходе из транспорта.";	
 	
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Авто-скрытие панели вкл/выкл";
 --L["TITAN_AUTOHIDE_MENU_TEXT"] = "Авто-скрытие";

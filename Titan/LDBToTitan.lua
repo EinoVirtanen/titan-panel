@@ -739,10 +739,7 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 		-- Ensure all plugins (for LDB) are refreshed.
 		-- Some LDB plugins may have updated text, icon, etc 
 		-- before the plugin was registered so be nice and schedule a refresh
-		local timer = TitanTimers["LDBRefresh"]
-		if timer then
-			TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
-		end
+		TitanMovable_AdjustTimer("LDBRefresh")
 	end
 	end
 )

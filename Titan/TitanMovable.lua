@@ -7,6 +7,15 @@ local TITAN_PANEL_MOVE_ADDON = nil
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 
+-- Declare the Ace routines
+local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanel", "AceHook-3.0", "AceTimer-3.0")
+--local AceTimer = LibStub("AceTimer-3.0")
+-- i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
+-- or
+-- i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
+--
+-- Be careful that the 'self' is proper to cancel timers!!!
+
 --Determines the optimal magic number based on resolution
 local menuBarTop = 55;
 local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)");
@@ -56,6 +65,22 @@ local function TitanMovableFrame_CheckThisFrame(frameName)
 	-- For safety check if the frame is in the table to adjust
 	if TitanMovableData[frameName] then
 		table.insert(TitanMovable, frameName)
+	end
+end
+
+TitanMovable_AdjT = false
+function TitanMovable_AdjustTimer(ttype)
+if TitanMovable_AdjT then
+TitanDebug("..._AdjustTimer "
+.."t:'"..(ttype or "?").."' "
+)
+end
+--	TitanPanelAce:CancelAllTimers()
+	local timer = TitanTimers[ttype]
+	if timer then
+		TitanPanelAce.CancelAllTimers(timer.obj)
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
+--		TitanPanelAce:ScheduleTimer(timer.callback, timer.delay)
 	end
 end
 
@@ -434,11 +459,7 @@ local function Titan_Hook_Adjust_Both()
 	-- These could arrive quickly. To prevent
 	-- many adjusts from stacking, cancel any pending
 	-- then queue this one.
-	TitanPanelAce:CancelAllTimers()
-	local timer = TitanTimers["Adjust"]
-	if timer then
-		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
-	end
+	TitanMovable_AdjustTimer("Adjust") -- cancel
 end
 
 function TitanPanel_AdjustFrames(position, blizz)
@@ -458,25 +479,25 @@ end
 
 --function TitanPanelAce:Titan_ManageFramesNew()
 function Titan_ManageFramesNew()
+	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, false)
+	return
+--[[
 -- Only the top or bottom may need to be adjusted but
 -- if we cancel we may 'drop' the last adjust. To be
 -- safe we'll do both if they are put on a timer.
 	if Titan__InitializedPEW then
 		-- We know the desired bars are now drawn so we can adjust
-		if InCombatLockdown() then
+--		if InCombatLockdown() then
 			-- Character entered combat before Titan could adjust
-			TitanPanelAce:CancelAllTimers()
-			local timer = TitanTimers["Adjust"]
-			if timer then
-				TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
-			end
-		else
+			TitanMovable_AdjustTimer("Adjust") -- cancel
+--		else
 --TitanDebug ("Titan_ManageFramesNew ")
-			TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, false)
-		end
+--			TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, false)
+--		end
 	end
 -- There is a chance the person stays in combat so this could
 -- keep looping...
+--]]
 end
 
 function Titan_AdjustScale()
