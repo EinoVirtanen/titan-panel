@@ -263,9 +263,6 @@ function TitanMovableFrame_CheckFrames(position)
 	
 		-- Move OverrideActionBar
 		TitanMovableFrame_CheckThisFrame(OverrideActionBar:GetName());
-		
-		-- Move BonusActionBarFrame
---		TitanMovableFrame_CheckThisFrame(BonusActionBarFrame:GetName());
 	end
 end
 
