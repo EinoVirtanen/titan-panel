@@ -325,6 +325,7 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
           -- Check everything on world enter (at init and after zoning)          
           TitanPanelRepairButton_ScanAllItems();
           TitanPanelRepairButton_OnUpdate()
+          TitanRepair_DurabilityFrame();
           return;
    end
 
@@ -1452,14 +1453,15 @@ end
 -- NAME : TitanRepair_ShowDurabilityFrame()
 -- DESC : <research>
 -- **************************************************************************
-function TitanRepair_DurabilityFrame()
-   if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then   
-   	if not DurabilityFrame:IsVisible() then
-    	DurabilityFrame:Show()
-   	end
-   else
-   		DurabilityFrame:Hide()
-   end
+function TitanRepair_DurabilityFrame(isOnShow)
+	if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then
+		-- Prevent a circular reference by checking if function was triggered by our SecureHook into OnShow.
+		-- If OnShow didn't trigger this just do whatever Blizzard wants.
+		if not isOnShow then DurabilityFrame_SetAlerts() end
+	else
+		-- Always hide this frame since user wants it hidden.
+		DurabilityFrame:Hide()
+	end
 end
 
 -- **************************************************************************
@@ -1597,4 +1599,4 @@ end
 
 -- Hooks
 --TitanRepairModule:SecureHook("DurabilityFrame_SetAlerts", TitanRepair_DurabilityFrame)
-TitanRepairModule:SecureHook(DurabilityFrame, "Show", TitanRepair_DurabilityFrame)
+TitanRepairModule:SecureHook(DurabilityFrame, "Show", function() TitanRepair_DurabilityFrame(true) end)

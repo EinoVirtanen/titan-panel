@@ -246,27 +246,46 @@ L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Show Detailed Tooltip";
 L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
 L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignore Profession Bags";
 L["TITAN_BAG_PROF_BAG_NAMES"] = {
--- Enchanting
+-- Enchanting (blue)
 "Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Enchanter's Satchel", "Big Bag of Enchantment", "Spellfire Bag", 
 "Mysterious Bag", "Otherworldly Bag", "\"Carriage - Exclusive\" Enchanting Evening Purse",
--- Engineering
+-- Engineering (orange)
 "Heavy Toolbox", "Fel Iron Toolbox", "Titanium Toolbox", "Khorium Toolbox", "Elementium Toolbox", "\"Carriage - Maddy\" High Tech Bag",
--- Herbalism
+-- Herbalism (green)
 "Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Emerald Bag", "Hyjal Expedition Bag",
 "\"Carriage - Going Green\" Herb Tote Bag",
--- Inscription
+-- Inscription (purple)
 "Scribe's Satchel", "Pack of Endless Pockets", "\"Carriage - Xandera\" Student's Satchel",
--- Jewelcrafting
+-- Jewelcrafting (red)
 "Gem Pouch", "Bag of Jewels", "\"Carriage - Exclusive\" Gem Studded Clutch",
--- Leatherworking
+-- Leatherworking (brown)
 "Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "\"Carriage - Meeya\" Leather Bag",
--- Mining
+-- Mining (white)
 "Mining Sack", "Reinforced Mining Bag", "Mammoth Mining Bag", "\"Carriage - Christina\" Precious Metal Bag",
--- Fishing
+-- Fishing (cyan)
 "Lure Master Tackle Box",
--- Cooking
+-- Cooking (magenta)
 "Portable Refrigerator",
 };
+L["TITAN_BAG_PROF_BAG_ENCHANTING"] = {
+"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Enchanter's Satchel", "Big Bag of Enchantment", "Spellfire Bag", 
+"Mysterious Bag", "Otherworldly Bag", "\"Carriage - Exclusive\" Enchanting Evening Purse"};
+L["TITAN_BAG_PROF_BAG_ENGINEERING"] = {
+"Heavy Toolbox", "Fel Iron Toolbox", "Titanium Toolbox", "Khorium Toolbox", "Elementium Toolbox", "\"Carriage - Maddy\" High Tech Bag"};
+L["TITAN_BAG_PROF_BAG_HERBALISM"] = {
+"Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Emerald Bag", "Hyjal Expedition Bag",
+"\"Carriage - Going Green\" Herb Tote Bag"};
+L["TITAN_BAG_PROF_BAG_INSCRIPTION"] = {
+"Scribe's Satchel", "Pack of Endless Pockets", "\"Carriage - Xandera\" Student's Satchel"};
+L["TITAN_BAG_PROF_BAG_JEWELCRAFTING"] = {
+"Gem Pouch", "Bag of Jewels", "\"Carriage - Exclusive\" Gem Studded Clutch"};
+L["TITAN_BAG_PROF_BAG_LEATHERWORKING"] = {
+"Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "\"Carriage - Meeya\" Leather Bag"};
+L["TITAN_BAG_PROF_BAG_MINING"] = {
+"Mining Sack", "Reinforced Mining Bag", "Mammoth Mining Bag", "\"Carriage - Christina\" Precious Metal Bag"};
+L["TITAN_BAG_PROF_BAG_FISHING"] = {"Lure Master Tackle Box"};
+L["TITAN_BAG_PROF_BAG_COOKING"] = {"Portable Refrigerator"};
+
 
 L["TITAN_CLOCK_TOOLTIP"] = "Clock";     
 L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Server Offset Hour Value: ";
