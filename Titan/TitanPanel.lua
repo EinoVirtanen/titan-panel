@@ -372,10 +372,14 @@ function TitanPanel_PlayerEnteringWorld()
 		end
 		
 		-- Kill off the OrderHallCommandBar
-		--local var = OrderHallCommandBar
-		--var:UnregisterAllEvents()
-		--var:HookScript("OnShow",var.Hide)
-		--var:Hide()
+		local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanelInit", "AceHook-3.0")
+		TitanPanelAce:SecureHook("OrderHall_CheckCommandBar",
+			function()
+				if OrderHallCommandBar then
+					OrderHallCommandBar:Hide()
+				end
+			end
+		)
 	end
 	local _ = nil
 	TitanSettings.Player,_,_ = TitanUtils_GetPlayer()
