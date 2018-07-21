@@ -1744,14 +1744,14 @@ OUT:
 --]]
 function TitanUtils_GetPlayer()
 	local playerName = UnitName("player");
-	local serverName = GetCVar("realmName");
+	local serverName = GetRealmName();
 	local toon = nil
 
-	-- Do nothing if player name is not available
 	if (playerName == nil
+	or serverName == nil
 	or playerName == UNKNOWNOBJECT
 	or playerName == UKNOWNBEING) then
-		--
+		-- Do nothing if player name is not available
 	else
 		toon = playerName..TITAN_AT..serverName
 	end

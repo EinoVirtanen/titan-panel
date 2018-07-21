@@ -355,7 +355,7 @@ function TitanPanel_PlayerEnteringWorld()
 			TitanPanel_CreateABar(idx)
 		end
 
-		local realmName = GetCVar("realmName")
+		local realmName = GetRealmName()
 
 		if ServerTimeOffsets[realmName] then
 			TitanSetVar(TITAN_CLOCK_ID, "OffsetHour", ServerTimeOffsets[realmName])
