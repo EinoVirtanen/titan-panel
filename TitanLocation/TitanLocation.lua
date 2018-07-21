@@ -2,7 +2,6 @@
 -- * TitanLocation.lua
 -- *
 -- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Development Team
--- *     (HonorGoG, jaketodd422, joejanko, Lothayer, Tristanian)
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
@@ -509,7 +508,7 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 		-- **
 --		x_offset = (WorldMapPositioningGuide:GetWidth() / 4) -- center of map
 --			- (TitanMapPlayerLocation:GetWidth() / 2) -- center of coords
-		TitanMapPlayerLocation:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 110, 3)
+		TitanMapPlayerLocation:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 110, 16)
 	else
 		x_offset = (WorldMapPositioningGuide:GetWidth() / 3) -- left third of map
 			- (TitanMapPlayerLocation:GetWidth() / 2) -- center of coords
