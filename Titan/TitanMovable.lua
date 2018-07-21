@@ -255,7 +255,7 @@ function Titan_TicketStatusFrame_OnHide()
 end
 
 function Titan_FCF_UpdateDockPosition()
- if TitanPanelGetVar("LogAdjust") then
+ if not TitanPanelGetVar("LogAdjust") then return end
 	if not InCombatLockdown() or (InCombatLockdown() and not _G["DEFAULT_CHAT_FRAME"]:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
@@ -276,11 +276,10 @@ function Titan_FCF_UpdateDockPosition()
 		_G["DEFAULT_CHAT_FRAME"]:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
 		FCF_DockUpdate();
 	end
- end	
 end
 
 function Titan_FCF_UpdateCombatLogPosition()
- if TitanPanelGetVar("LogAdjust") then
+ if not TitanPanelGetVar("LogAdjust") then return end
 	if not InCombatLockdown() or (InCombatLockdown() and not ChatFrame1:IsProtected() and not ChatFrame2:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
@@ -331,7 +330,6 @@ function Titan_FCF_UpdateCombatLogPosition()
 			ChatFrame2:SetPoint(point2, "UIParent", relativePoint2, xOfs2, yOffset);
 			end
 	end
- end
 end
 
 function Titan_CastingBarFrame_UpdatePosition()
@@ -359,6 +357,7 @@ end
 
 
 function Titan_ContainerFrames_Relocate()
+	if not TitanPanelGetVar("BagAdjust") then return end
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);
 		local TITAN_CONTAINER_OFFSET_Y = _G["CONTAINER_OFFSET_Y"]
 		local TITAN_CONTAINER_OFFSET_X = _G["CONTAINER_OFFSET_X"]

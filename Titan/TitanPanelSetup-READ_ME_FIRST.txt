@@ -4,7 +4,7 @@ Titan Development Team: HonorGoG, TristTitan, Lothayer, JoeJanko, oXidFoX, Urnat
 
 1. Description
 
-Titan Panel adds a configurable interface bar/control panel to your WoW UI.  Because so much of the code has been rewritten since version 3.1.1, we are providing this help file.  A comprehensive list of changes can be found in the TitanPanelChangeLog.txt file elsewhere in this package.
+Titan Panel adds a configurable interface bar/control panel to your WoW UI.  Because so much of the code has been rewritten since version 3.1.1, we are providing this help file.
 
 
 2. Installation
@@ -27,7 +27,7 @@ You have numerous ways to customize the panel.  One way is to change the setting
 
    - Auto-Hide (Push Pin icon).  Left-clicking this icon causes the bars to only appear when you move the cursor atop the bar.  Otherwise, the bars are hidden.  There is a separate push pin for the top and bottom bars.  The default setting is OFF.
 
-   - Volume Control (speaker icon).  This allows you to override Blizzard's default sound settings.  
+   - Volume Control (speaker icon).  This allows you to override Blizzard's default sound settings. Note that this setting/icon will only appear if the Titan Volume internal plugin is loaded !
      Right-click this icon to display the following Volume Control options:
      * Show Sound/Voice options.  Displays the Sound & Voice window.  Here you can control volume using Blizzard's interface.
      * Override Blizzard Volume Settings.  Select this to control volume using Titan Panel's interface.  The default setting is off.
@@ -41,7 +41,9 @@ The following core functions appear in Blizzard's Interface Options frame and ca
      * UI Scale = .9
      * Panel Scale = 1.0
      * Button Spacing = 20
-     * Tooltip Font = 1.0. 
+     * Tooltip Font = 1.0.
+     
+     Moreover, by using this configuration screen, you will be able to change the font type and size for the addon, as well as the framestrata setting for the entire Panel.
 
    - Transparency.  Left-clicking this icon displays 3 slider bars with which you can control the transparency of the Main Bar (usually located at the top, though it can appear at the bottom if Display on Top option is unchecked); the Auxiliary Bar, (the bottom bar(s) if the top bars are also displayed); and the Tooltips.  The default settings are:
      * Main Bar = .7
@@ -54,7 +56,7 @@ You may restore the defaults at any time by using slash commands. The slash comm
 
    - /titan reset or /titanpanel reset.  Restores all default settings by clearing the user preferences in the Saved Variables folder.
 
-   - /titan help or /titanpanel help.  Displays in the chat window other slash handler commands for resetting individual settings.
+   - /titan or /titanpanel.  Displays in the chat window other slash handler commands for resetting individual settings.
 
    - /titan gui control.  Opens the Panel Control configuration window without invoking Blizzard's Interface Options menu.
 
@@ -62,7 +64,7 @@ You may restore the defaults at any time by using slash commands. The slash comm
 
    _ /titan gui skin.  Opens the Skins configuration window without invoking Blizzard's Interface Options menu.
 
-A second way to customize Titan Panel is through plugins.  Titan Panel will display native plugins (written specifically for Titan Panel) as well as Data Broker plugins and launchers (also known as LibDataBroker or LDB).
+A second way to customize Titan Panel is through plugins.  Titan Panel will display native plugins (written specifically for Titan Panel) as well as Data Broker plugins and launchers.
 
    - Plugins are controlled by hovering the cursor over a Plugins Category on the right-click menu, such as General or Information, and clicking an unchecked plugin to display it or clicking a checked plugin to hide it.  When you display additional left-side plugins, Titan will add each one to the right of existing buttons, alternating between the 2 top or 2 bottom bars, if double bars are displayed. Newly-selected right-side plugins display on the top-most or bottom-most bar only, to the left of the existing buttons. When top and bottom bars are displayed, select the new plugin from the bar on which you want it to appear.  
    
@@ -77,7 +79,10 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
    - Lock buttons.  This locks the buttons in place, keeping you from inadvertently moving them.  (See Moving Buttons/Icons, below.)  The default setting is OFF.
 
    - Show plugin versions.  This displays the version numbers of plugins (if coded to do so) next to the plugins' names on the panel's right-click menu.  The default setting is ON.
-
+   
+   - Force launchers to right-side.  By default, LDB launchers display as right-side icons but you can tell Titan to display them as left-side buttons if you so wish to.  
+     This command will automatically convert all active left-side button launchers to right-side icons.
+     
    - Reset Panel to Default (Reload UI).  This overrides any changes you have made and immediately reloads the UI.  If you report a problem with the panel, we may ask you to do this. The slash command /titan reset or /titanpanel reset will produce the same result.
 
    - Bars.  There are three settings that control where and how many bars are displayed - Display on Top, Display Both Bars, and Double Bar.
@@ -102,19 +107,15 @@ A third way to customize Titan Panel is through the Options menu, in the panel's
      Note:  Disabling screen adjust will have *NO EFFECT* on frames such as the combat log or your casting bar. Use the options described below to explicitly adjust those frames.
      
    - Disable minimap adjust. Explicitly disables the adjustment of the minimap. This is useful in cases you want to enable another addon to specifically handle that frame. The default setting is OFF.
-
-   - Automatic log adjust.  This instructs Titan to pin/stick the chat log above your lowest action bar, so the chat log doesn't overlap the action bars (should only work on Blizzard default bars and not custom bars like those added/created by Bartender3 or Bongos2).  The default setting is OFF.
+   
+   - Automatic log adjust.  This instructs Titan to pin/stick the chat log above your lowest action bar, so the chat log doesn't overlap the action bars (should only work on Blizzard default bars and not custom bars like those added/created by Bartender4 or similar addons).  The default setting is OFF.
      Note:  Since this option has created a lot of confusion, we recommend that you keep this off, manually move the chat log, and lock it.
+     
+   - Automatic bag adjust. Automatically adjusts your bag containers, so they don't overlap with the Main menu bar, when you are using bottom bar(s). Unchecking this option is useful in cases you want to enable (or have already enabled) another addon which specifically handles your container frames. The default setting is ON.
 
    - Move casting bar (Reload UI).  This tells Titan to move the casting/hearth bar up when using the bottom Titan bar(s), so the casting/hearth bar doesn't overlap the action bars. The UI will reload immediately after selecting this option. The default setting is OFF.
 
-   - Force launchers to right-side.  By default, LDB launchers display as left-side buttons.  You can tell Titan to display them as right-side icons in one of two ways.  
-     * First, select this command after you activate all launchers.  This makes all active launchers right-side icons. 
-     * Second, select Right-Side Plugin from the menu that appears when you hover the launcher name in the list of plugins on Titan's right-click menu. This makes a single launcher a right-side icon.
-
-A fourth way to customize Titan Panel is by changing fonts.  Selecting the Font option on Titan Panel's right-click menu allows you to select an alternative font.  
-
-A fifth way to customize Titan Panel is by changing skins.  Titan comes with a large selection of skins.  Selecting the Skins option on Titan Panel's right-click menu displays the Titan Skins frame, on which you can Set Panel Skin, Add New Skin, and Remove Skin.
+A fourth way to customize Titan Panel is by changing skins.  Titan comes with a large selection of skins.  Selecting the Skins option on Titan Panel's right-click menu displays the Titan Skins frame, on which you can Set Panel Skin, Add New Skin, and Remove Skin.
 As of version 4.1.7 (and beyond), Titan provides a public function called: TitanPanel_AddNewSkin(name, path), in order to assist artwork authors with adding their own custom skins to the Panel's settings without having to go through the configuration menu.
 The function should be called with name of the skin and skin path as arguments.
 Restrictions :

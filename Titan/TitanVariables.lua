@@ -25,6 +25,7 @@ local TITAN_PANEL_SAVED_VARIABLES = {
 	ScreenAdjust = false,
 	LogAdjust = false,
 	MinimapAdjust = false,
+	BagAdjust = true,
 	AutoHide = false,
 	Position = 1,
 	DoubleBar = 1,

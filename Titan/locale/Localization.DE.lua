@@ -62,6 +62,7 @@ if not L then return end
      L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Bildschirmjustierung deaktivieren (Gr\195\182\195\159en\195\164nderung)";
      L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Minimapjustierung deaktivieren"; -- Sensity
      L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Log automatisch justieren";
+     L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
      L["TITAN_PANEL_MENU_BUILTINS"] = "Titan Standardplugins";
      L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Linke Seite";
      L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Rechte Seite";
@@ -86,7 +87,6 @@ if not L then return end
      L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Leisten"; --SENSITY
      L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
      L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Bilder pro sec";
-     L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "Data Broker";
      L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
      L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Buttons fixieren"; -- Sensity
      L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Pluginversionen anzeigen";

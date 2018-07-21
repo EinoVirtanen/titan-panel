@@ -62,6 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Выключить подстройку экрана";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Отключить подстройку мини-карты";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Авто подстройка записи";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Сборки титана";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Левая сторона";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Правая сторона";
@@ -86,7 +87,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Панели";
 	L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Подсказки";
 	L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Фреймы";
-	L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "Data Broker";
 	L["TITAN_PANEL_MENU_PLUGINS"] = "Плагины";
 	L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Блокировать кнопки";
 	L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Показывать версии плагинов";

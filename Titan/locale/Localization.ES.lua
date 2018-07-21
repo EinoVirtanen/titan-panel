@@ -62,6 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Desactivar ajuste de pantalla";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Desactivar ajuste de minimapa";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuste de log automático";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "De serie en Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Lado izquierdo";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Lado derecho";
@@ -86,7 +87,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Barras";
 	L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 	L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Marcos";
-	L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "Datos del Corredor";
 	L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
 	L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Bloquear botones";
 	L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Mostrar versiones del plugin";
@@ -264,10 +264,10 @@ if not L then return end
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Consejo: Click-Izq. para tirar dados.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Seleccione el valor de la tirada de dados con el menu de Click-Dcho.";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dificultad de Mazmorra";
-	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Dificultad de Raid";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Mostrar dificultad de Mazmorra/Raid";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Establecer dificultad de Mazmorra";
-	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Establecer dificultad de Raid";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";

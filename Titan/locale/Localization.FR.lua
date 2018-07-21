@@ -62,6 +62,7 @@ if not L then return end
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Ne pas ajuster l'\195\169cran";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Ne pas ajuster la minicarte";
 	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuster automatiquement la fen\195\168tre de discussion";
+	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Modules Titan";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "C\195\180t\195\169 gauche";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "C\195\180t\195\169 droit";
@@ -86,7 +87,6 @@ if not L then return end
 	L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Barres";
 	L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 	L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Frames";
-	L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "Data Broker";
 	L["TITAN_PANEL_MENU_PLUGINS"] = "Plug-ins";
 	L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Verrouiller les boutons";
 	L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Afficher les versions";
@@ -265,8 +265,8 @@ if not L then return end
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Difficult\195\169 du donjon";
 	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Difficult\195\169 du raid";
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Afficher la difficult\195\169 du donjon/raid";
-	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Change la difficult\195\169 du donjon";
-	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Choisir la difficult\195\169 du donjon";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Changer la difficult\195\169 du donjon";
+	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Changer la difficult\195\169 du raid";
 
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."Mo";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";

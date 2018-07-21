@@ -61,6 +61,7 @@ if not L then return end
   L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "關閉螢幕調整";
   L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "關閉小地圖調整";
   L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "自動調整紀錄";
+  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
   L["TITAN_PANEL_MENU_BUILTINS"] = "內建插件";
   L["TITAN_PANEL_MENU_LEFT_SIDE"] = "左邊區域";
   L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "右邊區域";
@@ -85,7 +86,6 @@ if not L then return end
   L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "狀態列";
   L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "提示訊息";
   L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "視窗";
-  L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "資料仲介者";
   L["TITAN_PANEL_MENU_PLUGINS"] = "插件";
   L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "鎖定面板";
   L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "顯示插件版本";

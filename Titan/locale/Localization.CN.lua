@@ -62,6 +62,7 @@ if not L then return end
   L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "禁用自动适应屏幕";
   L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "禁用微缩地图自动出现";
   L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "自动记录";
+  L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
   L["TITAN_PANEL_MENU_BUILTINS"] = "Titan内置插件";
   L["TITAN_PANEL_MENU_LEFT_SIDE"] = "左侧";
   L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "右侧";
@@ -86,7 +87,6 @@ if not L then return end
   L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Titan条";
   L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "提示说明";
   L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "框体";
-  L["TITAN_PANEL_MENU_OPTIONS_LDB"] = "数据统计";
   L["TITAN_PANEL_MENU_PLUGINS"] = "模块";
   L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "锁定按钮";
   L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "显示插件版本";
@@ -104,7 +104,7 @@ if not L then return end
   L["TITAN_PANEL_MENU_ENABLED"] = "启用";
   L["TITAN_PANEL_MENU_DISABLED"] = "禁用";
      
-     -- localization strings for AceConfigDialog-3.0     
+  -- localization strings for AceConfigDialog-3.0     
   L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "信息显示插件. 允许用户在屏幕上方或下方的信息条上添加扩展模块.";			 
   L["TITAN_TRANS_MENU_TEXT_SHORT"] = "透明度";
   L["TITAN_TRANS_MENU_DESC"] = "用于设置Titan及其提示的透明度.";		

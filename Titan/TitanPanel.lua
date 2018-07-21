@@ -2207,6 +2207,11 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("VersionShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+		-- Force launchers to right-side
+		info = {};
+		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
+		info.func = TitanPanelBarButton_ForceLDBLaunchersRight;
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Reset Panel to default
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
@@ -2303,6 +2308,13 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("LogAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+		-- Automatic bag adjust
+		info = {};
+		info.text = L["TITAN_PANEL_MENU_DISABLE_BAGS"];
+		info.func = function() TitanPanelToggleVar("BagAdjust") end;
+		info.checked = TitanPanelGetVar("BagAdjust");
+		info.keepShownOnClick = 1;
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
@@ -2314,14 +2326,6 @@ function TitanPanel_OptionsMenu()
 				info.disabled = 1;
 				info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 				end
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
-		-- Data Broker
-		TitanPanelRightClickMenu_AddSpacer(UIDROPDOWNMENU_MENU_LEVEL);
-		TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS_LDB"], UIDROPDOWNMENU_MENU_LEVEL);
-		-- Force launchers to right-side
-		info = {};
-		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
-		info.func = TitanPanelBarButton_ForceLDBLaunchersRight;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 	end
 	
@@ -2361,6 +2365,11 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("VersionShown");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+		-- Force launchers to right-side
+		info = {};
+		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
+		info.func = TitanPanelBarButton_ForceLDBLaunchersRight;
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);		
 		-- Reset Panel to default
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_RESET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
@@ -2457,6 +2466,13 @@ function TitanPanel_OptionsMenu()
 		info.checked = TitanPanelGetVar("LogAdjust");
 		info.keepShownOnClick = 1;
 		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+		-- Automatic bag adjust
+		info = {};
+		info.text = L["TITAN_PANEL_MENU_DISABLE_BAGS"];
+		info.func = function() TitanPanelToggleVar("BagAdjust") end;
+		info.checked = TitanPanelGetVar("BagAdjust");
+		info.keepShownOnClick = 1;
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 		-- Move Casting Bar
 		info = {};
 		info.text = L["TITAN_PANEL_MENU_CASTINGBAR"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"];
@@ -2468,15 +2484,7 @@ function TitanPanel_OptionsMenu()
 			 info.disabled = 1;
 			 info.text = info.text.." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
 			 end
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
-		-- Data Broker
-		TitanPanelRightClickMenu_AddSpacer(UIDROPDOWNMENU_MENU_LEVEL);
-		TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS_LDB"], UIDROPDOWNMENU_MENU_LEVEL);
-		-- Force launchers to right-side
-		info = {};
-		info.text = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"];
-		info.func = TitanPanelBarButton_ForceLDBLaunchersRight;
-		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+		UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);		
 	end
 end
 
