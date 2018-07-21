@@ -110,7 +110,7 @@ function TitanPanelRepairButton_OnLoad(self)
          DiscountExalted = false,
          ShowPercentage = false,
          ShowColoredText = false,
-         ShowInventory = 1, -- this is no longer a problem :-D
+         ShowInventory = false,
          ShowRepairCost = 1,
          ShowMostDmgPer = 1,
          IgnoreThrown = false,
@@ -1217,7 +1217,7 @@ local info;
 		end
 
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
 			info = {};
 			info.text = L["REPAIR_LOCALE"]["percentage"];
@@ -1335,30 +1335,35 @@ local info;
 	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_REPAIR_ID].menuText);
 
 	info = {};
-	info.text = L["TITAN_PANEL_MENU_OPTIONS"];
+	info.notCheckable = true
+	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;	 
 	UIDropDownMenu_AddButton(info);
 
 	info = {};
+	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["AutoReplabel"];
 	info.value = "AutoRepair"
 	info.hasArrow = 1;	 
 	UIDropDownMenu_AddButton(info);
 
 	info = {};
+	info.notCheckable = true
 	info.text = _G["GUILD_BANK"];
 	info.value = "GuildBank"
 	info.hasArrow = 1;	 
 	UIDropDownMenu_AddButton(info);
 
 	info = {};
+	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["discount"];
 	info.value = "Discount"
 	info.hasArrow = 1;	 
 	UIDropDownMenu_AddButton(info);
    
 	info = {};
+	info.notCheckable = true
 	info.text = L["REPAIR_LOCALE"]["TooltipOptions"];
 	info.value = "TooltipOptions"
 	info.hasArrow = 1;	 

@@ -3,6 +3,7 @@
 	<Script file="TitanAutoHide.lua"/>
 	<Frame parent="UIParent">
 		<Frames>
+<!--
 			<Button name="TitanPanelAutoHideButton" inherits="TitanPanelIconTemplate" frameStrata="FULLSCREEN" toplevel="true">
 				<Scripts>
 					<OnLoad>
@@ -33,6 +34,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
+-->
 		</Frames>
 	</Frame>	
 </Ui>

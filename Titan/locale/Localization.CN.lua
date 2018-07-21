@@ -32,6 +32,11 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."这会重新加载titan panel. "
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered with Titan.\n"
+	.."Please send any issues to the plugin author."
+L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
+L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
+L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
 L["TITAN_PANEL_EXTRAS"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
 	.."Note: You must logout before the list changes."
@@ -126,6 +131,9 @@ L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift 左键";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右键";
 L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_LDB_TREAT"] = "Treat as data source";
+L["TITAN_PANEL_MENU_LDB_SLAP"] = "If you need to use this request the author to change the LDB type";
+L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Always on";
 L["TITAN_PANEL_MENU_POSITION"] = "Position";
 L["TITAN_PANEL_MENU_BAR"] = "Bar";
 L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
@@ -184,16 +192,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
      
   L["TITAN_AUTOHIDE_TOOLTIP"] = "面板自动隐藏 开/关";
   L["TITAN_AUTOHIDE_MENU_TEXT"] = "自动隐藏";
-     
-  L["TITAN_AMMO_FORMAT"] = "%d";
-  L["TITAN_AMMO_BUTTON_LABEL_AMMO"] = "弹药: ";
-  L["TITAN_AMMO_BUTTON_LABEL_THROWN"] = "投掷武器: ";
-  L["TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN"] = "弹药/投掷武器: ";
-  L["TITAN_AMMO_TOOLTIP"] = "已装备的弹药和投掷武器计数";
-  L["TITAN_AMMO_MENU_TEXT"] = "弹药/投掷武器";
-  L["TITAN_AMMO_BUTTON_NOAMMO"] = "无弹药";
-  L["TITAN_AMMO_MENU_REFRESH"] = "刷新";
-  L["TITAN_AMMO_BULLET_NAME"] = "显示弹药名称";
      
   L["TITAN_BAG_FORMAT"] = "%d/%d";
   L["TITAN_BAG_BUTTON_LABEL"] = "背包: ";
@@ -378,21 +376,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 	L["TITAN_XP_XPGAINS_LABEL"] = "升级所需杀怪数 (基于最后杀怪所获%d点经验): ";
 	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "显示升级所需(基于最后一次所获经验)";
      
-  L["TITAN_REGEN_MENU_TEXT"] = "恢复"
-  L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "恢复速度"
-  L["TITAN_REGEN_MENU_SHOW2"] = "生命值"
-  L["TITAN_REGEN_MENU_SHOW3"] = "法力值"
-  L["TITAN_REGEN_MENU_SHOW4"] = "显示百分比"
-  L["TITAN_REGEN_BUTTON_TEXT_HP"] = "法力值: "
-  L["TITAN_REGEN_BUTTON_TEXT_MP"] = "生命值: "
-  L["TITAN_REGEN_TOOLTIP1"] = "生命值: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-  L["TITAN_REGEN_TOOLTIP2"] = "法力值: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-  L["TITAN_REGEN_TOOLTIP3"] = "最快生命回复速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP4"] = "最慢生命回复速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP5"] = "最快法力回复速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP6"] = "最慢法力回复速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP7"] = "上次战斗法力回复值: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
-
      --Titan Repair
      L["REPAIR_LOCALE"] = {
           pattern = "^耐久度 (%d+) / (%d+)$",
@@ -432,7 +415,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
 				TooltipOptions = "Tooltip",
-				CostTotal = "Total cost",
 				CostBag = "Bag cost",
 				CostEquip = "Equip cost",
      };
@@ -448,7 +430,63 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
   L["TITAN_REPAIR_REPORT_COST_CHAT"] = "修理花费 "
      
   L["TITAN_PLUGINS_MENU_TITLE"] = "扩展模块"; 
-  
+
+  L["TITAN_GOLD_TOOLTIPTEXT"] = "统计所持有金币信息";
+  L["TITAN_GOLD_ITEMNAME"] = "金币助手";
+  L["TITAN_GOLD_CLEAR_DATA_TEXT"] = "清除已存数据";
+  L["TITAN_GOLD_RESET_SESS_TEXT"] = "重置现有周期";
+  L["TITAN_GOLD_DB_CLEARED"] = "Titan金币查看助手 - 数据已清除.";
+  L["TITAN_GOLD_SESSION_RESET"] = "Titan金币查看助手 - 周期已重置.";
+  L["TITAN_GOLD_MENU_TEXT"] = "金币助手";
+  L["TITAN_GOLD_TOOLTIP"] = "金币信息";
+  L["TITAN_GOLD_TOGGLE_PLAYER_TEXT"] = "显示玩家金币";
+  L["TITAN_GOLD_TOGGLE_ALL_TEXT"] = "显示所有角色金币";
+  L["TITAN_GOLD_SESS_EARNED"] = "这个周期所赚金币";
+  L["TITAN_GOLD_PERHOUR_EARNED"] = "每小时所赚金币";
+  L["TITAN_GOLD_SESS_LOST"] = "这个周期所花费金币";
+  L["TITAN_GOLD_PERHOUR_LOST"] = "每小时花费金币";
+  L["TITAN_GOLD_STATS_TITLE"] = "周期统计";
+  L["TITAN_GOLD_TTL_GOLD"] = "总金币";
+  L["TITAN_GOLD_START_GOLD"] = "起始金币数";
+  L["TITAN_GOLD_TOGGLE_SORT_GOLD"] = "按金币数排列";
+  L["TITAN_GOLD_TOGGLE_SORT_NAME"] = "按角色名排列";
+  L["TITAN_GOLD_TOGGLE_GPH_SHOW"] = "显示每小时金币进出";
+  L["TITAN_GOLD_TOGGLE_GPH_HIDE"] = "隐藏每小时金币进出";
+L["TITAN_GOLD_GOLD"] = "g";
+L["TITAN_GOLD_SILVER"] = "s";
+L["TITAN_GOLD_COPPER"] = "c";
+  L["TITAN_GOLD_STATUS_PLAYER_SHOW"] = "显示";
+  L["TITAN_GOLD_STATUS_PLAYER_HIDE"] = "隐藏";
+  L["TITAN_GOLD_DELETE_PLAYER"] = "删除这个角色";
+  L["TITAN_GOLD_SHOW_PLAYER"] = "Show toon";
+  L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "联盟";
+  L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "部落";
+  L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."警告: "..FONT_COLOR_CODE_CLOSE.."这会清空金币助手的数据库，取消操作请按取消.";
+
+
+L["TITAN_VOLUME_TOOLTIP"] = "音量信息";
+L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "主音量: ";
+L["TITAN_VOLUME_SOUND_TOOLTIP_VALUE"] = "音效音量: ";
+L["TITAN_VOLUME_AMBIENCE_TOOLTIP_VALUE"] = "环境音量: ";
+L["TITAN_VOLUME_MUSIC_TOOLTIP_VALUE"] = "音乐音量: ";
+L["TITAN_VOLUME_MICROPHONE_TOOLTIP_VALUE"] = "麦克风音量: ";
+L["TITAN_VOLUME_SPEAKER_TOOLTIP_VALUE"] = "扬声器音量: ";
+L["TITAN_VOLUME_TOOLTIP_HINT1"] = "提示: 用鼠标左键来调节"
+L["TITAN_VOLUME_TOOLTIP_HINT2"] = "音量.";
+L["TITAN_VOLUME_CONTROL_TOOLTIP"] = "音量控制: ";
+L["TITAN_VOLUME_CONTROL_TITLE"] = "音量控制";
+L["TITAN_VOLUME_MASTER_CONTROL_TITLE"] = "主音量";
+L["TITAN_VOLUME_SOUND_CONTROL_TITLE"] = "音效音量";
+L["TITAN_VOLUME_AMBIENCE_CONTROL_TITLE"] = "环境音量";
+L["TITAN_VOLUME_MUSIC_CONTROL_TITLE"] = "音乐";
+L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"] = "麦克风";
+L["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"] = "扬声器";
+L["TITAN_VOLUME_CONTROL_HIGH"] = "高";
+L["TITAN_VOLUME_CONTROL_LOW"] = "低";
+L["TITAN_VOLUME_MENU_TEXT"] = "音量控制";
+L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"] = "显示 声音控制" ;
+L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"] = "替换默认声音控制";
+
 -- Version : Simplified Chinese
 -- Translated by Yeachan
 -- Email:yeachan@live.com

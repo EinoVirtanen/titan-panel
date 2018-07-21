@@ -46,6 +46,7 @@ function TitanPanelClockButton_OnLoad(self)
 			ShowColoredText = false,
 			DisplayOnRightSide = 1,
 			HideGameTimeMinimap = false,
+			HideMapTime = false,
 		}
 	};
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -82,8 +83,18 @@ end
 
 
 function TitanPanelClockButton_OnEvent(self, event, ...)
-	if (event == "PLAYER_ENTERING_WORLD") and TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
-		if GameTimeFrame then GameTimeFrame:Hide() end
+	if (event == "PLAYER_ENTERING_WORLD") then
+		-- If the user wants the minimap clock or calendar hidden then hide them
+		if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
+			if GameTimeFrame then GameTimeFrame:Hide() end
+		end
+		if TimeManagerClockButton and TimeManagerClockButton:GetName() then
+			if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
+				TimeManagerClockButton:Hide()
+			else
+				TimeManagerClockButton:Show()
+			end
+		end
 	end
 end
 
@@ -261,7 +272,7 @@ function TitanPanelClockControlSlider_OnShow(self)
      if (position == TITAN_PANEL_PLACE_TOP) then 
           TitanPanelClockControlFrame:ClearAllPoints();
           if TitanGetVar(TITAN_CLOCK_ID, "DisplayOnRightSide") == 1 then
-          	TitanPanelClockControlFrame:SetPoint("TOPLEFT", "TitanPanel" .. TitanUtils_GetWhichBar(TITAN_CLOCK_ID) .."Button", "BOTTOMLEFT", UIParent:GetRight() - TitanPanelClockControlFrame:GetWidth(), -4);
+          	TitanPanelClockControlFrame:SetPoint("TOPLEFT", TITAN_PANEL_DISPLAY_PREFIX..TitanUtils_GetWhichBar(TITAN_CLOCK_ID), "BOTTOMLEFT", UIParent:GetRight() - TitanPanelClockControlFrame:GetWidth(), -4);
           else
           	TitanPanelClockControlFrame:SetPoint("TOPLEFT", "TitanPanel" ..TITAN_CLOCK_ID.."Button", "BOTTOMLEFT", -10, -4 * scale);
           	-- Adjust frame position if it's off the screen
@@ -275,7 +286,7 @@ function TitanPanelClockControlSlider_OnShow(self)
      else
           TitanPanelClockControlFrame:ClearAllPoints();
           if TitanGetVar(TITAN_CLOCK_ID, "DisplayOnRightSide") == 1 then
-          	TitanPanelClockControlFrame:SetPoint("BOTTOMLEFT", "TitanPanel" .. TitanUtils_GetWhichBar(TITAN_CLOCK_ID) .."Button", "TOPLEFT", UIParent:GetRight() - TitanPanelClockControlFrame:GetWidth(), 0);
+          	TitanPanelClockControlFrame:SetPoint("BOTTOMLEFT", TITAN_PANEL_DISPLAY_PREFIX..TitanUtils_GetWhichBar(TITAN_CLOCK_ID), "TOPLEFT", UIParent:GetRight() - TitanPanelClockControlFrame:GetWidth(), 0);
           else
           	TitanPanelClockControlFrame:SetPoint("BOTTOMLEFT", "TitanPanel" ..TITAN_CLOCK_ID.."Button", "TOPLEFT", -10, 4 * scale);
           	-- Adjust frame position if it's off the screen
@@ -453,7 +464,14 @@ function TitanPanelRightClickMenu_PrepareClockMenu()
      TitanPanelRightClickMenu_AddSpacer();     
      
      info = {};
-     info.text = L["TITAN_CLOCK_MENU_HIDE_GAMETIME"];
+     info.text = L["TITAN_CLOCK_MENU_HIDE_MAPTIME"];
+     info.func = TitanPanelClockButton_ToggleMapTime;
+     info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideMapTime");
+     info.keepShownOnClick = 1;
+     UIDropDownMenu_AddButton(info);
+     
+     info = {};
+     info.text = L["TITAN_CLOCK_MENU_HIDE_CALENDAR"];
      info.func = TitanPanelClockButton_ToggleGameTimeFrameShown;
      info.checked = TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap");
      info.keepShownOnClick = 1;
@@ -478,9 +496,7 @@ end
 -- **************************************************************************
 function TitanPanelClockButton_ToggleRightSideDisplay()
      TitanToggleVar(TITAN_CLOCK_ID, "DisplayOnRightSide");
-     TITAN_PANEL_SELECTED = TitanUtils_GetWhichBar(TITAN_CLOCK_ID);
      TitanPanel_RemoveButton(TITAN_CLOCK_ID);
-     --TitanDebug(TITAN_PANEL_SELECTED);
      TitanPanel_AddButton(TITAN_CLOCK_ID);     
 end
 
@@ -493,4 +509,16 @@ function TitanPanelClockButton_ToggleGameTimeFrameShown()
 				GameTimeFrame:Show()
 			end
 		end
+end
+
+
+function TitanPanelClockButton_ToggleMapTime()
+	TitanToggleVar(TITAN_CLOCK_ID, "HideMapTime");
+	if TimeManagerClockButton and TimeManagerClockButton:GetName() then
+		if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
+			TimeManagerClockButton:Hide()
+		else
+			TimeManagerClockButton:Show()
+		end
+	end
 end

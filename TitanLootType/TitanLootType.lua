@@ -369,37 +369,41 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
  UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
  
  else
-     TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
-      info = {};
-			info.text = L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"]
-			info.value = "ShowDungeonDiffMenu"
-			info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_LOOTTYPE_ID, "ShowDungeonDiff"}) end
-			info.checked = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff");
-			info.keepShownOnClick = 1;
-			info.hasArrow = 1;
-			UIDropDownMenu_AddButton(info);
-     info = {}
-     info.text = L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"];
-     info.value = "SetDungeonDiff";
-     info.hasArrow = 1;
-     UIDropDownMenu_AddButton(info);
-     info = {}
-     info.text = L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"];
-     info.value = "SetRaidDiff";
-     info.hasArrow = 1;     
-     UIDropDownMenu_AddButton(info);     
-     info = {};
-		 info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
-		 info.value = "RandomRoll";
-     info.hasArrow = 1;
-     UIDropDownMenu_AddButton(info);
-     TitanPanelRightClickMenu_AddSpacer();
-     TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOOTTYPE_ID);
-     TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOOTTYPE_ID);
-     
-     TitanPanelRightClickMenu_AddSpacer();
-     TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
-     end
+		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOOTTYPE_ID].menuText);
+		info = {};
+		info.notCheckable = true
+		info.text = L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"]
+		info.value = "ShowDungeonDiffMenu"
+		info.func = function() TitanPanelRightClickMenu_ToggleVar({TITAN_LOOTTYPE_ID, "ShowDungeonDiff"}) end
+		info.checked = TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff");
+		info.keepShownOnClick = 1;
+		info.hasArrow = 1;
+		UIDropDownMenu_AddButton(info);
+		info = {}
+		info.notCheckable = true
+		info.text = L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"];
+		info.value = "SetDungeonDiff";
+		info.hasArrow = 1;
+		UIDropDownMenu_AddButton(info);
+		info = {}
+		info.notCheckable = true
+		info.text = L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"];
+		info.value = "SetRaidDiff";
+		info.hasArrow = 1;     
+		UIDropDownMenu_AddButton(info);     
+		info = {};
+		info.notCheckable = true
+		info.text = L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"];
+		info.value = "RandomRoll";
+		info.hasArrow = 1;
+		UIDropDownMenu_AddButton(info);
+		TitanPanelRightClickMenu_AddSpacer();
+		TitanPanelRightClickMenu_AddToggleIcon(TITAN_LOOTTYPE_ID);
+		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_LOOTTYPE_ID);
+
+		TitanPanelRightClickMenu_AddSpacer();
+		TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_LOOTTYPE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	end
 end
 
 -- **************************************************************************

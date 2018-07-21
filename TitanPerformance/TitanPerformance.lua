@@ -291,7 +291,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	-- level 2
 	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
 			if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+				TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 				
 				local temptable = {TITAN_PERFORMANCE_ID, "ShowFPS"};
 				info = {};
@@ -353,6 +353,7 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
     		
 				info = {};
+				info.notCheckable = true
 				info.text = L["TITAN_PERFORMANCE_CONTROL_TOOLTIP"]..LIGHTYELLOW_FONT_COLOR_CODE..tostring(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
 				info.value = "AddonControlFrame"
 				info.hasArrow = 1;
@@ -394,38 +395,42 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	end
 	
 	-- level 1
-		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_PERFORMANCE_ID].menuText);    
-     
-			info = {};
-	 		info.text = L["TITAN_PANEL_MENU_OPTIONS"];
-	 		info.value = "Options"
-	 		info.hasArrow = 1;	 
-   		UIDropDownMenu_AddButton(info);
-   		
-   		info = {};
-	 		info.text = L["TITAN_PERFORMANCE_ADDONS"];
-	 		info.value = "AddonUsage"
-	 		info.hasArrow = 1;	 
-   		UIDropDownMenu_AddButton(info);
-   		
-   		info = {};
-	 		info.text = L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"];
-	 		info.value = "AddonMemoryFormat"
-	 		info.hasArrow = 1;	 
-   		UIDropDownMenu_AddButton(info);
-   		
-   		info = {};
-	 		info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"];
-	 		info.value = "CPUProfiling"
-	 		info.hasArrow = 1;	 
-   		UIDropDownMenu_AddButton(info);
+	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_PERFORMANCE_ID].menuText);    
+  
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PANEL_OPTIONS"];
+	info.value = "Options"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+	
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PERFORMANCE_ADDONS"];
+	info.value = "AddonUsage"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+	
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"];
+	info.value = "AddonMemoryFormat"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
+	
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"];
+	info.value = "CPUProfiling"
+	info.hasArrow = 1;	 
+	UIDropDownMenu_AddButton(info);
 		
-     	TitanPanelRightClickMenu_AddSpacer();
-     	TitanPanelRightClickMenu_AddToggleIcon(TITAN_PERFORMANCE_ID);
-     	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_PERFORMANCE_ID);
-     	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_PERFORMANCE_ID);
-     	TitanPanelRightClickMenu_AddSpacer();
-     	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_PERFORMANCE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
+	TitanPanelRightClickMenu_AddSpacer();
+	TitanPanelRightClickMenu_AddToggleIcon(TITAN_PERFORMANCE_ID);
+	TitanPanelRightClickMenu_AddToggleLabelText(TITAN_PERFORMANCE_ID);
+	TitanPanelRightClickMenu_AddToggleColoredText(TITAN_PERFORMANCE_ID);
+	TitanPanelRightClickMenu_AddSpacer();
+	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], TITAN_PERFORMANCE_ID, TITAN_PANEL_MENU_FUNC_HIDE);
 end
 
 -- **************************************************************************

@@ -33,6 +33,11 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	..TITAN_PANEL_RELOAD_TEXT
      L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Warnung:"..FONT_COLOR_CODE_CLOSE.."Diese Einstellung wird die Leiste(n) zuruecksetzen und das aktuelle Profil erneuern. Fuer WEITER druecke 'Accept' (UI wird neu laden), andernfalls druecke 'Cancel' oder 'Escape'."; --SENSITY
 L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered with Titan.\n"
+	.."Please send any issues to the plugin author."
+L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
+L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
+L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
 L["TITAN_PANEL_EXTRAS"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
 	.."Note: You must logout before the list changes."
@@ -127,6 +132,9 @@ L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
 L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_LDB_TREAT"] = "Treat as data source";
+L["TITAN_PANEL_MENU_LDB_SLAP"] = "If you need to use this request the author to change the LDB type";
+L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Always on";
 L["TITAN_PANEL_MENU_POSITION"] = "Position";
 L["TITAN_PANEL_MENU_BAR"] = "Bar";
 L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
@@ -186,16 +194,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
      L["TITAN_AUTOHIDE_TOOLTIP"] = "Leiste automatisch ausblenden";
      L["TITAN_AUTOHIDE_MENU_TEXT"] = "Automatisch ausblenden";
 
-     L["TITAN_AMMO_FORMAT"] = "%d";
-     L["TITAN_AMMO_BUTTON_LABEL_AMMO"] = "Munition: ";
-     L["TITAN_AMMO_BUTTON_LABEL_THROWN"] = "Geworfen: ";
-     L["TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN"] = "Munition/Geworfen: ";
-     L["TITAN_AMMO_TOOLTIP"] = "Angelegte Munition/Geworfen Z\195\164hler";
-     L["TITAN_AMMO_MENU_TEXT"] = "Munition/Geworfen";
-     L["TITAN_AMMO_BUTTON_NOAMMO"] = "Keine Munition"; --SENSITY
-     L["TITAN_AMMO_MENU_REFRESH"] = "Aktualisiere Display"; --SENSITY
-     L["TITAN_AMMO_BULLET_NAME"] = "Show ammo name";
-     
      L["TITAN_BAG_FORMAT"] = "%d/%d";
      L["TITAN_BAG_BUTTON_LABEL"] = "Taschen: ";
      L["TITAN_BAG_TOOLTIP"] = "Taschenbenutzung";
@@ -379,21 +377,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
  		 L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
 		 L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
   
-     L["TITAN_REGEN_MENU_TEXT"] = "Regeneration"
-     L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]     = "Regenerationsrate"
-     L["TITAN_REGEN_MENU_SHOW2"] = "HP"
-     L["TITAN_REGEN_MENU_SHOW3"] = "MP"
-     L["TITAN_REGEN_MENU_SHOW4"] = "Als Prozentsatz"
-     L["TITAN_REGEN_BUTTON_TEXT_HP"] = "HP: "
-     L["TITAN_REGEN_BUTTON_TEXT_MP"] = " MP: "
-     L["TITAN_REGEN_TOOLTIP1"] = "Gesundheit: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-     L["TITAN_REGEN_TOOLTIP2"] = "Mana: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-     L["TITAN_REGEN_TOOLTIP3"] = "Beste HP Regeneration: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-     L["TITAN_REGEN_TOOLTIP4"] = "Schlechteste HP Regeneration: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-     L["TITAN_REGEN_TOOLTIP5"] = "Beste MP Regeneration: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-     L["TITAN_REGEN_TOOLTIP6"] = "Schlechteste MP Regeneration: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-     L["TITAN_REGEN_TOOLTIP7"] = "MP Regeneration im letzten Kampf: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
-     
      --Titan Repair
      L["REPAIR_LOCALE"] = {
           pattern = "^Haltbarkeit (%d+) / (%d+)$",
@@ -448,3 +431,59 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
      L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
      
      L["TITAN_PLUGINS_MENU_TITLE"] = "Plugins";
+
+	L["TITAN_GOLD_TOOLTIPTEXT"] = "Gesamtes Gold auf";
+	L["TITAN_GOLD_ITEMNAME"] = "Titan Gold";
+	L["TITAN_GOLD_CLEAR_DATA_TEXT"] = "L\195\182sche Datenbank";
+	L["TITAN_GOLD_RESET_SESS_TEXT"] = "Sitzung zur\195\188cksetzen";
+	L["TITAN_GOLD_DB_CLEARED"] = "Titan Gold - Datenbank gel\195\182scht.";
+	L["TITAN_GOLD_SESSION_RESET"] = "Titan Gold - Sitzung zur\195\188ck gesetzt.";
+	L["TITAN_GOLD_MENU_TEXT"] = "Gold";
+	L["TITAN_GOLD_TOOLTIP"] = "Gold Info";
+	L["TITAN_GOLD_TOGGLE_PLAYER_TEXT"] = "Zeige Spieler Gold";
+	L["TITAN_GOLD_TOGGLE_ALL_TEXT"] = "Zeige Server Gold";
+	L["TITAN_GOLD_SESS_EARNED"] = "Eingenommen in der Sitzung";
+	L["TITAN_GOLD_PERHOUR_EARNED"] = "Eingenommen pro Stunde";
+	L["TITAN_GOLD_SESS_LOST"] = "Ausgegeben in der Sitzung";
+	L["TITAN_GOLD_PERHOUR_LOST"] = "Ausgegeben pro Stunde";
+	L["TITAN_GOLD_STATS_TITLE"] = "Sitzungsstatistik";
+	L["TITAN_GOLD_TTL_GOLD"] = "Gesamtes Gold";
+	L["TITAN_GOLD_START_GOLD"] = "Anf\195\164ngliches Gold";
+	L["TITAN_GOLD_TOGGLE_SORT_GOLD"] = "Sortiere Tabelle nach Gold";
+	L["TITAN_GOLD_TOGGLE_SORT_NAME"] = "Sortiere Tabelle nach Name";
+	L["TITAN_GOLD_TOGGLE_GPH_SHOW"] = "Zeige Gold pro Stunde";
+	L["TITAN_GOLD_TOGGLE_GPH_HIDE"] = "Verberge Gold pro Stunde";
+L["TITAN_GOLD_GOLD"] = "g";
+L["TITAN_GOLD_SILVER"] = "s";
+L["TITAN_GOLD_COPPER"] = "c";
+	L["TITAN_GOLD_STATUS_PLAYER_SHOW"] = "Sichtbar";
+	L["TITAN_GOLD_STATUS_PLAYER_HIDE"] = "Verborgen";
+	L["TITAN_GOLD_DELETE_PLAYER"] = "Delete toon";
+	L["TITAN_GOLD_SHOW_PLAYER"] = "Show toon";
+	L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Alliance";
+	L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Horde";
+	L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Warning: "..FONT_COLOR_CODE_CLOSE.."This setting will wipe your Titan Gold database. If you wish to continue with this operation, push 'Accept', otherwise push 'Cancel' or the 'Escape' key.";
+	
+
+L["TITAN_VOLUME_TOOLTIP"] = "Lautst\195\164rke einstellen";
+L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Momentane Gesamtlautst\195\164rke: ";
+L["TITAN_VOLUME_SOUND_TOOLTIP_VALUE"] = "Momentane Effektlautst\195\164rke: ";
+L["TITAN_VOLUME_AMBIENCE_TOOLTIP_VALUE"] = "Momentane Umgebungslautst\195\164rke: ";
+L["TITAN_VOLUME_MUSIC_TOOLTIP_VALUE"] = "Momentane Musiklautst\195\164rke: ";
+L["TITAN_VOLUME_MICROPHONE_TOOLTIP_VALUE"] = "Momentane Mikrofonlautst\195\164rke: ";
+L["TITAN_VOLUME_SPEAKER_TOOLTIP_VALUE"] = "Momentane Lautsprecherlaust\195\164rke: ";
+L["TITAN_VOLUME_TOOLTIP_HINT1"] = "Hinweis: Links-Klick um die";
+L["TITAN_VOLUME_TOOLTIP_HINT2"] = "Lautst\195\164rken anzupassen.";
+L["TITAN_VOLUME_CONTROL_TOOLTIP"] = "Lautst\195\164rke: ";
+L["TITAN_VOLUME_CONTROL_TITLE"] = "Lautst\195\164rke";
+L["TITAN_VOLUME_MASTER_CONTROL_TITLE"] = "Gesamt";
+L["TITAN_VOLUME_SOUND_CONTROL_TITLE"] = "Effekte";
+L["TITAN_VOLUME_AMBIENCE_CONTROL_TITLE"] = "Umgebung";
+L["TITAN_VOLUME_MUSIC_CONTROL_TITLE"] = "Musik";
+L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"] = "Mikrofon";
+L["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"] = "Lautsprecher";
+L["TITAN_VOLUME_CONTROL_HIGH"] = "Laut";
+L["TITAN_VOLUME_CONTROL_LOW"] = "Leise";
+L["TITAN_VOLUME_MENU_TEXT"] = "Lautst\195\164rkeregler";
+L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"] = "Show Sound/Voice options" ;
+L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"] = "Override Blizzard Volume Settings";

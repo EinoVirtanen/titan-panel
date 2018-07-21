@@ -2,7 +2,6 @@
 -- * TitanBag.lua
 -- *
 -- * By: TitanMod, Dark Imakuni, Adsertor and the Titan Development Team
--- *     (HonorGoG, jaketodd422, joejanko, Lothayer, Tristanian)
 -- **************************************************************************
 
 -- ******************************** Constants *******************************
@@ -26,7 +25,6 @@ local BagTimer
 function TitanPanelBagButton_OnLoad(self)
 	self.registry = {
 		id = TITAN_BAG_ID,
-		--          builtIn = 1,
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_BAG_MENU_TEXT"],
@@ -67,17 +65,9 @@ function TitanPanelBagButton_OnEvent(self, event, ...)
 	end
 
 	if event == "BAG_UPDATE" then
-		-- Create the only when the event is active
+		-- Create only when the event is active
 		self:SetScript("OnUpdate", TitanPanelBagButton_OnUpdate)
 	end
---[[
-	if event == "BAG_UPDATE" then
-		-- Throw a timer to update the button 3 seconds after the initial event to avoid "spammy" events     	
-		if not BagTimer then     		     		     			
-			BagTimer = AceTimer.ScheduleTimer("TitanPanelBag", TitanPanelBagButton_OnUpdate, 3, updateTable)
-		end
-	end
---]]
 end
 
 function TitanPanelBagButton_OnUpdate(self)
@@ -86,13 +76,7 @@ function TitanPanelBagButton_OnUpdate(self)
 	-- remove until the next bag event
 	self:SetScript("OnUpdate", nil)
 end
---[[
-function TitanPanelBagButton_OnUpdate(table)
-	TitanPanelPluginHandle_OnUpdate(table)	    
-	AceTimer.CancelAllTimers("TitanPanelBag")
-	BagTimer = nil; 
-end
---]]
+
 -- **************************************************************************
 -- NAME : TitanPanelBagButton_OnClick(button)
 -- DESC : Opens all bags on a LeftClick
@@ -117,14 +101,9 @@ function TitanPanelBagButton_GetButtonText(id)
 	totalSlots = 0;
 	usedSlots = 0;
 	for bag = 0, 4 do
-		if TitanGetVar(TITAN_BAG_ID, "CountAmmoPouchSlots") and TitanBag_IsAmmoPouch(GetBagName(bag)) then
+		if TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") and TitanBag_IsProfBag(GetBagName(bag)) then
 			useme = 1;
-		elseif TitanGetVar(TITAN_BAG_ID, "CountShardBagSlots") and TitanBag_IsShardBag(GetBagName(bag)) then
-			useme = 1;
-		elseif TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots") and TitanBag_IsProfBag(GetBagName(bag)) then
-			useme = 1;
-		elseif not TitanBag_IsAmmoPouch(GetBagName(bag)) and not TitanBag_IsShardBag(GetBagName(bag)) 
-			and not TitanBag_IsProfBag(GetBagName(bag)) then
+		elseif not TitanBag_IsProfBag(GetBagName(bag)) then
 			useme = 1;
 		else
 			useme = 0;
@@ -186,7 +165,6 @@ function TitanPanelBagButton_GetTooltipText()
 			local itemlink  = bag > 0 and GetInventoryItemLink("player", ContainerIDToInventoryID(bag)) 
 				or TitanUtils_GetHighlightText(L["TITAN_BAG_BACKPACK"]).. FONT_COLOR_CODE_CLOSE;
 
-
 			if itemlink then
 				itemlink = string.gsub( itemlink, "%[", "" );
 				itemlink = string.gsub( itemlink, "%]", "" );
@@ -228,12 +206,11 @@ end
 -- DESC : Display rightclick menu options
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareBagMenu()
-		 local info
-		 
-		 -- level 2
+	local info
+	-- level 2
 	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
 			info = {};
 			info.text = L["TITAN_BAG_MENU_SHOW_USED_SLOTS"];
 			info.func = TitanPanelBagButton_ShowUsedSlots;
@@ -252,26 +229,16 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 			info.checked = TitanGetVar(TITAN_BAG_ID, "ShowDetailedInfo");
 			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
+--[[
 		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "IgnoreCont" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_BAG_MENU_IGNORE_SLOTS"], _G["UIDROPDOWNMENU_MENU_LEVEL"])
-			info = {};
-			info.text = L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"];
-			info.func = TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots;
-			info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountAmmoPouchSlots"));
-			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-
-			info = {};
-			info.text = L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"];
-			info.func = TitanPanelBagButton_ToggleIgnoreShardBagSlots;
-			info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountShardBagSlots"));
-			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-
 			info = {};
 			info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
 			info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
 			info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
 			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 		end
+--]]
 		return
 	end
 	
@@ -279,16 +246,25 @@ function TitanPanelRightClickMenu_PrepareBagMenu()
 	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_BAG_ID].menuText);
 
 	info = {};
-	info.text = L["TITAN_PANEL_MENU_OPTIONS"];
+	info.notCheckable = true
+	info.text = L["TITAN_PANEL_OPTIONS"];
 	info.value = "Options"
 	info.hasArrow = 1;
 	UIDropDownMenu_AddButton(info);
-
+--[[
 	info = {};
+	info.notCheckable = true
 	info.text = L["TITAN_BAG_MENU_IGNORE_SLOTS"];
 	info.value = "IgnoreCont"
 	info.hasArrow = 1;
 	UIDropDownMenu_AddButton(info);
+--]]
+	TitanPanelRightClickMenu_AddSpacer();     
+	info = {};
+	info.text = L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"];
+	info.func = TitanPanelBagButton_ToggleIgnoreProfBagSlots;
+	info.checked = TitanUtils_Toggle(TitanGetVar(TITAN_BAG_ID, "CountProfBagSlots"));
+	UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 
 	TitanPanelRightClickMenu_AddSpacer();     
 	TitanPanelRightClickMenu_AddToggleIcon(TITAN_BAG_ID);
@@ -317,24 +293,6 @@ function TitanPanelBagButton_ShowAvailableSlots()
 end
 
 -- **************************************************************************
--- NAME : TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots()
--- DESC : Set option to count ammo pouch slots
--- **************************************************************************
-function TitanPanelBagButton_ToggleIgnoreAmmoPouchSlots()
-	TitanToggleVar(TITAN_BAG_ID, "CountAmmoPouchSlots");
-	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
-end
-
--- **************************************************************************
--- NAME : TitanPanelBagButton_ToggleIgnoreShardBagSlots()
--- DESC : Set option to count shard bag slots
--- **************************************************************************
-function TitanPanelBagButton_ToggleIgnoreShardBagSlots()
-	TitanToggleVar(TITAN_BAG_ID, "CountShardBagSlots");
-	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
-end
-
--- **************************************************************************
 -- NAME : TitanPanelBagButton_ToggleIgnoreProfBagSlots()
 -- DESC : Set option to count profession bag slots
 -- **************************************************************************
@@ -343,41 +301,8 @@ function TitanPanelBagButton_ToggleIgnoreProfBagSlots()
 	TitanPanelButton_UpdateButton(TITAN_BAG_ID);
 end
 
-
 function TitanPanelBagButton_ShowDetailedInfo()
 	TitanToggleVar(TITAN_BAG_ID, "ShowDetailedInfo");
-end
-
--- **************************************************************************
--- NAME : TitanBag_IsAmmoPouch(name)
--- DESC : Test to see if bag is an ammo pouch
--- VARS : name = item name
--- **************************************************************************
-function TitanBag_IsAmmoPouch(name)
-	if (name) then
-		for index, value in pairs(L["TITAN_BAG_AMMO_POUCH_NAMES"]) do
-			if (string.find(name, value)) then
-				return true;
-			end
-		end
-	end
-	return false;
-end
-
--- **************************************************************************
--- NAME : TitanBag_IsShardBag(name)
--- DESC : Test to see if bag is a shard bag
--- VARS : name = item name
--- **************************************************************************
-function TitanBag_IsShardBag(name)
-	if (name) then
-		for index, value in pairs(L["TITAN_BAG_SHARD_BAG_NAMES"]) do
-			if (string.find(name, value)) then
-				return true;
-			end
-		end
-	end
-	return false;
 end
 
 -- **************************************************************************

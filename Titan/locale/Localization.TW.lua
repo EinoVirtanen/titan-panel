@@ -31,6 +31,11 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."這會重新載入泰坦面板. "
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
+L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered with Titan.\n"
+	.."Please send any issues to the plugin author."
+L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
+L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
+L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
 L["TITAN_PANEL_EXTRAS"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
 	.."Note: You must logout before the list changes."
@@ -125,6 +130,9 @@ L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift 左鍵";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift 右鍵";
 L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_LDB_TREAT"] = "Treat as data source";
+L["TITAN_PANEL_MENU_LDB_SLAP"] = "If you need to use this request the author to change the LDB type";
+L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Always on";
 L["TITAN_PANEL_MENU_POSITION"] = "Position";
 L["TITAN_PANEL_MENU_BAR"] = "Bar";
 L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
@@ -183,16 +191,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 	
   L["TITAN_AUTOHIDE_TOOLTIP"] = "自動隱藏 開/關";
   L["TITAN_AUTOHIDE_MENU_TEXT"] = "自動隱藏";
-	
-  L["TITAN_AMMO_FORMAT"] = "%d";
-  L["TITAN_AMMO_BUTTON_LABEL_AMMO"] = "彈藥: ";
-  L["TITAN_AMMO_BUTTON_LABEL_THROWN"] = "投擲: ";
-  L["TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN"] = "彈藥/投擲: ";
-  L["TITAN_AMMO_TOOLTIP"] = "已裝備 彈藥/投擲 數量";
-  L["TITAN_AMMO_MENU_TEXT"] = "彈藥/投擲";
-  L["TITAN_AMMO_BUTTON_NOAMMO"] = "沒有彈藥";
-  L["TITAN_AMMO_MENU_REFRESH"] = "重新整理";
-  L["TITAN_AMMO_BULLET_NAME"] = "顯示彈藥名稱";
 	
   L["TITAN_BAG_FORMAT"] = "%d/%d";
   L["TITAN_BAG_BUTTON_LABEL"] = "背包: ";
@@ -377,21 +375,6 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 	L["TITAN_XP_XPGAINS_LABEL"] = "升級所需擊殺數(基於最後擊殺獲得的%d點經驗): ";
 	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "顯示升級所需(基於最後所獲經驗)";
 	
-  L["TITAN_REGEN_MENU_TEXT"] = "角色恢復速度"
-  L["TITAN_REGEN_MENU_TOOLTIP_TITLE"]	= "恢復速率"
-  L["TITAN_REGEN_MENU_SHOW2"] = "HP"
-  L["TITAN_REGEN_MENU_SHOW3"] = "MP"
-  L["TITAN_REGEN_MENU_SHOW4"] = "顯示百分比"
-  L["TITAN_REGEN_BUTTON_TEXT_HP"] = "法力值: "
-  L["TITAN_REGEN_BUTTON_TEXT_MP"] = "生命值: "
-  L["TITAN_REGEN_TOOLTIP1"] = "生命: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-  L["TITAN_REGEN_TOOLTIP2"] = "法力: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-  L["TITAN_REGEN_TOOLTIP3"] = "最高 HP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP4"] = "最低 HP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP5"] = "最高 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP6"] = "最低 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-  L["TITAN_REGEN_TOOLTIP7"] = "上一場戰鬥的 MP 恢復速度: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
-	   	
 	-- Titan Repair
      L["REPAIR_LOCALE"] = {
 		      pattern = "^耐久度 (%d+) / (%d+)$",
@@ -447,5 +430,61 @@ L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
 
   L["TITAN_PLUGINS_MENU_TITLE"] = "擴展插件";
   
+L["TITAN_GOLD_TOOLTIPTEXT"] = "總計金錢於";
+L["TITAN_GOLD_ITEMNAME"] = "金錢追蹤";
+L["TITAN_GOLD_CLEAR_DATA_TEXT"] = "清除資料庫";
+L["TITAN_GOLD_RESET_SESS_TEXT"] = "重置目前階段";
+L["TITAN_GOLD_DB_CLEARED"] = "泰坦金錢追蹤 - 資料庫已清除。";
+L["TITAN_GOLD_SESSION_RESET"] = "泰坦金錢追蹤 - 此階段已重置。";
+L["TITAN_GOLD_MENU_TEXT"] = "金錢追蹤";
+L["TITAN_GOLD_TOOLTIP"] = "金錢資訊";
+L["TITAN_GOLD_TOGGLE_PLAYER_TEXT"] = "顯示玩家賺取金額";
+L["TITAN_GOLD_TOGGLE_ALL_TEXT"] = "顯示伺服器賺取金額";
+L["TITAN_GOLD_SESS_EARNED"] = "此階段賺取";
+L["TITAN_GOLD_PERHOUR_EARNED"] = "每小時賺取";
+L["TITAN_GOLD_SESS_LOST"] = "此階段花費";
+L["TITAN_GOLD_PERHOUR_LOST"] = "每小時花費";
+L["TITAN_GOLD_STATS_TITLE"] = "階段統計";
+L["TITAN_GOLD_TTL_GOLD"] = "總計金額";
+L["TITAN_GOLD_START_GOLD"] = "開始統計金額";
+L["TITAN_GOLD_TOGGLE_SORT_GOLD"] = "依金額排列表單";
+L["TITAN_GOLD_TOGGLE_SORT_NAME"] = "依名稱排列表單";
+L["TITAN_GOLD_TOGGLE_GPH_SHOW"] = "顯示每小時賺取金額";
+L["TITAN_GOLD_TOGGLE_GPH_HIDE"] = "隱藏每小時賺取金額";
+L["TITAN_GOLD_GOLD"] = "g";
+L["TITAN_GOLD_SILVER"] = "s";
+L["TITAN_GOLD_COPPER"] = "c";
+L["TITAN_GOLD_STATUS_PLAYER_SHOW"] = "顯示";
+L["TITAN_GOLD_STATUS_PLAYER_HIDE"] = "隱藏";
+L["TITAN_GOLD_DELETE_PLAYER"] = "刪除角色";
+L["TITAN_GOLD_SHOW_PLAYER"] = "Show toon";
+L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "聯盟";
+L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "部落";
+L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."警告: "..FONT_COLOR_CODE_CLOSE.."這會清空金幣助手的資料庫，按取消放弃此次操作.";
+
+
+L["TITAN_VOLUME_TOOLTIP"] = "音量控制";
+L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "主音量大小: ";
+L["TITAN_VOLUME_SOUND_TOOLTIP_VALUE"] = "音效音量大小: ";
+L["TITAN_VOLUME_AMBIENCE_TOOLTIP_VALUE"] = "環境音量大小: ";
+L["TITAN_VOLUME_MUSIC_TOOLTIP_VALUE"] = "音樂音量大小: ";
+L["TITAN_VOLUME_MICROPHONE_TOOLTIP_VALUE"] = "麥克風音量大小: ";
+L["TITAN_VOLUME_SPEAKER_TOOLTIP_VALUE"] = "喇叭音量大小: ";
+L["TITAN_VOLUME_TOOLTIP_HINT1"] = "提示: 滑鼠左鍵調整"
+L["TITAN_VOLUME_TOOLTIP_HINT2"] = "主音量大小";
+L["TITAN_VOLUME_CONTROL_TOOLTIP"] = "主音量: ";
+L["TITAN_VOLUME_CONTROL_TITLE"] = "音量";
+L["TITAN_VOLUME_MASTER_CONTROL_TITLE"] = "主音量";
+L["TITAN_VOLUME_SOUND_CONTROL_TITLE"] = "音效";
+L["TITAN_VOLUME_AMBIENCE_CONTROL_TITLE"] = "環境";
+L["TITAN_VOLUME_MUSIC_CONTROL_TITLE"] = "音樂";
+L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"] = "麥克風";
+L["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"] = "喇叭";
+L["TITAN_VOLUME_CONTROL_HIGH"] = "高";
+L["TITAN_VOLUME_CONTROL_LOW"] = "低";
+L["TITAN_VOLUME_MENU_TEXT"] = "音量";
+L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"] = "顯示 聲音選項" ;
+L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"] = "替換默認聲音控制";
+
 -- Version : Traditional Chinese
 -- Translated by Juha,added by yeachan.

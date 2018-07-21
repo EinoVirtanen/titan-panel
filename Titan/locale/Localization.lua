@@ -1,7 +1,9 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Titan","enUS",true)
 
+L["TITAN_PANEL"] = "Titan Panel";
+local TITAN_PANEL = "Titan Panel";
 L["TITAN_DEBUG"] = "<Titan>";
-L["TITAN_INFO"] = "<Titan>"
+--L["TITAN_INFO"] = "<Titan>"
      
 L["TITAN_NA"] = "N/A";
 L["TITAN_SECONDS"] = "seconds";
@@ -18,74 +20,79 @@ L["TITAN_KILOBITS_PER_SECOND"] = "kbps"
 L["TITAN_MEGABYTE"] = "MB";
 L["TITAN_NONE"] = "None";
      
-L["TITAN_MOVABLE_TOOLTIP"] = "Drag to move around";
+--L["TITAN_MOVABLE_TOOLTIP"] = "Drag to move around";
 
-L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " appears to be registered twice. This may cause certain plugins to malfunction, please correct/report this problem.";
+--L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " appears to be registered twice. This may cause certain plugins to malfunction, please correct/report this problem.";
 L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "You may not delete your current profile.";
 local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
 local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
 L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
-	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	.."This setting will reset your bar(s) and "..TITAN_PANEL.." settings to default values and will recreate your current profile. "
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
-	.."This will reload Titan Panel. "
+	.."This will reload "..TITAN_PANEL..". "
 	..TITAN_PANEL_RELOAD_TEXT
-L["TITAN_PANEL_ATTEMPTS"] = "Attempts"
-L["TITAN_PANEL_EXTRAS"] = "Extras"
+L["TITAN_PANEL_ATTEMPTS"] = TITAN_PANEL.." Attempts"
+L["TITAN_PANEL_ATTEMPTS_SHORT"] = "Attempts"
+L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered with "..TITAN_PANEL..".\n"
+	.."Please send any issues to the plugin author."
+L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
+L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
+L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
+L["TITAN_PANEL_EXTRAS"] = TITAN_PANEL.." Extras"
+L["TITAN_PANEL_EXTRAS_SHORT"] = "Extras"
 L["TITAN_PANEL_EXTRAS_DESC"] = "These are plugins with configuration data that are not currently loaded.\n"
-	.."Note: You must logout before the list changes."
+	.."These are safe to delete."
 L["TITAN_PANEL_EXTRAS_DELETE_BUTTON"] = "Delete config data"
 L["TITAN_PANEL_EXTRAS_DELETE_MSG"] = "configuration entry for has been removed."
 L["TITAN_PANEL_CHARS"] = "Characters"
-L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data.\n"
-		.."Note: You must logout before the list changes."
-L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
-L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
-L["TITAN_PANEL_REGISTER_START"] = "Register Titan plugins..."
+L["TITAN_PANEL_CHARS_DESC"] = "These are characters with configuration data."
+--L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Delete character data"
+--L["TITAN_PANEL_CHARS_DELETE_MSG"] = "character data for has been removed."
+L["TITAN_PANEL_REGISTER_START"] = "Register "..TITAN_PANEL.." plugins..."
 L["TITAN_PANEL_REGISTER_END"] = "Registration process done."
 
 -- slash command help
 L["TITAN_PANEL_SLASH_STRING2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
-L["TITAN_PANEL_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffResets Panel to default values/position.";
-L["TITAN_PANEL_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffResets Panel tooltip font scale to default.";
-L["TITAN_PANEL_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffResets Panel tooltip transparency to default.";
-L["TITAN_PANEL_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffResets Panel scale to default.";
-L["TITAN_PANEL_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffResets Panel button spacing to default.";
-L["TITAN_PANEL_SLASH_STRING8"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffOpens the Ace3 Panel control GUI.";
-L["TITAN_PANEL_SLASH_STRING9"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffOpens the Ace3 Transparency control GUI.";
-L["TITAN_PANEL_SLASH_STRING10"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffOpens the Ace3 Skin control GUI.";
+L["TITAN_PANEL_SLASH_STRING3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffResets "..TITAN_PANEL.." to default values/position.";
+L["TITAN_PANEL_SLASH_STRING4"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffResets "..TITAN_PANEL.." tooltip font scale to default.";
+L["TITAN_PANEL_SLASH_STRING5"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffResets "..TITAN_PANEL.." tooltip transparency to default.";
+L["TITAN_PANEL_SLASH_STRING6"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset panelscale: |cffffffffResets "..TITAN_PANEL.." scale to default.";
+L["TITAN_PANEL_SLASH_STRING7"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset spacing: |cffffffffResets "..TITAN_PANEL.." button spacing to default.";
+L["TITAN_PANEL_SLASH_STRING8"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffOpens the "..TITAN_PANEL.." control GUI.";
+L["TITAN_PANEL_SLASH_STRING9"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffOpens the Transparency control GUI.";
+L["TITAN_PANEL_SLASH_STRING10"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffOpens the Skin control GUI.";
 L["TITAN_PANEL_SLASH_STRING11"] = LIGHTYELLOW_FONT_COLOR_CODE.."For help with BonusScanner, type : |cffffffff/bscan";
      
 -- slash command responses
-L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel tooltip font scale has been reset.";
-L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel tooltip transparency has been reset.";
-L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel scale has been reset.";
-L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."Titan Panel button spacing has been reset.";
+L["TITAN_PANEL_SLASH_RESP1"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." tooltip font scale has been reset.";
+L["TITAN_PANEL_SLASH_RESP2"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." tooltip transparency has been reset.";
+L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." scale has been reset.";
+L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE..TITAN_PANEL.." button spacing has been reset.";
      
 -- general panel locale
-L["TITAN_PANEL"] = "Titan Panel";
-L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00Titan Development Team";     
-L["TITAN_PANEL_MENU_TITLE"] = "Titan Panel";
+L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 by the |cffff8c00"..TITAN_PANEL.." Development Team";     
+L["TITAN_PANEL_MENU_TITLE"] = TITAN_PANEL;
 L["TITAN_PANEL_MENU_HIDE"] = "Hide";
-L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Customize";
+--L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Customize";
 L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"] = "(In Combat)";
 L["TITAN_PANEL_MENU_RELOADUI"] = "(Reload UI)";
-L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Show colored text";
-L["TITAN_PANEL_MENU_SHOW_ICON"] = "Show icon";
-L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Show label text";
-L["TITAN_PANEL_MENU_AUTOHIDE"] = "Auto-hide";
-L["TITAN_PANEL_MENU_BGMINIMAP"] = "Battleground mini-map";
-L["TITAN_PANEL_MENU_CENTER_TEXT"] = "Center text";
-L["TITAN_PANEL_MENU_DISPLAY_ONTOP"] = "Display on top";
-L["TITAN_PANEL_MENU_DISPLAY_BOTH"] = "Display both bars";
-L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Disable screen adjust";
-L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Disable minimap adjust";
-L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Automatic log adjust";
-L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic bag adjust";
-L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
-L["TITAN_PANEL_MENU_BUILTINS"] = "Built-ins";
-L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Left Side";
-L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Right Side";
+L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Show Colored Text";
+L["TITAN_PANEL_MENU_SHOW_ICON"] = "Show Icon";
+L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Show Label Text";
+L["TITAN_PANEL_MENU_AUTOHIDE"] = "Auto-Hide";
+--L["TITAN_PANEL_MENU_BGMINIMAP"] = "Battleground Mini-Map";
+L["TITAN_PANEL_MENU_CENTER_TEXT"] = "Center Text";
+L["TITAN_PANEL_MENU_DISPLAY_BAR"] = "Show Bar";
+--L["TITAN_PANEL_MENU_DISPLAY_BOTH"] = "Display Both Bars";
+L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Disable Screen Adjust";
+L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Disable Minimap Adjust";
+L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Automatic Log Adjust";
+L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Automatic Bag Adjust";
+L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic Ticket Frame Adjust";
+--L["TITAN_PANEL_MENU_BUILTINS"] = "Built-ins";
+--L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Left Side";
+--L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Right Side";
 L["TITAN_PANEL_MENU_PROFILES"] = "Profiles";
 L["TITAN_PANEL_MENU_PROFILE"] = "Profile ";
 L["TITAN_PANEL_MENU_PROFILE_CUSTOM"] = "Custom";
@@ -94,105 +101,110 @@ L["TITAN_PANEL_MENU_PROFILE_SERVERS"] = "Server";
 L["TITAN_PANEL_MENU_PROFILE_CHARS"] = "Character";
 L["TITAN_PANEL_MENU_PROFILE_RELOADUI"] = "Your UI will now reload upon pushing 'Okay' to allow saving of your custom profile.";
 L["TITAN_PANEL_MENU_PROFILE_SAVE_CUSTOM_TITLE"] = "Enter a name for your custom profile:\n(20 chars max, no spaces allowed, case sensitive)";
-L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"] = "Current panel settings are to be saved under profile name: ";
+L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"] = "Current settings are to be saved under profile name: ";
 L["TITAN_PANEL_MENU_PROFILE_ALREADY_EXISTS"] = "The profile name entered already exists. Are you sure you want to overwrite it ? Push 'Accept' if yes, otherwise push 'Cancel' or the 'Escape' key.";
 L["TITAN_PANEL_MENU_MANAGE_SETTINGS"] = "Manage";
 L["TITAN_PANEL_MENU_LOAD_SETTINGS"] = "Load";
 L["TITAN_PANEL_MENU_DELETE_SETTINGS"] = "Delete";
 L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Save";
-L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Double Bar";
+--L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Double Bar";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuration";
-L["TITAN_PANEL_MENU_OPTIONS"] = "Options";
-L["TITAN_PANEL_MENU_OPTIONS_PANEL"] = "Panel";
-L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Bars";
+L["TITAN_PANEL_OPTIONS"] = "Options";
+L["TITAN_PANEL_MENU_OPTIONS"] = TITAN_PANEL.." Tooltips and Frames";
+L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Tooltips and Frames";
+L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Bars"
+L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = TITAN_PANEL.." Bars";
+L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = TITAN_PANEL.." Aux Bars";
 L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Frames";
 L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
-L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Lock buttons";
-L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Show plugin versions";
-L["TITAN_PANEL_MENU_LDB_SIDE"] = "Right-side plugin";
-L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Force LDB launchers to right-side";
-L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Disable font scaler";
+L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Lock Buttons";
+L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Show Plugin Versions";
+L["TITAN_PANEL_MENU_LDB_SIDE"] = "Right-Side Plugin";
+L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Force LDB Launchers to Right-Side";
+--L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Disable Font Scaler";
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"Built-ins","General","Combat","Information","Interface","Profession"}
-L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Show tooltips";
-L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Hide tooltips in combat";
-L["TITAN_PANEL_MENU_RESET"] = "Reset Panel to Default";
+L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Show Tooltips";
+L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Hide Tooltips in Combat";
+L["TITAN_PANEL_MENU_RESET"] = "Reset "..TITAN_PANEL.." to Default";
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Skins";     
-L["TITAN_PANEL_MENU_FONT"] = "Font";
+--L["TITAN_PANEL_MENU_FONT"] = "Font";
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Panel Font"
 L["TITAN_PANEL_MENU_ENABLED"] = "Enabled";
 L["TITAN_PANEL_MENU_DISABLED"] = "Disabled";
 L["TITAN_PANEL_SHIFT_LEFT"] = "Shift Left";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Shift Right";
-L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show plugin text";
+L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Show Plugin Text";
+--L["TITAN_PANEL_MENU_LDB_TREAT"] = "Treat as data source";
+--L["TITAN_PANEL_MENU_LDB_SLAP"] = "If you need to use this request the author to change the LDB type";
+L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Always On";
 L["TITAN_PANEL_MENU_POSITION"] = "Position";
 L["TITAN_PANEL_MENU_BAR"] = "Bar";
 L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Display on Bar";
-L["TITAN_PANEL_MENU_SHOW"] = "Show plugin";
-L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh plugins";
-L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh plugin text and position";
+L["TITAN_PANEL_MENU_SHOW"] = "Show Plugin";
+L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Refresh Plugins";
+L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Refresh Plugin Text and Position";
     
 -- localization strings for AceConfigDialog-3.0     
-L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or bottom of the screen.";			 
+L["TITAN_PANEL_CONFIG_MAIN_LABEL"] = "Information display bar addon. Allows users to add data feed or launcher plugins on a control panel placed on the top and/or  of the screen.";			 
+L["TITAN_TRANS_MENU_TEXT"] = TITAN_PANEL.." Transparency";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Transparency";
-L["TITAN_TRANS_MENU_DESC"] = "Adjust transparency for the Titan bars and tooltip.";		
+L["TITAN_TRANS_MENU_DESC"] = "Adjust transparency for the "..TITAN_PANEL.." bars and tooltip.";		
 L["TITAN_TRANS_MAIN_CONTROL_TITLE"] = "Main Bar";
 L["TITAN_TRANS_AUX_CONTROL_TITLE"] = "Auxiliary Bar";
 L["TITAN_TRANS_CONTROL_TITLE_TOOLTIP"] = "Tooltip";		 
-L["TITAN_TRANS_MAIN_BAR_DESC"] = "Sets transparency for the Main Bar.";
-L["TITAN_TRANS_AUX_BAR_DESC"] = "Sets transparency for the Auxiliary (Bottom) Bar.";
+--L["TITAN_TRANS_MAIN_BAR_DESC"] = "Sets transparency for the Main Bar.";
+--L["TITAN_TRANS_AUX_BAR_DESC"] = "Sets transparency for the Auxiliary (Bottom) Bar.";
 L["TITAN_TRANS_TOOLTIP_DESC"] = "Sets transparency for the tooltip of the various plugins.";
-L["TITAN_UISCALE_MENU_TEXT"] = "Panel Control";
+L["TITAN_UISCALE_MENU_TEXT"] = TITAN_PANEL.." Scale and Font";
+L["TITAN_UISCALE_MENU_TEXT_SHORT"] = "Scale and Font";
 L["TITAN_UISCALE_CONTROL_TITLE_UI"] = "UI Scale";
-L["TITAN_UISCALE_CONTROL_TITLE_PANEL"] = "Panel Scale";
+L["TITAN_UISCALE_CONTROL_TITLE_PANEL"] = TITAN_PANEL.." Scale";
 L["TITAN_UISCALE_CONTROL_TITLE_BUTTON"] = "Button Spacing";
 L["TITAN_UISCALE_CONTROL_TOOLTIP_TOOLTIPFONT"] = "Tooltip Font Scale";
 L["TITAN_UISCALE_TOOLTIP_DISABLE_TEXT"] = "Disable Tooltip Font Scale";		 
-L["TITAN_UISCALE_MENU_DESC"] = "Controls various aspects of the UI and Panel.";
+L["TITAN_UISCALE_MENU_DESC"] = "Controls various aspects of the UI and "..TITAN_PANEL..".";
 L["TITAN_UISCALE_SLIDER_DESC"] = "Sets the scale of your entire UI.";
-L["TITAN_UISCALE_PANEL_SLIDER_DESC"] = "Sets the scale for the various Panel buttons and icons.";
+L["TITAN_UISCALE_PANEL_SLIDER_DESC"] = "Sets the scale for the various "..TITAN_PANEL.." buttons and icons.";
 L["TITAN_UISCALE_BUTTON_SLIDER_DESC"] = "Adjusts the space between left-side plugins.";
 L["TITAN_UISCALE_TOOLTIP_SLIDER_DESC"] = "Adjusts the scale for the tooltip of the various plugins.";
-L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Disables Titan's Tooltip Font Scale Control.";
-L["TITAN_SKINS_MAIN_DESC"] = "Manage various skins for the Titan bars.";
+L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Disables "..TITAN_PANEL.." Tooltip Font Scale Control.";
+L["TITAN_SKINS_TITLE"] = TITAN_PANEL.." Skins";
+L["TITAN_SKINS_TITLE_CUSTOM"] = TITAN_PANEL.." Custom Skins";
+L["TITAN_SKINS_MAIN_DESC"] = "All custom skins are assumed to be in: \n"
+			.."..\\AddOns\\Titan\\Artwork\\Custom\\<Skin Folder>\\ ".."\n"
+			.."\n"..TITAN_PANEL.." and custom skins are stored under the Custom folder."
 L["TITAN_SKINS_LIST_TITLE"] = "Skin List";
-L["TITAN_SKINS_SET_DESC"] = "Select a skin to set for the Titan bars.";
-L["TITAN_SKINS_SET_HEADER"] = "Set Panel Skin";
+L["TITAN_SKINS_SET_DESC"] = "Select a skin for the "..TITAN_PANEL.." bars.";
+L["TITAN_SKINS_SET_HEADER"] = "Set "..TITAN_PANEL.." Skin";
+L["TITAN_SKINS_RESET_HEADER"] = "Reset "..TITAN_PANEL.." Skins";
 L["TITAN_SKINS_NEW_HEADER"] = "Add New Skin";
-L["TITAN_SKINS_NAME_TITLE"] = "Skin Name";
-L["TITAN_SKINS_NAME_DESC"] = "Enter a name for your new skin.";
-L["TITAN_SKINS_NAME_EXAMPLE"] = "example: My Titan Skin";
-L["TITAN_SKINS_PATH_TITLE"] = "Skin Path";
-L["TITAN_SKINS_PATH_DESC"] = "Enter the exact path where your skin artwork is located, as shown in the example and explained in the 'Notes'.";
-L["TITAN_SKINS_PATH_EXAMPLE"] = "example: Interface\\AddOns\\Titan\\Artwork\\Custom\\<My Skin folder>\\";
+L["TITAN_SKINS_NAME_TITLE"] = "Skin Name"
+L["TITAN_SKINS_NAME_DESC"] = "Enter a name for your new skin. It will be used in the skin dropdown lists.";
+--L["TITAN_SKINS_NAME_EXAMPLE"] = "example: My Titan Skin";
+L["TITAN_SKINS_PATH_TITLE"] = "<Skin Folder>"
+L["TITAN_SKINS_PATH_DESC"] = "<Skin Folder> under the "..TITAN_PANEL.." install. See the example above." 
+--L["TITAN_SKINS_PATH_EXAMPLE"] = "example: Interface\\AddOns\\Titan\\Artwork\\Custom\\<My Skin folder>\\";
 L["TITAN_SKINS_ADD_HEADER"] = "Add Skin";
-L["TITAN_SKINS_ADD_DESC"] = "Adds a new skin to the list of available skins for the Panel.";
+L["TITAN_SKINS_ADD_DESC"] = "Adds a new skin to the list of available skins for "..TITAN_PANEL..".";
 L["TITAN_SKINS_REMOVE_HEADER"] = "Remove Skin";
-L["TITAN_SKINS_REMOVE_DESC"] = "Select a skin to remove from the available skins for the Panel.";
+L["TITAN_SKINS_REMOVE_DESC"] = "Select a custom skin to remove."
 L["TITAN_SKINS_REMOVE_BUTTON"] = "Remove";
-L["TITAN_SKINS_REMOVE_BUTTON_DESC"] = "Removes the selected skin from the list of available skins for the Panel.";
-L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes:|r When adding a new skin, please ensure that a folder containing your custom artwork has been created prior to loading 'World of Warcraft' and the path entered here corresponds to it exactly (paths are case sensitive and always end with an '\\' character).";
+L["TITAN_SKINS_REMOVE_BUTTON_DESC"] = "Removes the selected custom skin.";
+L["TITAN_SKINS_REMOVE_NOTES"] = "You are responsible for removing any unwanted custom skins "
+	.."from the "..TITAN_PANEL.." install folder. Addons can not add or remove files."
+--L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes:|r When adding a new skin, please ensure that a folder containing your custom artwork has been created prior to loading 'World of Warcraft' and the path entered here corresponds to it exactly (paths are case sensitive and always end with an '\\' character).";
 L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Reset to Defaults";
-L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resets the skin list to the default, build-in skins.";
-L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the Titan Bars.";
+L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resets the skin list to the default "..TITAN_PANEL.." skins.";
+L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Select the font type for the various plugins on the "..TITAN_PANEL.." Bars.";
 L["TITAN_PANEL_MENU_FONT_SIZE"] = "Font Size";
-L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the Panel's font.";
-L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Panel Frame Strata";
-L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the Titan Bar(s).";
+L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the "..TITAN_PANEL.." font.";
+L["TITAN_PANEL_MENU_FRAME_STRATA"] = ""..TITAN_PANEL.." Frame Strata";
+L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the "..TITAN_PANEL.." Bar(s).";
 -- /end localization strings for AceConfigDialog-3.0
      
-L["TITAN_AUTOHIDE_TOOLTIP"] = "Toggles panel auto-hide on/off";
-L["TITAN_AUTOHIDE_MENU_TEXT"] = "Auto-hide";
-     
-L["TITAN_AMMO_FORMAT"] = "%d";
-L["TITAN_AMMO_BUTTON_LABEL_AMMO"] = "Ammo: ";
-L["TITAN_AMMO_BUTTON_LABEL_THROWN"] = "Thrown: ";
-L["TITAN_AMMO_BUTTON_LABEL_AMMO_THROWN"] = "Ammo/Thrown: ";
-L["TITAN_AMMO_TOOLTIP"] = "Equipped Ammo/Thrown Count";
-L["TITAN_AMMO_MENU_TEXT"] = "Ammo/Thrown";
-L["TITAN_AMMO_BUTTON_NOAMMO"] = "No Ammo";
-L["TITAN_AMMO_MENU_REFRESH"] = "Refresh Display";
-L["TITAN_AMMO_BULLET_NAME"] = "Show ammo name";
+L["TITAN_AUTOHIDE_TOOLTIP"] = "Toggles "..TITAN_PANEL.." auto-hide on/off feature";
+--L["TITAN_AUTOHIDE_MENU_TEXT"] = "Auto-Hide";
      
 L["TITAN_BAG_FORMAT"] = "%d/%d";
 L["TITAN_BAG_BUTTON_LABEL"] = "Bags: ";
@@ -202,22 +214,38 @@ L["TITAN_BAG_MENU_TEXT"] = "Bag";
 L["TITAN_BAG_USED_SLOTS"] = "Used Slots";
 L["TITAN_BAG_FREE_SLOTS"] = "Free Slots";
 L["TITAN_BAG_BACKPACK"] = "Backpack";
-L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Show used slots";
-L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Show available slots";
-L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Show detailed tooltip";
+L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Show Used Slots";
+L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Show Available Slots";
+L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Show Detailed Tooltip";
 L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignore Containers";
-L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Ignore ammo pouch slots";
-L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignore shard bags";
-L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignore profession bags";
-L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Soul Pouch", "Small Soul Pouch", "Box of Souls", "Felcloth Bag", "Core Felcloth Bag", "Ebon Shadowbag", "Abyssal Bag"};
-L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Clefthoof Hide Quiver", "Worg Hide Quiver", "Ancient Sinew Wrapped Lamina", "Nerubian Reinforced Quiver", "Quiver of a Thousand Feathers", "Knothide Quiver", "Harpy Hide Quiver", "Ribbly's Quiver", "Quickdraw Quiver", "Heavy Quiver", "Quiver of the Night Watch", "Hunting Quiver", "Medium Quiver", "Light Leather Quiver", "Small Quiver", "Light Quiver", "Smuggler's Ammo Pouch", "Dragonscale Ammo Pouch", "Knothide Ammo Pouch", "Netherscale Ammo Pouch", "Gnoll Skin Bandolier", "Ribbly's Bandolier", "Thick Leather Ammo Pouch", "Heavy Leather Ammo Pouch", "Bandolier of the Night Watch", "Medium Shot Pouch", "Hunting Ammo Sack", "Small Leather Ammo Pouch", "Small Shot Pouch", "Small Ammo Pouch"};
-L["TITAN_BAG_PROF_BAG_NAMES"] = {"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Big Bag of Enchantment", "Enchanter's Satchel", "Mysterious Bag", "Spellfire Bag", "Khorium Toolbox", "Fel Iron Toolbox", "Heavy Toolbox", "Gem Pouch", "Bag of Jewels", "Reinforced Mining Bag", "Mining Sack", "Mammoth Mining Bag", "Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack", "Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Scribe's Satchel", "Pack of Endless Pockets", "Titanium Toolbox", "Emerald Bag"};
+--L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Ignore ammo pouch slots";
+--L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignore shard bags";
+L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignore Profession Bags";
+--L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Soul Pouch", "Small Soul Pouch", "Box of Souls", "Felcloth Bag", "Core Felcloth Bag", "Ebon Shadowbag", "Abyssal Bag"};
+--L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Clefthoof Hide Quiver", "Worg Hide Quiver", "Ancient Sinew Wrapped Lamina", "Nerubian Reinforced Quiver", "Quiver of a Thousand Feathers", "Knothide Quiver", "Harpy Hide Quiver", "Ribbly's Quiver", "Quickdraw Quiver", "Heavy Quiver", "Quiver of the Night Watch", "Hunting Quiver", "Medium Quiver", "Light Leather Quiver", "Small Quiver", "Light Quiver", "Smuggler's Ammo Pouch", "Dragonscale Ammo Pouch", "Knothide Ammo Pouch", "Netherscale Ammo Pouch", "Gnoll Skin Bandolier", "Ribbly's Bandolier", "Thick Leather Ammo Pouch", "Heavy Leather Ammo Pouch", "Bandolier of the Night Watch", "Medium Shot Pouch", "Hunting Ammo Sack", "Small Leather Ammo Pouch", "Small Shot Pouch", "Small Ammo Pouch"};
+L["TITAN_BAG_PROF_BAG_NAMES"] = {
+-- Enchanting
+"Enchanted Mageweave Pouch", "Enchanted Runecloth Bag", "Enchanter's Satchel", "Big Bag of Enchantment", "Spellfire Bag", "Mysterious Bag",
+-- Engineering
+"Heavy Toolbox", "Fel Iron Toolbox", "Titanium Toolbox", "Khorium Toolbox", 
+-- not sure the "Khorium Toolbox" is used anymore
+-- Herbalism
+"Herb Pouch", "Cenarion Herb Bag", "Satchel of Cenarius", "Mycah's Botanical Bag", "Emerald Bag",
+-- Inscription
+"Scribe's Satchel", "Pack of Endless Pockets",
+-- Jewelcrafting
+"Gem Pouch", "Bag of Jewels",
+-- Leatherworking
+"Leatherworker's Satchel", "Bag of Many Hides", "Trapper's Traveling Pack",
+-- Mining
+"Mining Sack", "Reinforced Mining Bag", "Mammoth Mining Bag",
+};
 
-L["TITAN_BGMINIMAP_MENU_TEXT"] = "Battleground minimap"
-L["TITAN_BGMINIMAP_TOOLTIP"] = "Toggles battleground minimap"
+--L["TITAN_BGMINIMAP_MENU_TEXT"] = "Battleground minimap"
+--L["TITAN_BGMINIMAP_TOOLTIP"] = "Toggles battleground minimap"
      
 L["TITAN_CLOCK_TOOLTIP"] = "Clock";     
-L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Server offset hour value: ";
+L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Server Offset Hour Value: ";
 L["TITAN_CLOCK_TOOLTIP_LOCAL_TIME"] = "Local Time: ";
 L["TITAN_CLOCK_TOOLTIP_SERVER_TIME"] = "Server Time: ";
 L["TITAN_CLOCK_TOOLTIP_SERVER_ADJUSTED_TIME"] = "Adjusted Server Time: ";
@@ -234,8 +262,10 @@ L["TITAN_CLOCK_MENU_TEXT"] = "Clock";
 L["TITAN_CLOCK_MENU_LOCAL_TIME"] = "Show Local Time (L)";
 L["TITAN_CLOCK_MENU_SERVER_TIME"] = "Show Server Time (S)";
 L["TITAN_CLOCK_MENU_SERVER_ADJUSTED_TIME"] = "Show Server Adjusted Time (A)";
-L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"] = "Display on right side";
-L["TITAN_CLOCK_MENU_HIDE_GAMETIME"] = "Hide Time/Calendar button";
+L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"] = "Display on Right Side";
+L["TITAN_CLOCK_MENU_HIDE_GAMETIME"] = "Hide Time/Calendar Button";
+L["TITAN_CLOCK_MENU_HIDE_MAPTIME"] = "Hide Time Button";
+L["TITAN_CLOCK_MENU_HIDE_CALENDAR"] = "Hide Calendar Button";
      
      
 L["TITAN_COORDS_FORMAT"] = "(%.d, %.d)";
@@ -254,13 +284,13 @@ L["TITAN_COORDS_TOOLTIP_SUBZONE"] = "SubZone: ";
 L["TITAN_COORDS_TOOLTIP_PVPINFO"] = "PVP Info: ";
 L["TITAN_COORDS_TOOLTIP_HOMELOCATION"] = "Home Location";
 L["TITAN_COORDS_TOOLTIP_INN"] = "Inn: ";
-L["TITAN_COORDS_MENU_TEXT"] = "Coords";
-L["TITAN_COORDS_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Show zone text";
-L["TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Show coordinates on world map";
+L["TITAN_COORDS_MENU_TEXT"] = "Location";
+L["TITAN_COORDS_MENU_SHOW_ZONE_ON_PANEL_TEXT"] = "Show Zone Text";
+L["TITAN_COORDS_MENU_SHOW_COORDS_ON_MAP_TEXT"] = "Show Coordinates on World Map";
 L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"] = "Cursor(X,Y): %s";
 L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"] = "Player(X,Y): %s";
 L["TITAN_COORDS_NO_COORDS"] = "No Coords";
-L["TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT"] = "Show location on mini map";
+L["TITAN_COORDS_MENU_SHOW_LOC_ON_MINIMAP_TEXT"] = "Show Location on Minimap";
      
 L["TITAN_FPS_FORMAT"] = "%.1f";
 L["TITAN_FPS_BUTTON_LABEL"] = "FPS: ";
@@ -276,8 +306,8 @@ L["TITAN_LATENCY_BANDWIDTH_FORMAT"] = "%.3f ".."KB/s";
 L["TITAN_LATENCY_BUTTON_LABEL"] = "Latency: ";
 L["TITAN_LATENCY_TOOLTIP"] = "Network Status";
 L["TITAN_LATENCY_TOOLTIP_LATENCY"] = "Latency: ";
-L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_IN"] = "Bandwidth in: ";
-L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"] = "Bandwidth out: ";
+L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_IN"] = "Bandwidth In: ";
+L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"] = "Bandwidth Out: ";
 L["TITAN_LATENCY_MENU_TEXT"] = "Latency";
      
 L["TITAN_LOOTTYPE_BUTTON_LABEL"] = "Loot: ";
@@ -296,7 +326,7 @@ L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"] = "Raid Difficulty";
 L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon/Raid Difficulty";
 L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
 L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Set Raid Difficulty";
-L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (Group Based)";
      
 L["TITAN_MEMORY_FORMAT"] = "%.3f".."MB";
 L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -305,12 +335,12 @@ L["TITAN_MEMORY_BUTTON_LABEL"] = "Memory: ";
 L["TITAN_MEMORY_TOOLTIP"] = "Memory Usage";
 L["TITAN_MEMORY_TOOLTIP_CURRENT_MEMORY"] = "Current: ";
 L["TITAN_MEMORY_TOOLTIP_INITIAL_MEMORY"] = "Initial: ";
-L["TITAN_MEMORY_TOOLTIP_INCREASING_RATE"] = "Increasing rate: ";
+L["TITAN_MEMORY_TOOLTIP_INCREASING_RATE"] = "Increasing Rate: ";
 L["TITAN_MEMORY_KBMB_LABEL"] = "KB/MB";     
      
-L["TITAN_MONEY_GOLD"] = "g";
-L["TITAN_MONEY_SILVER"] = "s";
-L["TITAN_MONEY_COPPER"] = "c";
+--L["TITAN_MONEY_GOLD"] = "g";
+--L["TITAN_MONEY_SILVER"] = "s";
+--L["TITAN_MONEY_COPPER"] = "c";
 L["TITAN_MONEY_FORMAT"] = "%d".."g"..", %02d".."s"..", %02d".."c";
      
 L["TITAN_PERFORMANCE_TOOLTIP"] = "Performance Info";
@@ -340,59 +370,43 @@ L["TITAN_PERFORMANCE_TOOLTIP_HINT"] = "Hint: Left-click to force a garbage colle
 		     
 L["TITAN_XP_FORMAT"] = "%d";
 L["TITAN_XP_PERCENT_FORMAT"] = "%d".." (%.1f%%)";
-L["TITAN_XP_BUTTON_LABEL_XPHR_LEVEL"] = "XP/hr this level: ";
-L["TITAN_XP_BUTTON_LABEL_XPHR_SESSION"] = "XP/hr this session: ";
-L["TITAN_XP_BUTTON_LABEL_TOLEVEL_TIME_LEVEL"] = "Time to level: ";
+L["TITAN_XP_BUTTON_LABEL_XPHR_LEVEL"] = "XP/hr This Level: ";
+L["TITAN_XP_BUTTON_LABEL_XPHR_SESSION"] = "XP/hr This Session: ";
+L["TITAN_XP_BUTTON_LABEL_TOLEVEL_TIME_LEVEL"] = "Time To Level: ";
 L["TITAN_XP_LEVEL_COMPLETE"] = "Level Complete: ";
 L["TITAN_XP_TOTAL_RESTED"] = "Rested: ";
-L["TITAN_XP_XPTOLEVELUP"] = "XP to level Up: ";
+L["TITAN_XP_XPTOLEVELUP"] = "XP To Level: ";
 L["TITAN_XP_TOOLTIP"] = "XP Info";
-L["TITAN_XP_TOOLTIP_TOTAL_TIME"] = "Total time played: ";
-L["TITAN_XP_TOOLTIP_LEVEL_TIME"] = "Time played this level: ";
-L["TITAN_XP_TOOLTIP_SESSION_TIME"] = "Time played this session: ";
-L["TITAN_XP_TOOLTIP_TOTAL_XP"] = "Total XP required this level: ";
-L["TITAN_XP_TOOLTIP_LEVEL_XP"] = "XP gained this level: ";
-L["TITAN_XP_TOOLTIP_TOLEVEL_XP"] = "XP needed to level: ";
-L["TITAN_XP_TOOLTIP_SESSION_XP"] = "XP gained this session: ";
-L["TITAN_XP_TOOLTIP_XPHR_LEVEL"] = "XP/hr this level: ";
-L["TITAN_XP_TOOLTIP_XPHR_SESSION"] = "XP/hr this session: ";     
-L["TITAN_XP_TOOLTIP_TOLEVEL_LEVEL"] = "Time to level (level rate): ";
-L["TITAN_XP_TOOLTIP_TOLEVEL_SESSION"] = "Time to level (session rate): ";
+L["TITAN_XP_TOOLTIP_TOTAL_TIME"] = "Total Time Played: ";
+L["TITAN_XP_TOOLTIP_LEVEL_TIME"] = "Time Played This Level: ";
+L["TITAN_XP_TOOLTIP_SESSION_TIME"] = "Time Played This Session: ";
+L["TITAN_XP_TOOLTIP_TOTAL_XP"] = "Total XP Required This Level: ";
+L["TITAN_XP_TOOLTIP_LEVEL_XP"] = "XP Gained This Level: ";
+L["TITAN_XP_TOOLTIP_TOLEVEL_XP"] = "XP Needed To Level: ";
+L["TITAN_XP_TOOLTIP_SESSION_XP"] = "XP Gained This Session: ";
+L["TITAN_XP_TOOLTIP_XPHR_LEVEL"] = "XP/HR This Level: ";
+L["TITAN_XP_TOOLTIP_XPHR_SESSION"] = "XP/HR This Session: ";     
+L["TITAN_XP_TOOLTIP_TOLEVEL_LEVEL"] = "Time To Level (Level Rate): ";
+L["TITAN_XP_TOOLTIP_TOLEVEL_SESSION"] = "Time To Level (Session Rate): ";
 L["TITAN_XP_MENU_TEXT"] = "XP";
-L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"] = "Show XP/hr this level";
-L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"] = "Show XP/hr this session";
-L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"] = "Show Multi-info view";
+L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"] = "Show XP/HR This Level";
+L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"] = "Show XP/HR This Session";
+L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"] = "Show Multi-Info View";
 L["TITAN_XP_MENU_SIMPLE_BUTTON_TITLE"] = "Button";
 L["TITAN_XP_MENU_SIMPLE_BUTTON_RESTED"] = "Show Rested XP";
-L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"] = "Show XP to level";
-L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"] = "Show est. kills to level";
-L["TITAN_XP_MENU_RESET_SESSION"] = "Reset session";
+L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"] = "Show XP To Level";
+L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"] = "Show Estimated Kills To Level";
+L["TITAN_XP_MENU_RESET_SESSION"] = "Reset Session";
 L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Refresh Timers";
 L["TITAN_XP_UPDATE_PENDING"] = "Updating...";
-L["TITAN_XP_KILLS_LABEL"] = "Kills to level (at %d XP gained last): ";
+L["TITAN_XP_KILLS_LABEL"] = "Kills To Level (at %d XP gained last): ";
 L["TITAN_XP_KILLS_LABEL_SHORT"] = "Est. Kills: ";
 L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
 L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
 L["TITAN_XP_GAIN_PATTERN"] = "(.*) dies, you gain (%d+) experience.";
 L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
-
-     
-L["TITAN_REGEN_MENU_TEXT"] = "Regen"
-L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Regen Info"
-L["TITAN_REGEN_MENU_SHOW2"] = "HP"
-L["TITAN_REGEN_MENU_SHOW3"] = "MP"
-L["TITAN_REGEN_MENU_SHOW4"] = "As Percentage"
-L["TITAN_REGEN_BUTTON_TEXT_HP"] = "HP: "
-L["TITAN_REGEN_BUTTON_TEXT_MP"] = " MP: "
-L["TITAN_REGEN_TOOLTIP1"] = "Health: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-L["TITAN_REGEN_TOOLTIP2"] = "Mana: \t"..GREEN_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." / " ..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..RED_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE..")";
-L["TITAN_REGEN_TOOLTIP3"] = "Best HP Regen: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-L["TITAN_REGEN_TOOLTIP4"] = "Worst HP Regen: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-L["TITAN_REGEN_TOOLTIP5"] = "Best MP Regen: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-L["TITAN_REGEN_TOOLTIP6"] = "Worst MP Regen: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE;
-L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_CODE.."%d"..FONT_COLOR_CODE_CLOSE.." ("..GREEN_FONT_COLOR_CODE.."%.2f"..FONT_COLOR_CODE_CLOSE.."%%)";
+L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains To Level (at %d XP gained last): ";
+L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show Estimated XP Gains To Level";
 
      --Titan Repair
      L["REPAIR_LOCALE"] = {
@@ -400,11 +414,11 @@ L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_C
           menu = "Repair",
           tooltip = "Durability Info",
           button = "Durability: ",
-          normal = "Repair cost (Normal): ",
-          friendly = "Repair cost (Friendly): ",
-          honored = "Repair cost (Honored): ",
-          revered = "Repair cost (Revered): ",
-          exalted = "Repair cost (Exalted): ",
+          normal = "Repair Cost (Normal): ",
+          friendly = "Repair Cost (Friendly): ",
+          honored = "Repair Cost (Honored): ",
+          revered = "Repair Cost (Revered): ",
+          exalted = "Repair Cost (Exalted): ",
           buttonNormal = "Show Normal",
           buttonFriendly = "Show Friendly (5%)",
           buttonHonored = "Show Honored (10%)",
@@ -416,14 +430,14 @@ L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_C
           showdurabilityframe = "Show Durability Frame",
           undamaged = "Show Undamaged Items",
           discount = "Discount",
-          nothing = "Nothing damaged",
+          nothing = "Nothing Damaged",
           confirmation = "Do you want to repair all items ?",
           badmerchant = "This merchant cannot repair. Displaying normal repair costs instead.",
-          popup = "Show Repair popup",
-          showinventory = "Calculate Inventory damage",
+          popup = "Show Repair Popup",
+          showinventory = "Calculate Inventory Damage",
           WholeScanInProgress = "Updating...",
           AutoReplabel = "Auto-Repair",
-          AutoRepitemlabel = "Auto Repair all items",
+          AutoRepitemlabel = "Auto Repair All Items",
           ShowRepairCost = "Show Repair Cost",
 		  		ignoreThrown = "Ignore Thrown",
 		  		ShowItems = "Show Items",
@@ -432,20 +446,80 @@ L["TITAN_REGEN_TOOLTIP7"] = "MP Regen in Last Fight: \t"..HIGHLIGHT_FONT_COLOR_C
 		  		Items = "Items",
 		  		Discounts = "Discounts",
 		  		Costs = "Costs",
-				CostTotal = "Total cost",
-				CostBag = "Bag cost",
-				CostEquip = "Equip cost",
+				CostTotal = "Total Cost",
+				CostBag = "Bag Cost",
+				CostEquip = "Equip Cost",
  				TooltipOptions = "Tooltip",
     };
      
      L["TITAN_REPAIR"] = "Titan Repair"
      L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
      L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
-     L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
+     L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank Funds"
      L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
      L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
      L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
-     L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
+     L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report Repair Cost to Chat"
      L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
      
-L["TITAN_PLUGINS_MENU_TITLE"] = "Plug-ins";
+--L["TITAN_PLUGINS_MENU_TITLE"] = "Plugins";
+
+L["TITAN_GOLD_TOOLTIPTEXT"] = "Total Gold on";
+L["TITAN_GOLD_ITEMNAME"] = "Titan Gold";
+L["TITAN_GOLD_CLEAR_DATA_TEXT"] = "Clear Database";
+L["TITAN_GOLD_RESET_SESS_TEXT"] = "Reset Current Session";
+L["TITAN_GOLD_DB_CLEARED"] = "Titan Gold - Database Cleared.";
+L["TITAN_GOLD_SESSION_RESET"] = "Titan Gold - Session Reset.";
+L["TITAN_GOLD_MENU_TEXT"] = "Gold";
+L["TITAN_GOLD_TOOLTIP"] = "Gold Info";
+L["TITAN_GOLD_TOGGLE_PLAYER_TEXT"] = "Display Player Gold";
+L["TITAN_GOLD_TOGGLE_ALL_TEXT"] = "Display Server Gold";
+L["TITAN_GOLD_SESS_EARNED"] = "Earned This Session";
+L["TITAN_GOLD_PERHOUR_EARNED"] = "Earned Per Hour";
+L["TITAN_GOLD_SESS_LOST"] = "Lost This Session";
+L["TITAN_GOLD_PERHOUR_LOST"] = "Lost Per Hour";
+L["TITAN_GOLD_STATS_TITLE"] = "Session Statistics";
+L["TITAN_GOLD_TTL_GOLD"] = "Total Gold";
+L["TITAN_GOLD_START_GOLD"] = "Starting Gold";
+L["TITAN_GOLD_TOGGLE_SORT_GOLD"] = "Sort Table By Gold";
+L["TITAN_GOLD_TOGGLE_SORT_NAME"] = "Sort Gold By Name";
+L["TITAN_GOLD_TOGGLE_GPH_SHOW"] = "Display Gold Per Hour";
+L["TITAN_GOLD_TOGGLE_GPH_HIDE"] = "Hide Gold Per Hour";
+L["TITAN_GOLD_GOLD"] = "g";
+L["TITAN_GOLD_SILVER"] = "s";
+L["TITAN_GOLD_COPPER"] = "c";
+L["TITAN_GOLD_STATUS_PLAYER_SHOW"] = "Visible";
+L["TITAN_GOLD_STATUS_PLAYER_HIDE"] = "Hidden";
+L["TITAN_GOLD_DELETE_PLAYER"] = "Delete Toon";
+L["TITAN_GOLD_SHOW_PLAYER"] = "Show Toon";
+L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Alliance";
+L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Horde";
+L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Warning: "
+..FONT_COLOR_CODE_CLOSE.."This setting will wipe your Titan Gold database. "
+.."If you wish to continue with this operation, push 'Accept', otherwise push 'Cancel' or the 'Escape' key.";
+L["TITAN_GOLD_COIN_LABELS"] = "Show Coin Labels";
+L["TITAN_GOLD_ONLY"] = "Show Gold Only";
+
+
+L["TITAN_VOLUME_TOOLTIP"] = "Volume Info";
+L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Master Sound Volume: ";
+L["TITAN_VOLUME_SOUND_TOOLTIP_VALUE"] = "Effects Sound Volume: ";
+L["TITAN_VOLUME_AMBIENCE_TOOLTIP_VALUE"] = "Ambience Sound Volume: ";
+L["TITAN_VOLUME_MUSIC_TOOLTIP_VALUE"] = "Music Sound Volume: ";
+L["TITAN_VOLUME_MICROPHONE_TOOLTIP_VALUE"] = "Microphone Sound Volume: ";
+L["TITAN_VOLUME_SPEAKER_TOOLTIP_VALUE"] = "Speaker Sound Volume: ";
+L["TITAN_VOLUME_TOOLTIP_HINT1"] = "Hint: Left-click to adjust the"
+L["TITAN_VOLUME_TOOLTIP_HINT2"] = "sound volume.";
+L["TITAN_VOLUME_CONTROL_TOOLTIP"] = "Volume Control: ";
+L["TITAN_VOLUME_CONTROL_TITLE"] = "Volume Control";
+L["TITAN_VOLUME_MASTER_CONTROL_TITLE"] = "Master";
+L["TITAN_VOLUME_SOUND_CONTROL_TITLE"] = "Effects";
+L["TITAN_VOLUME_AMBIENCE_CONTROL_TITLE"] = "Ambience";
+L["TITAN_VOLUME_MUSIC_CONTROL_TITLE"] = "Music";
+L["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"] = "Microphone";
+L["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"] = "Speaker";
+L["TITAN_VOLUME_CONTROL_HIGH"] = "High";
+L["TITAN_VOLUME_CONTROL_LOW"] = "Low";
+L["TITAN_VOLUME_MENU_TEXT"] = "Volume Control";
+L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"] = "Show Sound/Voice Options" ;
+L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"] = "Override Blizzard Volume Settings";
