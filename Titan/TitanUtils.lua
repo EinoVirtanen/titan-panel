@@ -37,6 +37,7 @@ function TitanUtils_PluginToRegister(self, isChildButton)
 		isChild = (isChildButton and true or false),
 		issue = "",
 		}
+--[[
 	-- This will handle plugins that are initialized after Titan registration has run.
 	-- Such as 'load on demand' or just bad timing
 	if Titan__InitializedPEW then
@@ -48,6 +49,7 @@ function TitanUtils_PluginToRegister(self, isChildButton)
 			.." : "..(plugin.status or "?")
 			)
 	end
+--]]
 end
 
 local function TitanUtils_RegisterPluginProtected(plugin)
@@ -177,8 +179,8 @@ TitanDebug("_RegisterPlugin: "
 			TitanDebug(TitanUtils_GetRedText("Error Registering Plugin")
 				..TitanUtils_GetGreenText(
 					": "
-					.."issue: '"..(plugin.name or "?_").."' "
-					.."name: '"..(plugin.issue or "?_").."' "
+					.."name: '"..(plugin.name or "?_").."' "
+					.."issue: '"..(plugin.issue or "?_").."' "
 					.."button: '"..plugin.button.."' "
 					)
 				)
@@ -568,6 +570,7 @@ end
 
 function TitanUtils_Min(a, b)
 	if (a and b) then
+--		return ( a < b ) and a or b
 		return TitanUtils_Ternary((a < b), a, b);
 	end
 end
@@ -575,6 +578,7 @@ end
 function TitanUtils_Max(a, b)
 	if (a and b) then
 		return TitanUtils_Ternary((a > b), a, b);
+---		return ( a > b ) and a or b
 	end
 end
 

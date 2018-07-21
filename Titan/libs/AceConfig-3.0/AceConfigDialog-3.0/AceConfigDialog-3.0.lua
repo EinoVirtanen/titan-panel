@@ -1,10 +1,10 @@
 --- AceConfigDialog-3.0 generates AceGUI-3.0 based windows based on option tables.
 -- @class file
 -- @name AceConfigDialog-3.0
--- @release $Id: AceConfigDialog-3.0.lua 895 2009-12-06 16:28:55Z nevcairiel $
+-- @release $Id: AceConfigDialog-3.0.lua 902 2009-12-12 14:56:14Z nevcairiel $
 
 local LibStub = LibStub
-local MAJOR, MINOR = "AceConfigDialog-3.0", 41
+local MAJOR, MINOR = "AceConfigDialog-3.0", 43
 local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
@@ -1113,7 +1113,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 					local controlType = v.dialogControl or v.control or (v.multiline and "MultiLineEditBox") or "EditBox"
 					control = gui:Create(controlType)
 					if not control then
-						error(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
+						geterrorhandler()(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
+						control = gui:Create(v.multiline and "MultiLineEditBox" or "EditBox")
 					end
 					
 					if v.multiline then
@@ -1172,7 +1173,8 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 					local controlType = v.dialogControl or v.control or "Dropdown"
 					control = gui:Create(controlType)
 					if not control then
-						error(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
+						geterrorhandler()(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
+						control = gui:Create("Dropdown")
 					end
 					control:SetLabel(name)
 					control:SetList(values)
@@ -1200,8 +1202,10 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 					if controlType then
 						control = gui:Create(controlType)
 						if not control then
-							error(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
+							geterrorhandler()(("Invalid Custom Control Type - %s"):format(tostring(controlType)))
 						end
+					end
+					if control then
 						control:SetMultiselect(true)
 						control:SetLabel(name)
 						control:SetList(values)
@@ -1684,6 +1688,11 @@ local function RefreshOnUpdate(this)
 		this.apps[appName] = nil
 	end
 	this:SetScript("OnUpdate", nil)
+end
+
+-- Upgrade the OnUpdate script as well, if needed.
+if AceConfigDialog.frame:GetScript("OnUpdate") then
+	AceConfigDialog.frame:SetScript("OnUpdate", RefreshOnUpdate)
 end
 
 --- Close all open options windows

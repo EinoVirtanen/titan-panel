@@ -310,10 +310,16 @@ function LDBToTitan:TitanLDBTextUpdate(_, name,  attr, value, dataobj)
 	if not Titan__InitializedPEW then
 		return
 	end
-	
-	--if attr and value then
-	--DEFAULT_CHAT_FRAME:AddMessage("LDB:"..name..".".. attr.. " was changed to ".. tostring(value))
-	--end
+	-- This check is overkill but just in case...
+	if not LDBAttrs[name] then
+--	DEFAULT_CHAT_FRAME:AddMessage("LDB: '"..name.."' was not registered")
+		return
+	end
+--[[
+	if attr and value then
+	DEFAULT_CHAT_FRAME:AddMessage("LDB: '"..name.."'.".. attr.. " was changed to '".. tostring(value).."'")
+	end
+--]]
 	if attr == "value" then
 		LDBAttrs[name].value = value;
 	end
@@ -341,8 +347,12 @@ TitanDebug("TitanLDBRefreshButton "
 				..": '"..(obj.icon or iconTitanDefault).."'"
 				)
 --]]
-				LDBToTitan:TitanLDBTextUpdate(_, name, "text", (obj.text or "?"), obj)
-				LDBToTitan:TitanLDBIconUpdate(_, name, "icon", (obj.icon or iconTitanDefault), obj)
+				if LDBAttrs[name] then
+					LDBToTitan:TitanLDBTextUpdate(_, name, "text", (obj.text or ""), obj)
+					LDBToTitan:TitanLDBIconUpdate(_, name, "icon", (obj.icon or iconTitanDefault), obj)
+				else
+--	DEFAULT_CHAT_FRAME:AddMessage("LDB: '"..name.."' no refresh")
+				end
 			end
 end
 
@@ -399,8 +409,20 @@ function LDBToTitan:TitanLDBIconUpdate(_, name,  attr, value, dataobj)
 	if not Titan__InitializedPEW then
 		return
 	end
+	-- This check is overkill but just in case...
+	if not LDBAttrs[name] then
+--	DEFAULT_CHAT_FRAME:AddMessage("LDB: '"..name.."' was not registered")
+		return
+	end
 
 	if attr == "icon" then
+--[[
+TitanDebug("TitanLDBIconUpdate "
+				.."'"..name.."'"
+				..": '"..(attr or "?").."'"
+				..": '"..(value or "?").."'"
+				)
+--]]
 		TitanPlugins["LDBT_"..name].icon = value;
 		TitanPanelButton_SetButtonIcon("LDBT_"..name);
 	end
@@ -426,10 +448,12 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
    
    -- Unsupported Data Object types
 	for idx in ipairs(UnsupportedDOTypes) do
-		if obj.type and obj.type == UnsupportedDOTypes[idx] then 
+		if obj.type and obj.type == UnsupportedDOTypes[idx] then
+--[[
 			DEFAULT_CHAT_FRAME:AddMessage("LDBToTitan: '"..(name or "LDB?").."' "
 				.."failed to register - "
 				.."Unsupported LDB type '"..UnsupportedDOTypes[idx].."'");
+--]]
 			return 
 		end
 	end
@@ -438,6 +462,11 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	LDBAttrs[name] = {};
 	LDBAttrs[name].name = name;
 
+--[[
+			DEFAULT_CHAT_FRAME:AddMessage("LDBToTitan: '"..(name or "LDB?").."' "
+				.."to register - "
+				)
+--]]
 	-- Handle the attributes of the DO and register the appropriate callbacks (where applicable)
 	--
 	if obj.type then
@@ -631,8 +660,23 @@ TitanDebug("TitanLDBCreateObject "
    
 	-- if plugins have already been loaded then get this one loaded
 	if Titan__InitializedPEW then
-		DEFAULT_CHAT_FRAME:AddMessage("LDBToTitan: '"..(name or "LDB?").."' "
-			.."needs to register after plugins have been registered.");
+		TitanDebug ("Register single LDB plugin: '"..(name or "LDB?").."'. See Attempts for results")
+		
+--==================
+		-- Could be wasteful but we need to register this LDB plugin
+		-- This should be a separate routine in Utils
+		if TitanPluginToBeRegisteredNum > 0 then
+			for index, value in ipairs(TitanPluginToBeRegistered) do
+				if TitanPluginToBeRegistered[index] then
+					TitanUtils_RegisterPlugin(TitanPluginToBeRegistered[index])
+				end
+			end
+		end
+		-- update the config (options)
+		TitanUpdateConfigAddons()
+		TitanUpdateAddonAttempts()
+--==================
+
 		-- Syncronize Plugins that were created after PLAYER_LOGIN
 		if TitanPluginSettings then    
 			TitanVariables_SyncPluginSettings();

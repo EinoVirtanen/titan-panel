@@ -752,7 +752,7 @@ local optionsAddonAttempts = {
 	type = "group",
 	args = {}
  }
-local function TitanUpdateAddonAttempts()
+function TitanUpdateAddonAttempts()
 	local args = optionsAddonAttempts.args
 	local plug_in = nil
 	local attempts = ""
@@ -971,7 +971,7 @@ local optionsAddons = {
 	type = "group",
 	args = {}
  }
-local function TitanUpdateConfigAddons()
+function TitanUpdateConfigAddons()
 	local args = optionsAddons.args
 	local plug_in = nil
 	local pre = "        "
