@@ -1,20 +1,29 @@
+--[[ Titan
+TitanMovable.lua
+Contains the routines to adjust the frames to make room for the Titan bars the user has selected.
+There are a set of Blizzard frames at the top of screen and at the bottom of the screen.
+Each frame adjusted has an entry in TitanMovableData. TitanMovableData is local and not directly accessible via addons.
+However addons can tell Titan to not adjust some or all frames using TitanUtils_AddonAdjust(frame, bool). Addons that replace all or parts of the Blizzard UI use this.
+
+The user can turn turn on / off the adjusting of all top frames or all bottom frames.
+In addition the user can select to turn off / on adjusting of select top frames (minimap or ticket frame) or select bottom frames (chat / log or bags)
+--]]
 -- Globals
 
 -- Locals
-local TITAN_PANEL_DROPOFF_ADDON = nil;
-local TITAN_PANEL_MOVE_ADDON = nil
-
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
 
--- Declare the Ace routines
+--[[ Titan
+Declare the Ace routines
+ local AceTimer = LibStub("AceTimer-3.0")
+ i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
+ or
+ i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
+
+ Be careful that the 'self' is proper to cancel timers!!!
+--]]
 local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanel", "AceHook-3.0", "AceTimer-3.0")
---local AceTimer = LibStub("AceTimer-3.0")
--- i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
--- or
--- i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
---
--- Be careful that the 'self' is proper to cancel timers!!!
 
 --Determines the optimal magic number based on resolution
 local menuBarTop = 55;
@@ -25,49 +34,73 @@ if ( tonumber(width) / tonumber(height ) > 4/3 ) then
 end
 
 
+--[[ Titan
+TitanMovable is a local table that is cleared then filled with the frames Titan needse to check and adjust if necessary.
+--]]
 local TitanMovable = {};
+--[[ Titan
+TitanMovableData is a local table that holds each frame Titan may need to adjust. It also with the anchor points and offsets needed to make room for the Titan bar(s)
+
+The index is the frame name. Each record conatins:
+frameName - frame name (string) to adjust
+frameArchor - the frame anchor point
+xArchor - anchor relative to the frameName
+y - any additional adjustment in the y axis
+position - top or bottom
+addonAdj - true if another addon is taking responsibility of adjusting this frame, if false Titan will use the user setttings to adjust or not
+
+--]]
 -- This table governs the adjustment of the frames Titan is interested in.
--- "iup" = ignore user placed: there are some quests involving a vehicle where
--- for whatever reason Blizz sets the user placed flag of the vehicle bar causing
--- the routine to ignore it (not move it)
 local TitanMovableData = {
 	PlayerFrame = {frameName = "PlayerFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	TargetFrame = {frameName = "TargetFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
---	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, iup = false},
---	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, iup = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
+--	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, },
+--	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP, },
 	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, 
-		position = TITAN_PANEL_PLACE_TOP, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_TOP, addonAdj = false},
 	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
-		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_BOTTOM, addonAdj = false},
 	MultiBarRight = {frameName = "MultiBarRight", frameArchor = "BOTTOMRIGHT", xArchor = "RIGHT", y = 98, 
-		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_BOTTOM, addonAdj = false},
 	VehicleMenuBar = {frameName = "VehicleMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
-		position = TITAN_PANEL_PLACE_BOTTOM, iup = true, addonAdj = false},	
+		position = TITAN_PANEL_PLACE_BOTTOM, addonAdj = false},	
 	BonusActionBarFrame = {frameName = "BonusActionBarFrame", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
-		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
+		position = TITAN_PANEL_PLACE_BOTTOM, addonAdj = false},
 }
 
+--[[ local
+NAME: TitanMovableFrame_CheckThisFrame
+DESC: Add the given frame to the list so it will checked. Once 'full' the table will be looped through to see if the frame must be moved or not.
+VARS: 
+-  frameName - Titan uses the space ABOVE this
+OUT : None
+NOTE: 
+-  The frame is added to TitanMovable.
+--]]
 local function TitanMovableFrame_CheckThisFrame(frameName)
-	-- Add to the table that will checked.
-	-- Once 'full' the table will be looped through to see
-	-- if the frame must be moved or not.
-	
 	-- For safety check if the frame is in the table to adjust
 	if TitanMovableData[frameName] then
 		table.insert(TitanMovable, frameName)
 	end
 end
 
+--[[ Titan
+NAME: TitanMovable_AdjustTimer
+DESC: Cancel then add the given timer. The timer must be in TitanTimers.
+VARS: 
+-  ttype - The timer type (string) as defined in TitanTimers
+OUT : None
+--]]
 TitanMovable_AdjT = false
 function TitanMovable_AdjustTimer(ttype)
 if TitanMovable_AdjT then
@@ -84,8 +117,15 @@ end
 	end
 end
 
+--[[ Titan
+NAME: TitanMovable_AddonAdjust
+DESC: Set the given frame to be adjusted or not by another addon. This is called from TitanUtils for a developer API.
+VARS: 
+- frame - frame name (string)
+- bool - true (addon will adjust) or false (Titan will use its settings) 
+OUT : None
+--]]
 function TitanMovable_AddonAdjust(frame, bool)
-	-- called from TitanUtils for a developer API.
 	for index, value in pairs(TitanMovableData) do						
 		frameData = value
 		if frameData then
@@ -104,10 +144,17 @@ TitanDebug("..._AddonAdjust "
 	end
 end
 
+--[[ API
+NAME: TitanMovable_GetPanelYOffset
+DESC: Get the Y axis offset Titan needs (1 or 2 bars) at the given position - top or bottom.
+VARS: 
+- framePosition - TITAN_PANEL_PLACE_TOP or TITAN_PANEL_PLACE_BOTTOM
+OUT : 
+- Y axis offset, in pixels
+NOTE:
+- The prefered method to determine the Y offset needed by using TitanUtils_GetBarAnchors().
+--]]
 function TitanMovable_GetPanelYOffset(framePosition) -- used by other addons
-	-- framePosition is top or bottom. Return the Y offset
-	-- depending on which bars the user has shown.
-	--
 	-- Both top & bottom are figured out but only the
 	-- requested postion is returned
 	local barnum_top = 0;
@@ -149,6 +196,15 @@ function TitanMovable_GetPanelYOffset(framePosition) -- used by other addons
 	return 0
 end
 
+--[[ local
+NAME: TitanMovable_GetPanelYOffset
+DESC: Get the x axis offset Titan needs to adjust the given frame.
+VARS: 
+- frame - frame object
+- point - "LEFT" / "RIGHT" / "TOP" / "BOTTOM" / "CENTER"
+OUT : 
+- X axis offset, in pixels
+--]]
 local function TitanMovableFrame_GetXOffset(frame, point)
 	-- A valid frame and point is requried
 	-- Determine a proper X offset using the given point (position)
@@ -173,10 +229,14 @@ local function TitanMovableFrame_GetXOffset(frame, point)
 	return 0;
 end
 
+--[[ Titan
+NAME: TitanMovableFrame_CheckFrames
+DESC: Determine the frames that may need to be moved at the given position.
+VARS: 
+- position - TITAN_PANEL_PLACE_TOP / TITAN_PANEL_PLACE_BOTTOM / TITAN_PANEL_PLACE_BOTH
+OUT : None
+--]]
 function TitanMovableFrame_CheckFrames(position)
-	-- Depending on position (top / bottom / both) determine
-	-- the farmes that may need to be moved
-	--
 	-- reset the frames to move
 	TitanMovable = {};
 
@@ -218,7 +278,7 @@ function TitanMovableFrame_CheckFrames(position)
 		TitanMovableFrame_CheckThisFrame(MainMenuBar:GetName());
 	
 		-- Move MultiBarRight
-		TitanMovableFrame_CheckThisFrame(MultiBarRight:GetName());
+--		TitanMovableFrame_CheckThisFrame(MultiBarRight:GetName());
 		
 		-- Move VehicleMenuBar		
 		TitanMovableFrame_CheckThisFrame(VehicleMenuBar:GetName());
@@ -228,6 +288,13 @@ function TitanMovableFrame_CheckFrames(position)
 	end
 end
 
+--[[ Titan
+NAME: TitanMovableFrame_MoveFrames
+DESC: Actually adjust the frames at the given position.
+VARS: 
+- position - TITAN_PANEL_PLACE_TOP / TITAN_PANEL_PLACE_BOTTOM / TITAN_PANEL_PLACE_BOTH
+OUT : None
+--]]
 function TitanMovableFrame_MoveFrames(position)
 	-- Once the frames to check have been collected, 
 	-- move them as needed.
@@ -252,18 +319,14 @@ TitanDebug ("_MoveFrames "
 			end
 
 			if (frame and (frame:IsUserPlaced())) 
---			and not frameData.iup 
 			then
 				-- The user has positioned the frame
-				-- iup adjusts for frames that Blizz seems to set the
-				-- IsUserPlaced...
 				adj_frame = false
 			end
 			if frameData.addonAdj then
 				-- An addon has taken control of the frame
 				adj_frame = false
 			end
---			or frameData.iup 
 			
 			if adj_frame then
 				xArchor = frameData.xArchor;
@@ -344,10 +407,26 @@ TitanDebug ("_MoveFrames ! "
 	end
 end
 
+--[[ Titan
+NAME: TitanAdjustBottomFrames
+DESC: Adjust the frames at TITAN_PANEL_PLACE_BOTTOM.
+VARS: None
+OUT : None
+--]]
 function TitanAdjustBottomFrames()
 	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTTOM, true)
 end
 
+--[[ Titan
+NAME: Titan_FCF_UpdateDockPosition
+DESC: Secure post hook to help adjust the chat / log frame.
+VARS: None
+OUT : None
+NOTE:
+- This is required because Blizz adjusts the chat frame relative to other frames so some of the Blizz code is copied.
+- If in combat or if the user has moved the chat frame then no action is taken.
+- The frame is adjusted in the Y axis only.
+--]]
 local function Titan_FCF_UpdateDockPosition()
 	if not Titan__InitializedPEW
 	or not TitanPanelGetVar("LogAdjust") 
@@ -401,21 +480,20 @@ local function Titan_FCF_UpdateDockPosition()
 	end
 end
 
-local function Titan_ContainerFrames_Relocate()
---[[ doc
--- The Blizz routine "ContainerFrames_Relocate" should be
--- examined for any conditions it checks and any changes to the SetPoint.
--- If Blizz changes the anchor points the SetPoint here must change as well!!
---
--- Titan uses a secure POST hook to adjust the Y offset ONLY.
---
--- The Blizz routine calculates X & Y offsets to UIParent (screen)
--- so there is not need to store the prior offsets.
--- Like the Blizz routine we search through the visible bags.
--- Unlike the Blizz routine we only care about the first of each column
--- to adjust for Titan.
--- This way the Blizz code does not need to be copied here.
+--[[ Titan
+NAME: Titan_ContainerFrames_Relocate
+DESC: Secure post hook to help adjust the bag frames.
+VARS: None
+OUT : None
+NOTE:
+- The frame is adjusted in the Y axis only.
+- The Blizz routine "ContainerFrames_Relocate" should be examined for any conditions it checks and any changes to the SetPoint.
+If Blizz changes the anchor points the SetPoint here must change as well!!
+The Blizz routine calculates X & Y offsets to UIParent (screen) so there is not need to store the prior offsets.
+Like the Blizz routine we search through the visible bags. Unlike the Blizz routine we only care about the first of each column to adjust for Titan.
+This way the Blizz code does not need to be copied here.
 --]]
+local function Titan_ContainerFrames_Relocate()
 	if not TitanPanelGetVar("BagAdjust") then 
 		return 
 	end
@@ -442,6 +520,16 @@ local function Titan_ContainerFrames_Relocate()
 	end
 end
 
+--[[ Titan
+NAME: TitanMovableFrame_AdjustBlizzardFrames
+DESC: Calls the helper routines to adjust the chat / log frame and bag frames.
+VARS: None
+OUT : None
+NOTE:
+- This is required because Blizz (or addons) could adjust the chat frame outside the events that Titan registers for.
+- If in combat or if the user has moved the chat frame then no action is taken.
+- The frame is adjusted in the Y axis only.
+--]]
 local function TitanMovableFrame_AdjustBlizzardFrames()
 	if not InCombatLockdown() then
 		Titan_FCF_UpdateDockPosition();
@@ -449,19 +537,40 @@ local function TitanMovableFrame_AdjustBlizzardFrames()
 	end
 end
 
+--[[ Titan
+NAME: Titan_Hook_Adjust_Both
+DESC: Adjust the scale of Titan bars and plugins to the user selected scaling. This is called by the secure post hooks to the 'Video Options Frame'.
+VARS: None
+OUT : None
+NOTE:
+--]]
 local function Titan_AdjustUIScale()	
-	-- Refresh panel scale and buttons	
 	Titan_AdjustScale()
 end
 
+--[[ Titan
+NAME: Titan_Hook_Adjust_Both
+DESC: Adjust top and bottom frames. This is called by the secure post hooks.
+VARS: None
+OUT : None
+NOTE:
+- Starts a timer () which is a callback to Titan_ManageFramesNew.
+- These could arrive quickly. To prevent many adjusts from stacking, cancel any pending then queue this one.
+--]]
 local function Titan_Hook_Adjust_Both()
---TitanDebug ("Titan_Hook_Adjust_Both")
-	-- These could arrive quickly. To prevent
-	-- many adjusts from stacking, cancel any pending
-	-- then queue this one.
-	TitanMovable_AdjustTimer("Adjust") -- cancel
+	TitanMovable_AdjustTimer("Adjust") -- cancel 
 end
 
+--[[ Titan
+NAME: TitanPanel_AdjustFrames
+DESC: Adjust the frames at at the given position.
+VARS: 
+- position - TITAN_PANEL_PLACE_TOP / TITAN_PANEL_PLACE_BOTTOM / TITAN_PANEL_PLACE_BOTH
+- blizz - true or false
+OUT : None
+NOTE:
+- if blizz is true then the post hook code for chat / log frame and the bag frames is run
+--]]
 function TitanPanel_AdjustFrames(position, blizz)
 --[[
 TitanDebug ("_AdjustFrames "
@@ -477,6 +586,12 @@ TitanDebug ("_AdjustFrames "
 	end
 end
 
+--[[ Titan
+NAME: Titan_ManageFramesNew
+DESC: Adjust the frames at TITAN_PANEL_PLACE_BOTH.
+VARS: None
+OUT : None
+--]]
 --function TitanPanelAce:Titan_ManageFramesNew()
 function Titan_ManageFramesNew()
 	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, false)
@@ -500,6 +615,14 @@ function Titan_ManageFramesNew()
 --]]
 end
 
+--[[ Titan
+NAME: Titan_AdjustScale
+DESC: Update the bars and plugins to the user selected scale.
+VARS: None
+OUT : None
+NOTE:
+- Ensure Titan has done its initialization before this is run.
+--]]
 function Titan_AdjustScale()
 	-- Only adjust if Titan is fully initialized
 	if Titan__InitializedPEW then 
@@ -649,6 +772,15 @@ if false then
 end
 end
 
+--[[ Titan
+NAME: TitanMovable_SecureFrames
+DESC: Once Titan is initialized create the post hooks we need to help adjust frames properly.
+VARS: None
+OUT : None
+NOTE:
+- The secure post hooks are required because Blizz adjusts frames Titan is interested in at times other than the events Titan registers for.
+- This used to be inline code but was moved to a routine to avoid errors as Titan loaded.
+--]]
 function TitanMovable_SecureFrames()
 	if not TitanPanelAce:IsHooked("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition) then
 		TitanPanelAce:SecureHook("FCF_UpdateDockPosition", Titan_FCF_UpdateDockPosition) -- FloatingChatFrame

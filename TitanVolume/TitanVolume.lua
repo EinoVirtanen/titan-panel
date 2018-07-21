@@ -357,10 +357,8 @@ function TitanPanelRightClickMenu_PrepareVolumeMenu()
 	info.notCheckable = true
 	info.text = L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"];
 	info.func = function() 
-		if not AudioOptionsFrame:IsVisible() then
-			AudioOptionsFrame:Show()
-		end
-	end  
+		ShowUIPanel(VideoOptionsFrame);
+		end  
 	UIDropDownMenu_AddButton(info);
 
 	info.text = L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"];

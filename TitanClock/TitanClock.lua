@@ -497,7 +497,7 @@ end
 function TitanPanelClockButton_ToggleRightSideDisplay()
      TitanToggleVar(TITAN_CLOCK_ID, "DisplayOnRightSide");
      TitanPanel_RemoveButton(TITAN_CLOCK_ID);
-     TitanPanel_AddButton(TITAN_CLOCK_ID);     
+--     TitanPanel_AddButton(TITAN_CLOCK_ID);     
 end
 
 function TitanPanelClockButton_ToggleGameTimeFrameShown()

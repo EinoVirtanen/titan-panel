@@ -1,4 +1,6 @@
---[[ doc
+--[[ Titan
+TitanPanel.lua
+Contains the basic routines of Titan. All the event handler routines, initialization, Titan menu, and select plugin handler routines.
 --]]
 -- Globals
 TITAN_PANEL_MOVE_ADDON = nil;
@@ -28,18 +30,26 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
 
+--------------------------------------------------------------
+--
 -- Titan local helper funcs
 local function TitanPanel_GetVersion()
 	return tostring(GetAddOnMetadata("Titan", "Version")) or L["TITAN_NA"];
 end
 
+--[[ local
+NAME: TitanPanel_ResetBar
+DESC: Reset the current toon back to default Titan settings. Then reload the UI.
+VARS: None
+OUT : None
+--]]
 local function TitanPanel_ResetBar()
 	local playerName = UnitName("player");
 	local serverName = GetCVar("realmName");
 
 	toon = playerName..TITAN_AT..serverName
-	TitanCopyPlayerSettings = TitanSettings.Players[toon];
-	TitanCopyPluginSettings = TitanCopyPlayerSettings["Plugins"];
+	local TitanCopyPlayerSettings = TitanSettings.Players[toon];
+	local TitanCopyPluginSettings = TitanCopyPlayerSettings["Plugins"];
 
 	for index, id in pairs (TitanPanelSettings["Buttons"]) do
 		local currentButton = 
@@ -66,7 +76,12 @@ local function TitanPanel_ResetBar()
 	ReloadUI()
 end
 
--- Titan helper functions
+--[[ Titan
+NAME: TitanPanel_ResetToDefault
+DESC: Give the user a 'are you sure'. If accept then reset current toon back to default Titan settings.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_ResetToDefault()
 	StaticPopupDialogs["TITAN_RESET_BAR"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"])
@@ -84,38 +99,81 @@ function TitanPanel_ResetToDefault()
 	StaticPopup_Show("TITAN_RESET_BAR");
 end
 
+--[[ Titan
+NAME: TitanPanel_SaveCustomProfile
+DESC: The user wants to save a custom Titan profile. Show the user the dialog boxes to make it happen.
+VARS: None
+OUT : None
+NOTE:
+- The profile is written to the Titan saved variables. A reload of the UI is needed to ensure the profile is written to disk for the user to load later.
+--]]
 function TitanPanel_SaveCustomProfile()
-
+   -- Create the dialog box code we'll need...
+	
+	-- helper to actually write the profile to the Titan saved vars
+	local function Write_profile(name)
+		local playerName = UnitName("player");
+		local serverName = GetCVar("realmName");
+		local currentprofilevalue = playerName..TITAN_AT..serverName;
+		local profileName = name..TITAN_AT.."TitanCustomProfile";
+		TitanPanelSettings.Buttons = newButtons;
+		TitanPanelSettings.Location = newLocations;
+		TitanSettings.Players[profileName] = 
+			TitanSettings.Players[currentprofilevalue]
+		DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]
+			..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "
+			..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"]
+			.."|cffff8c00"..name.."|r");
+	end
+	-- helper to ask the user to overwrite a profile
+	local function Overwrite_profile(name)
+		local dialogFrame = 
+			StaticPopup_Show("TITAN_OVERWRITE_CUSTOM_PROFILE", name);
+		if dialogFrame then
+			dialogFrame.data = name;
+		end
+	end
+	-- helper to handle getting the profile name from the user
+	local function Get_profile_name(self)
+		local rawprofileName = self.editBox:GetText();
+		local conc2profileName = string.gsub( rawprofileName, " ", "" );
+		if conc2profileName == "" then return; end
+		local concprofileName = string.gsub( conc2profileName, TITAN_AT, "-" );
+		local profileName = concprofileName..TITAN_AT.."TitanCustomProfile";
+		if TitanSettings.Players[profileName] then			
+			-- Warn the user of an existing profile
+			Overwrite_profile(rawprofileName)
+			self:Hide();
+			return;
+		else
+			-- Save the requested profile
+			Write_profile(rawprofileName)
+			self:Hide();
+			StaticPopup_Show("TITAN_RELOADUI");
+		end
+	end
+	-- Dialog box to warn the user that the UI will be reloaded
+	-- This ensures the profile is written to disk
 	StaticPopupDialogs["TITAN_RELOADUI"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
 			..L["TITAN_PANEL_MENU_PROFILE_RELOADUI"],
 		button1 = TEXT(OKAY),
 		OnAccept = function(self)
-		ReloadUI();
+			ReloadUI(); -- ensure profile is written to disk
 		end,
 		showAlert = 1,
 		whileDead = 1,
 		timeout = 0,
 	};
 	
+	-- Dialog box to warn the user that an existing profile will be overwritten.
 	StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
 			..L["TITAN_PANEL_MENU_PROFILE_ALREADY_EXISTS"],
 		button1 = ACCEPT,
 		button2 = CANCEL,
 		OnAccept = function(self, data)
-			local playerName = UnitName("player");
-			local serverName = GetCVar("realmName");
-			local currentprofilevalue = playerName..TITAN_AT..serverName;
-			local profileName = data..TITAN_AT.."TitanCustomProfile";
-			TitanPanelSettings.Buttons = newButtons;
-			TitanPanelSettings.Location = newLocations;
-			TitanSettings.Players[profileName] = 
-				TitanSettings.Players[currentprofilevalue]
-			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]
-				..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "
-				..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"]
-				.."|cffff8c00"..data.."|r");
+			Write_profile(data)
 			self:Hide();
 			StaticPopup_Show("TITAN_RELOADUI");
 		end,
@@ -125,6 +183,7 @@ function TitanPanel_SaveCustomProfile()
 		hideOnEscape = 1
 	};
 	
+	-- Dialog box to save the profile.
 	StaticPopupDialogs["TITAN_SAVE_CUSTOM_PROFILE"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
 			..L["TITAN_PANEL_MENU_PROFILE_SAVE_CUSTOM_TITLE"],
@@ -133,33 +192,8 @@ function TitanPanel_SaveCustomProfile()
 		hasEditBox = 1,
 		maxLetters = 20,
 		OnAccept = function(self)
-			local rawprofileName = self.editBox:GetText();
-			local conc2profileName = string.gsub( rawprofileName, " ", "" );
-			if conc2profileName == "" then return; end
-			local concprofileName = string.gsub( conc2profileName, TITAN_AT, "-" );
-			local profileName = concprofileName..TITAN_AT.."TitanCustomProfile";
-			if TitanSettings.Players[profileName] then			
-				local dialogFrame = 
-					StaticPopup_Show("TITAN_OVERWRITE_CUSTOM_PROFILE", concprofileName);
-				if dialogFrame then
-					dialogFrame.data = concprofileName;
-				end
-				return;
-			else
-				local playerName = UnitName("player");
-				local serverName = GetCVar("realmName");
-				local currentprofilevalue = playerName..TITAN_AT..serverName;
-				TitanPanelSettings.Buttons = newButtons;
-				TitanPanelSettings.Location = newLocations;
-				TitanSettings.Players[profileName] = 
-					TitanSettings.Players[currentprofilevalue];
-				DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]
-					..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "
-					..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"]
-					.."|cffff8c00"..concprofileName.."|r");
-				self:Hide();
-				StaticPopup_Show("TITAN_RELOADUI");
-			end
+			-- self refers to the frame with the Accept button
+			Get_profile_name(self)
 		end,
 		OnShow = function(self)
 			self.editBox:SetFocus();
@@ -168,35 +202,9 @@ function TitanPanel_SaveCustomProfile()
 			self.editBox:SetText("");
 		end,
 		EditBoxOnEnterPressed = function(self)
+			-- We need to get the parent because self refers to the edit box.
 			local parent = self:GetParent();
-			local rawprofileName = parent.editBox:GetText();		
-			local conc2profileName = string.gsub( rawprofileName, " ", "" );
-			if conc2profileName == "" then return; end
-			local concprofileName = string.gsub( conc2profileName, TITAN_AT, "-" );
-			local profileName = concprofileName..TITAN_AT.."TitanCustomProfile";
-			if TitanSettings.Players[profileName] then			
-				local dialogFrame = 
-					StaticPopup_Show("TITAN_OVERWRITE_CUSTOM_PROFILE", concprofileName);
-				if dialogFrame then
-					dialogFrame.data = concprofileName;
-				end
-				parent:Hide();
-				return;
-			else
-				local playerName = UnitName("player");
-				local serverName = GetCVar("realmName");
-				local currentprofilevalue = playerName..TITAN_AT..serverName;
-				TitanPanelSettings.Buttons = newButtons;
-				TitanPanelSettings.Location = newLocations;
-				TitanSettings.Players[profileName] =
-					TitanSettings.Players[currentprofilevalue];
-				DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]
-					..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "
-					..L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"]
-					.."|cffff8c00"..concprofileName.."|r");			
-				end
-				parent:Hide();
-				StaticPopup_Show("TITAN_RELOADUI");
+			Get_profile_name(parent)
 			end,
 		EditBoxOnEscapePressed = function(self)
 			self:GetParent():Hide();
@@ -208,8 +216,24 @@ function TitanPanel_SaveCustomProfile()
 	};
 
 	StaticPopup_Show("TITAN_SAVE_CUSTOM_PROFILE");
+
+	-- Can NOT cleanup. Execution does not stop when a dialog box is invoked!
+--	StaticPopupDialogs["TITAN_RELOADUI"] = {}
+--	StaticPopupDialogs["TITAN_OVERWRITE_CUSTOM_PROFILE"] = {}
+--	StaticPopupDialogs["TITAN_SAVE_CUSTOM_PROFILE"] = {}
+	
 end
 
+--[[ Titan
+NAME: TitanSetPanelFont
+DESC: Set or change the font and font size of text on the Titan bar. This affects ALL plugins.
+VARS: 
+- fontname - The text name of the font to use. Defaults to "Friz Quadrata TT" if none given.
+- fontsize - The size of the font to use. Defaults to 10 if none given.
+OUT : None
+NOTE:
+- Each registered plugin will have its font updated. Then all plugins will be refreshed to show the new font.
+--]]
 function TitanSetPanelFont(fontname, fontsize)
 	-- a couple of arg checks to avoid unpleasant things...
 	if not fontname then fontname = "Friz Quadrata TT" end
@@ -236,27 +260,19 @@ function TitanSetPanelFont(fontname, fontsize)
 	TitanPanel_RefreshPanelButtons();
 end
 
-
--- Event registration
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_ENTERED_VEHICLE");
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_EXITED_VEHICLE");
-_G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
-	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
-end)
-	
+--[[ local
+NAME: TitanPanelFrame_ScreenAdjust
+DESC: Helper to update the Titan controlled frames - top and bottom.
+VARS: None
+OUT : None
+--]]
 local function TitanPanelFrame_ScreenAdjust()
 	if not InCombatLockdown() then
 		TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, true)
 	end
 end
 
+--[[ not_used
 local function TitanPanel_SetTransparent(frame, position)
 	local frName = _G[frame];
 	
@@ -270,7 +286,17 @@ local function TitanPanel_SetTransparent(frame, position)
 		frName:SetPoint("TOPRIGHT", "UIParent", "BOTTOMRIGHT", 0, TITAN_PANEL_BAR_HEIGHT); 
 	end
 end
+--]]
 
+--[[ local
+NAME: TitanPanel_CreateABar
+DESC: Helper to create the Titan bar passed in.
+VARS: 
+- frame - The frame name (string) of the Titan bar to create
+OUT : None
+NOTE:
+- This also creates the hider bar in case the user want to use auto hide.
+--]]
 local function TitanPanel_CreateABar(frame)
 	local hide_name = TitanBarData[frame].hider
 	local bar_name = TitanBarData[frame].name
@@ -288,7 +314,7 @@ local function TitanPanel_CreateABar(frame)
 	_G[hide_name]:SetScript("OnClick", function(self, button) TitanPanelBarButton_OnClick(self, button) end)
 	
 	_G[hide_name]:SetFrameStrata("BACKGROUND")
-	_G[hide_name]:SetHeight(TITAN_PANEL_BAR_HEIGHT);
+	_G[hide_name]:SetHeight(TITAN_PANEL_BAR_HEIGHT/2);
 	_G[hide_name]:SetWidth(2560);
 	
 	-- Set the display bar
@@ -303,6 +329,31 @@ local function TitanPanel_CreateABar(frame)
 	end
 end
 
+--------------------------------------------------------------
+--
+-- Event registration
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("CVAR_UPDATE");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_LOGOUT");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_ENTERED_VEHICLE");
+_G[TITAN_PANEL_CONTROL]:RegisterEvent("UNIT_EXITED_VEHICLE");
+_G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
+	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
+end)
+	
+--[[ Titan
+NAME: TitanPanel_PlayerEnteringWorld
+DESC: Do all the setup needed when a user logs in / reload / instance.
+VARS: None
+OUT : None
+NOTE:
+- This is called after the 'player entering world' event is fired by Blizz.
+- This is also used when a LDB plugin is created after Titan runs the 'player entering world' code.
+--]]
 function TitanPanel_PlayerEnteringWorld()
 	if Titan__InitializedPEW then
 		-- Also sync the LDB object with the Tian plugin
@@ -391,6 +442,7 @@ end
 	TitanMovable_AdjustTimer("EnterWorld")
 end
 
+--------------------------------------------------------------
 --
 -- Event handlers
 --
@@ -502,6 +554,16 @@ end
 --
 --
 
+--[[ Titan
+NAME: TitanPanelBarButton_OnClick
+DESC: Handle the button clicks on any Titan bar.
+VARS: 
+- self - expected to be a Titan bar
+- button - which mouse button was clicked
+OUT : None
+NOTE:
+- This only reacts to the right or left mouse click without modifiers.
+--]]
 function TitanPanelBarButton_OnClick(self, button)
 	-- ensure that the right-click menu will not appear on "hidden" bottom bar(s)
 	local bar = self:GetName();
@@ -517,6 +579,13 @@ function TitanPanelBarButton_OnClick(self, button)
 end
 
 -- Slash command handler
+--[[ local
+NAME: TitanPanel_RegisterSlashCmd
+DESC: Helper to parse and execute all the Titan slash commands from the user.
+VARS: 
+- cmd - The command (string) the user typed in
+OUT : None
+--]]
 local function TitanPanel_RegisterSlashCmd(cmd)
 	--
 	--	reset routines
@@ -597,14 +666,24 @@ local function TitanPanel_RegisterSlashCmd(cmd)
  --  DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING11"]);
 end
 
+--------------------------------------------------------------
+--
 -- Register slash commands for Titan Panel
 SlashCmdList["TitanPanel"] = TitanPanel_RegisterSlashCmd;
 SLASH_TitanPanel1 = "/titanpanel";
 SLASH_TitanPanel2 = "/titan";
 
+--------------------------------------------------------------
+--
 -- Texture routines
+--[[ Titan
+NAME: TitanPanel_ClearAllBarTextures
+DESC: Clear the current texture from all Titan bars.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_ClearAllBarTextures()
--- Clear textures if they already exist
+	-- Clear textures if they already exist
 	for idx,v in pairs (TitanBarData) do
 		for i = 0, numOfTexturesHider do
 			tex = TITAN_PANEL_BACKGROUND_PREFIX..TitanBarData[idx].name.."_"..i
@@ -615,6 +694,12 @@ function TitanPanel_ClearAllBarTextures()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_ClearAllBarTextures
+DESC: Create empty texture frames for all Titan bars.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_CreateBarTextures()
 	-- Create the basic Titan bars (textures)
 	local i, titanTexture
@@ -677,6 +762,16 @@ function TitanPanel_CreateBarTextures()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_SetTexture
+DESC: Set texture frames for the given Titan bar with the user chosen texture (bar graphic).
+VARS: 
+- frame - expected to be a Titan bar name (string)
+- position - not used
+OUT : None
+NOTE:
+- Assumes "TexturePath" contains the user selected texture.
+--]]
 function TitanPanel_SetTexture(frame, position)
 	-- Determine the bar that needs the texture applied.
 	local bar = TitanBarData[frame].name
@@ -692,9 +787,17 @@ function TitanPanel_SetTexture(frame, position)
 	end
 end
 
+--------------------------------------------------------------
+--
 -- auto hide event handlers
+--[[ Titan
+NAME: TitanPanelBarButton_OnLeave
+DESC: On leaving the display check if we have to hide the Titan bar. A timer is used - when it expires the bar is hid.
+VARS: 
+- self - expected to be a Titan bar
+OUT : None
+--]]
 function TitanPanelBarButton_OnLeave(self)
-	-- On leaving the display check if we have to hide the bar
 	local frame = (self and self:GetName() or nil)
 	local bar = (TitanBarData[frame] and TitanBarData[frame].name or nil)
 	
@@ -705,22 +808,45 @@ function TitanPanelBarButton_OnLeave(self)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_OnEnter
+DESC: No code - this is a place holder for the XML template.
+VARS: 
+- self - expected to be a Titan bar
+OUT : None
+--]]
 function TitanPanelBarButton_OnEnter(self)
 	-- no work to do
 end
 
+--[[ Titan
+NAME: TitanPanelBarButtonHider_OnLeave
+DESC: No code - this is a place holder for the XML template.
+VARS: 
+- self - expected to be a Titan bar
+OUT : None
+--]]
 function TitanPanelBarButtonHider_OnLeave(self)
 	-- no work to do
 end
 
+--[[ Titan
+NAME: TitanPanelBarButtonHider_OnEnter
+DESC: On entering the hider check if we need to show the display bar.
+VARS: 
+- self - expected to be a Titan bar
+OUT : None
+NOTE:
+- No action is taken if the user is on combat.
+--]]
 function TitanPanelBarButtonHider_OnEnter(self)
-	-- On entering the hider check if we need to show the
-	-- display bar.
-	
 	-- make sure self is valid
 	local index = self and self:GetName() or nil
 	if not index then return end -- sanity check
-	
+
+	-- so the bar does not 'appear' when moused over in combat
+	if InCombatLockdown() then return end 
+
 	-- find the relevant bar data
 	local frame = nil
 	for idx,v in pairs (TitanBarData) do
@@ -735,7 +861,16 @@ function TitanPanelBarButtonHider_OnEnter(self)
 	end
 end
 
+--------------------------------------------------------------
+--
 -- Titan features
+--[[ Titan
+NAME: TitanPanelBarButton_ToggleAlign
+DESC: Align the buttons per the user's new choice.
+VARS: 
+- align - left or center
+OUT : None
+--]]
 function TitanPanelBarButton_ToggleAlign(align)
 	-- toggle between left or center
 	if ( TitanPanelGetVar(align) == TITAN_PANEL_BUTTONS_ALIGN_CENTER ) then
@@ -748,6 +883,13 @@ function TitanPanelBarButton_ToggleAlign(align)
 	TitanPanelButton_Justify();
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_ToggleAutoHide
+DESC: Toggle the auto hide of the given Titan bar per the user's new choice.
+VARS: 
+- frame - expected to be a Titan bar
+OUT : None
+--]]
 function TitanPanelBarButton_ToggleAutoHide(frame)
 	local frName = _G[frame]
 	local plugin = (TitanBarData[frame] and TitanBarData[frame].auto_hide_plugin or nil)
@@ -759,18 +901,39 @@ function TitanPanelBarButton_ToggleAutoHide(frame)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_ToggleScreenAdjust
+DESC: Toggle whether Titan adjusts 'top' frames around Titan bars per the user's new choice.
+VARS: None
+NOTE:
+- Another addon can tell Titan to NOT adjust some or all frames.
+--]]
 function TitanPanelBarButton_ToggleScreenAdjust()
 	-- Turn on / off adjusting of other frames around Titan
 	TitanPanelToggleVar("ScreenAdjust");
 	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_TOP, true)
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_ToggleAuxScreenAdjust
+DESC: Toggle whether Titan adjusts 'bottom' frames around Titan bars per the user's new choice.
+VARS: None
+OUT : None
+NOTE:
+- Another addon can tell Titan to NOT adjust some or all frames.
+--]]
 function TitanPanelBarButton_ToggleAuxScreenAdjust()
 	-- turn on / off adjusting of frames at the bottom of the screen
 	TitanPanelToggleVar("AuxScreenAdjust");
 	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTTOM, true)
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_ForceLDBLaunchersRight
+DESC: Force all plugins created from LDB addons, visible or not, to be on the right side of the Titan bar. Any visible plugin will be forced to the right side on the same bar it currently on.
+VARS: None
+OUT : None
+--]]
 function TitanPanelBarButton_ForceLDBLaunchersRight()
 	local plugin, index, id;
 	for index, id in pairs(TitanPluginsIndex) do
@@ -799,6 +962,15 @@ function TitanPanelBarButton_ForceLDBLaunchersRight()
 	end
 end
 
+--[[ local
+NAME: TitanAnchors
+DESC: Helper to create the 'anchor' frames used by other addons that need to adjust so Titan can be visible. The anchor frames are adjusted depending on which Titan bars the user selects to show.
+VARS: None
+OUT : None
+NOTE:
+- TitanPanelTopAnchor - the frame at the bottom of the top bar(s) shown.
+- TitanPanelBottomAnchor - the frame at the top of the bottom bar(s) shown.
+--]]
 local function TitanAnchors()
 	local anchor_top = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP)
 	local anchor_bot = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM)
@@ -826,6 +998,12 @@ TitanDebug("Anc top: "..top_y.." bot: "..bot_y
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_DisplayBarsWanted
+DESC: Show all the Titan bars the user has selected.
+VARS: None
+OUT : None
+--]]
 function TitanPanelBarButton_DisplayBarsWanted()
 	-- Check all bars to see if the user has requested they be shown
 	for idx,v in pairs (TitanBarData) do
@@ -839,6 +1017,15 @@ function TitanPanelBarButton_DisplayBarsWanted()
 	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, true)
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_Show
+DESC: Show / hide the given Titan bar based on the user selection.
+VARS: 
+- frame - expected to be a Titan bar name (string)
+OUT : None
+NOTE: 
+- Hide moves rather than just 'not shown'. Otherwise the buttons will stay visible defeating the purpose of hide.
+--]]
 function TitanPanelBarButton_Show(frame)
 	local display = _G[frame];
 	local bar = (TitanBarData[frame].name or nil)
@@ -869,6 +1056,16 @@ function TitanPanelBarButton_Show(frame)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelBarButton_Hide
+DESC: Hide the given Titan bar based on the user selection.
+VARS: 
+- frame - expected to be a Titan bar name (string)
+OUT : None
+NOTE: 
+- Hide moves rather than just 'not shown'. Otherwise the buttons will stay visible defeating the purpose of hide.
+- Also moves the hider bar if auto hide is not selected.
+--]]
 function TitanPanelBarButton_Hide(frame)
 	if TITAN_PANEL_MOVING == 1 then return end
 
@@ -900,6 +1097,12 @@ function TitanPanelBarButton_Hide(frame)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_InitPanelBarButton
+DESC: Set the scale, texture (graphic), and transparancy of all the Titan bars based on the user selection.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_InitPanelBarButton()
 	-- Set initial Panel Scale
 	TitanPanel_SetScale();
@@ -922,6 +1125,12 @@ function TitanPanel_InitPanelBarButton()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_InitPanelButtons
+DESC: Show all user selected plugins on the Titan bar(s) then justify per the user selection.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_InitPanelButtons()
 	local button
 	local r_prior = {}
@@ -1016,12 +1225,26 @@ function TitanPanel_InitPanelButtons()
 	TitanPanelButton_Justify();
 end
 
+--[[ Titan
+NAME: TitanPanel_ReOrder
+DESC: Reorder all the shown all user selected plugins on the Titan bar(s). Typically used after a button has been removed / hidden.
+VARS: 
+- index - the index of the plugin removed so the list can be updated
+OUT : None
+--]]
 function TitanPanel_ReOrder(index)
 	for i = index, table.getn(TitanPanelSettings.Buttons) do		
 		TitanPanelSettings.Location[i] = TitanPanelSettings.Location[i+1]
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_RemoveButton
+DESC: Remove a plugin then show all the shown all user selected plugins on the Titan bar(s).
+VARS: 
+- id - the plugin name (string)
+OUT : None
+--]]
 function TitanPanel_RemoveButton(id)
 	if ( not TitanPanelSettings ) then
 		return;
@@ -1044,6 +1267,14 @@ function TitanPanel_RemoveButton(id)
 	TitanPanel_InitPanelButtons();
 end
 
+--[[ Titan
+NAME: TitanPanel_GetButtonNumber
+DESC: Get the index of the given plugin from the Titan plugin list.
+VARS: 
+- id - the plugin name (string)
+OUT : 
+- index of the plugin in the Titan plugin list
+--]]
 function TitanPanel_GetButtonNumber(id)
 	if (TitanPanelSettings) then
 		for i = 1, table.getn(TitanPanelSettings.Buttons) do		
@@ -1057,6 +1288,12 @@ function TitanPanel_GetButtonNumber(id)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_RefreshPanelButtons
+DESC: Update / refresh each plugin from the Titan plugin list. Used when a Titan option is changed that effects all plugins.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_RefreshPanelButtons()
 	if (TitanPanelSettings) then
 		for i = 1, table.getn(TitanPanelSettings.Buttons) do		
@@ -1065,6 +1302,12 @@ function TitanPanel_RefreshPanelButtons()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelButton_Justify
+DESC: Justify the plugins on each Titan bar. Used when the user changes the 'center' option on a Titan bar.
+VARS: None
+OUT : None
+--]]
 function TitanPanelButton_Justify()
 	-- Only the left side buttons are justified.
 	if ( not TITAN_PANEL_BUTTONS_INIT_FLAG or not TitanPanelSettings ) then
@@ -1136,6 +1379,12 @@ function TitanPanelButton_Justify()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_SetScale
+DESC: Set the scale of each plugin and each Titan bar.
+VARS: None
+OUT : None
+--]]
 function TitanPanel_SetScale()
 	local scale = TitanPanelGetVar("Scale");
 
@@ -1152,6 +1401,13 @@ function TitanPanel_SetScale()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_LoadError
+DESC: Display a 'loading' error. Does not appear to be used.
+VARS: 
+- ErrorMsg - message to display
+OUT : None
+--]]
 function TitanPanel_LoadError(ErrorMsg) 
 	StaticPopupDialogs["LOADING_ERROR"] = {
 		text = ErrorMsg,
@@ -1162,10 +1418,18 @@ function TitanPanel_LoadError(ErrorMsg)
 	StaticPopup_Show("LOADING_ERROR");
 end
 
+--------------------------------------------------------------
+--
 -- Local routines for Titan menu creation
+--[[ Titan
+NAME: TitanPanelRightClickMenu_BarOnClick
+DESC: Show / hide a plugin. Used by the Titan (right click) menu.
+VARS: 
+- checked - true (show) or false (hide)
+- value - the plugin id
+OUT : None
+--]]
 local function TitanPanelRightClickMenu_BarOnClick(checked, value)
-	-- value is the plugin id
-	
 	-- we need to know which bar the user clicked to get the menu...
 	local frame = TitanPanel_DropMenu:GetParent():GetName()
 	local bar = TitanBarData[frame].name
@@ -1177,6 +1441,12 @@ local function TitanPanelRightClickMenu_BarOnClick(checked, value)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_MainMenu
+DESC: Show main Titan (right click) menu.
+VARS: None
+OUT : None
+--]]
 local function TitanPanel_MainMenu()	
 	local info = {};
 
@@ -1244,6 +1514,12 @@ local function TitanPanel_MainMenu()
 	UIDropDownMenu_AddButton(info);
 end
 
+--[[ Titan
+NAME: TitanPanel_ServerSettingsMenu
+DESC: Show list of servers / custom submenu off Profiles/Manage from the Titan (right click) menu.
+VARS: None
+OUT : None
+--]]
 local function TitanPanel_ServerSettingsMenu()
 	local info = {};
 	local servers = {};
@@ -1308,10 +1584,17 @@ local function TitanPanel_ServerSettingsMenu()
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_PlayerSettingsMenu
+DESC: Show list of toons submenu off Profiles/Manage/<server or custom> from the Titan (right click) menu.
+VARS: None
+OUT : None
+NOTE:
+- There are 2 level 3 menus possible
+  1) Under profiles, then value could be the server of a saved toon
+  2) Under plugins value could be the options of a plugin
+--]]
 local function TitanPanel_PlayerSettingsMenu()
-	-- there are 2 level 3 menus possible
-	-- 1) Under profiles, then value could be the server of a saved toon
-	-- 2) Under plugins value could be the options of a plugin
 	--
 	local info = {};
 	local player = nil;
@@ -1470,6 +1753,12 @@ local function TitanPanel_PlayerSettingsMenu()
 	end	
 end
 
+--[[ Titan
+NAME: TitanPanel_SettingsSelectionMenu
+DESC: Show save / load submenu off Profiles/Manage/<server or custom>/<profile> from the Titan (right click) menu.
+VARS: None
+OUT : None
+--]]
 local function TitanPanel_SettingsSelectionMenu()
 	local info = {};
 	
@@ -1514,6 +1803,12 @@ local function TitanPanel_SettingsSelectionMenu()
 	UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 end
 
+--[[ Titan
+NAME: TitanPanel_BuildOtherPluginsMenu
+DESC: Show the submenu with list of plugin off the category from the Titan (right click) menu.
+VARS: None
+OUT : None
+--]]
 local function TitanPanel_BuildOtherPluginsMenu(frame)
 	local info = {};
 	local checked;
@@ -1550,6 +1845,13 @@ local function TitanPanel_BuildOtherPluginsMenu(frame)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelRightClickMenu_PrepareBarMenu
+DESC: This is the controller to show the proper level of the Titan (right click) menu.
+VARS: 
+- self - expected to be the Tian bar that was right clicked
+OUT : None
+--]]
 function TitanPanelRightClickMenu_PrepareBarMenu(self)
 	-- Determine which bar was clicked on
 	-- This MUST match the convention used in TitanPanel.xml to declare
@@ -1579,12 +1881,28 @@ function TitanPanelRightClickMenu_PrepareBarMenu(self)
 	TitanPanel_MainMenu()
 end
 
+--[[ Titan
+NAME: TitanPanel_IsPluginShown
+DESC: Determine if the given plugin is shown on a Titan bar. The Titan bar could be not shown or on auto hide and the plugin will still be 'shown'.
+VARS: 
+- id - plugin name (string)
+OUT :
+- index of the plugin or nil
+--]]
 function TitanPanel_IsPluginShown(id)
 	if ( id and TitanPanelSettings ) then
 		return TitanUtils_TableContainsValue(TitanPanelSettings.Buttons, id);
 	end
 end
 
+--[[ Titan
+NAME: TitanPanel_GetPluginSide
+DESC: Determine if the given plugin is or would be on right of left of a Titan bar. This returns right or left regardless of whether the plugin is 'shown'.
+VARS: 
+- id - plugin name (string)
+OUT :
+- "Right" or "Left"
+--]]
 function TitanPanel_GetPluginSide(id)
 	if ( TitanGetVar(id, "DisplayOnRightSide") ) then
 		return TITAN_RIGHT;

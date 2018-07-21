@@ -148,7 +148,7 @@ L["TITAN_PANEL_MENU_LDB_SLAP"] = "Si necesitas usar esto solicítale al autor qu
 L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Siempre activo";
 L["TITAN_PANEL_MENU_POSITION"] = "Posición";
 L["TITAN_PANEL_MENU_BAR"] = "Barra";
-L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Mostrar en Barra";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Elige en qué barra se mostrará el plugin";
 L["TITAN_PANEL_MENU_SHOW"] = "Mostrar plugin";
 L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Actualizar plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Actualizar texto y posición de plugin";
@@ -376,7 +376,8 @@ L["TITAN_PERFORMANCE_ADDON_RATE_LABEL"] = "Ratio";
 L["TITAN_PERFORMANCE_ADDON_TOTAL_MEM_USAGE_LABEL"] = "Uso de memoria total:";
 L["TITAN_PERFORMANCE_ADDON_TOTAL_CPU_USAGE_LABEL"] = "Uso de procesador total:";
 L["TITAN_PERFORMANCE_MENU_SHOW_FPS"] = "Mostrar FPS";
-L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"] = "Mostrar latencia";
+L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"] = "Mostrar latencia del reino (hogar)";
+L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY_WORLD"] = "Mostrar latencia del juego (mundo)";
 L["TITAN_PERFORMANCE_MENU_SHOW_MEMORY"] = "Mostrar nemoria";
 L["TITAN_PERFORMANCE_MENU_SHOW_ADDONS"] = "Mostrar Addon de uso de memoria";
 L["TITAN_PERFORMANCE_MENU_SHOW_ADDON_RATE"] = "Mostrar Addon de ratio de uso";
@@ -520,6 +521,7 @@ L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Cuidado: "
 .."Si deseas seguir con esta operación, pulsa 'Aceptar', de lo contrario pulsa 'Cancelar' o la tecla 'Escape'.";
 L["TITAN_GOLD_COIN_LABELS"] = "Mostrar etiqueta de monedas";
 L["TITAN_GOLD_ONLY"] = "Mostrar sólo oro";
+L["TITAN_GOLD_COLORS"] = "Mostrar colores en el oro";
 
 
 L["TITAN_VOLUME_TOOLTIP"] = "Control de Volumen";

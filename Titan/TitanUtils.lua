@@ -1,3 +1,7 @@
+--[[ Titan
+TitanUtils.lua
+This file contains various utility routines used by Titan and routines available to plugin developers. 
+--]]
 Titan__InitializedPEW = nil
 Titan__Initialized_Settings = nil
 
@@ -13,58 +17,80 @@ local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local media = LibStub("LibSharedMedia-3.0")
 
---------------------------------------------------------------
--- The routines in this section are useable by addon developers
 --
+-- The routines labeled API are useable by addon developers
 --
--- Titan routines for Addon developers
---
+
+--[[ API
+NAME: TitanUtils_GetBarAnchors
+DESC: Get the anchors of the bottom most top bar and the top most bottom bar.
+   Intended for addons that modify the UI so they can adjust for Titan.
+   The anchors adjust depending on what Titan bars the user displays.
+VARS: None
+OUT : 
+-  TitanPanelTopAnchor - Titan uses the space ABOVE this
+-  TitanPanelBottomAnchor - Titan uses the space BELOW this
+NOTE: 
+-  The two anchors are implemented as 2 frames that are moved by Titan depending on which bars are shown.
+--]]
 function TitanUtils_GetBarAnchors() -- Used by addons
-	-- Get the anchor of the bottom most top bar
-	-- and the anchor of the top most bottom bar.
-	-- This is intended for addons that modify the UI so they
-	-- can adjust for Titan.
-	
 	return TitanPanelTopAnchor, TitanPanelBottomAnchor
 end
 
+--[[ API
+NAME: TitanUtils_GetMinimapAdjust
+DESC: Return the current setting of the Titan MinimapAdjust option.
+VARS: None
+OUT : 
+-  The value of the MinimapAdjust option
+--]]
 function TitanUtils_GetMinimapAdjust() -- Used by addons
-	-- This routine the current setting of
-	-- the Titan minimap adjust.
 	return not TitanPanelGetVar("MinimapAdjust")
 end
+--[[ API
+NAME: TitanUtils_SetMinimapAdjust
+DESC: Set the current setting of the Titan MinimapAdjust option.
+VARS: None
+OUT : None
+--]]
 function TitanUtils_SetMinimapAdjust(bool) -- Used by addons
 	-- This routine allows an addon to turn on or off
 	-- the Titan minimap adjust.
 	TitanPanelSetVar("MinimapAdjust", not bool)
 end
 
---[[ doc
--- frame - is the name (string)
--- bool  - true if the addon will adjust the frame
---         false if Titan will adjust
---
--- Note: Titan will NOT store the adjust value across a log out / exit
+--[[ API
+NAME: TitanUtils_AddonAdjust
+DESC: Tell Titan to adjust (or not) a frame.
+VARS: 
+- frame - is the name (string) of the frame
+- bool  - true if the addon will adjust the frame
+          false if Titan will adjust
+OUT : None
+Note: 
+- Titan will NOT store the adjust value across a log out / exit.
+- This is a generic way for an addon tell Titan to not adjust a frame that the addon will take responsibility for. This is useful for UI style addons so the user can run Titan and a modifed UI.
+- The list of frames Titan adjusts in in TitanMovable.lua.
+- If the frame is not in the list that Titan adjusts no action is taken.
 --]]
 function TitanUtils_AddonAdjust(frame, bool) -- Used by addons
-	-- This is a generic way for other addons that adjust the position
-	-- of the frames that Titan adjusts to have Titan 'back off' 
-	-- and not attempt to adjust the same frames.
-	-- The list of frames Titan adjusts in in TitanMovable.lua.
-	-- If the frame is not in the list that Titan adjusts no action is taken.
 	TitanMovable_AddonAdjust(frame, bool)
 end
 
 --------------------------------------------------------------
-
--- The routines are useable by plugin developers
--- until the sections listed as Titan ONLY.
---
 --
 -- Plugin button search & manipulation routines
 --
+--[[ API
+NAME: TitanUtils_GetButton
+DESC: Return the actual button name and the plugin id.
+VARS: 
+- id - is the id of the plugin
+OUT : 
+- The button table
+- The id of the plugin
+--]]
 function TitanUtils_GetButton(id) -- Used by plugins
-	-- Return the actual button name and the plugin name
 	if (id) then
 		return _G["TitanPanel"..id.."Button"], id;
 	else
@@ -72,9 +98,17 @@ function TitanUtils_GetButton(id) -- Used by plugins
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetRealPosition
+DESC: Return whether the plugin is on the top or bottom bar.
+VARS: 
+- id - is the id of the plugin
+OUT : 
+- bottom(2) or top(1)-default
+NOTE:
+- This returns top or bottom NOT which bar (1-4) the plugin is on.
+--]]
 function TitanUtils_GetRealPosition(id) -- Used by plugins
-	-- Get which bar the plugin is on.
-	
 	-- This will return top / bottom but it is a compromise.
 	-- With the introduction of independent bars there is
 	-- more than just top / bottom.
@@ -87,10 +121,17 @@ function TitanUtils_GetRealPosition(id) -- Used by plugins
 			bar_pos = TitanBarData[idx].vert
 		end
 	end
-	-- This will return bottom(2) or top(1)-default
 	return (bar_pos == TITAN_BOTTOM and TITAN_PANEL_PLACE_BOTTOM or TITAN_PANEL_PLACE_TOP)
 end
 
+--[[ API
+NAME: TitanUtils_GetButtonID
+DESC: Return the button name of the given name (plugin id).
+VARS: 
+- name - is the id of the plugin
+OUT : 
+- button name or nil
+--]]
 function TitanUtils_GetButtonID(name)
 	if name then
 		local s, e, id = string.find(name, "TitanPanel(.*)Button");
@@ -100,6 +141,14 @@ function TitanUtils_GetButtonID(name)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetParentButtonID
+DESC: Return the button name of the parent of the given name (plugin id).
+VARS: 
+- name - is the id of the plugin
+OUT : 
+- button name or nil
+--]]
 function TitanUtils_GetParentButtonID(name)
 	local frame = TitanUtils_Ternary(name, _G[name], nil);
 
@@ -108,6 +157,17 @@ function TitanUtils_GetParentButtonID(name)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetButtonIDFromMenu
+DESC: Return the button name of whatever the mouse is over.
+   Used in the right click menu on load.
+VARS: 
+- self - is the id of the frame
+OUT : 
+- button name or nil
+NOTE:
+- The button name returned could be the Titan bar or a plugin.
+--]]
 function TitanUtils_GetButtonIDFromMenu(self)
 	local ret = nil
 	if self and self:GetParent() then
@@ -127,7 +187,7 @@ function TitanUtils_GetButtonIDFromMenu(self)
 				-- should be ok
 				ret = temp
 			else
-				-- the frame container is expected to be not named
+				-- the frame container is expected to be without a name
 				-- This trips when the user right clicks a LDB plugin...
 --[[
 				TitanDebug("Could not determine parent for '"
@@ -158,8 +218,15 @@ function TitanUtils_GetButtonIDFromMenu(self)
 	return ret
 end
 
+--[[ API
+NAME: TitanUtils_GetPlugin
+DESC: Return the plugin itself (table and all).
+VARS: 
+- id - is the id of the plugin
+OUT : 
+- plugin or nil
+--]]
 function TitanUtils_GetPlugin(id)
-	-- Return the plugin data
 	if (id) then
 		return TitanPlugins[id];
 	else
@@ -167,8 +234,15 @@ function TitanUtils_GetPlugin(id)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetWhichBar
+DESC: Return the bar the plugin is on.
+VARS: 
+- id - is the id of the plugin
+OUT : 
+- bar name or nil
+--]]
 function TitanUtils_GetWhichBar(id)
-	-- Get which bar the plugin is on.
 	local i = TitanPanel_GetButtonNumber(id);
 	if TitanPanelSettings.Location[i] == nil then
 		return
@@ -177,6 +251,13 @@ function TitanUtils_GetWhichBar(id)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_PickBar
+DESC: Return the first bar that is shown.
+VARS: None
+OUT : 
+- bar name or nil
+--]]
 function TitanUtils_PickBar()
 	-- Pick the 'first' bar shown.
 	-- This is used for defaulting where plugins are put
@@ -190,14 +271,19 @@ function TitanUtils_PickBar()
 	return nil
 end
 
-function TitanUtils_ToRight(id)
---[[ doc
--- See if the plugin is to be on the right.
--- There are 3 methods to place a plugin on the right:
--- 1) DisplayOnRightSide saved variable logic (preferred)
--- 2) Create a plugin button using the TitanPanelIconTemplate
--- 3) Place a plugin in TITAN_PANEL_NONMOVABLE_PLUGINS (NOT preferred)
+--[[ API
+NAME: TitanUtils_ToRight
+DESC: See if the plugin is to be on the right.
+   There are 3 methods to place a plugin on the right:
+   1) DisplayOnRightSide saved variable logic (preferred)
+   2) Create a plugin button using the TitanPanelIconTemplate
+   3) Place a plugin in TITAN_PANEL_NONMOVABLE_PLUGINS (NOT preferred)
+VARS: None
+OUT : 
+- true or nil
+   true if the plugin is to be placed on the right side of a bar.
 --]]
+function TitanUtils_ToRight(id)
 	local found = nil
 	for index, _ in ipairs(TITAN_PANEL_NONMOVABLE_PLUGINS) do
 		if id == TITAN_PANEL_NONMOVABLE_PLUGINS[index] then
@@ -214,9 +300,21 @@ function TitanUtils_ToRight(id)
 	return found
 end
 
+--------------------------------------------------------------
 --
 -- General util routines
 --
+
+--[[ API
+NAME: TitanUtils_Ternary
+DESC: Return b or c if true or false respectively
+VARS: 
+- a - value to determine true or false
+- b - value to use if true
+- c - value to use if false or nil
+OUT : 
+- b (true) or c (false)
+--]]
 function TitanUtils_Ternary(a, b, c) -- Used by plugins
 	if (a) then
 		return b;
@@ -225,6 +323,14 @@ function TitanUtils_Ternary(a, b, c) -- Used by plugins
 	end
 end
 
+--[[ API
+NAME: TitanUtils_Toggle
+DESC: Flip the value assuming it is true or false
+VARS: 
+- value - value to start with
+OUT : 
+- true or false
+--]]
 function TitanUtils_Toggle(value) -- Used by plugins
 	if (value == 1 or value == true) then
 		return nil;
@@ -233,6 +339,15 @@ function TitanUtils_Toggle(value) -- Used by plugins
 	end
 end
 
+--[[ API
+NAME: TitanUtils_Min
+DESC: Return the min of a or b
+VARS: 
+- a - a value
+- b - a value
+OUT : 
+- value of min (a, b)
+--]]
 function TitanUtils_Min(a, b)
 	if (a and b) then
 --		return ( a < b ) and a or b
@@ -240,6 +355,15 @@ function TitanUtils_Min(a, b)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_Max
+DESC: Return the max of a or b
+VARS: 
+- a - a value
+- b - a value
+OUT : 
+- value of max (a, b)
+--]]
 function TitanUtils_Max(a, b)
 	if (a and b) then
 		return TitanUtils_Ternary((a > b), a, b);
@@ -247,6 +371,17 @@ function TitanUtils_Max(a, b)
 	end
 end
 
+--[[ local
+NAME: GetTimeParts
+DESC: Use the seconds (s) to return its parts.
+VARS: 
+- s - a time value in seconds
+OUT : 
+- days
+- hours
+- minutes
+- seconds
+--]]
 local function GetTimeParts(s)
 	local days = 0
 	local hours = 0
@@ -264,6 +399,14 @@ local function GetTimeParts(s)
 	return days, hours, minutes, seconds
 end
 
+--[[ API
+NAME: TitanUtils_GetEstTimeText
+DESC: Use the seconds (s) to return an estimated time.
+VARS: 
+- s - a time value in seconds
+OUT : 
+- string with localized, estimated elapsed time using spaces and leaving off the rest
+--]]
 function TitanUtils_GetEstTimeText(s)
 	local timeText = "";
 	days, hours, minutes, seconds = GetTimeParts(s)
@@ -285,6 +428,14 @@ function TitanUtils_GetEstTimeText(s)
 	return timeText;
 end
 
+--[[ API
+NAME: TitanUtils_GetFullTimeText
+DESC: break the seconds (s) into days, hours, minutes, and seconds
+VARS: 
+- s - a time value in seconds
+OUT : 
+- string with localized days, hours, minutes, and seconds using commas and including zeroes
+--]]
 function TitanUtils_GetFullTimeText(s)
 	days, hours, minutes, seconds = GetTimeParts(s)
 	if seconds == L["TITAN_NA"] then
@@ -298,6 +449,14 @@ function TitanUtils_GetFullTimeText(s)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetAbbrTimeText
+DESC: break the seconds (s) into days, hours, minutes, and seconds
+VARS: 
+- s - a time value in seconds
+OUT : 
+- string with localized days, hours, minutes, and seconds using spaces and including zeroes
+--]]
 function TitanUtils_GetAbbrTimeText(s) -- Used by plugins
 	local timeText = "";
 	days, hours, minutes, seconds = GetTimeParts(s)
@@ -318,6 +477,14 @@ function TitanUtils_GetAbbrTimeText(s) -- Used by plugins
 	return timeText;
 end
 
+--[[ API
+NAME: TitanUtils_GetControlFrame
+DESC: return the control frame, if one was created. NOTE this may not be used anymore.
+VARS: 
+- id - id of the plugin
+OUT : 
+- nil or the control frame
+--]]
 function TitanUtils_GetControlFrame(id)
 	if (id) then
 		return _G["TitanPanel"..id.."ControlFrame"];
@@ -326,6 +493,15 @@ function TitanUtils_GetControlFrame(id)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_TableContainsValue
+DESC: Determine if the table contains the value.
+VARS: 
+- table - table to search
+- value - value to find
+OUT : 
+- nil or the index to value
+--]]
 function TitanUtils_TableContainsValue(table, value)
 	if (table and value) then
 		for i, v in pairs(table) do
@@ -336,6 +512,15 @@ function TitanUtils_TableContainsValue(table, value)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_TableContainsIndex
+DESC: Determine if the table contains the index.
+VARS: 
+- table - table to search
+- index - index to find
+OUT : 
+- nil or the index
+--]]
 function TitanUtils_TableContainsIndex(table, index)
 	if (table and index) then
 		for i, v in pairs(table) do
@@ -346,10 +531,27 @@ function TitanUtils_TableContainsIndex(table, index)
 	end
 end
 
+--[[ API
+NAME: TitanUtils_TableContainsValue
+DESC: Determine if the table contains the value.
+VARS: 
+- table - table to search
+- value - value to find
+OUT : 
+- nil or the index to value
+--]]
 function TitanUtils_GetCurrentIndex(table, value)
 	return TitanUtils_TableContainsValue(table, value);
 end
 
+--[[ API
+NAME: TitanUtils_PrintArray
+DESC: Debug tool that will attempt to output the index and value of the array passed in.
+VARS: 
+- array - array to output
+OUT : 
+- Array output to the chat window
+--]]
 function TitanUtils_PrintArray(array) 
 	if (not array) then
 		TitanDebug("array is nil");
@@ -363,42 +565,99 @@ function TitanUtils_PrintArray(array)
 	
 end
 
+--[[ API
+NAME: TitanUtils_GetRedText
+DESC: Make the given text red.
+VARS: 
+- text - text to color
+OUT : 
+- Red string with proper start and end font encoding
+--]]
 function TitanUtils_GetRedText(text) -- Used by plugins
 	if (text) then
 		return _G["RED_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetGoldText
+DESC: Make the given text gold.
+VARS: 
+- text - text to color
+OUT : 
+- Gold string with proper start and end font encoding
+--]]
 function TitanUtils_GetGoldText(text)
 	if (text) then
 		return "|cffffd700"..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetGreenText
+DESC: Make the given text green.
+VARS: 
+- text - text to color
+OUT : 
+- Green string with proper start and end font encoding
+--]]
 function TitanUtils_GetGreenText(text) -- Used by plugins
 	if (text) then
 		return _G["GREEN_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetBlueText
+DESC: Make the given text blue.
+VARS: 
+- text - text to color
+OUT : 
+- Blue string with proper start and end font encoding
+--]]
 function TitanUtils_GetBlueText(text)
 	if (text) then
 		return "|cff0000ff"..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetNormalText
+DESC: Make the given text normal (gray-white).
+VARS: 
+- text - text to color
+OUT : 
+- Normal string with proper start and end font encoding
+--]]
 function TitanUtils_GetNormalText(text) -- Used by plugins
 	if (text) then
 		return _G["NORMAL_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetHighlightText
+DESC: Make the given text highlight (brighter white).
+VARS: 
+- text - text to color
+OUT : 
+- Highlight string with proper start and end font encoding
+--]]
 function TitanUtils_GetHighlightText(text) -- Used by plugins
 	if (text) then
 		return _G["HIGHLIGHT_FONT_COLOR_CODE"]..text.._G["FONT_COLOR_CODE_CLOSE"];
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetColoredText
+DESC: Make the given text a custom color. 
+VARS: 
+- text - text to color
+- color - color is the color table with r, b, g values set.
+OUT : 
+- Custom color string with proper start and end font encoding
+--]]
 function TitanUtils_GetColoredText(text, color) -- Used by plugins
 	if (text and color) then
 		local redColorCode = format("%02x", color.r * 255);		
@@ -409,6 +668,15 @@ function TitanUtils_GetColoredText(text, color) -- Used by plugins
 	end
 end
 
+--[[ API
+NAME: TitanUtils_GetThresholdColor
+DESC: Flexable routine that returns the threshold color for a given value using a table as input. 
+VARS: 
+- ThresholdTable - table holding the list of colors and values
+- value - 
+OUT : 
+- The color value from the treshhold table
+--]]
 function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	if ( not tonumber(value) or type(ThresholdTable) ~= "table" 
 	or ThresholdTable.Values == nil or ThresholdTable.Colors == nil
@@ -419,8 +687,8 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 
 	local n = table.getn(ThresholdTable.Values) + 1;
 	for i = 1, n do 
-		local low = TitanUtils_Ternary(i == 1, nil, ThresholdTable.Values[i-1]);
-		local high = TitanUtils_Ternary(i == n, nil, ThresholdTable.Values[i]);
+		local low = TitanUtils_Ternary(i == 1, nil, ThresholdTable.Values[i-1]); -- lowest
+		local high = TitanUtils_Ternary(i == n, nil, ThresholdTable.Values[i]);  -- highest
 		
 		if ( not low and not high ) then
 			-- No threshold values
@@ -446,15 +714,32 @@ function TitanUtils_GetThresholdColor(ThresholdTable, value)
 	return _G["GRAY_FONT_COLOR"];
 end
 
+--[[ API
+NAME: TitanUtils_ToString
+DESC: Routine that returns the text or an empty string. 
+VARS: 
+- text - text to check
+OUT : 
+- string of text or ""
+--]]
 function TitanUtils_ToString(text) 
 	return TitanUtils_Ternary(text, text, "");
 end
 
+--------------------------------------------------------------
 --
 -- Right click menu routines for plugins
 -- The expected global function name in the plugin is:
 -- "TitanPanelRightClickMenu_Prepare"..<registry.id>.."Menu"
 --
+--[[ API
+NAME: TitanPanelRightClickMenu_AddTitle
+DESC: Menu - add a title at the given level in the form of a button. 
+VARS: 
+- title - text to show
+- level - level to put text
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddTitle(title, level)
 	if (title) then
 		local info = {};
@@ -466,6 +751,16 @@ function TitanPanelRightClickMenu_AddTitle(title, level)
 	end
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddCommand
+DESC: Menu - add a command at the given level in the form of a button. 
+VARS: 
+- title - text to show
+- value - value of the command
+- functionName - routine to run when clicked
+- level - level to put command
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddCommand(text, value, functionName, level)
 	local info = {};
 	info.notCheckable = true;
@@ -481,6 +776,13 @@ function TitanPanelRightClickMenu_AddCommand(text, value, functionName, level)
 	UIDropDownMenu_AddButton(info, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddSpacer
+DESC: Menu - add a blank line at the given level in the form of an inactive button. 
+VARS: 
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddSpacer(level)
 	local info = {};
 	info.notCheckable = true;
@@ -489,10 +791,28 @@ function TitanPanelRightClickMenu_AddSpacer(level)
 	UIDropDownMenu_AddButton(info, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_Hide
+DESC: This will remove the plugin from the Titan bar.
+VARS: 
+- value - id of the plugin
+OUT : None
+--]]
 function TitanPanelRightClickMenu_Hide(value) 
 	TitanPanel_RemoveButton(value);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleVar
+DESC: Menu - add a toggle variable command at the given level in the form of a button.
+VARS: 
+- text - text to show
+- id - id of the plugin
+- var - the saved variable of the plugin to toggle
+- toggleTable - control table (called with other than nil??)
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable, level)
 	local info = {};
 	info.text = text;
@@ -505,21 +825,53 @@ function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable, level
 	UIDropDownMenu_AddButton(info, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleIcon
+DESC: Menu - add a toggle Icon (localized) command at the given level in the form of a button. Titan will properly control the "ShowIcon"
+VARS: 
+- id - id of the plugin
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddToggleIcon(id, level)
 	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"], 
 	id, "ShowIcon", nil, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleLabelText
+DESC: Menu - add a toggle Label (localized) command at the given level in the form of a button. Titan will properly control the "ShowLabelText"
+VARS: 
+- id - id of the plugin
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddToggleLabelText(id, level)
 	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 
 	id, "ShowLabelText", nil, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleColoredText
+DESC: Menu - add a toggle Colored Text (localized) command at the given level in the form of a button. Titan will properly control the "ShowColoredText"
+VARS: 
+- id - id of the plugin
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddToggleColoredText(id, level)
 	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], 
 	id, "ShowColoredText", nil, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddHide
+DESC: Menu - add a Hide (localized) command at the given level in the form of a button. When clicked this will remove the plugin from the Titan bar.
+VARS: 
+- id - id of the plugin
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_AddHide(id, level)
 	local info = {};
 	info.notCheckable = true;
@@ -531,6 +883,13 @@ function TitanPanelRightClickMenu_AddHide(id, level)
 	UIDropDownMenu_AddButton(info, level);
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_ToggleVar
+DESC: This will toggle the Titan variable and the update the button.
+VARS: 
+- value - table of (id of the plugin, saved var to be updated, control table)
+OUT : None
+--]]
 function TitanPanelRightClickMenu_ToggleVar(value)
 	local id, var, toggleTable = nil, nil, nil;
 	
@@ -553,6 +912,15 @@ function TitanPanelRightClickMenu_ToggleVar(value)
 	end
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AllVarNil
+DESC: Check if all the variables in the table are nil/false.
+VARS: 
+- id - id of the plugin
+- toggleTable - table of saved var to be checked
+OUT : 
+- true (1) or nil
+--]]
 function TitanPanelRightClickMenu_AllVarNil(id, toggleTable)
 	if ( toggleTable ) and type(toggleTable)== "table" then
 		for i, v in toggleTable do
@@ -564,18 +932,31 @@ function TitanPanelRightClickMenu_AllVarNil(id, toggleTable)
 	end	
 end
 
+--[[ API
+NAME: TitanPanelRightClickMenu_AddToggleColoredText
+DESC: This will toggle the "ShowColoredText" Titan variable then update the button
+VARS: 
+- id - id of the plugin
+- level - level to put the line
+OUT : None
+--]]
 function TitanPanelRightClickMenu_ToggleColoredText(value)
 	TitanToggleVar(value, "ShowColoredText");
 	TitanPanelButton_UpdateButton(value, 1);
 end
 
---
--- The routines below are for Titan Panel ONLY
---
-
+--------------------------------------------------------------
 --
 -- Plugin manipulation routines
 --
+--[[ local
+NAME: TitanUtils_SwapButtonOnBar
+DESC: This will swap two buttons on the Titan bars. Once swapped then 'reinit' the buttons to show properly. This is currently used as part of the shift left / right.
+VARS: 
+- from_id - id of the plugin 
+- to_id - id of the plugin
+OUT : None
+--]]
 local function TitanUtils_SwapButtonOnBar(from_id, to_id)
 	-- Used as part of the shift L / R to swap the buttons
 	local button = TitanPanelSettings.Buttons[from_id]
@@ -588,6 +969,19 @@ local function TitanUtils_SwapButtonOnBar(from_id, to_id)
 	TitanPanel_InitPanelButtons();
 end
 
+--[[ local
+NAME: TitanUtils_GetNextButtonOnBar
+DESC: Find the next button that is on the same bar and is on the same side.
+VARS: 
+- bar - The Titan bar to search 
+- id - id of the plugin to see if there is a plugin next to it
+- side - right or left
+OUT : 
+- index of the next button or nil if none found
+NOTE:
+-- buttons on Left are placed L to R; buttons on Right are placed R to L. Next and prev depend on which side we need to check.
+-- buttons on Right are placed R to L
+--]]
 local function TitanUtils_GetNextButtonOnBar(bar, id, side)
 	-- find the next button that is on the same bar and is on the same side
 	-- return nil if not found
@@ -602,6 +996,19 @@ local function TitanUtils_GetNextButtonOnBar(bar, id, side)
 	end
 end
 
+--[[ local
+NAME: TitanUtils_GetPrevButtonOnBar
+DESC: Find the previous button that is on the same bar and is on the same side.
+VARS: 
+- bar - The Titan bar to search 
+- id - id of the plugin to see if there is a plugin previous to it
+- side - right or left
+OUT : 
+- index of the previous button or nil if none found
+NOTE:
+-- buttons on Left are placed L to R; buttons on Right are placed R to L. Next and prev depend on which side we need to check.
+-- buttons on Right are placed R to L
+--]]
 local function TitanUtils_GetPrevButtonOnBar(bar, id, side)
 	-- find the prev button that is on the same bar and is on the same side
 	-- return nil if not found
@@ -620,6 +1027,14 @@ local function TitanUtils_GetPrevButtonOnBar(bar, id, side)
 	end
 end
 
+--[[ Titan
+NAME: TitanUtils_AddButtonOnBar
+DESC: Add the given plugin to the given bar. Then reinit the plugins to show it properly.
+VARS: 
+- bar - The Titan bar to add the plugin 
+- id - id of the plugin to add
+OUT : None.
+--]]
 function TitanUtils_AddButtonOnBar(bar, id)
 	-- Add the button to the requested bar - bar / aux if shown
 	if (not bar)
@@ -642,6 +1057,18 @@ function TitanUtils_AddButtonOnBar(bar, id)
 	TitanPanel_InitPanelButtons();
 end
 
+--[[ Titan
+NAME: TitanUtils_GetFirstButtonOnBar
+DESC: Find the first button that is on the given bar and is on the given side.
+VARS: 
+- bar - The Titan bar to search 
+- side - right or left
+OUT : 
+- index of the first button or nil if none found
+NOTE:
+-- buttons on Left are placed L to R; buttons on Right are placed R to L. Next and prev depend on which side we need to check.
+-- buttons on Right are placed R to L
+--]]
 function TitanUtils_GetFirstButtonOnBar(bar, side)
 	-- find the first button that is on the same bar and is on the same side
 	-- return nil if not found
@@ -656,6 +1083,13 @@ function TitanUtils_GetFirstButtonOnBar(bar, side)
 	end
 end
 
+--[[ Titan
+NAME: TitanUtils_ShiftButtonOnBarLeft
+DESC: Find the button that is on the bar and is on the side and left of the given button
+VARS: 
+- name - id of the plugin 
+OUT : None
+--]]
 function TitanUtils_ShiftButtonOnBarLeft(name)
 	-- Find the button to the left. If there is one, swap it in the array
 	local from_idx = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,name)
@@ -677,6 +1111,13 @@ function TitanUtils_ShiftButtonOnBarLeft(name)
 	end
 end
 
+--[[ Titan
+NAME: TitanUtils_ShiftButtonOnBarRight
+DESC: Find the button that is on the bar and is on the side and right of the given button
+VARS: 
+- name - id of the plugin 
+OUT : None
+--]]
 function TitanUtils_ShiftButtonOnBarRight(name)
 	-- Find the button to the right. If there is one, swap it in the array
 	local from_idx = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,name)
@@ -699,6 +1140,7 @@ function TitanUtils_ShiftButtonOnBarRight(name)
 	end
 end
 
+--------------------------------------------------------------
 --
 -- Frame check & manipulation routines
 --
@@ -775,31 +1217,28 @@ function TitanUtils_GetOffscreen(frame)
 	return offscreenX, offscreenY;
 end
 
+--------------------------------------------------------------
 --
 -- Plugin registration routines
 --
-function TitanUtils_PluginToRegister(self, isChildButton) 
---[[ doc
-	-- NOTE: registry is part of 'self' (the Titan button frame) which works 
-	-- great for Titan specific plugins.
-	-- Titan plugins create the registry as part of the frame _OnLoad.
-	-- But this does not work for LDB buttons. The frame is created THEN the 
-	-- registry is added to the frame.
-	-- 
-	-- Any read of the registry must assume 
-	-- it may not exist. Also assume the registry could be updated after 
-	-- this routine.
-	--
-	-- This is called when a Titan button frame is created.
-	-- Normally these are held until the player 'enters world' then the
-	-- plugin is registered.
-	-- Sometimes plugin frames are created after this process. Right
-	-- now only LDB plugins are handled. If someone where to start creating 
-	-- Titan frames after the registration process were complete then
-	-- it would fail to be registered...
-	-- NOTE: For LDB plugins the 'registry' is attached to the frame 
-	-- AFTER the frame is created...
+--[[ Titan
+NAME: TitanUtils_PluginToRegister
+DESC: Place the plugin to be registered later by Titan
+VARS: 
+- self - frame of the plugin (must be a Titan template)
+- isChildButton - true if the frame is a child of a Titan frame
+OUT : None
+NOTE:
+- .registry is part of 'self' (the Titan button frame) which works great for Titan specific plugins.
+  Titan plugins create the registry as part of the frame _OnLoad.
+  But this does not work for LDB buttons. The frame is created THEN the registry is added to the frame.
+- Any read of the registry must assume it may not exist. Also assume the registry could be updated after this routine.
+- This is called when a Titan button frame is created. Normally these are held until the player 'enters world' then the plugin is registered.
+  Sometimes plugin frames are created after this process. Right now only LDB plugins are handled. If someone where to start creating Titan frames after the registration process were complete then it would fail to be registered...
+-!For LDB plugins the 'registry' is attached to the frame AFTER the frame is created...
+- The fields put into "Attempted" are defaulted here in preperation of being registered.
 --]]
+function TitanUtils_PluginToRegister(self, isChildButton) 
 	TitanPluginToBeRegisteredNum = TitanPluginToBeRegisteredNum + 1
 	local cat = ""
 	local notes = ""
@@ -824,16 +1263,20 @@ function TitanUtils_PluginToRegister(self, isChildButton)
 	}
 end
 
-function TitanUtils_PluginFail(plugin) 
---[[ doc
-	-- This is called when a plugin is unsupported.
-	-- It is intended mainly for developers. It is a place to put relevant info
-	-- for debug and so users can supply troubleshooting info.
-	-- The key is set the status to 'fail' so there is no further attempt to 
-	-- register the plugin.
-	--
-	-- plugin is expected to hold as much relevant info as possible...
+--[[ Titan
+NAME: TitanUtils_PluginFail
+DESC: Place the plugin to be registered later by Titan
+VARS: 
+- plugin - frame of the plugin (must be a Titan template)
+OUT : None
+NOTE:
+- This is called when a plugin is unsupported. Cuurently this is used if a LDB data object is not supported. See SupportedDOTypes in LDBToTitan.lua for more detail.
+  It is intended mainly for developers. It is a place to put relevant info for debug and so users can supply troubleshooting info.
+  The key is set the status to 'fail' so there is no further attempt to register the plugin.
+- The results will show in "Attempted" so the developer can have a shot at figuring out what was wrong.
+- plugin is expected to hold as much relevant info as possible...
 --]]
+function TitanUtils_PluginFail(plugin) 
 	TitanPluginToBeRegisteredNum = TitanPluginToBeRegisteredNum + 1
 	TitanPluginToBeRegistered[TitanPluginToBeRegisteredNum] = 
 		{
@@ -848,16 +1291,19 @@ function TitanUtils_PluginFail(plugin)
 		}
 end
 
-local function TitanUtils_RegisterPluginProtected(plugin)
---[[ doc
-	-- This is called using pcall (protected call).
-	-- We try to anticipate the various ways a plugin could
-	-- fail to register.
-	-- The intent is to keep Titan whole so a plugin does not 
-	-- prevent Tian from loading.
-	-- And attempt to tell the user / developer what went wrong.
-	-- See the return below for the usage of returned fields.
+--[[ local
+NAME: TitanUtils_RegisterPluginProtected
+DESC: This routine is intended to be called in a protected manner (pcall) by Titan when it attempts to register a plugin.
+VARS: 
+- plugin - frame of the plugin (must be a Titan template)
+OUT : None
+NOTE:
+- We try to anticipate the various ways a plugin could fail to register or just plain fail.
+  The intent is to keep Titan whole so a plugin does not prevent Titan from loading.
+  And attempt to tell the user / developer what went wrong.
+- If successful the plugin will be in TitanPlugins as a registered plugin and will be available for display on the Titan bars.
 --]]
+local function TitanUtils_RegisterPluginProtected(plugin)
 	local result = nil
 	local issue = nil
 	local id = nil
@@ -966,11 +1412,16 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 --]]
 end
 
-function TitanUtils_RegisterPlugin(plugin)
---[[ doc
--- lets be extremely paranoid here...
--- Registering plugins that do not play nice can cause real headaches.
+--[[ Titan
+NAME: TitanUtils_RegisterPlugin
+DESC: Attempt to register a plugin that has requested to be registered
+VARS: 
+- plugin - frame of the plugin (must be a Titan template)
+OUT : None
+NOTE:
+- Lets be extremely paranoid here because registering plugins that do not play nice can cause real headaches...
 --]]
+function TitanUtils_RegisterPlugin(plugin)
 	local call_success, ret_val
 	-- Ensure we have a glimmer of a plugin and that the plugin has not 
 	-- already been registered.
@@ -1022,13 +1473,17 @@ function TitanUtils_RegisterPlugin(plugin)
 	end
 end
 
-function TitanUtils_RegisterPluginList()
---[[ doc
--- Loop through the plugins have requested to be loaded into Titan.
--- Tell the user when this starts and ends only on the first time.
--- This could be called if a plugin requests to be registered after
--- the first loop through.
+--[[ Titan
+NAME: TitanUtils_RegisterPluginList
+DESC: Attempt to register the list of plugins that have requested to be registered
+VARS: None
+OUT : None
+NOTE:
+- Tell the user when this starts and ends only on the first time.
+  This could be called if a plugin requests to be registered after the first loop through.
 --]]
+function TitanUtils_RegisterPluginList()
+	-- Loop through the plugins have requested to be loaded into Titan.
 	local result = ""
 	local issue = ""
 	local id
@@ -1047,6 +1502,14 @@ function TitanUtils_RegisterPluginList()
 	end
 end
 
+--[[ API
+NAME: TitanUtils_IsPluginRegistered
+DESC: See if the given plugin was registered successfully.
+VARS: 
+- id - id of the plugin
+OUT : None
+- true (successful) or false
+--]]
 function TitanUtils_IsPluginRegistered(id)
 	if (id and TitanPlugins[id]) then
 		return true;
@@ -1055,18 +1518,27 @@ function TitanUtils_IsPluginRegistered(id)
 	end
 end
 
---
--- The routines below are for Titan Panel ONLY
---
-
+--------------------------------------------------------------
 -- Right click menu routines for Titan Panel bars
+
+--[[ Titan
+NAME: TitanUtils_CloseRightClickMenu
+DESC: Close the right click menu any plugin if it was open. Only one can be open at a time.
+VARS: None
+OUT : None
+--]]
 function TitanUtils_CloseRightClickMenu()
 	if (DropDownList1:IsVisible()) then
 		DropDownList1:Hide();
 	end
 end
 
--- local routines for right click menu
+--[[ local
+NAME: TitanRightClick_UIScale
+DESC: Scale the right click menu to the user requested value.
+VARS: None
+OUT : None
+--]]
 local function TitanRightClick_UIScale()
 	-- take UI Scale into consideration
 	local listFrame = _G["DropDownList1"];
@@ -1093,11 +1565,18 @@ local function TitanRightClick_UIScale()
 	
 	return x, y, uiScale
 end
--- for plugins
+
+--[[ local
+NAME: TitanRightClickMenu_OnLoad
+DESC: Prepare the plugin right click menu using the function given by the plugin. 
+VARS: 
+- plugin - frame of the plugin (must be a Titan template)
+OUT : None
+NOTE:
+- The function name is assumed to be "TitanPanelRightClickMenu_Prepare"..plugin_id.."Menu".
+- This routine is for Titan plugins. There is a similar routine for the Titan bar.
+--]]
 local function TitanRightClickMenu_OnLoad(self)
-	-- Prepare the right click menu using the function given
-	-- by the plugin. The function name is assumed to be
-	-- "TitanPanelRightClickMenu_Prepare"..plugin_id.."Menu"
 	local id = TitanUtils_GetButtonIDFromMenu(self);
 	if id then
 		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"]
@@ -1111,7 +1590,17 @@ local function TitanRightClickMenu_OnLoad(self)
 		-- ,"error")
 	end
 end
--- for the display bars
+
+--[[ local
+NAME: TitanDisplayRightClickMenu_OnLoad
+DESC: Prepare the Titan bar right click menu using the given function. 
+VARS: 
+- self - frame of the Titan bar
+- func - function to create the menu
+OUT : None
+NOTE:
+- This routine is for Titan bar. There is a similar routine for the Titan plugins.
+--]]
 local function TitanDisplayRightClickMenu_OnLoad(self, func)
 	local prepareFunction = _G[func];
 	if prepareFunction and type(prepareFunction) == "function" then
@@ -1127,12 +1616,18 @@ local function TitanDisplayRightClickMenu_OnLoad(self, func)
 		UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 	end
 end
--- for plugins
-function TitanPanelRightClickMenu_Toggle(self, isChildButton)
---[[ doc
--- This is close to TitanPanelDisplayRightClickMenu_Toggle but geared to 
--- handle Titan plugins.
+
+--[[ local
+NAME: TitanPanelRightClickMenu_Toggle
+DESC: Call the routine to build the plugin menu then place it properly. 
+VARS: 
+- self - frame of the plugin (must be a Titan template)
+- isChildButton - function to create the menu
+OUT : None
+NOTE:
+- This routine is for Titan plugins. There is a similar routine for the Titan bar.
 --]]
+function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 	local x, y, scale
 	-- Get top / bottom 
 	local name = self:GetName() -- assuming this is a plugin
@@ -1183,7 +1678,17 @@ function TitanPanelRightClickMenu_Toggle(self, isChildButton)
 		end	
 	end
 end
--- for display bars
+
+--[[ local
+NAME: TitanPanelDisplayRightClickMenu_Toggle
+DESC: Call the routine to build the Titan bar menu then place it properly. 
+VARS: 
+- self - frame of the Titan bar
+- isChildButton - function to create the menu
+OUT : None
+NOTE:
+- This routine is for Titan bar. There is a similar routine for the Titan plugins.
+--]]
 function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 --[[ doc
 -- This is close to TitanPanelRightClickMenu_Toggle but geared to the Titan
@@ -1237,16 +1742,30 @@ function TitanPanelDisplayRightClickMenu_Toggle(self, isChildButton)
 	end
 end
 
+--[[ Titan
+NAME: TitanPanelDisplayRightClickMenu_Toggle
+DESC: Determine if a right click menu is shown. There can only be one. 
+VARS: None
+OUT : 
+- true (IsVisible) or false
+--]]
 function TitanPanelRightClickMenu_IsVisible()
 	return _G["DropDownList1"]:IsVisible();
 end
 
+--[[ Titan
+NAME: TitanPanelRightClickMenu_Close
+DESC: Close the right click menu if shown. There can only be one. 
+VARS: None
+OUT : None
+--]]
 function TitanPanelRightClickMenu_Close()
 	if _G["DropDownList1"]:IsVisible() then
 		_G["DropDownList1"]:Hide()
 	end
 end
 
+--------------------------------------------------------------
 -- Various debug routines
 function TitanDebug(debug_message, debug_type)
 	local dtype = ""
@@ -1326,6 +1845,7 @@ function TitanDumpTimers()
 	DEFAULT_CHAT_FRAME:AddMessage(str)
 end
 
+--------------------------------------------------------------
 --
 -- Deprecated routines
 -- These routines will be commented out for a couple releases then deleted.

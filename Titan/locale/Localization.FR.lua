@@ -4,7 +4,6 @@ if not L then return end
 L["TITAN_PANEL"] = "Titan Panel";
 local TITAN_PANEL = "Titan Panel";
 L["TITAN_DEBUG"] = "<Titan>";
---	L["TITAN_INFO"] = "<Titan>"
 
 L["TITAN_NA"] = "N/A";
 L["TITAN_SECONDS"] = "secondes";
@@ -21,9 +20,6 @@ L["TITAN_KILOBITS_PER_SECOND"] = "kb/s"
 L["TITAN_MEGABYTE"] = "Mo";
 L["TITAN_NONE"] = "Aucun";
 
---	L["TITAN_MOVABLE_TOOLTIP"] = "Glisser pour déplacer";
-
---	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " semble être enregistré plusieurs fois. Cela peut causer des problèmes à Titan Panel. Veuillez corriger le problème."
 L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Vous ne pouvez pas supprimer votre profil en cours.";
 local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
 local TITAN_PANEL_RELOAD_TEXT = "Si vous voulez continuer cette opération, appuyez sur 'Accepter' (l'interface va se recharger), sinon appuyez sur 'Annuler' ou la touche 'Echap'."
@@ -52,9 +48,6 @@ L["TITAN_PANEL_CHARS"] = "Personnages"
 L["TITAN_PANEL_CHARS_DESC"] = "Ces personnages ont des données de configuration.\n"
 	.."Note: Vous devez vous déconnecter pour que les suppressions soient prises en compte."
 
---	L["TITAN_PANEL_CHARS_DELETE_BUTTON"] = "Supprimer les données des personnages"
---	L["TITAN_PANEL_CHARS_DELETE_MSG"] = "les données de ce personnage ont été supprimées."
-
 L["TITAN_PANEL_REGISTER_START"] = "Enregistrement des plugins "..TITAN_PANEL.."..."
 L["TITAN_PANEL_REGISTER_END"] = "Enregistrement des plugins effectué."
 
@@ -80,25 +73,19 @@ L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."L'espacement des bo
 L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 par le |cffff8c00"..TITAN_PANEL.." Development Team";
 L["TITAN_PANEL_MENU_TITLE"] = TITAN_PANEL;
 L["TITAN_PANEL_MENU_HIDE"] = "Cacher";
---	L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Personnaliser";
 L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"] = "(En Combat)";
 L["TITAN_PANEL_MENU_RELOADUI"] = "(Recharge l'interface)";
 L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"] = "Colorer le texte";
 L["TITAN_PANEL_MENU_SHOW_ICON"] = "Montrer l'icône";
 L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"] = "Montrer le titre";
 L["TITAN_PANEL_MENU_AUTOHIDE"] = "Cacher auto";
---	L["TITAN_PANEL_MENU_BGMINIMAP"] = "Minicarte du champ de bataille";
 L["TITAN_PANEL_MENU_CENTER_TEXT"] = "Centrer le texte";
 L["TITAN_PANEL_MENU_DISPLAY_BAR"] = "Afficher la barre";
---L["TITAN_PANEL_MENU_DISPLAY_BOTH"] = "Montrer les deux barres";
 L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Ne pas ajuster l'écran";
 L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Ne pas ajuster la minicarte";
 L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Ajuster automatiquement la fenêtre de discussion";
 L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Ajuster automatiquement les sacs";
 L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Ajuster automatiquement le ticket MJ";
---	L["TITAN_PANEL_MENU_BUILTINS"] = "Modules Titan";
---	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Côté gauche";
---	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Côté droit";
 L["TITAN_PANEL_MENU_PROFILES"] = "Profils";
 L["TITAN_PANEL_MENU_PROFILE"] = "Profil ";
 L["TITAN_PANEL_MENU_PROFILE_CUSTOM"] = "Personnalisation";
@@ -113,7 +100,6 @@ L["TITAN_PANEL_MENU_MANAGE_SETTINGS"] = "Gestion";
 L["TITAN_PANEL_MENU_LOAD_SETTINGS"] = "Chargement";
 L["TITAN_PANEL_MENU_DELETE_SETTINGS"] = "Suppression";
 L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Sauvegarde";
---	L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Double Barre";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuration";
 L["TITAN_PANEL_OPTIONS"] = "Options";
 L["TITAN_PANEL_MENU_TOP"] = "Haut 1"
@@ -134,25 +120,21 @@ L["TITAN_PANEL_MENU_LOCK_BUTTONS"] = "Verrouiller les boutons";
 L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Afficher les versions";
 L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin du côté droit";
 L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forcer les launchers du côté droit";
---	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Changement de police désactivé";
 L["TITAN_PANEL_MENU_CATEGORIES"] = {"Interne","Généralités","Combat","Informations","Interface","Métiers"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Afficher les conseils";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Cacher les tooltips en combat";
 L["TITAN_PANEL_MENU_RESET"] = "Réinitialiser "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"] = "Paramètres du skin";
---	L["TITAN_PANEL_MENU_FONT"] = "Police";
 L["TITAN_PANEL_MENU_LSM_FONTS"] = "Police des panneaux"
 L["TITAN_PANEL_MENU_ENABLED"] = "Activé";
 L["TITAN_PANEL_MENU_DISABLED"] = "Désactivé";
 L["TITAN_PANEL_SHIFT_LEFT"] = "Déplacer à gauche";
 L["TITAN_PANEL_SHIFT_RIGHT"] = "Déplacer à droite";
 L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"] = "Afficher le texte";
---	L["TITAN_PANEL_MENU_LDB_TREAT"] = "Treat as data source"; --en
---	L["TITAN_PANEL_MENU_LDB_SLAP"] = "If you need to use this request the author to change the LDB type"; --en
 L["TITAN_PANEL_MENU_BAR_ALWAYS"] = "Toujours sur la barre"; --??
 L["TITAN_PANEL_MENU_POSITION"] = "Position";
 L["TITAN_PANEL_MENU_BAR"] = "Barre";
-L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Afficher sur la barre :";
+L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Choisir la barre sur laquelle afficher le plugin :";
 L["TITAN_PANEL_MENU_SHOW"] = "Afficher le plugin";
 L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Rafraîchir les plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Rafraîchit le texte et la position des plugins";
@@ -165,8 +147,6 @@ L["TITAN_TRANS_MENU_DESC"] = "Ajuste la transparence pour les barres de "..TITAN
 L["TITAN_TRANS_MAIN_CONTROL_TITLE"] = "Barre principale";
 L["TITAN_TRANS_AUX_CONTROL_TITLE"] = "Barre secondaire";
 L["TITAN_TRANS_CONTROL_TITLE_TOOLTIP"] = "Tooltip";
-L["TITAN_TRANS_MAIN_BAR_DESC"] = "Ajuste la transparence pour la barre principale (en haut).";
-L["TITAN_TRANS_AUX_BAR_DESC"] = "Ajuste la transparence pour la barre secondaire (en bas).";
 L["TITAN_TRANS_TOOLTIP_DESC"] = "Ajuste la transparence pour les tooltips des divers plugins.";
 L["TITAN_UISCALE_MENU_TEXT"] = TITAN_PANEL.." Echelle et police";
 L["TITAN_UISCALE_MENU_TEXT_SHORT"] = "Echelle et police";
@@ -197,10 +177,8 @@ L["TITAN_SKINS_RESET_HEADER"] = "Réinitialiser les skins de "..TITAN_PANEL;
 L["TITAN_SKINS_NEW_HEADER"] = "Ajout d'un nouveau skin";
 L["TITAN_SKINS_NAME_TITLE"] = "Nom du skin";
 L["TITAN_SKINS_NAME_DESC"] = "Entrez un nom pour votre nouveau skin. Il sera utilisé dans la liste des skins.";
---	L["TITAN_SKINS_NAME_EXAMPLE"] = "exemple : Mon skin Titan";
 L["TITAN_SKINS_PATH_TITLE"] = "Chemin du skin";
 L["TITAN_SKINS_PATH_DESC"] = "Entrez le chemin exact où se trouve votre artwork, comme montré par l'exemple."; -- et expliqué dans les 'Notes'.";
---	L["TITAN_SKINS_PATH_EXAMPLE"] = "exemple : Interface\\AddOns\\Titan\\Artwork\\Custom\\<Mon skin>\\";
 L["TITAN_SKINS_ADD_HEADER"] = "Ajouter le skin";
 L["TITAN_SKINS_ADD_DESC"] = "Ajouter un nouveau skin à la liste des skins disponibles.";
 L["TITAN_SKINS_REMOVE_HEADER"] = "Suppression d'un skin";
@@ -209,7 +187,6 @@ L["TITAN_SKINS_REMOVE_BUTTON"] = "Supprimer le skin";
 L["TITAN_SKINS_REMOVE_BUTTON_DESC"] = "Supprime le skin sélectionné de la liste des skins disponibles.";
 L["TITAN_SKINS_REMOVE_NOTES"] = "Vous êtes responsable de la suppression des skins personnalisés que vous ne souhaitez pas "
 	.."dans le dossier de "..TITAN_PANEL..". Les addons ne peuvent pas ajouter ou supprimer des fichiers."
---	L["TITAN_SKINS_NOTES"] = "|cff19ff19Notes :|r Lors de l'ajout d'un nouveau skin, assurez-vous que le dossier contenant votre artwork a bien été créé avant de charger 'World of Warcraft' et que le chemin entré ici y corresponde exactement (les chemins sont sensibles à la casse et se terminent toujours par '\\' ).";
 L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Réinit. la liste";
 L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Réinitialise la liste de skin aux skins internes de "..TITAN_PANEL..".";
 L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Sélectionne la police pour les divers plugins sur les barres de "..TITAN_PANEL..".";
@@ -227,7 +204,6 @@ L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Véhicule";
 L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Utiliser (généralement en augmentant) si les frames ne s'ajustent pas lorsqu'on entre / descend d'un véhicule.";
 
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage auto du panneau on/off";
---	L["TITAN_AUTOHIDE_MENU_TEXT"] = "Cacher auto";
 
 L["TITAN_BAG_FORMAT"] = "%d/%d";
 L["TITAN_BAG_BUTTON_LABEL"] = "Sacs : ";
@@ -241,11 +217,7 @@ L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Montrer les emplacements utilisés";
 L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Montrer les emplacements libres";
 L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Afficher les détails";
 L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignorer les emplacements"; -- ??
---	L["TITAN_BAG_MENU_IGNORE_AMMO_POUCH_SLOTS"] = "Ignorer les emplacements des sacs de munitions";
---	L["TITAN_BAG_MENU_IGNORE_SHARD_BAGS_SLOTS"] = "Ignorer les emplacements des sacs de fragments d'âme";
 L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorer les emplacements des sacs spécifiques aux métiers";
---	L["TITAN_BAG_AMMO_POUCH_NAMES"] = {"Cartouchière","Carquois","Giberne","Munitions","Balles","Lames","Besace des Veilleurs","Feuille d'Ancien cousue de tendons"};
---	L["TITAN_BAG_SHARD_BAG_NAMES"] = {"Petite bourse d'âme","Boîte d'âmes","Bourse d'âme","Sac en gangrétoffe","Ombresac d'ébène","Sac en gangrétoffe du Magma", "Sac abyssal"};
 L["TITAN_BAG_PROF_BAG_NAMES"] = {
 -- enchanting
 "Bourse enchantée en tisse-mage","Sac de soirée enchanteur en exclusivité pour La Tannée","Sac enchanté en étoffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac mystérieux","Sac surnaturel",
@@ -264,9 +236,6 @@ L["TITAN_BAG_PROF_BAG_NAMES"] = {
 -- fishing
 "Boîte d'appâts du maître des leurres",
 };
-
---	L["TITAN_BGMINIMAP_MENU_TEXT"] = "Minicarte du champ de bataille"
---	L["TITAN_BGMINIMAP_TOOLTIP"] = "Afficher/Cacher la minicarte du champ de bataille"
 
 L["TITAN_CLOCK_TOOLTIP"] = "Horloge";
 L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Décalage horaire : ";
@@ -380,7 +349,8 @@ L["TITAN_PERFORMANCE_ADDON_RATE_LABEL"] = "Taux";
 L["TITAN_PERFORMANCE_ADDON_TOTAL_MEM_USAGE_LABEL"] = "Mémoire totale des addons :";
 L["TITAN_PERFORMANCE_ADDON_TOTAL_CPU_USAGE_LABEL"] = "Temps total CPU :";
 L["TITAN_PERFORMANCE_MENU_SHOW_FPS"] = "Montrer les IPS";
-L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"] = "Montrer la latence";
+L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"] = "Montrer la latence du royaume (domicile)";
+L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY_WORLD"] = "Montrer la latence du jeu (monde)";
 L["TITAN_PERFORMANCE_MENU_SHOW_MEMORY"] = "Montrer la mémoire";
 L["TITAN_PERFORMANCE_MENU_SHOW_ADDONS"] = "Montrer l'utilisation mémoire/CPU des addons";
 L["TITAN_PERFORMANCE_MENU_SHOW_ADDON_RATE"] = "Afficher le taux d'occupation mémoire/CPU";

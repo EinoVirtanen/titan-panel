@@ -38,39 +38,39 @@ local PerfTimer = nil;
 -- DESC : Registers the plugin upon it loading
 -- **************************************************************************
 function TitanPanelPerformanceButton_OnLoad(self)
-     self.registry = {
-          id = TITAN_PERFORMANCE_ID,
---         builtIn = 1,
-			category = "Built-ins",
-          version = TITAN_VERSION,
-          menuText = L["TITAN_PERFORMANCE_MENU_TEXT"],
-          buttonTextFunction = "TitanPanelPerformanceButton_GetButtonText";
-          tooltipCustomFunction = TitanPanelPerformanceButton_SetTooltip;
-          icon = "Interface\\AddOns\\TitanPerformance\\TitanPerformance",
-          iconWidth = 16,
+	self.registry = {
+		id = TITAN_PERFORMANCE_ID,
+		category = "Built-ins",
+		version = TITAN_VERSION,
+		menuText = L["TITAN_PERFORMANCE_MENU_TEXT"],
+		buttonTextFunction = "TitanPanelPerformanceButton_GetButtonText";
+		tooltipCustomFunction = TitanPanelPerformanceButton_SetTooltip;
+		icon = "Interface\\AddOns\\TitanPerformance\\TitanPerformance",
+		iconWidth = 16,
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
 			ShowRegularText = false,
 			ShowColoredText = true,
-			DisplayOnRightSide = false
+			DisplayOnRightSide = false,
 		},
-          savedVariables = {
-               ShowFPS = 1,
-               ShowLatency = 1,
-               ShowMemory = 1,
-               ShowAddonMemory = false,
-               ShowAddonIncRate = false,
-               NumOfAddons = 5,
-               AddonMemoryType = 1,
-               ShowIcon = 1,
-               ShowLabelText = false,
-               ShowColoredText = 1,
-          }
-     };
+		savedVariables = {
+			ShowFPS = 1,
+			ShowLatency = 1,
+			ShowWorldLatency = 1,
+			ShowMemory = 1,
+			ShowAddonMemory = false,
+			ShowAddonIncRate = false,
+			NumOfAddons = 5,
+			AddonMemoryType = 1,
+			ShowIcon = 1,
+			ShowLabelText = false,
+			ShowColoredText = 1,
+	}
+	};
 
-     self.fpsSampleCount = 0;
-     self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self.fpsSampleCount = 0;
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 
@@ -133,6 +133,7 @@ function TitanPanelPerformanceButton_GetButtonText(id)
 	local color, fpsRichText, latencyRichText, memoryRichText;
 	local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
 	local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+	local showWorldLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowWorldLatency")
 	local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
 
 	-- Update real time data
@@ -150,16 +151,27 @@ function TitanPanelPerformanceButton_GetButtonText(id)
 	end
 
 	-- Latency text
+	latencyRichText = ""
 	if ( showLatency ) then
 		local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latencyHome);     
-		local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
 		if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
 			color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latencyHome);
 			latencyRichText = TitanUtils_GetColoredText(latencyText, color);
-			color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latencyWorld);
-			latencyRichText = latencyRichText.."/"..TitanUtils_GetColoredText(latencyWorldText, color);
 		else
-			latencyRichText = TitanUtils_GetHighlightText(latencyText).."/"..TitanUtils_GetHighlightText(latencyWorldText);
+			latencyRichText = TitanUtils_GetHighlightText(latencyText)
+		end
+	end
+
+	if ( showWorldLatency  ) then
+		local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
+		if ( showLatency ) then
+			latencyRichText = latencyRichText.."/"
+		end
+		if ( TitanGetVar(TITAN_PERFORMANCE_ID, "ShowColoredText") ) then     
+			color = TitanUtils_GetThresholdColor(TITAN_LATENCY_THRESHOLD_TABLE, button.latencyWorld);
+			latencyRichText = latencyRichText..TitanUtils_GetColoredText(latencyWorldText, color);
+		else
+			latencyRichText = latencyRichText..TitanUtils_GetHighlightText(latencyWorldText);
 		end
 	end
 
@@ -170,7 +182,7 @@ function TitanPanelPerformanceButton_GetButtonText(id)
 	end
 
 	if ( showFPS ) then
-		if ( showLatency ) then
+		if ( showLatency or showWorldLatency ) then
 			if ( showMemory ) then
 				return L["TITAN_FPS_BUTTON_LABEL"], fpsRichText, L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
 			else
@@ -184,7 +196,7 @@ function TitanPanelPerformanceButton_GetButtonText(id)
 			end
 		end
 	else
-		if ( showLatency ) then
+		if ( showLatency or showWorldLatency ) then
 			if ( showMemory ) then
 				return L["TITAN_LATENCY_BUTTON_LABEL"], latencyRichText, L["TITAN_MEMORY_BUTTON_LABEL"], memoryRichText;
 			else
@@ -205,74 +217,75 @@ end
 -- DESC : Display tooltip text
 -- **************************************************************************
 function TitanPanelPerformanceButton_SetTooltip()
-		 local button = _G["TitanPanelPerformanceButton"];
-     local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
-     local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
-     local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
-     local showAddonMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
+	local button = _G["TitanPanelPerformanceButton"];
+	local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
+	local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+	local showWorldLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowWorldLatency")
+	local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
+	local showAddonMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
 
-     -- Tooltip title
-     GameTooltip:SetText(L["TITAN_PERFORMANCE_TOOLTIP"], HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+	-- Tooltip title
+	GameTooltip:SetText(L["TITAN_PERFORMANCE_TOOLTIP"], HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 
-     -- FPS tooltip
-     if ( showFPS ) then
-          local fpsText = format(L["TITAN_FPS_FORMAT"], button.fps);
-          local avgFPSText = format(L["TITAN_FPS_FORMAT"], button.avgFPS);
-          local minFPSText = format(L["TITAN_FPS_FORMAT"], button.minFPS);
-          local maxFPSText = format(L["TITAN_FPS_FORMAT"], button.maxFPS);     
-          
-          GameTooltip:AddLine("\n");
-          GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_FPS_TOOLTIP"]));
-          GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_CURRENT_FPS"], TitanUtils_GetHighlightText(fpsText));
-          GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_AVG_FPS"], TitanUtils_GetHighlightText(avgFPSText));
-          GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_MIN_FPS"], TitanUtils_GetHighlightText(minFPSText));
-          GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_MAX_FPS"], TitanUtils_GetHighlightText(maxFPSText));
-     end
+	-- FPS tooltip
+	if ( showFPS ) then
+		local fpsText = format(L["TITAN_FPS_FORMAT"], button.fps);
+		local avgFPSText = format(L["TITAN_FPS_FORMAT"], button.avgFPS);
+		local minFPSText = format(L["TITAN_FPS_FORMAT"], button.minFPS);
+		local maxFPSText = format(L["TITAN_FPS_FORMAT"], button.maxFPS);     
+
+		GameTooltip:AddLine("\n");
+		GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_FPS_TOOLTIP"]));
+		GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_CURRENT_FPS"], TitanUtils_GetHighlightText(fpsText));
+		GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_AVG_FPS"], TitanUtils_GetHighlightText(avgFPSText));
+		GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_MIN_FPS"], TitanUtils_GetHighlightText(minFPSText));
+		GameTooltip:AddDoubleLine(L["TITAN_FPS_TOOLTIP_MAX_FPS"], TitanUtils_GetHighlightText(maxFPSText));
+	end
 
      -- Latency tooltip
-     if ( showLatency ) then
-          local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latencyHome);
-		  local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
-         local bandwidthInText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthIn);
-          local bandwidthOutText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthOut);
-          
-          GameTooltip:AddLine("\n");
-          GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_LATENCY_TOOLTIP"]));
-          GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_HOME"], TitanUtils_GetHighlightText(latencyText));
-		  GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_WORLD"], TitanUtils_GetHighlightText(latencyWorldText));
-          GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_IN"], TitanUtils_GetHighlightText(bandwidthInText));
-          GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"], TitanUtils_GetHighlightText(bandwidthOutText));
-     end
+	if ( showLatency or showWorldLatency ) then
+		local latencyText = format(L["TITAN_LATENCY_FORMAT"], button.latencyHome);
+		local latencyWorldText = format(L["TITAN_LATENCY_FORMAT"], button.latencyWorld);
+		local bandwidthInText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthIn);
+		local bandwidthOutText = format(L["TITAN_LATENCY_BANDWIDTH_FORMAT"], button.bandwidthOut);
+
+		GameTooltip:AddLine("\n");
+		GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_LATENCY_TOOLTIP"]));
+		if showLatency then GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_HOME"], TitanUtils_GetHighlightText(latencyText)); end
+		if showWorldLatency then GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_LATENCY_WORLD"], TitanUtils_GetHighlightText(latencyWorldText)); end
+		GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_IN"], TitanUtils_GetHighlightText(bandwidthInText));
+		GameTooltip:AddDoubleLine(L["TITAN_LATENCY_TOOLTIP_BANDWIDTH_OUT"], TitanUtils_GetHighlightText(bandwidthOutText));
+	end
 
      -- Memory tooltip
-     if ( showMemory ) then
-          local memoryText = format(L["TITAN_MEMORY_FORMAT"], button.memory/1024);
-          local initialMemoryText = format(L["TITAN_MEMORY_FORMAT"], button.initialMemory/1024);          
-          local sessionTime = time() - button.startSessionTime;          
-          local rateRichText, timeToGCRichText, rate, timeToGC, color;     
-          if ( sessionTime == 0 ) then
-               rateRichText = TitanUtils_GetHighlightText("N/A");
-          else
-               rate = (button.memory - button.initialMemory) / sessionTime;
-               color = TitanUtils_GetThresholdColor(TITAN_MEMORY_RATE_THRESHOLD_TABLE, rate);
-               rateRichText = TitanUtils_GetColoredText(format(L["TITAN_MEMORY_RATE_FORMAT"], rate), color);
-          end     
-          if ( button.memory == button.initialMemory ) then
-               timeToGCRichText = TitanUtils_GetHighlightText("N/A");          
-          end     
-     
-          GameTooltip:AddLine("\n");
-          GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_MEMORY_TOOLTIP"]));
-          GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_CURRENT_MEMORY"], TitanUtils_GetHighlightText(memoryText));
-          GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_INITIAL_MEMORY"], TitanUtils_GetHighlightText(initialMemoryText));
-          GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_INCREASING_RATE"], rateRichText);          
-     end
+	if ( showMemory ) then
+		local memoryText = format(L["TITAN_MEMORY_FORMAT"], button.memory/1024);
+		local initialMemoryText = format(L["TITAN_MEMORY_FORMAT"], button.initialMemory/1024);          
+		local sessionTime = time() - button.startSessionTime;          
+		local rateRichText, timeToGCRichText, rate, timeToGC, color;     
+		if ( sessionTime == 0 ) then
+			rateRichText = TitanUtils_GetHighlightText("N/A");
+		else
+			rate = (button.memory - button.initialMemory) / sessionTime;
+			color = TitanUtils_GetThresholdColor(TITAN_MEMORY_RATE_THRESHOLD_TABLE, rate);
+			rateRichText = TitanUtils_GetColoredText(format(L["TITAN_MEMORY_RATE_FORMAT"], rate), color);
+		end     
+		if ( button.memory == button.initialMemory ) then
+			timeToGCRichText = TitanUtils_GetHighlightText("N/A");          
+		end     
+
+		GameTooltip:AddLine("\n");
+		GameTooltip:AddLine(TitanUtils_GetHighlightText(L["TITAN_MEMORY_TOOLTIP"]));
+		GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_CURRENT_MEMORY"], TitanUtils_GetHighlightText(memoryText));
+		GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_INITIAL_MEMORY"], TitanUtils_GetHighlightText(initialMemoryText));
+		GameTooltip:AddDoubleLine(L["TITAN_MEMORY_TOOLTIP_INCREASING_RATE"], rateRichText);          
+	end
      
 	if ( showAddonMemory == 1 ) then
-				for _,i in pairs(topAddOns) do
-			  	i.name = '';
-			  	i.value = 0;	
-			end
+		for _,i in pairs(topAddOns) do
+			i.name = '';
+			i.value = 0;	
+		end
 
 		Stats_UpdateAddonsList(self, GetCVar('scriptProfile') == '1' and not IsModifierKeyDown())
 	end     
@@ -295,107 +308,120 @@ function TitanPanelRightClickMenu_PreparePerformanceMenu()
 	
 	-- level 2
 	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 then
-			if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				
-				local temptable = {TITAN_PERFORMANCE_ID, "ShowFPS"};
-				info = {};
-				info.text = L["TITAN_PERFORMANCE_MENU_SHOW_FPS"];
-				info.value = temptable;
-				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar(temptable)
-				end
-				info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
-				info.keepShownOnClick = 1;
-				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				
-				local temptable = {TITAN_PERFORMANCE_ID, "ShowLatency"};
-				info = {};
-				info.text = L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"];
-				info.value = temptable;
-				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar(temptable)
-				end
-				info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
-				info.keepShownOnClick = 1;
-				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				
-				local temptable = {TITAN_PERFORMANCE_ID, "ShowMemory"};
-				info = {};
-				info.text = L["TITAN_PERFORMANCE_MENU_SHOW_MEMORY"];
-				info.value = temptable;
-				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar(temptable)
-				end
-				info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
-				info.keepShownOnClick = 1;
-				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-			end
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "Options" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 			
-			if _G["UIDROPDOWNMENU_MENU_VALUE"] == "AddonUsage" then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			local temptable = {TITAN_PERFORMANCE_ID, "ShowFPS"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_FPS"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
+			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			
+			local temptable = {TITAN_PERFORMANCE_ID, "ShowLatency"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
+			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			
+			local temptable = {TITAN_PERFORMANCE_ID, "ShowWorldLatency"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_LATENCY_WORLD"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
+			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowWorldLatency");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			
+			local temptable = {TITAN_PERFORMANCE_ID, "ShowMemory"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_MEMORY"];				local temptable = {TITAN_PERFORMANCE_ID, "ShowMemory"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_MEMORY"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
+			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+			
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "AddonUsage" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDONS"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
     		
     		local temptable = {TITAN_PERFORMANCE_ID, "ShowAddonMemory"};
-				info = {};
-				info.text = L["TITAN_PERFORMANCE_MENU_SHOW_ADDONS"];
-				info.value = temptable;
-				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar(temptable)
-				end
-				info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
-				info.keepShownOnClick = 1;
-				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				
-				local temptable = {TITAN_PERFORMANCE_ID, "ShowAddonIncRate"};
-				info = {};
-				info.text = L["TITAN_PERFORMANCE_MENU_SHOW_ADDON_RATE"];
-				info.value = temptable;
-				info.func = function()
-					TitanPanelRightClickMenu_ToggleVar(temptable)
-				end
-				info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonIncRate");
-				info.keepShownOnClick = 1;
-				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-    		
-				info = {};
-				info.notCheckable = true
-				info.text = L["TITAN_PERFORMANCE_CONTROL_TOOLTIP"]..LIGHTYELLOW_FONT_COLOR_CODE..tostring(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
-				info.value = "AddonControlFrame"
-				info.hasArrow = 1;
-    		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_ADDONS"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
 			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 			
-			if _G["UIDROPDOWNMENU_MENU_VALUE"] == "AddonMemoryFormat" then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				info = {};
-				info.text = L["TITAN_MEGABYTE"];
-				info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 1 then return true else return nil end
-				end
-				info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 1) end
+			local temptable = {TITAN_PERFORMANCE_ID, "ShowAddonIncRate"};
+			info = {};
+			info.text = L["TITAN_PERFORMANCE_MENU_SHOW_ADDON_RATE"];
+			info.value = temptable;
+			info.func = function()
+				TitanPanelRightClickMenu_ToggleVar(temptable)
+			end
+			info.checked = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonIncRate");
+			info.keepShownOnClick = 1;
+			UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		
+			info = {};
+			info.notCheckable = true
+			info.text = L["TITAN_PERFORMANCE_CONTROL_TOOLTIP"]..LIGHTYELLOW_FONT_COLOR_CODE..tostring(TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
+			info.value = "AddonControlFrame"
+			info.hasArrow = 1;
+    		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+		end
+			
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "AddonMemoryFormat" then
+			TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_ADDON_MEM_FORMAT_LABEL"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			info = {};
+			info.text = L["TITAN_MEGABYTE"];
+			info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 1 then return true else return nil end
+			end
+			info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 1) end
      		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
      		info = {};
-				info.text = L["TITAN_MEMORY_KBMB_LABEL"];
-				info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 2 then return true else return nil end
-				end
-				info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 2) end
+			info.text = L["TITAN_MEMORY_KBMB_LABEL"];
+			info.checked = function() if TitanGetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType") == 2 then return true else return nil end
+			end
+			info.func = function() TitanSetVar(TITAN_PERFORMANCE_ID, "AddonMemoryType", 2) end
      		UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-			end
+		end
 			
-			if _G["UIDROPDOWNMENU_MENU_VALUE"] == "CPUProfiling" then
-				if ( GetCVar("scriptProfile") == "1" ) then
-					TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_ENABLED"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-					info = {};
-					info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_OFF"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
-					info.func = function() SetCVar("scriptProfile", "0", 1) ReloadUI() end
-					UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				else
-					TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..RED_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_DISABLED"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-					info = {};
-					info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_ON"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
-					info.func = function() SetCVar("scriptProfile", "1", 1) ReloadUI() end
-					UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
-				end
+		if _G["UIDROPDOWNMENU_MENU_VALUE"] == "CPUProfiling" then
+			if ( GetCVar("scriptProfile") == "1" ) then
+				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_ENABLED"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+				info = {};
+				info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_OFF"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+				info.func = function() SetCVar("scriptProfile", "0", 1) ReloadUI() end
+				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+			else
+				TitanPanelRightClickMenu_AddTitle(L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL"]..": "..RED_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_DISABLED"], _G["UIDROPDOWNMENU_MENU_LEVEL"]);
+				info = {};
+				info.text = L["TITAN_PERFORMANCE_MENU_CPUPROF_LABEL_ON"]..GREEN_FONT_COLOR_CODE..L["TITAN_PANEL_MENU_RELOADUI"];
+				info.func = function() SetCVar("scriptProfile", "1", 1) ReloadUI() end
+				UIDropDownMenu_AddButton(info, _G["UIDROPDOWNMENU_MENU_LEVEL"]);
 			end
+		end
 		return
 	end
 	
@@ -446,6 +472,7 @@ function TitanPanelPerformanceButton_UpdateData()
 	local button = _G["TitanPanelPerformanceButton"];
 	local showFPS = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowFPS");
 	local showLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowLatency");
+	local showWorldLatency = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowWorldLatency")
 	local showMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowMemory");
 	local showAddonMemory = TitanGetVar(TITAN_PERFORMANCE_ID, "ShowAddonMemory");
 
@@ -468,7 +495,7 @@ function TitanPanelPerformanceButton_UpdateData()
 	end
 
 	-- Latency Data
-	if ( showLatency ) then
+	if ( showLatency or showWorldLatency ) then
 		-- bandwidthIn, bandwidthOut, latencyHome, latencyWorld = GetNetStats();
 		button.bandwidthIn, button.bandwidthOut, button.latencyHome, button.latencyWorld = GetNetStats();
 	end

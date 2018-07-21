@@ -29,7 +29,7 @@ local GoldTimer = nil;
 local _G = getfenv(0);
 -- ******************************** Functions *******************************
 
-local function NiceCash(value, show_zero, show_neg)
+ function NiceCash(value, show_zero, show_neg)
 --
 -- Take the 'amount' of gold and make it into a nice, colorful string
 -- of g s c (gold silver copper)
@@ -53,6 +53,16 @@ local function NiceCash(value, show_zero, show_neg)
 	local c_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_COPPER"] or ""
 	local s_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_SILVER"] or ""
 	local g_lab = TitanGetVar(TITAN_GOLD_ID, "ShowCoinLabels") and L["TITAN_GOLD_GOLD"] or ""
+
+	if TitanGetVar(TITAN_GOLD_ID, "ShowColoredText") then
+		gc = "|cFFFFFF00"
+		sc = "|cFFCCCCCC"
+		cc = "|cFFFF6600"
+	else
+		gc = _G["HIGHLIGHT_FONT_COLOR_CODE"]
+		sc = _G["HIGHLIGHT_FONT_COLOR_CODE"]
+		cc = _G["HIGHLIGHT_FONT_COLOR_CODE"]
+	end
 
 	if show_neg then
 		if amount < 0 then
@@ -93,7 +103,7 @@ local function NiceCash(value, show_zero, show_neg)
 		silver_str = ""
 		copper_str = ""
 		-- special case for those who want to show only gold
-		if amount == 0 then
+		if gold == 0 then
 			if show_zero then
 				gold_str = gc.."0"..g_lab.." "..FONT_COLOR_CODE_CLOSE
 			end
@@ -337,6 +347,7 @@ function TitanPanelGoldButton_FindGold()
 	end     
 
 	ret_str = NiceCash(ttlgold, true, false);
+
 	return L["TITAN_GOLD_MENU_TEXT"]..": ", ret_str
 end
 
@@ -499,6 +510,7 @@ function TitanPanelRightClickMenu_PrepareGoldMenu()
 		TitanPanelRightClickMenu_AddSpacer();     
 		TitanPanelRightClickMenu_AddToggleIcon(TITAN_GOLD_ID);
 		TitanPanelRightClickMenu_AddToggleLabelText(TITAN_GOLD_ID);
+		TitanPanelRightClickMenu_AddToggleColoredText(TITAN_GOLD_ID);
 		TitanPanelRightClickMenu_AddSpacer();     
 
 		-- Generic function to toggle and hide
