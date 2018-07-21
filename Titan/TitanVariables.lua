@@ -874,13 +874,11 @@ NOTE:
 :NOTE
 --]]
 function TitanAllGetVar(var)
-	if (var and TitanAll) then		
+	if (var and TitanAll) then
 		if TitanAll[var] == "Titan Nil" then 
 			TitanAll[var] = false 
-		end		
-		return TitanUtils_Ternary(TitanAll[var] == false, 
-				nil, 
-				TitanAll[var]);
+		end
+		return TitanUtils_Ternary(TitanAll[var] == false, nil, TitanAll[var]);
 	end
 end
 
@@ -895,7 +893,7 @@ NOTE:
 :NOTE
 --]]
 function TitanAllSetVar(var, value)
-	if (var and TitanAll) then		
+	if (var and TitanAll) then
 		TitanAll[var] = TitanUtils_Ternary(value, value, false);
 	end
 end

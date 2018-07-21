@@ -59,7 +59,7 @@ L["TITAN_PANEL_REGISTER_START"] = "Enregistrement des plugins "..TITAN_PANEL..".
 L["TITAN_PANEL_REGISTER_END"] = "Enregistrement des plugins effectué."
 
 -- slash command help
-L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
+L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
 L["TITAN_PANEL_SLASH_RESET_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: | cffffffffRéinitialise les valeurs et positions de "..TITAN_PANEL..".";
 L["TITAN_PANEL_SLASH_RESET_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffRéinitialise l'échelle des polices des tooltips de "..TITAN_PANEL..".";
 L["TITAN_PANEL_SLASH_RESET_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffRéinitialise la transparence des tooltips de "..TITAN_PANEL..".";
@@ -69,15 +69,15 @@ L["TITAN_PANEL_SLASH_GUI_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/t
 L["TITAN_PANEL_SLASH_GUI_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui control: |cffffffffOuvre le panneau de configuration de "..TITAN_PANEL..".";
 L["TITAN_PANEL_SLASH_GUI_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui trans: |cffffffffOuvre le panneau de configuration de la transparence.";
 L["TITAN_PANEL_SLASH_GUI_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."gui skin: |cffffffffOuvre le panneau de configuration des skins.";
-L["TITAN_PANEL_SLASH_PROFILE_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan {profile use <profile>}";
+L["TITAN_PANEL_SLASH_PROFILE_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {profile use <profile>}";
 L["TITAN_PANEL_SLASH_PROFILE_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."profile use <nom> <serveur>: |cffffffffcharge le profil choisi :";
 L["TITAN_PANEL_SLASH_PROFILE_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<nom>: |cffffffffle nom du personnage ou le profil personnalisé."
 L["TITAN_PANEL_SLASH_PROFILE_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<serveur>: |cffffffffle nom du serveur ou 'TitanCustomProfile'."
 L["TITAN_PANEL_SLASH_SILENT_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {silent}";
 L["TITAN_PANEL_SLASH_SILENT_1"] = LIGHTYELLOW_FONT_COLOR_CODE.."silent: |cffffffffToggles "..TITAN_PANEL.." pour charger silencieusement.";
-L["TITAN_PANEL_SLASH_HELP_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan {help | help <topic>}";
+L["TITAN_PANEL_SLASH_HELP_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {help | help <topic>}";
 L["TITAN_PANEL_SLASH_HELP_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: reset/gui/profile/silent/help ";
-L["TITAN_PANEL_SLASH_ALL_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Utilisation: |cffffffff/titan <topic>";
+L["TITAN_PANEL_SLASH_ALL_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan <topic>";
 L["TITAN_PANEL_SLASH_ALL_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: |cffffffffreset/gui/profile/silent/help ";
 
 -- slash command responses
@@ -251,26 +251,25 @@ L["TITAN_BAG_BACKPACK"] = "Sac à dos";
 L["TITAN_BAG_MENU_SHOW_USED_SLOTS"] = "Montrer les emplacements utilisés";
 L["TITAN_BAG_MENU_SHOW_AVAILABLE_SLOTS"] = "Montrer les emplacements libres";
 L["TITAN_BAG_MENU_SHOW_DETAILED"] = "Afficher les détails";
-L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignorer les emplacements"; -- ??
+L["TITAN_BAG_MENU_IGNORE_SLOTS"] = "Ignorer les sacs de métiers";
 L["TITAN_BAG_MENU_IGNORE_PROF_BAGS_SLOTS"] = "Ignorer les emplacements des sacs spécifiques aux métiers";
 
 L["TITAN_BAG_PROF_BAG_ENCHANTING"] = {
 "Bourse enchantée en tisse-mage","Sac de soirée enchanteur en exclusivité pour La Tannée","Sac enchanté en étoffe runique","Sacoche d'enchanteur","Grand sac d'enchantement","Sac du feu-sorcier","Sac mystérieux","Sac surnaturel"};
 L["TITAN_BAG_PROF_BAG_ENGINEERING"] = {
-"Sac de haute technologie « Maddy » par La Tannée","Lourde boîte à outils","Boîte à outils en gangrefer","Boîte à outils en titane","Boîte à outils en élémentium", "\"Carriage - Maddy\" High Tech Bag"};
+"Sac de haute technologie « Maddy » par La Tannée","Lourde boîte à outils","Boîte à outils en gangrefer","Boîte à outils en titane","Boîte à outils en élémentium"};
 L["TITAN_BAG_PROF_BAG_HERBALISM"] = {
-"Bourse d'herbes","Sac fourre-tout d'herboriste « T vert » par La Tannée","Sac d'herbes cénarien","Sacoche de Cénarius","Sac de botanique de Mycah","Sac émeraude","Sac d'expédition d'Hyjal",
-"\"Carriage - Going Green\" Herb Tote Bag"};
+"Bourse d'herbes","Sac fourre-tout d'herboriste « T vert » par La Tannée","Sac d'herbes cénarien","Sacoche de Cénarius","Sac de botanique de Mycah","Sac émeraude","Sac d'expédition d'Hyjal"};
 L["TITAN_BAG_PROF_BAG_INSCRIPTION"] = {
-"Sacoche d'étudiant « Xandera » par La Tannée","Sacoche de calligraphie","Sac des poches infinies", "Burnished Inscription Bag"};
+"Sacoche d'étudiant « Xandera » par La Tannée","Sacoche de calligraphie","Sac des poches infinies", "Sac de calligraphie bruni"};
 L["TITAN_BAG_PROF_BAG_JEWELCRAFTING"] = {
 "Pochette brodée de gemmes en exclusivité pour La Tannée","Bourse de gemmes","Sac de joyaux"};
 L["TITAN_BAG_PROF_BAG_LEATHERWORKING"] = {
-"Sac en cuir « Meeya » par La Tannée","Sacoche de travailleur du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur", "Burnished Leather Bag"};
+"Sac en cuir « Meeya » par La Tannée","Sacoche de travailleur du cuir","Sac des nombreuses peaux","Sac de voyage de trappeur", "Sac en cuir bruni"};
 L["TITAN_BAG_PROF_BAG_MINING"] = {
-"Sac à métaux précieux « Christina » par La Tannée","Sac de mineur","Sac de mineur renforcé","Sac de mineur colossal", "Burnished Mining Bag"};
+"Sac à métaux précieux « Christina » par La Tannée","Sac de mineur","Sac de mineur renforcé","Sac de mineur colossal", "Sac de mineur bruni"};
 L["TITAN_BAG_PROF_BAG_FISHING"] = {"Boîte d'appâts du maître des leurres"};
-L["TITAN_BAG_PROF_BAG_COOKING"] = {"Réfrigérateur portable", "Advanced Refrigeration Unit"};
+L["TITAN_BAG_PROF_BAG_COOKING"] = {"Réfrigérateur portable", "Unité réfrigérante améliorée"};
 
 L["TITAN_CLOCK_TOOLTIP"] = "Horloge";
 L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Décalage horaire : ";

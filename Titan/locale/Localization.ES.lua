@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("Titan","esES")
+local L = LibStub("AceLocale-3.0"):NewLocale("Titan","esES")
 if not L then return end
 
 L["TITAN_DEBUG"] = "<Titan>";
@@ -60,7 +60,7 @@ L["TITAN_PANEL_REGISTER_START"] = "Registrar plugins de "..TITAN_PANEL.."..."
 L["TITAN_PANEL_REGISTER_END"] = "Proceso de registro completado."
 
 -- slash command help
-L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
+L["TITAN_PANEL_SLASH_RESET_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff/titan {reset | reset tipfont/tipalpha/panelscale/spacing}";
 L["TITAN_PANEL_SLASH_RESET_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset: |cffffffffResetea "..TITAN_PANEL.." a sus valores y posiciones por defecto.";
 L["TITAN_PANEL_SLASH_RESET_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipfont: |cffffffffResetea la escala de la fuente en los tooltips a su valor por defecto.";
 L["TITAN_PANEL_SLASH_RESET_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."reset tipalpha: |cffffffffResetea la transparencia de los tooltips a su valor por defecto.";
@@ -74,8 +74,8 @@ L["TITAN_PANEL_SLASH_PROFILE_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff
 L["TITAN_PANEL_SLASH_PROFILE_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."profile use <nombre> <servidor>: |cffffffffActiva el perfil grabado.";
 L["TITAN_PANEL_SLASH_PROFILE_2"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<nombre>: |cffffffffpuede ser tanto un nombre de personaje como el nombre de un perfil personalizado."
 L["TITAN_PANEL_SLASH_PROFILE_3"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<servidor>: |cffffffffpuede ser el nombre del servidor o 'TitanCustomProfile'."
-L["TITAN_PANEL_SLASH_SILENT_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Usage: |cffffffff/titan {silent}";
-L["TITAN_PANEL_SLASH_SILENT_1"] = LIGHTYELLOW_FONT_COLOR_CODE.."silent: |cffffffffToggles "..TITAN_PANEL.." to load silently.";
+L["TITAN_PANEL_SLASH_SILENT_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff/titan {silent}";
+L["TITAN_PANEL_SLASH_SILENT_1"] = LIGHTYELLOW_FONT_COLOR_CODE.."silent: |cffffffffOrdena a "..TITAN_PANEL.." que cargue silenciosamente.";
 L["TITAN_PANEL_SLASH_HELP_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff/titan {help | help <topic>}";
 L["TITAN_PANEL_SLASH_HELP_1"] = " - "..LIGHTYELLOW_FONT_COLOR_CODE.."<topic>: reset/gui/profile/silent/help ";
 L["TITAN_PANEL_SLASH_ALL_0"] = LIGHTYELLOW_FONT_COLOR_CODE.."Uso: |cffffffff/titan <topic>";
@@ -177,7 +177,7 @@ L["TITAN_PANEL_MENU_DISPLAY_ON_BAR"] = "Elige en qué barra se mostrará el plug
 L["TITAN_PANEL_MENU_SHOW"] = "Mostrar plugin";
 L["TITAN_PANEL_MENU_PLUGIN_RESET"] = "Actualizar plugins";
 L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"] = "Actualizar texto y posición de plugin";
-L["TITAN_PANEL_MENU_SILENT_LOAD"] = "Silent Load";
+L["TITAN_PANEL_MENU_SILENT_LOAD"] = "Carga silenciosa";
 
 -- localization strings for AceConfigDialog-3.0     
 L["TITAN_ABOUT_VERSION"] = "Versión";
@@ -275,15 +275,15 @@ L["TITAN_BAG_PROF_BAG_ENGINEERING"] = {
 L["TITAN_BAG_PROF_BAG_HERBALISM"] = {
 "Faltriquera de hierbas","Bolsa de hierbas Cenarion","Cartera de Cenarius","Bolsa de expedición de Hyjal","Bolsa esmeralda","Bolsa Botánica de Mycah","Portahierbas \"Trasportín ecológico\""};
 L["TITAN_BAG_PROF_BAG_INSCRIPTION"] = {
-"Cartera de escriba","Bolsa de bolsillos infinitos","Cartera de estudiante \"Transportín Xandera\"", "Burnished Inscription Bag"};
+"Cartera de escriba","Bolsa de bolsillos infinitos","Cartera de estudiante \"Transportín Xandera\"", "Bolsa pulida de inscripción"};
 L["TITAN_BAG_PROF_BAG_JEWELCRAFTING"] = {
 "Faltriquera de gemas","Bolsa de joyas","Agarre con tachuelas de gemas \"Trasportín exclusivo\""};
 L["TITAN_BAG_PROF_BAG_LEATHERWORKING"] = {
-"Cartera de peletero","Mochila de viaje de trampero","Bolsa de muchos pellejos","Bolsa de cuero \"Transportín Meeya\"", "Burnished Leather Bag"};
+"Cartera de peletero","Mochila de viaje de trampero","Bolsa de muchos pellejos","Bolsa de cuero \"Transportín Meeya\"", "Bolsa pulida de piel"};
 L["TITAN_BAG_PROF_BAG_MINING"] = {
-"Saco de minero","Bolsa de minero reforzada","Bolsa de minero descomunal","Bolsa de metal precioso \"Trasportín Christina\"", "Burnished Mining Bag"};
+"Saco de minero","Bolsa de minero reforzada","Bolsa de minero descomunal","Bolsa de metal precioso \"Trasportín Christina\"", "Bolsa pulida de minería"};
 L["TITAN_BAG_PROF_BAG_FISHING"] = {"Caja de aparejos \"Maestro del Cebo\""};
-L["TITAN_BAG_PROF_BAG_COOKING"] = {"Refrigerador portátil", "Advanced Refrigeration Unit"};
+L["TITAN_BAG_PROF_BAG_COOKING"] = {"Refrigerador portátil", "Unidad de refrigeración avanzada"};
 
 L["TITAN_CLOCK_TOOLTIP"] = "Reloj";
 L["TITAN_CLOCK_TOOLTIP_VALUE"] = "Ajuste horario: ";

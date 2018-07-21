@@ -2,7 +2,8 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Titan","ruRU")
 if not L then return end
 
 L["TITAN_PANEL"] = "Титан Панель";
-L["TITAN_DEBUG"] = "<Titan>";
+local TITAN_PANEL = "Титан Панель";
+L["TITAN_DEBUG"] = "<Титан>";
 L["TITAN_PRINT"] = "Титан";
 
 L["TITAN_NA"] = "N/A";

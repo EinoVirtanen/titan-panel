@@ -1412,7 +1412,7 @@ function TitanUtils_RegisterPluginList()
 	local id
 	local cnt = 0
 	if TitanPluginToBeRegisteredNum > 0 then
-		if not Titan__InitializedPEW and not TitanAll.Silenced then
+		if not Titan__InitializedPEW and not TitanAllGetVar("Silenced") then
 			TitanDebug(L["TITAN_PANEL_REGISTER_START"], "normal")
 		end
 		for index, value in ipairs(TitanPluginToBeRegistered) do
@@ -1421,7 +1421,7 @@ function TitanUtils_RegisterPluginList()
 			end
 			cnt = cnt + 1
 		end
-		if not Titan__InitializedPEW and not TitanAll.Silenced then
+		if not Titan__InitializedPEW and not TitanAllGetVar("Silenced") then
 			TitanDebug((L["TITAN_PANEL_REGISTER_END"].." "..cnt), "normal")
 		end
 	end

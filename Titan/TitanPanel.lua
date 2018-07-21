@@ -329,13 +329,13 @@ function TitanPanel_PlayerEnteringWorld()
 		-- Also sync the LDB object with the Tian plugin
 		TitanLDBRefreshButton()
 	else
-		-- only do this sort of initialization on the first PEW event
-		if not TitanAll.Silenced then
-			TitanPrint("", "header")
-		end
-
 		-- Get Profile and Saved Vars
 		TitanVariables_InitTitanSettings();			
+
+		-- only do this sort of initialization on the first PEW event
+		if not TitanAllGetVar("Silenced") then
+			TitanPrint("", "header")
+		end
 
 		if not ServerTimeOffsets then
 			ServerTimeOffsets = {};
