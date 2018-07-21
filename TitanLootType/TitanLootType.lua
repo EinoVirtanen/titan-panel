@@ -66,7 +66,7 @@ function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
 		-- raids
 		local diff = GetRaidDifficultyID()
 		if not diff then return diffstr end
-		local name, groupType, isHeroic, isChallengeMode, toggleDifficultyID = GetDifficultyInfo(diff)
+		local name, groupType, isHeroic, isChallengeMode, displayHeroic, displayMythic, toggleDifficultyID = GetDifficultyInfo(diff)
 		-- remove () chars from difficulty
 		local tmpstr = string.gsub(name, "%(", "")
 		tmpstr = string.gsub(tmpstr, "%)", "")
@@ -79,7 +79,7 @@ function TitanPanelLootTypeButton_GetDungeonDifficultyIDText(isRaid, withpar)
 		-- dungeons
 		local diff = GetDungeonDifficultyID()
 		if not diff then return diffstr end
-		local name, groupType, isHeroic, isChallengeMode, toggleDifficultyID = GetDifficultyInfo(diff)
+		local name, groupType, isHeroic, isChallengeMode, displayHeroic, displayMythic, toggleDifficultyID = GetDifficultyInfo(diff)
 		-- remove () chars from difficulty
 		local tmpstr = string.gsub(name, "%(", "")
 		tmpstr = string.gsub(tmpstr, "%)", "")
@@ -166,7 +166,7 @@ function TitanPanelLootTypeButton_GetTooltipText()
 			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText().."\n"..
 			L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL2"]..": \t"..TitanPanelLootTypeButton_GetDungeonDifficultyIDText(true).."\n"..
 			_G["LOOT_METHOD"]..": \t"..TitanUtils_GetHighlightText(lootTypeText).."\n"..
-			_G["LOOT_THRESHOLD"]..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..               
+			_G["LOOT_THRESHOLD"]..": \t"..TitanUtils_GetColoredText(itemQualityDesc, color).."\n"..
 			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT1"]).."\n"..
 			TitanUtils_GetGreenText(L["TITAN_LOOTTYPE_TOOLTIP_HINT2"]);
 	else
@@ -212,7 +212,7 @@ end
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 	local info = {};
-	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["UIDROPDOWNMENU_MENU_VALUE"] == "RandomRoll" then
+	if _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["UIDROPDOWNMENU_MENU_VALUE"] == "RandomRoll" then
 		info = {}; 
 		info.text = "100";
 		info.value = 100;
@@ -225,7 +225,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.func = TitanPanelLootType_Random1000;
 		info.checked = TitanPanelLootType_GetRoll(info.value);
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["UIDROPDOWNMENU_MENU_VALUE"] == "ShowDungeonDiffMenu" then
+	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["UIDROPDOWNMENU_MENU_VALUE"] == "ShowDungeonDiffMenu" then
 		info = {};
 		info.text = _G["LFG_TYPE_DUNGEON"];
 		info.func = function() TitanSetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType", "DUNGEON"); TitanPanelButton_UpdateButton(TITAN_LOOTTYPE_ID) end
@@ -241,7 +241,7 @@ function TitanPanelRightClickMenu_PrepareLootTypeMenu()
 		info.func = function() TitanSetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType", "AUTO"); TitanPanelButton_UpdateButton(TITAN_LOOTTYPE_ID) end
 		info.checked = function() if TitanGetVar(TITAN_LOOTTYPE_ID, "DungeonDiffType") == "AUTO" then return true end return false end
 		UIDropDownMenu_AddButton(info,_G["UIDROPDOWNMENU_MENU_LEVEL"]);
-	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2  and _G["UIDROPDOWNMENU_MENU_VALUE"] == "SetDungeonDiff" then
+	elseif _G["UIDROPDOWNMENU_MENU_LEVEL"] == 2 and _G["UIDROPDOWNMENU_MENU_VALUE"] == "SetDungeonDiff" then
 		info = {};
 		info.text = _G["GREEN_FONT_COLOR_CODE"].._G["DUNGEON_DIFFICULTY1"].."|r";
 		info.func = function() SetDungeonDifficultyID(1) end
