@@ -260,7 +260,7 @@ end
 
 function Titan_FCF_UpdateDockPosition()
  if TitanPanelGetVar("LogAdjust") then
-	if not InCombatLockdown() or not DEFAULT_CHAT_FRAME:IsProtected() then
+	if not InCombatLockdown() or (InCombatLockdown() and not DEFAULT_CHAT_FRAME:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
 		if ( DEFAULT_CHAT_FRAME:IsUserPlaced() ) then
@@ -271,12 +271,12 @@ function Titan_FCF_UpdateDockPosition()
 		
 		local chatOffset = 85 + panelYOffset;
 		if ( GetNumShapeshiftForms() > 0 or HasPetUI() or PetHasActionBar() ) then
-			if ( MultiBarBottomLeft:IsVisible() or BOTTOMBAR_OFFSET_Y ) then
+			if ( MultiBarBottomLeft:IsVisible()) then
 				chatOffset = chatOffset + 55;
 			else
 				chatOffset = chatOffset + 15;
 			end
-		elseif ( MultiBarBottomLeft:IsVisible() or BOTTOMBAR_OFFSET_Y ) then
+		elseif ( MultiBarBottomLeft:IsVisible()) then
 			chatOffset = chatOffset + 15;
 		end
 		DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, chatOffset);
@@ -287,7 +287,7 @@ end
 
 function Titan_FCF_UpdateCombatLogPosition()
  if TitanPanelGetVar("LogAdjust") then
-	if not InCombatLockdown() or not (ChatFrame1:IsProtected() and ChatFrame2:IsProtected()) then
+	if not InCombatLockdown() or (InCombatLockdown() and not ChatFrame1:IsProtected() and not ChatFrame2:IsProtected()) then
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
 
 		local point1, _, relativePoint1, xOfs1, _ = ChatFrame1:GetPoint()
@@ -363,65 +363,6 @@ function Titan_CastingBarFrame_UpdatePosition()
  end
 end
 
-
--- this is no longer being used
---[[
-function Titan_UIParent_ManageRightSideFrames()
-	if not InCombatLockdown() then
-		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"));
-		
-		local anchorX = 0;
-		local anchorY = 0 + panelYOffset;
-
-		-- Update group loot frame anchor
-		if ( MultiBarBottomRight:IsVisible() or MultiBarBottomLeft:IsVisible() ) then
-			GroupLootFrame1:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 102 + panelYOffset);
-		else
-			GroupLootFrame1:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 60 + panelYOffset);
-		end
-		
-		-- Update tutorial anchor
-		if ( MultiBarBottomRight:IsVisible() or MultiBarBottomLeft:IsVisible() ) then
-			TutorialFrameParent:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 94 + panelYOffset);
-			FramerateLabel:SetPoint("BOTTOM", "WorldFrame", "BOTTOM", 0, 104 + panelYOffset);
-		else
-			TutorialFrameParent:SetPoint("BOTTOM", "UIParent", "BOTTOM", 0, 52 + panelYOffset);
-			FramerateLabel:SetPoint("BOTTOM", "WorldFrame", "BOTTOM", 0, 64 + panelYOffset);
-		end
-		
-		-- Update bag anchor
-		if ( MultiBarBottomRight:IsVisible() ) then
-			CONTAINER_OFFSET_Y = 97 + panelYOffset;
-		else
-			CONTAINER_OFFSET_Y = 70 + panelYOffset;
-		end
-		-- Setup x anchor
-		if ( MultiBarLeft:IsVisible() ) then
-			CONTAINER_OFFSET_X = 90;
-			anchorX = 90;
-		elseif ( MultiBarRight:IsVisible() ) then
-			CONTAINER_OFFSET_X = 45;
-			anchorX = 45;
-		else
-			CONTAINER_OFFSET_X = 0;
-			anchorX = 0;
-		end
-		-- Setup y anchors
-		QuestTimerFrame:SetPoint("TOPRIGHT", "MinimapCluster", "BOTTOMRIGHT", -anchorX, anchorY);
-		if ( QuestTimerFrame:IsVisible() ) then
-			anchorY = anchorY - QuestTimerFrame:GetHeight();
-		end
-		DurabilityFrame:SetPoint("TOPRIGHT", "MinimapCluster", "BOTTOMRIGHT", -anchorX-20, anchorY);
-		if ( DurabilityFrame:IsVisible() ) then
-			anchorY = anchorY - DurabilityFrame:GetHeight();
-		end
-		QuestWatchFrame:SetPoint("TOPRIGHT", "MinimapCluster", "BOTTOMRIGHT", -anchorX, anchorY);
-		
-		-- Update combat log anchor
-		--FCF_UpdateCombatLogPosition();
-	end
-end
-]]--
 
 function Titan_ContainerFrames_Relocate()
 		local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_BOTTOM, TitanPanelGetVar("BothBars"), 1);

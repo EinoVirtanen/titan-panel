@@ -112,6 +112,8 @@ function TitanPanelRepairButton_OnLoad(self)
          ShowRepairCost = 1,
          ShowMostDmgPer = 1,
          IgnoreThrown = false,
+         UseGuildBank = false,
+         AutoRepairReport = false,
       }
    };
 
@@ -230,7 +232,7 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
        if (canRepair) then
             TPR.CouldRepair = true;
              if (repairCost > 0) then
-                TitanRepair_RepairItems();
+               TitanRepair_RepairItems();
                TitanPanelRepairButton_ScanAllItems();
                TPR.CheckForUpdate = true;
                TPR.CouldRepair = false;
@@ -269,8 +271,7 @@ function TitanPanelRepairButton_OnEvent(self, event, a1, ...)
           self:RegisterEvent("BAG_UPDATE");
           self:RegisterEvent("UPDATE_INVENTORY_ALERTS");
           self:RegisterEvent("MERCHANT_SHOW");
-          self:RegisterEvent("MERCHANT_CLOSED");
-
+          self:RegisterEvent("MERCHANT_CLOSED");          
           -- Check everything on world enter (at init and after zoning)
           -- (NOTE: this will take 6 * TPR.UpdateCheckDelay seconds to update)
           TitanPanelRepairButton_ScanAllItems();
@@ -1076,6 +1077,78 @@ end
 -- DESC : <research>
 -- **************************************************************************
 function TitanPanelRightClickMenu_PrepareRepairMenu()
+	 if UIDROPDOWNMENU_MENU_LEVEL == 2 then
+	 TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"], UIDROPDOWNMENU_MENU_LEVEL);
+
+   local info = {};
+   info.text = L["REPAIR_LOCALE"]["buttonNormal"];
+   info.checked = not TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
+   info.disabled = TPR.MerchantisOpen;   
+   info.func = function()
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+      end
+   UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+
+
+   info = {};
+   info.text = L["REPAIR_LOCALE"]["buttonFriendly"];
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly");
+   info.disabled = TPR.MerchantisOpen;   
+   info.func = function()
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", 1)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+      end
+   UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+
+   info = {};
+   info.text = L["REPAIR_LOCALE"]["buttonHonored"];
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored");
+   info.disabled = TPR.MerchantisOpen;   
+   info.func = function()
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", 1)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+      end
+   UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+
+   info = {};
+   info.text = L["REPAIR_LOCALE"]["buttonRevered"];
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered");
+   info.disabled = TPR.MerchantisOpen;   
+   info.func = function()
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", 1)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
+     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+      end
+   UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+
+   info = {};
+   info.text = L["REPAIR_LOCALE"]["buttonExalted"];
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
+   info.disabled = TPR.MerchantisOpen;   
+   info.func = function()
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
+     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", 1)
+     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
+      end
+   UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+	 return
+	 end
+	
+	
    TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_REPAIR_ID].menuText);
 
    local info = {};
@@ -1140,76 +1213,33 @@ function TitanPanelRightClickMenu_PrepareRepairMenu()
    info.func = TitanRepair_AutoRep;
    info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
    UIDropDownMenu_AddButton(info);
+   
+   info = {};
+   info.text = L["TITAN_REPAIR_REPORT_COST_MENU"]
+   info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "AutoRepairReport"); end
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
+   UIDropDownMenu_AddButton(info);
 
    TitanPanelRightClickMenu_AddSpacer();
-
-   TitanPanelRightClickMenu_AddTitle(L["REPAIR_LOCALE"]["discount"]);
-
-   info = {};
-   info.text = L["REPAIR_LOCALE"]["buttonNormal"];
-   info.checked = not TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered") and not TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
-   info.disabled = TPR.MerchantisOpen;
-   info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
+   
+   local totalGB = TitanPanelRepair_GetTextGSC(GetGuildBankMoney());
+   local withdrawGB = TitanPanelRepair_GetTextGSC(GetGuildBankWithdrawMoney());   
+	 TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_TOTAL"].." "..totalGB);
+	 TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_GBANK_WITHDRAW"].." "..withdrawGB);
+	 info = {}
+	 info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
+	 info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
+   info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");   
    UIDropDownMenu_AddButton(info);
-
-
-   info = {};
-   info.text = L["REPAIR_LOCALE"]["buttonFriendly"];
-   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly");
-   info.disabled = TPR.MerchantisOpen;
-   info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
+    
+   TitanPanelRightClickMenu_AddSpacer();
+	 
+	 info = {};
+	 info.text = L["REPAIR_LOCALE"]["discount"];
+	 info.hasArrow = 1;
+	 
    UIDropDownMenu_AddButton(info);
-
-   info = {};
-   info.text = L["REPAIR_LOCALE"]["buttonHonored"];
-   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored");
-   info.disabled = TPR.MerchantisOpen;
-   info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   UIDropDownMenu_AddButton(info);
-
-   info = {};
-   info.text = L["REPAIR_LOCALE"]["buttonRevered"];
-   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered");
-   info.disabled = TPR.MerchantisOpen;
-   info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", 1)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", nil)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   UIDropDownMenu_AddButton(info);
-
-   info = {};
-   info.text = L["REPAIR_LOCALE"]["buttonExalted"];
-   info.checked = TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted");
-   info.disabled = TPR.MerchantisOpen;
-   info.func = function()
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountFriendly", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountHonored", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountRevered", nil)
-     TitanSetVar(TITAN_REPAIR_ID,"DiscountExalted", 1)
-     TitanPanelButton_UpdateButton(TITAN_REPAIR_ID)
-      end
-   UIDropDownMenu_AddButton(info);
+   
 
    TitanPanelRightClickMenu_AddSpacer();
    TitanPanelRightClickMenu_AddToggleIcon(TITAN_REPAIR_ID);
@@ -1337,28 +1367,62 @@ end
 -- DESC : <research>
 -- **************************************************************************
 function TitanRepair_RepairItems()
-   RepairAllItems();
+  -- New RepairAll function	
+	local cost = GetRepairAllCost();
+  local money = GetMoney();
+  local withdrawLimit = GetGuildBankWithdrawMoney();
+  local guildBankMoney = GetGuildBankMoney();
 
-   ShowRepairCursor();
-   local bag, slot
-   for bag = 0, 4 do
-      for slot = 1, GetContainerNumSlots(bag) do
-         local _, repairCost = TitanRepairTooltip:SetBagItem(bag, slot);
-         if (repairCost and (repairCost > 0)) then
-            UseContainerItem(bag,slot);
-            TPR.PleaseCheckBag[bag] = 1; -- this bag will be updated
-            TPR.CheckForUpdate = true;
-         end
-      end
-   end
-   HideRepairCursor();
-
-   -- disable repair all icon in merchant
-   SetDesaturation(MerchantRepairAllIcon, 1);
-   MerchantRepairAllButton:Disable();
-   -- disable guild bank repair all icon in merchant
-   SetDesaturation(MerchantGuildBankRepairButtonIcon, 1);
-   MerchantGuildBankRepairButton:Disable();
+  -- Use Guild Bank funds
+  if TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank") then
+  	if IsInGuild() and CanGuildBankRepair() then
+  		-- according to Blizzard GetGuildBankWithdrawMoney() can return -1 for Guild leader, reference: MerchantFrame.xml
+  		if withdrawLimit == -1 then
+  			withdrawLimit = guildBankMoney
+  		else
+  			withdrawLimit = min(withdrawLimit, guildBankMoney)
+  		end
+  	
+  		if withdrawLimit > cost then
+  			RepairAllItems(1)
+  			-- disable repair all icon in merchant
+   			SetDesaturation(MerchantRepairAllIcon, 1);
+   			MerchantRepairAllButton:Disable();
+   			-- disable guild bank repair all icon in merchant
+   			SetDesaturation(MerchantGuildBankRepairButtonIcon, 1);
+   			MerchantGuildBankRepairButton:Disable();
+   			-- report repair cost to chat (optional)
+   			if TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport") then
+   				DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..":".."|r"..L["TITAN_REPAIR_REPORT_COST_CHAT"]..TitanPanelRepair_GetTextGSC(cost))
+   			end
+  		else
+  			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..":".."|r"..L["TITAN_REPAIR_GBANK_NOMONEY"])
+  		end
+  		
+  	else
+		DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..":".."|r"..L["TITAN_REPAIR_GBANK_NORIGHTS"])
+  	end
+  end
+  
+  -- Use own funds
+  if not TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank") then
+  	if money > cost then
+  		RepairAllItems()
+  		-- disable repair all icon in merchant
+   		SetDesaturation(MerchantRepairAllIcon, 1);
+   		MerchantRepairAllButton:Disable();
+   		-- disable guild bank repair all icon in merchant
+   		SetDesaturation(MerchantGuildBankRepairButtonIcon, 1);
+   		MerchantGuildBankRepairButton:Disable();
+   		-- report repair cost to chat (optional)
+   		if TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport") then
+   			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..":".."|r"..L["TITAN_REPAIR_REPORT_COST_CHAT"]..TitanPanelRepair_GetTextGSC(cost))
+   		end
+   	else
+   		DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..":".."|r"..L["TITAN_REPAIR_CANNOT_AFFORD"])
+  	end
+  end
+   
 end
 
 -- **************************************************************************

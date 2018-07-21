@@ -387,5 +387,14 @@ if not L then return end
 		ShowRepairCost = "Mostrar coste de reparar",
 		ignoreThrown = "Ignorar armas arrojadizas",
 	};
+	L["TITAN_REPAIR"] = "Titan Repair"
+	L["TITAN_REPAIR_GBANK_TOTAL"] = "Efectivo en el banco de la Hermandad: "
+	L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Retirada de efectivo de la Hermandad permitida: "
+	L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Usar efectivo del banco de la Hermandad"
+	L["TITAN_REPAIR_GBANK_NOMONEY"] = "El banco de la Hermandad no puede permitirse el coste de la reparación, o no puedes retirar tanto dinero."
+	L["TITAN_REPAIR_GBANK_NORIGHTS"] = "O no perteneces a una Hermandad, o no tienes permiso para usar el banco de la Hermandad para reparar tus objetos."
+	L["TITAN_REPAIR_CANNOT_AFFORD"] = "No puedes permitirte reparar, en este momento."
+	L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
+  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
 
 	L["TITAN_PLUGINS_MENU_TITLE"] = "Plug-ins";

@@ -927,13 +927,13 @@ local gem1name, gem1Link = GetItemGem(link, 1);
 local gem2name, gem2Link = GetItemGem(link, 2);
 local gem3name, gem3Link = GetItemGem(link, 3);
   if gem1name then
-      gem1itemID = gem1Link:match("item:(%-?%d+)") or nil;
+  	gem1itemID = gem1Link:match("item:(%-?%d+)") or nil;  
   end
   if gem2name then
-      gem2itemID = gem2Link:match("item:(%-?%d+)") or nil;      
+  	gem2itemID = gem2Link:match("item:(%-?%d+)") or nil;  
   end
   if gem3name then
-      gem3itemID = gem3Link:match("item:(%-?%d+)") or nil;      
+  	gem3itemID = gem3Link:match("item:(%-?%d+)") or nil;  
   end
 
 	for _,i in pairs (BonusScanner_Gems) do

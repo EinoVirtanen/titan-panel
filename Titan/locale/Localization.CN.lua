@@ -386,7 +386,17 @@ if not L then return end
           ShowRepairCost = "显示修理费用",
 		      ignoreThrown = "忽略投掷武器",
      };
-
+	
+	L["TITAN_REPAIR"] = "Titan Repair"
+  L["TITAN_REPAIR_GBANK_TOTAL"] = "Guild Bank Funds :"
+  L["TITAN_REPAIR_GBANK_WITHDRAW"] = "Guild Bank Withdrawal Allowed :"
+  L["TITAN_REPAIR_GBANK_USEFUNDS"] = "Use Guild Bank funds"
+  L["TITAN_REPAIR_GBANK_NOMONEY"] = "Guild Bank can't afford the repair cost, or you can't withdraw that much."
+  L["TITAN_REPAIR_GBANK_NORIGHTS"] = "You are either not in a guild or you don't have permission to use the guild bank to repair your items."
+  L["TITAN_REPAIR_CANNOT_AFFORD"] = "You cannot afford to repair, at this time."
+  L["TITAN_REPAIR_REPORT_COST_MENU"] = "Report repair cost to chat"
+  L["TITAN_REPAIR_REPORT_COST_CHAT"] = "Repair cost was "
+     
   L["TITAN_PLUGINS_MENU_TITLE"] = "扩展模块"; 
   
 -- Version : Simplified Chinese

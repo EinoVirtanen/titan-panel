@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.6 Beta April 21st, 2009                 --
+--   Latest version: 2.6 Beta May 2nd, 2009                    --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -48,6 +48,9 @@ local xcategories = {
 	["Tradeskill"] = "Profession",
 	["UnitFrame"] = "Interface",
 }
+
+-- Unsupported Data Object types table
+local UnsupportedDOTypes = { "cork" }
 
 local _G = getfenv(0);
 local InCombatLockdown	= _G.InCombatLockdown;
@@ -307,8 +310,15 @@ end
 
 function TitanLDBShowText(name)
   local nametrim = string.gsub (name, "LDBT_", "");
-  
   local fontstring = _G["TitanPanelLDBT_"..nametrim.."ButtonText"];
+  local displayValue, displaySuffix, displayText = "", "", ""
+  
+  -- Check for display text
+  if TitanGetVar(name, "ShowRegularText") then
+  	if LDBAttrs[nametrim].value then displayValue = LDBAttrs[nametrim].value end
+  	if LDBAttrs[nametrim].suffix then displaySuffix = LDBAttrs[nametrim].suffix end
+  	if LDBAttrs[nametrim].text then displayText = LDBAttrs[nametrim].text end
+  end
   
   -- Fix color text issues
   if TitanGetVar(name, "ShowColoredText") then
@@ -319,36 +329,36 @@ function TitanLDBShowText(name)
   
    if LDBAttrs[nametrim].suffix and LDBAttrs[nametrim].suffix ~="" then
    	if LDBAttrs[nametrim].label~="" then
-   			if TitanGetVar(name, "ShowColoredText") then
-   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..": ", TitanUtils_GetGreenText(LDBAttrs[nametrim].value.." "..LDBAttrs[nametrim].suffix);
-   			else
-   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..": ", TitanUtils_GetHighlightText(LDBAttrs[nametrim].value.." "..LDBAttrs[nametrim].suffix);
+   			if TitanGetVar(name, "ShowColoredText") then   			
+   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  ", TitanUtils_GetGreenText(displayValue.." "..displaySuffix);
+   			else   			
+   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  ", TitanUtils_GetHighlightText(displayValue.." "..displaySuffix);
    			end
    	else
-   			if TitanGetVar(name, "ShowColoredText") then
-   			return "", TitanUtils_GetGreenText(LDBAttrs[nametrim].value.." "..LDBAttrs[nametrim].suffix);
-   			else
-   			return "", TitanUtils_GetHighlightText(LDBAttrs[nametrim].value.." "..LDBAttrs[nametrim].suffix);
+   			if TitanGetVar(name, "ShowColoredText") then   			
+   			return "", TitanUtils_GetGreenText(displayValue.." "..displaySuffix);
+   			else   			
+   			return "", TitanUtils_GetHighlightText(displayValue.." "..displaySuffix);
    			end
    	end
    elseif LDBAttrs[nametrim].label == LDBAttrs[nametrim].text then
-   			if TitanGetVar(name, "ShowColoredText") then
-   			return TitanUtils_GetGreenText(LDBAttrs[nametrim].text), "";
-   			else
-   			return TitanUtils_GetNormalText(LDBAttrs[nametrim].text), "";
+   			if TitanGetVar(name, "ShowColoredText") then   			
+   			return TitanUtils_GetGreenText(displayText), "";
+   			else   			
+   			return TitanUtils_GetNormalText(displayText), "";
    			end
    else
     if LDBAttrs[nametrim].label~="" then
-        if TitanGetVar(name, "ShowColoredText") then
-        	return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..": " , TitanUtils_GetGreenText(LDBAttrs[nametrim].text);
-        else
-   				return TitanUtils_GetNormalText(LDBAttrs[nametrim].label)..": " , TitanUtils_GetHighlightText(LDBAttrs[nametrim].text);
+        if TitanGetVar(name, "ShowColoredText") then        	
+        	return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  " , TitanUtils_GetGreenText(displayText);
+        else   				
+   				return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  " , TitanUtils_GetHighlightText(displayText);
    			end
     else
-   			if TitanGetVar(name, "ShowColoredText") then
-   				return "", TitanUtils_GetGreenText(LDBAttrs[nametrim].text);
-   			else
-   				return "", TitanUtils_GetHighlightText(LDBAttrs[nametrim].text);
+   			if TitanGetVar(name, "ShowColoredText") then   				
+   				return "", TitanUtils_GetGreenText(displayText);
+   			else   				
+   				return "", TitanUtils_GetHighlightText(displayText);
       	end
     end
    end
@@ -383,11 +393,17 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
    -- Launchers are being treated as a DO but may change behavior from within Titan core (right-side plugins with only an icon and a tooltip/Click)
 		
    --DEFAULT_CHAT_FRAME:AddMessage("Attempting to register "..name..".");
+   
+   -- Unsupported Data Object types
+   local idx
+   for idx in ipairs(UnsupportedDOTypes) do
+   	if obj.type and obj.type == UnsupportedDOTypes[idx] then return end
+   end
+   -- End Unsupported Data Object types
 		
     local idTitan, menuTextTitan, iconTitan, categoryTitan;
    
    -- Create the Titan Frame as a Combo (for now)
-   
    
     local newTitanFrame = CreateFrame("Button","TitanPanel".."LDBT_"..name.."Button", UIParent, "TitanPanelComboTemplate")  
     newTitanFrame:SetFrameStrata("FULLSCREEN");
@@ -525,6 +541,7 @@ newTitanFrame.registry = {
           savedVariables = {
                ShowIcon = 1,
                ShowLabelText = 1,
+               ShowRegularText = 1,
                ShowColoredText = false,
                DisplayOnRightSide = false
           }
