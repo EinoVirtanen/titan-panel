@@ -11,7 +11,7 @@ local OFFSET_X = 0.0022;
 local OFFSET_Y = -0.0262;
 local cachedX = 0
 local cachedY = 0
-
+local updateTable = {TITAN_COORDS_ID, TITAN_PANEL_UPDATE_BUTTON};
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
@@ -168,10 +168,7 @@ end
 -- NAME : TitanPanelCoordsButton_OnEvent()
 -- DESC : Parse events registered to plugin and act on them
 -- **************************************************************************
-function TitanPanelCoordsButton_OnEvent(self, event, ...)
-     --if event == "ZONE_CHANGED_NEW_AREA" then
-          --SetMapToCurrentZone();
-     --end
+function TitanPanelCoordsButton_OnEvent(self, event, ...)     
      if event == "PLAYER_ENTERING_WORLD" then
      			if not TitanGetVar(TITAN_COORDS_ID, "ShowLocOnMiniMap") and MinimapBorderTop and MinimapBorderTop:IsShown() then
 						MinimapBorderTop:Hide()
@@ -184,7 +181,7 @@ function TitanPanelCoordsButton_OnEvent(self, event, ...)
      end
      SetMapToCurrentZone();
      TitanPanelCoordsButton_UpdateZoneInfo(self);
-     TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_ALL});
+     TitanPanelPluginHandle_OnUpdate(updateTable);
      TitanPanelCoords_HandleUpdater();
 end
 
@@ -192,7 +189,7 @@ end
 function TitanPanelCoordsButton_CheckForUpdate()
 	local tempx, tempy = GetPlayerMapPosition("player");
 		if tempx ~= cachedX or tempy ~= cachedY then
-			TitanPanelPluginHandle_OnUpdate({TITAN_COORDS_ID, TITAN_PANEL_UPDATE_BUTTON});
+			TitanPanelPluginHandle_OnUpdate(updateTable);
 		end
 end
 

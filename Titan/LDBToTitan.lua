@@ -6,7 +6,7 @@
 --                                                             --
 --   By Tristanian aka "TristTitan" (tristanian@live.com)      --
 --   Created and initially commited on : July 29th, 2008       --
---   Latest version: 2.7 Beta May 16th, 2009                   --
+--   Latest version: 2.8 Beta June 3rd, 2009                   --
 -----------------------------------------------------------------
 
 -- Refined Ace2 table for matching addon metadata stuff
@@ -330,8 +330,8 @@ function TitanLDBShowText(name)
 	  fontstring:SetTextColor(255,255,255); -- Highlight
 	 end
   
-   if LDBAttrs[nametrim].suffix and LDBAttrs[nametrim].suffix ~="" then
-   	if LDBAttrs[nametrim].label~="" then
+   if LDBAttrs[nametrim].suffix and LDBAttrs[nametrim].suffix ~="" then   	
+   	if LDBAttrs[nametrim].label and LDBAttrs[nametrim].label~="" then
    			if TitanGetVar(name, "ShowColoredText") then   			
    			return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  ", TitanUtils_GetGreenText(displayValue.." "..displaySuffix);
    			else   			
@@ -350,8 +350,8 @@ function TitanLDBShowText(name)
    			else   			
    			return TitanUtils_GetNormalText(displayText), "";
    			end
-   else
-    if LDBAttrs[nametrim].label~="" then
+   else    
+    if LDBAttrs[nametrim].label and LDBAttrs[nametrim].label~="" then
         if TitanGetVar(name, "ShowColoredText") then        	
         	return TitanUtils_GetNormalText(LDBAttrs[nametrim].label).."  " , TitanUtils_GetGreenText(displayText);
         else   				

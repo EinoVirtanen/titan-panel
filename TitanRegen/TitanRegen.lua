@@ -11,7 +11,7 @@ local TITAN_REGEN_HP_FORMAT = "%d";
 local TITAN_REGEN_HP_FORMAT_PERCENT = "%.2f";
 local TITAN_REGEN_MP_FORMAT = "%d";
 local TITAN_REGEN_MP_FORMAT_PERCENT = "%.2f";
-
+local updateTable = {TITAN_REGEN_ID, TITAN_PANEL_UPDATE_ALL};
 -- ******************************** Variables *******************************
 local TITAN_RegenCurrHealth = 0;
 local TITAN_RegenCurrMana = 0;
@@ -137,7 +137,7 @@ function TitanPanelTitanRegenButton_OnEvent(self, event, a1, ...)
      end               
      
      if (runUpdate == 1) then
-         TitanPanelPluginHandle_OnUpdate({TITAN_REGEN_ID, TITAN_PANEL_UPDATE_ALL})
+         TitanPanelPluginHandle_OnUpdate(updateTable)
      end
 end
 

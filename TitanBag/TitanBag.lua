@@ -11,7 +11,7 @@ local TITAN_BAG_THRESHOLD_TABLE = {
      Values = { 0.5, 0.75 },
      Colors = { GREEN_FONT_COLOR, NORMAL_FONT_COLOR, RED_FONT_COLOR },
 }
-
+local updateTable = {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON} ;
 -- ******************************** Variables *******************************
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
@@ -60,7 +60,7 @@ function TitanPanelBagButton_OnEvent(self, event, ...)
      if event == "BAG_UPDATE" then
      -- Throw a timer to update the button 3 seconds after the initial event to avoid "spammy" events     	
      		if not BagTimer then     		     		     			
-     			BagTimer = AceTimer.ScheduleTimer("TitanPanelBag", TitanPanelBagButton_OnUpdate, 3, {TITAN_BAG_ID, TITAN_PANEL_UPDATE_BUTTON} )
+     			BagTimer = AceTimer.ScheduleTimer("TitanPanelBag", TitanPanelBagButton_OnUpdate, 3, updateTable)
      	  end
      end
 end

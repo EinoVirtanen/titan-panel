@@ -44,7 +44,7 @@ local TITAN_GOLDTRACKER_SPACERBAR = "--------------------";
 local TITAN_GOLDTRACKER_BLUE = {r=0.4,b=1,g=0.4};
 local TITAN_GOLDTRACKER_RED = {r=1,b=0,g=0};
 local TITAN_GOLDTRACKER_GREEN = {r=0,b=0,g=1};
-
+local updateTable = {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP };
 -- ******************************** Variables *******************************
 local GOLDTRACKER_INITIALIZED = false;
 local GOLDTRACKER_VARIABLES_LOADED = false;
@@ -103,7 +103,7 @@ end
 -- **************************************************************************
 function TitanPanelGoldTrackerButton_OnShow()
 	if not GoldTrackerTimer and GoldArray and GoldArray["DISPLAYGPH"] then		
-		GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })
+		GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, updateTable)
 	end
 end
 
@@ -518,7 +518,7 @@ end
 function TitanPanelGoldTrackerGPH_Toggle()
      GoldArray["DISPLAYGPH"] = not GoldArray["DISPLAYGPH"];
      if not GoldTrackerTimer and GoldArray["DISPLAYGPH"] then
-			GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP })
+			GoldTrackerTimer = TitanGoldTracker:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 1, updateTable)
 		 elseif GoldTrackerTimer and not GoldArray["DISPLAYGPH"] then
 		 	TitanGoldTracker:CancelTimer(GoldTrackerTimer, true)
 			GoldTrackerTimer = nil;     

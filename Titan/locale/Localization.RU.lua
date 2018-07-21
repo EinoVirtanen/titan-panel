@@ -262,9 +262,9 @@ if not L then return end
 	L["TITAN_LOOTTYPE_RANDOM_ROLL_LABEL"] = "Случайный бросок костей";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT1"] = "Совет: ЛКМ для броска костей.";
 	L["TITAN_LOOTTYPE_TOOLTIP_HINT2"] = "Совет: ПКМ для выбора типа броска костей из меню.";
-	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Dungeon Difficulty";
-	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Show Dungeon Difficulty";
-	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Set Dungeon Difficulty";
+	L["TITAN_LOOTTYPE_DUNGEONDIFF_LABEL"] = "Сложность подземелья";
+	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Показать сложность подземелья";
+	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Установить сложность подземелья";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."мб";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -340,8 +340,8 @@ if not L then return end
 	L["TITAN_XP_UNKNOWN"] = "неизвестно";
 	L["TITAN_XP_KILLS_LABEL"] = "Убийств до уровня (%d опыта полученно): ";
 	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. Убийств: ";
-	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Session Time: ";
-	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Show Session Time";
+	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Время сеанса: ";
+	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Показать время сеанса";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Регенерация"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Информация о регенерации"

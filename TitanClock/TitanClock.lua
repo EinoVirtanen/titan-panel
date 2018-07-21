@@ -15,6 +15,7 @@ local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local AceTimer = LibStub("AceTimer-3.0")
 local ClockTimer = nil;
+local updateTable = {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL };
 -- ******************************** Functions *******************************
 
 -- **************************************************************************
@@ -59,7 +60,7 @@ end
 -- **************************************************************************
 function TitanPanelClockButton_OnShow()
 	if not ClockTimer then
-		ClockTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelClock", TitanPanelPluginHandle_OnUpdate, 30, {TITAN_CLOCK_ID, TITAN_PANEL_UPDATE_ALL })
+		ClockTimer = AceTimer.ScheduleRepeatingTimer("TitanPanelClock", TitanPanelPluginHandle_OnUpdate, 30, updateTable)
 	end
 end
 

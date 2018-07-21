@@ -30,4 +30,4 @@ if not L then return end
 	L["TITAN_GOLDTRACKER_DELETE_PLAYER"] = "Удалить персонажа";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_ALLY"] = "Альянс";
 	L["TITAN_GOLDTRACKER_FACTION_PLAYER_HORDE"] = "Орда";
-	L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Warning: "..FONT_COLOR_CODE_CLOSE.."This setting will wipe your Gold Tracker database. If you wish to continue with this operation, push 'Accept', otherwise push 'Cancel' or the 'Escape' key.";
+	L["TITAN_GOLDTRACKER_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Внимание: "..FONT_COLOR_CODE_CLOSE.."Данное действие уничтожит вашу базу данных Gold Trackerа. Если вы хотите продолжить, жмите 'Принять', если нет, жмите 'Отмена' или клавишу 'Escape'.";

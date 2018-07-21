@@ -10,6 +10,7 @@ local TITAN_LOOTTYPE_ID = "LootType";
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 local TitanLootMethod = {};
+local updateTable = {TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL};
 TitanLootMethod["freeforall"] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
 TitanLootMethod["roundrobin"] = {text = L["TITAN_LOOTTYPE_ROUND_ROBIN"]};
 TitanLootMethod["master"] = {text = L["TITAN_LOOTTYPE_MASTER_LOOTER"]};
@@ -75,11 +76,11 @@ function TitanPanelLootTypeButton_OnEvent(self, event, ...)
   			local strm3 = format( _G["ERR_DUNGEON_DIFFICULTY_CHANGED_S"], _G["DUNGEON_DIFFICULTY3"])
   			
   			if (arg1 == strm1 or arg1 == strm2 or arg1 == strm3) and TitanGetVar(TITAN_LOOTTYPE_ID, "ShowDungeonDiff") then
-  				TitanPanelPluginHandle_OnUpdate({TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL})
+  				TitanPanelPluginHandle_OnUpdate(updateTable)
 				end
 				return;
 			end
-		 TitanPanelPluginHandle_OnUpdate({TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL})
+		 TitanPanelPluginHandle_OnUpdate(updateTable)
 end
 
 -- **************************************************************************

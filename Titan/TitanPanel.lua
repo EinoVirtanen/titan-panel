@@ -221,7 +221,7 @@ function TitanPanel_CreateBarTextures()
 		for i = 0, numOfTextures do
 			-- Create textures if they don't exist
 			if not _G["TitanPanelBackgroundAux"..i] then
-				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")
+				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")				
 			else
 				titanTexture = _G["TitanPanelBackgroundAux"..i]
 			end
@@ -241,7 +241,7 @@ function TitanPanel_CreateBarTextures()
 		
 		-- Create 1st texture of 2nd bar if it doesn't exist
 		if not _G["TitanPanelBackgroundAux"..numOfTextures + 1] then
-			titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackgroundAux"..numOfTextures + 1, "BACKGROUND")
+			titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..numOfTextures + 1, "BACKGROUND")
 		else
 			titanTexture = _G["TitanPanelBackgroundAux"..numOfTextures + 1]
 		end
@@ -253,7 +253,7 @@ function TitanPanel_CreateBarTextures()
 		-- Handle TitanPanelAuxBarButtonHider Textures
 		for i = numOfTextures + 2, numOfTexturesHider do
 			if not _G["TitanPanelBackgroundAux"..i] then
-				titanTexture = TitanPanelBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")
+				titanTexture = TitanPanelAuxBarButton:CreateTexture("TitanPanelBackgroundAux"..i, "BACKGROUND")
 			else
 				titanTexture = _G["TitanPanelBackgroundAux"..i]
 			end
@@ -852,15 +852,15 @@ function TitanPanelBarButton_OnEvent(self, event, arg1, ...)
 					
 			local realmName = GetCVar("realmName");
 
-			if ( ServerTimeOffsets[realmName] ) then
+			if ServerTimeOffsets[realmName] then
 				TitanSetVar(TITAN_CLOCK_ID, "OffsetHour", ServerTimeOffsets[realmName]);
-			elseif TitanGetVar(TITAN_CLOCK_ID, "OffsetHour")~=nil then
+			elseif TitanGetVar(TITAN_CLOCK_ID, "OffsetHour") then
 				ServerTimeOffsets[realmName] = TitanGetVar(TITAN_CLOCK_ID, "OffsetHour");
 			end
 			
-			if ( ServerHourFormat[realmName] ) then
+			if ServerHourFormat[realmName] then
 				TitanSetVar(TITAN_CLOCK_ID, "Format", ServerHourFormat[realmName]);
-			elseif TitanGetVar(TITAN_CLOCK_ID, "Format")~=nil then
+			elseif TitanGetVar(TITAN_CLOCK_ID, "Format") then
 				ServerHourFormat[realmName] = TitanGetVar(TITAN_CLOCK_ID, "Format");
 			end
 			
