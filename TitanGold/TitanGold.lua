@@ -672,8 +672,15 @@ function TitanPanelGoldButton_Initialize_Array(self)
 	if (GoldSave[GOLD_INDEX] == nil) then
 		GoldSave[GOLD_INDEX] = {}
 	end
-	GoldSave[GOLD_INDEX] = {gold = GetMoney("player"), show = true, name = UnitName("player")}
-
+	for index, money in pairs(GoldSave) do
+		local character, charserver = string.match(index, "(.*)_(.*)::"..UnitFactionGroup("Player"));
+		if character == UnitName("player") and charserver == realmName then
+			local rementry = character.."_"..charserver.."::"..UnitFactionGroup("Player");
+			local showCharacter = GoldSave[rementry].show
+			if showCharacter == nil then showCharacter = true end
+			GoldSave[GOLD_INDEX] = {gold = GetMoney("player"), show = showCharacter, name = UnitName("player")}
+		end
+	end
 	GOLD_STARTINGGOLD = GetMoney("player");
 	GOLD_SESSIONSTART = GetTime();
 	GOLD_INITIALIZED = true;
