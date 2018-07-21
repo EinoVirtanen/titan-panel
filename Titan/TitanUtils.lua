@@ -1510,7 +1510,7 @@ local function TitanRightClickMenu_OnLoad(self)
 	if id then
 		local prepareFunction = _G["TitanPanelRightClickMenu_Prepare"..id.."Menu"]
 		if prepareFunction and type(prepareFunction) == "function" then
-		 	Lib_UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
+			Lib_UIDropDownMenu_Initialize(self, prepareFunction, "MENU");
 		end
 	else
 		-- TitanDebug("Could not display tooltip. "
