@@ -25,16 +25,11 @@ local numOfTexturesHider = 0;
 
 -- Library references
 local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
-local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
 
 -- Titan local helper funcs
 local function TitanPanel_GetVersion()
 	return tostring(GetAddOnMetadata("Titan", "Version")) or L["TITAN_NA"];
-end
-
-local function TitanAdjustBottomFrames()
-	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTTOM, true)
 end
 
 local function TitanPanel_ResetBar()
@@ -392,7 +387,10 @@ end
 	-- On longer game loads (log in, reload, instances, etc Titan will adjust
 	-- then Blizz will adjust putting the action buttons over / under Titan
 	-- if the user has aux 1/2 shown.
-	AceTimer.ScheduleTimer("TitanPanelAdjustBottomFrames", TitanAdjustBottomFrames, 4);
+	local timer = TitanTimers["EnterWorld"]
+	if timer then
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
+	end
 end
 
 --
@@ -471,7 +469,10 @@ function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 end
 
 function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
-	TitanPanelAce:ScheduleTimer("Titan_ManageFramesNew", 2, TITAN_PANEL_PLACE_BOTTOM)
+	local timer = TitanTimers["DualSpec"]
+	if timer then
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
+	end
 end
 
 local function arg_convert (event, a1, a2, a3, a4, a4, a5, a6)
@@ -498,14 +499,16 @@ local t6 = type(a6)
 end
 
 function TitanPanelBarButton:UNIT_ENTERED_VEHICLE(self, ...)
---TitanDebug("ENTERED_VEHICLE")
---arg_convert ("UNIT_ENTERED_VEHICLE ", ...)
-	TitanPanelAce:ScheduleTimer("Titan_ManageFramesNew", 1, TITAN_PANEL_PLACE_BOTTOM)
+	local timer = TitanTimers["Vehicle"]
+	if timer then
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
+	end
 end
 function TitanPanelBarButton:UNIT_EXITED_VEHICLE(self, ...)
---TitanDebug("EXITED_VEHICLE")
-	TitanPanelAce:ScheduleTimer("Titan_ManageFramesNew", 1, TITAN_PANEL_PLACE_BOTTOM)
---arg_convert ("UNIT_EXITED_VEHICLE ", ...)
+	local timer = TitanTimers["Vehicle"]
+	if timer then
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay);
+	end
 end
 --
 --
@@ -635,8 +638,8 @@ function TitanPanel_CreateBarTextures()
 	-- loop through the bars to set the texture
 	for idx,v in pairs (TitanBarData) do
 		bar_name = TITAN_PANEL_DISPLAY_PREFIX..TitanBarData[idx].name
-		screenWidth = (_G[bar_name]:GetWidth() or GetScreenWidth()) + 1
-		numOfTextures = floor(screenWidth / 256)
+		screenWidth = ((_G[bar_name]:GetWidth() or GetScreenWidth()) + 1 ) --/ 2
+		numOfTextures = floor(screenWidth / 256 )
 		numOfTexturesHider = (numOfTextures * 2) + 1
 		lastTextureWidth = screenWidth - (numOfTextures * 256)
 		
@@ -649,7 +652,7 @@ function TitanPanel_CreateBarTextures()
 			else
 				titanTexture = _G[tex]
 			end
-			titanTexture:SetHeight(30)  --(32)
+			titanTexture:SetHeight(TITAN_PANEL_BAR_TEXTURE_HEIGHT)
 			if i == numOfTextures then
 				titanTexture:SetWidth(lastTextureWidth)
 			else
@@ -673,7 +676,7 @@ function TitanPanel_CreateBarTextures()
 			else
 				titanTexture = _G[tex]
 			end
-			titanTexture:SetHeight(TITAN_PANEL_BAR_HEIGHT) --(30)
+			titanTexture:SetHeight(TITAN_PANEL_BAR_TEXTURE_HEIGHT)
 			if i == numOfTexturesHider then
 				titanTexture:SetWidth(lastTextureWidth)
 			else
@@ -1041,7 +1044,7 @@ function TitanPanel_RemoveButton(id)
 	-- safeguard to destroy any active plugin timers based on a fixed naming
 	-- convention : TitanPanel..id, eg. "TitanPanelClock"
 	-- this prevents "rogue" timers being left behind by lack of an OnHide check
-	if id then AceTimer.CancelAllTimers("TitanPanel"..id) end
+	if id then TitanPanelAce.CancelAllTimers("TitanPanel"..id) end
 
 	TitanPanel_ReOrder(i);
 	table.remove(TitanPanelSettings.Buttons, TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons, id));
@@ -1205,36 +1208,13 @@ local function TitanPanel_MainMenu()
 
 	TitanPanelRightClickMenu_AddSpacer();
 
---[[
-	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_CONFIGURATION"]);
-
-	-- Plugins
- 	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_PLUGINS"]
-	info.value = "Plugins";	
-	info.func = function() 
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_PLUGINS"])
-	end
-	UIDropDownMenu_AddButton(info);
-
-	-- Options
- 	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_OPTIONS_BARS"];
-	info.value = "Bars";	
-	info.func = function() 
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_OPTIONS_BARS"]) 
-	end
-	UIDropDownMenu_AddButton(info);
---]]
 	-- Options - just one button to open the first Titan option screen
  	info = {};
 	info.notCheckable = true
 	info.text = L["TITAN_PANEL_MENU_CONFIGURATION"];
 	info.value = "Bars";	
 	info.func = function() 
-		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_OPTIONS_BARS"]) 
+		InterfaceOptionsFrame_OpenToCategory(L["TITAN_PANEL_MENU_TOP_BARS"]) 
 	end
 	UIDropDownMenu_AddButton(info);
 

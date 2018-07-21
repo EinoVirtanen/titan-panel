@@ -27,6 +27,7 @@ TITAN_PANEL_BUTTONS_ALIGN_CENTER = 2;
 TITAN_PANEL_CONTROL = "TitanPanelBarButton"
 -- New bar vars
 TITAN_PANEL_BAR_HEIGHT = 24
+TITAN_PANEL_BAR_TEXTURE_HEIGHT = 30
 TITAN_PANEL_AUTOHIDE_PREFIX = "TitanPanelAutoHide_"
 TITAN_PANEL_AUTOHIDE_SUFFIX = "Button"
 TITAN_PANEL_HIDE_PREFIX = "Titan_Bar__Hider_"
@@ -120,6 +121,8 @@ TitanBarData = {
 	},
 	}
 
+-- Timers used within Titan
+TitanTimers = {}
 -- This is to lookup the plugin info as needed
 AutoHideData = { -- This has to follow the convention for plugins...
 	[AUTOHIDE_PREFIX.."Bar"..AUTOHIDE_SUFFIX] = {name = "Bar", vert = TITAN_TOP},
@@ -194,6 +197,12 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	AuxBar2_Hide = false,
 	AuxBar2_Transparency = 0.7,
 	AuxBar2_Align = TITAN_PANEL_BUTTONS_ALIGN_LEFT,
+	-- for timers in seconds
+	TimerPEW = 4,
+	TimerDualSpec = 2,
+	TimerLDB = 2,
+	TimerAdjust = 1,
+	TimerVehicle = 1,
 };
 
 -- The skins released with Titan
@@ -394,6 +403,14 @@ function TitanVariables_InitTitanSettings()
 end
 
 function TitanVariables_InitDetailedSettings()
+	-- Titan is loaded so set the timers we want to use
+	TitanTimers = {
+		["EnterWorld"] = {obj = "PEW", callback = TitanAdjustBottomFrames, delay = 4,},
+		["DualSpec"] = {obj = "SpecSwitch", callback = Titan_ManageFramesNew, delay = 2,},
+		["LDBRefresh"] = {obj = "LDB", callback = TitanLDBRefreshButton, delay = 2,},
+		["Adjust"] = {obj = "MoveAdj", callback = Titan_ManageFramesNew, delay = 1,},
+		["Vehicle"] = {obj = "Vehicle", callback = Titan_ManageFramesNew, delay = 1,},
+	}
 	-- Syncronize Plugins/Panel settings
 	if (not TitanPlayerSettings) then
 		TitanVariables_InitPlayerSettings();
@@ -407,6 +424,12 @@ function TitanVariables_InitDetailedSettings()
 		TitanVariables_SyncPluginSettings();
 		TitanVariables_ExtraPluginSettings()
 	end
+	
+	TitanTimers["EnterWorld"].delay = TitanPanelGetVar("TimerPEW")
+	TitanTimers["DualSpec"].delay = TitanPanelGetVar("TimerDualSpec")
+	TitanTimers["LDBRefresh"].delay = TitanPanelGetVar("TimerLDB")
+	TitanTimers["Adjust"].delay = TitanPanelGetVar("TimerAdjust")
+	TitanTimers["Vehicle"].delay = TitanPanelGetVar("TimerVehicle")
 end
 
 function TitanGetVar(id, var)

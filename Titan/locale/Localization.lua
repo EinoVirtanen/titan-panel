@@ -19,7 +19,6 @@ L["TITAN_KILOBYTES_PER_SECOND"] = "KB/s";
 L["TITAN_KILOBITS_PER_SECOND"] = "kbps"
 L["TITAN_MEGABYTE"] = "MB";
 L["TITAN_NONE"] = "None";
-     
 --L["TITAN_MOVABLE_TOOLTIP"] = "Drag to move around";
 
 --L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " appears to be registered twice. This may cause certain plugins to malfunction, please correct/report this problem.";
@@ -110,11 +109,17 @@ L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Save";
 --L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Double Bar";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuration";
 L["TITAN_PANEL_OPTIONS"] = "Options";
+L["TITAN_PANEL_MENU_TOP"] = "Top"
+L["TITAN_PANEL_MENU_TOP2"] = "Top 2"
+L["TITAN_PANEL_MENU_BOTTOM"] = "Bottom"
+L["TITAN_PANEL_MENU_BOTTOM2"] = "Bottom 2"
 L["TITAN_PANEL_MENU_OPTIONS"] = TITAN_PANEL.." Tooltips and Frames";
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Tooltips and Frames";
+L["TITAN_PANEL_MENU_TOP_BARS"] = "Top Bars"
+L["TITAN_PANEL_MENU_BOTTOM_BARS"] = "Bottom Bars"
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Bars"
-L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = TITAN_PANEL.." Bars";
-L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = TITAN_PANEL.." Aux Bars";
+L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = TITAN_PANEL.." Top Bars";
+L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = TITAN_PANEL.." Bottom Bars";
 L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Frames";
 L["TITAN_PANEL_MENU_PLUGINS"] = "Plugins";
@@ -171,7 +176,9 @@ L["TITAN_UISCALE_BUTTON_SLIDER_DESC"] = "Adjusts the space between left-side plu
 L["TITAN_UISCALE_ICON_SLIDER_DESC"] = "Adjusts the space between right-side plugins.";
 L["TITAN_UISCALE_TOOLTIP_SLIDER_DESC"] = "Adjusts the scale for the tooltip of the various plugins.";
 L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Disables "..TITAN_PANEL.." Tooltip Font Scale Control.";
+
 L["TITAN_SKINS_TITLE"] = TITAN_PANEL.." Skins";
+L["TITAN_SKINS_OPTIONS_CUSTOM"] = "Skins - Custom";
 L["TITAN_SKINS_TITLE_CUSTOM"] = TITAN_PANEL.." Custom Skins";
 L["TITAN_SKINS_MAIN_DESC"] = "All custom skins are assumed to be in: \n"
 			.."..\\AddOns\\Titan\\Artwork\\Custom\\<Skin Folder>\\ ".."\n"
@@ -204,7 +211,14 @@ L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sets the size for the "..TITAN_PANEL.." 
 L["TITAN_PANEL_MENU_FRAME_STRATA"] = ""..TITAN_PANEL.." Frame Strata";
 L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Adjusts the frame strata for the "..TITAN_PANEL.." Bar(s).";
 -- /end localization strings for AceConfigDialog-3.0
-     
+
+L["TITAN_PANEL_MENU_ADV"] = "Advanced";
+L["TITAN_PANEL_MENU_ADV_DESC"] = "Change Timers only if you experience issues with frames not adjusting.".."\n";
+L["TITAN_PANEL_MENU_ADV_PEW"] = "Entering World";
+L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Change value (usually increase) if frames do not adjust when entering / leaving world or an instance.";
+L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Vehicle";
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Change value (usually increase) if frames do not adjust when entering / leaving vehicle.";
+    
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Toggles "..TITAN_PANEL.." auto-hide on/off feature";
 --L["TITAN_AUTOHIDE_MENU_TEXT"] = "Auto-Hide";
      

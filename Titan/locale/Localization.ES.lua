@@ -114,6 +114,8 @@ L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuración";
 L["TITAN_PANEL_OPTIONS"] = "Opciones";
 L["TITAN_PANEL_MENU_OPTIONS"] = "Tooltips y Marcos de "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Tooltips y Marcos";
+L["TITAN_PANEL_MENU_TOP_BARS"] = "Barras superiores";
+L["TITAN_PANEL_MENU_BOTTOM_BARS"] = "Barras inferiores";
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Barras";
 L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = "Barras "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Barras Auxiliares "..TITAN_PANEL;
@@ -174,6 +176,7 @@ L["TITAN_UISCALE_ICON_SLIDER_DESC"] = "Ajusta el espacio entre los iconos de los
 L["TITAN_UISCALE_TOOLTIP_SLIDER_DESC"] = "Ajusta la escala de los tooltips de varios plugins.";
 L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Desactiva el control de la escala de los tooltips en "..TITAN_PANEL..".";
 L["TITAN_SKINS_TITLE"] = "Skins de "..TITAN_PANEL;
+L["TITAN_SKINS_OPTIONS_CUSTOM"] = "Skins - Personalizado";
 L["TITAN_SKINS_TITLE_CUSTOM"] = "Skins Personalizados de "..TITAN_PANEL;
 L["TITAN_SKINS_MAIN_DESC"] = "Se asume que todos los skins personalizados están en: \n"
 			.."..\\AddOns\\Titan\\Artwork\\Custom\\<Skin Folder>\\ ".."\n"
@@ -206,6 +209,13 @@ L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Establece el tamaño para el tipo de let
 L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Frame Strata de "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Establece la prioridad de visionado de las Barras "..TITAN_PANEL..".";
 -- /end localization strings for AceConfigDialog-3.0
+
+L["TITAN_PANEL_MENU_ADV"] = "Avanzado";
+L["TITAN_PANEL_MENU_ADV_DESC"] = "Establece temporizadores sólo si tienes problemas de desajuste con los marcos.".."\n";
+L["TITAN_PANEL_MENU_ADV_PEW"] = "Entrando en el reino";
+L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Úsalo si los marcos no se ajustan al entrar o salir del reino o de una instancia.";
+L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Vehículo";
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Úsalo si los marcos no se ajustan al entrar o salir de un vehículo.";
 
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Activar/Desactivar la característica de auto-ocultación de "..TITAN_PANEL;
 --L["TITAN_AUTOHIDE_MENU_TEXT"] = "Auto-ocultar";

@@ -555,7 +555,7 @@ local optionsBars = {
 		confdesc1 = {
 			order = 100,
 			type = "header",
-			name = L["TITAN_TRANS_MAIN_CONTROL_TITLE"],
+			name = L["TITAN_PANEL_MENU_TOP"],
 		},
 		optiontop = {
 			name = L["TITAN_PANEL_MENU_DISPLAY_BAR"],
@@ -588,7 +588,7 @@ local optionsBars = {
 		confdesc2 = {
 			order = 200,
 			type = "header",
-			name = L["TITAN_TRANS_MAIN_CONTROL_TITLE"].." 2",
+			name = L["TITAN_PANEL_MENU_TOP2"],
 		},
 		optionbottom = {
 			name = L["TITAN_PANEL_MENU_DISPLAY_BAR"],
@@ -656,7 +656,7 @@ local optionsAuxBars = {
 		confdesc1 = {
 			order = 100,
 			type = "header",
-			name = L["TITAN_TRANS_AUX_CONTROL_TITLE"],
+			name = L["TITAN_PANEL_MENU_BOTTOM"],
 		},
 		optiontop = {
 			name = L["TITAN_PANEL_MENU_DISPLAY_BAR"],
@@ -689,7 +689,7 @@ local optionsAuxBars = {
 		confdesc2 = {
 				order = 200,
 				type = "header",
-				name = L["TITAN_TRANS_AUX_CONTROL_TITLE"].." 2",
+				name = L["TITAN_PANEL_MENU_BOTTOM2"],
 		},
 		optionbottom = {
 			name = L["TITAN_PANEL_MENU_DISPLAY_BAR"],
@@ -1301,6 +1301,40 @@ function TitanUpdateConfig()
 	TitanUpdateChars()
 end
 
+local optionsAdvanced = {
+	name = L["TITAN_PANEL_MENU_ADV"],
+	type = "group",
+	args = {
+		confdesc = {
+			order = 1,
+			type = "description",
+			name = L["TITAN_PANEL_MENU_ADV_DESC"],
+			cmdHidden = true
+			},
+		advtimerpew = {
+			name = L["TITAN_PANEL_MENU_ADV_PEW"],
+			desc = L["TITAN_PANEL_MENU_ADV_PEW_DESC"],
+			order = 10, type = "range", width = "full",
+			min = 1, max = 10, step = 0.5,
+			get = function() return TitanPanelGetVar("TimerPEW") end,
+			set = function(_, a)
+				TitanPanelSetVar("TimerPEW", a);
+				TitanTimers["EnterWorld"].delay = a
+			end,
+		},
+		advtimervehicle = {
+			name = L["TITAN_PANEL_MENU_ADV_VEHICLE"],
+			desc = L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"],
+			order = 50, type = "range", width = "full",
+			min = 1, max = 10, step = 0.5,
+			get = function() return TitanPanelGetVar("TimerVehicle") end,
+			set = function(_, a)
+				TitanPanelSetVar("TimerVehicle", a);
+				TitanTimers["Vehicle"].delay = a
+			end,
+		},
+   },
+ }
 -- Add Blizzard Configuration Panel
 AceConfig:RegisterOptionsTable("Titan Panel Main", optionsControl)
 AceConfig:RegisterOptionsTable("Titan Panel Bars", optionsBars)
@@ -1314,17 +1348,19 @@ AceConfig:RegisterOptionsTable("Titan Panel Addon Control", optionsAddons)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Attempts", optionsAddonAttempts)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Extras", optionsExtras)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Chars", optionsChars)
+AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", optionsAdvanced)
 
 AceConfigDialog:AddToBlizOptions("Titan Panel Main", L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Bars", L["TITAN_PANEL_MENU_OPTIONS_BARS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Aux Bars", "Aux "..L["TITAN_PANEL_MENU_OPTIONS_BARS"], L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Bars", L["TITAN_PANEL_MENU_TOP_BARS"], L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Aux Bars", L["TITAN_PANEL_MENU_BOTTOM_BARS"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Control", L["TITAN_PANEL_MENU_PLUGINS"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Chars", L["TITAN_PANEL_MENU_PROFILES"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Frames", L["TITAN_PANEL_MENU_OPTIONS_SHORT"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Panel Control", L["TITAN_UISCALE_MENU_TEXT_SHORT"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Transparency Control", L["TITAN_TRANS_MENU_TEXT_SHORT"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Skin Control", L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"], L["TITAN_PANEL"])
-AceConfigDialog:AddToBlizOptions("Titan Panel Skin Custom", "Skins - Custom", L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Skin Custom", L["TITAN_SKINS_OPTIONS_CUSTOM"], L["TITAN_PANEL"]) 
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Extras", L["TITAN_PANEL_EXTRAS_SHORT"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", L["TITAN_PANEL_ATTEMPTS_SHORT"], L["TITAN_PANEL"])
+AceConfigDialog:AddToBlizOptions("Titan Panel Addon Advanced", L["TITAN_PANEL_MENU_ADV"], L["TITAN_PANEL"])
 

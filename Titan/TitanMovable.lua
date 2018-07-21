@@ -44,6 +44,8 @@ local TitanMovableData = {
 		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
 	VehicleMenuBar = {frameName = "VehicleMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
 		position = TITAN_PANEL_PLACE_BOTTOM, iup = true, addonAdj = false},	
+	BonusActionBarFrame = {frameName = "BonusActionBarFrame", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, 
+		position = TITAN_PANEL_PLACE_BOTTOM, iup = false, addonAdj = false},
 }
 
 local function TitanMovableFrame_CheckThisFrame(frameName)
@@ -195,6 +197,9 @@ function TitanMovableFrame_CheckFrames(position)
 		
 		-- Move VehicleMenuBar		
 		TitanMovableFrame_CheckThisFrame(VehicleMenuBar:GetName());
+		
+		-- Move BonusActionBarFrame		
+		TitanMovableFrame_CheckThisFrame(BonusActionBarFrame:GetName());
 	end
 end
 
@@ -314,6 +319,10 @@ TitanDebug ("_MoveFrames ! "
 	end
 end
 
+function TitanAdjustBottomFrames()
+	TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTTOM, true)
+end
+
 local function Titan_FCF_UpdateDockPosition()
 	if not Titan__InitializedPEW
 	or not TitanPanelGetVar("LogAdjust") 
@@ -426,7 +435,10 @@ local function Titan_Hook_Adjust_Both()
 	-- many adjusts from stacking, cancel any pending
 	-- then queue this one.
 	TitanPanelAce:CancelAllTimers()
-	TitanPanelAce:ScheduleTimer("Titan_ManageFramesNew", 1)
+	local timer = TitanTimers["Adjust"]
+	if timer then
+		TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
+	end
 end
 
 function TitanPanel_AdjustFrames(position, blizz)
@@ -444,7 +456,8 @@ TitanDebug ("_AdjustFrames "
 	end
 end
 
-function TitanPanelAce:Titan_ManageFramesNew()
+--function TitanPanelAce:Titan_ManageFramesNew()
+function Titan_ManageFramesNew()
 -- Only the top or bottom may need to be adjusted but
 -- if we cancel we may 'drop' the last adjust. To be
 -- safe we'll do both if they are put on a timer.
@@ -453,7 +466,10 @@ function TitanPanelAce:Titan_ManageFramesNew()
 		if InCombatLockdown() then
 			-- Character entered combat before Titan could adjust
 			TitanPanelAce:CancelAllTimers()
-			TitanPanelAce:ScheduleTimer("Titan_ManageFramesNew", 1)
+			local timer = TitanTimers["Adjust"]
+			if timer then
+				TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
+			end
 		else
 --TitanDebug ("Titan_ManageFramesNew ")
 			TitanPanel_AdjustFrames(TITAN_PANEL_PLACE_BOTH, false)

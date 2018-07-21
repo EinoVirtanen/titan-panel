@@ -15,10 +15,10 @@ local media = LibStub("LibSharedMedia-3.0")
 
 -- Declare the Ace routines once
 TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanel", "AceHook-3.0", "AceTimer-3.0")
--- Using AceTimer as: 
 --local AceTimer = LibStub("AceTimer-3.0")
--- forces the call to give a fake addon id which is not proper usage
--- i.e. AceTimer.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
+-- i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
+-- or
+-- i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
 --
 --------------------------------------------------------------
 -- The routines in this section are useable by addon developers
@@ -1308,6 +1308,16 @@ TitanDebug("_GetFrameName "
 ..(parent or "?").." "
 )
 --]]
+end
+
+function TitanDumpTimers()
+	str = "Titan-timers: "
+		.."'"..(TitanPanelGetVar("TimerPEW") or "?").."' "
+		.."'"..(TitanPanelGetVar("TimerDualSpec") or "?").."' "
+		.."'"..(TitanPanelGetVar("TimerLDB") or "?").."' "
+		.."'"..(TitanPanelGetVar("TimerAdjust") or "?").."' "
+		.."'"..(TitanPanelGetVar("TimerVehicle") or "?").."' "
+	DEFAULT_CHAT_FRAME:AddMessage(str)
 end
 
 --

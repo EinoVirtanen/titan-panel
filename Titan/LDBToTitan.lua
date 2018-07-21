@@ -94,7 +94,6 @@ local LDBToTitan = CreateFrame("Frame", "LDBTitan")
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local Tablet, LibQTip = nil, nil
 local media = LibStub("LibSharedMedia-3.0")
-local AceTimer = LibStub("AceTimer-3.0")
 -- generic icon in case the DO does not provide one
 local iconTitanDefault = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon"; 
 
@@ -454,6 +453,7 @@ end
 
 -- Refresh all text & icon for LDB addons that were successfully registered
 function TitanLDBRefreshButton()
+--	DEFAULT_CHAT_FRAME:AddMessage("LDB: RefreshButton")
 	-- Ensure all the LDB buttons are updated 
 	-- This is called once x seconds after PEW. This helps close the gap where LDB
 	-- addons set their text on their PEW event
@@ -739,7 +739,10 @@ LDBToTitan:SetScript("OnEvent", function(self, event, ...)
 		-- Ensure all plugins (for LDB) are refreshed.
 		-- Some LDB plugins may have updated text, icon, etc 
 		-- before the plugin was registered so be nice and schedule a refresh
-		AceTimer.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
+		local timer = TitanTimers["LDBRefresh"]
+		if timer then
+			TitanPanelAce.ScheduleTimer(timer.obj, timer.callback, timer.delay)
+		end
 	end
 	end
 )

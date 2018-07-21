@@ -34,8 +34,8 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	.."Cela va recharger "..TITAN_PANEL..". "
 	..TITAN_PANEL_RELOAD_TEXT
 
-L["TITAN_PANEL_ATTEMPTS"] = TITAN_PANEL.." Attempts" --en
-L["TITAN_PANEL_ATTEMPTS_SHORT"] = "Attempts" --en
+L["TITAN_PANEL_ATTEMPTS"] = TITAN_PANEL.." - Tentatives d'enregistrement" -- ??
+L["TITAN_PANEL_ATTEMPTS_SHORT"] = "Enregistrement" -- ??
 L["TITAN_PANEL_ATTEMPTS_DESC"] = "Les plugins ci-dessous ont cherché à s'enregistrer auprès de "..TITAN_PANEL..".\n"
 	.."Tout problème rencontré avec ces plugins est à rapporter à l'auteur du plugin."
 L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
@@ -116,11 +116,17 @@ L["TITAN_PANEL_MENU_SAVE_SETTINGS"] = "Sauvegarde";
 --	L["TITAN_PANEL_MENU_DOUBLE_BAR"] = "Double Barre";
 L["TITAN_PANEL_MENU_CONFIGURATION"] = "Configuration";
 L["TITAN_PANEL_OPTIONS"] = "Options";
+L["TITAN_PANEL_MENU_TOP"] = "Haut 1"
+L["TITAN_PANEL_MENU_TOP2"] = "Haut 2"
+L["TITAN_PANEL_MENU_BOTTOM"] = "Bas 1"
+L["TITAN_PANEL_MENU_BOTTOM2"] = "Bas 2"
 L["TITAN_PANEL_MENU_OPTIONS"] = TITAN_PANEL.." Tooltips et Frames"; -- ??
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Tooltips et Frames"; -- ??
+L["TITAN_PANEL_MENU_TOP_BARS"] = "Barres du haut" -- ??
+L["TITAN_PANEL_MENU_BOTTOM_BARS"] = "Barres du bas" -- ??
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Barres";
-L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = TITAN_PANEL.." Barres";
-L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = TITAN_PANEL.." Barres auxiliaires";
+L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = TITAN_PANEL.." Barres du haut";
+L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = TITAN_PANEL.." Barres du bas";
 L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Tooltips";
 L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Frames";
 L["TITAN_PANEL_MENU_PLUGINS"] = "Plug-ins";
@@ -129,7 +135,7 @@ L["TITAN_PANEL_MENU_VERSION_SHOWN"] = "Afficher les versions";
 L["TITAN_PANEL_MENU_LDB_SIDE"] = "Plugin du côté droit";
 L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"] = "Forcer les launchers du côté droit";
 --	L["TITAN_PANEL_MENU_DISABLE_FONT"] = "Changement de police désactivé";
-L["TITAN_PANEL_MENU_CATEGORIES"] = {"Interne","Généralités","Combat","Informations","Interface","Métiers"} -- ??
+L["TITAN_PANEL_MENU_CATEGORIES"] = {"Interne","Généralités","Combat","Informations","Interface","Métiers"}
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN"] = "Afficher les conseils";
 L["TITAN_PANEL_MENU_TOOLTIPS_SHOWN_IN_COMBAT"] = "Cacher les tooltips en combat";
 L["TITAN_PANEL_MENU_RESET"] = "Réinitialiser "..TITAN_PANEL;
@@ -177,7 +183,9 @@ L["TITAN_UISCALE_BUTTON_SLIDER_DESC"] = "Ajuste l'espace entre les plugins du c�
 L["TITAN_UISCALE_ICON_SLIDER_DESC"] = "Ajuste l'espace entre les plugins du côté droit.";
 L["TITAN_UISCALE_TOOLTIP_SLIDER_DESC"] = "Ajuste l'échelle des tooltips des divers plugins.";
 L["TITAN_UISCALE_DISABLE_TOOLTIP_DESC"] = "Désactiver la mise à l'échelle de la police des tooltips de "..TITAN_PANEL..".";
+
 L["TITAN_SKINS_TITLE"] = TITAN_PANEL.." Skins";
+L["TITAN_SKINS_OPTIONS_CUSTOM"] = "Skins persos";
 L["TITAN_SKINS_TITLE_CUSTOM"] = TITAN_PANEL.." Skins personnalisés";
 L["TITAN_SKINS_MAIN_DESC"] = "Tous les skins personnalisés doivent être dans : \n"
 	.."..\\Interface\\AddOns\\Titan\\Artwork\\Custom\\<Mon Skin>\\ ".."\n"
@@ -185,7 +193,7 @@ L["TITAN_SKINS_MAIN_DESC"] = "Tous les skins personnalisés doivent être dans :
 L["TITAN_SKINS_LIST_TITLE"] = "Liste des skins";
 L["TITAN_SKINS_SET_DESC"] = "Sélectionne un skin pour les barres de "..TITAN_PANEL..".";
 L["TITAN_SKINS_SET_HEADER"] = "Choix du skin";
-L["TITAN_SKINS_RESET_HEADER"] = "Réinitialiser les skins de "..TITAN_PANEL; -- ??
+L["TITAN_SKINS_RESET_HEADER"] = "Réinitialiser les skins de "..TITAN_PANEL;
 L["TITAN_SKINS_NEW_HEADER"] = "Ajout d'un nouveau skin";
 L["TITAN_SKINS_NAME_TITLE"] = "Nom du skin";
 L["TITAN_SKINS_NAME_DESC"] = "Entrez un nom pour votre nouveau skin. Il sera utilisé dans la liste des skins.";
@@ -210,6 +218,13 @@ L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Sélectionne la taille des polices pour 
 L["TITAN_PANEL_MENU_FRAME_STRATA"] = TITAN_PANEL.." Altitude des frames";
 L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Ajuste l'altitude des frames pour les barres de "..TITAN_PANEL..".";
 -- /end localization strings for AceConfigDialog-3.0
+
+L["TITAN_PANEL_MENU_ADV"] = "Avancé";
+L["TITAN_PANEL_MENU_ADV_DESC"] = "Changez les timers uniquement si vous avez des problèmes avec l'ajustement des frames.".."\n"; -- ??
+L["TITAN_PANEL_MENU_ADV_PEW"] = "Entrée dans le monde";
+L["TITAN_PANEL_MENU_ADV_PEW_DESC"] = "Utiliser (généralement en augmentant) si les frames ne s'ajustent pas lors de chargement du monde (ou d'une instance).";
+L["TITAN_PANEL_MENU_ADV_VEHICLE"] = "Véhicule";
+L["TITAN_PANEL_MENU_ADV_VEHICLE_DESC"] = "Utiliser (généralement en augmentant) si les frames ne s'ajustent pas lorsqu'on entre / descend d'un véhicule.";
 
 L["TITAN_AUTOHIDE_TOOLTIP"] = "Changer l'affichage auto du panneau on/off";
 --	L["TITAN_AUTOHIDE_MENU_TEXT"] = "Cacher auto";
@@ -505,8 +520,8 @@ L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Alliance";
 L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Horde";
 L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Attention : "..FONT_COLOR_CODE_CLOSE
 	.."Ceci va réinitialiser toutes les données de Titan Gold. Si vous voulez continuer, cliquez sur 'Accepter', sinon 'Annuler' ou la touche 'Echap'.";
-L["TITAN_GOLD_COIN_LABELS"] = "Afficher le texte des pièces"; -- ??
-L["TITAN_GOLD_ONLY"] = "Afficher uniquement les pièces d'or"; -- ??
+L["TITAN_GOLD_COIN_LABELS"] = "Afficher le texte des pièces";
+L["TITAN_GOLD_ONLY"] = "Afficher uniquement les pièces d'or";
 
 
 L["TITAN_VOLUME_TOOLTIP"] = "Contrôle du volume";

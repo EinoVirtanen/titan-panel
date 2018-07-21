@@ -84,7 +84,7 @@ end
 -- **************************************************************************
 function TitanPanelBagButton_OnClick(self, button)
 	if (button == "LeftButton") then
-		OpenAllBags();
+		ToggleAllBags();
 	end
 end
 
