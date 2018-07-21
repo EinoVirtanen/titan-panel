@@ -1,6 +1,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Titan","ruRU")
 if not L then return end
 
+L["TITAN_PANEL"] = "Титан Панель";
 L["TITAN_DEBUG"] = "<Titan>";
 --L["TITAN_INFO"] = "<Titan>"
 
@@ -33,11 +34,11 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Предупреждение:"..FONT_COLOR_CODE_CLOSE.."Будут сброшены настройки ваших полос(ы) и панели на стандартные значения и будет пересоздан ваш текущий профиль. Если вы уверены в своих действиях, и хотите продолжить, то нажмите 'Accept' (ваш интерфей перезагрузится), или же нажмите 'Cancel' или клавишу 'Escape'.";
 L["TITAN_PANEL_ATTEMPTS"] = "Подчинения"
-L["TITAN_PANEL_ATTEMPTS_DESC"] = "The plugins below requested to be registered with Titan.\n"
-	.."Please send any issues to the plugin author."
-L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Type"
-L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Category"
-L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Button Name"
+L["TITAN_PANEL_ATTEMPTS_DESC"] = "Ниже, приведены плагины, которые зарегистрировались в Titanе.\n"
+	.."Пожалуйста, любые вопросы отсылайте автору плагина."
+L["TITAN_PANEL_ATTEMPTS_TYPE"] = "Тип"
+L["TITAN_PANEL_ATTEMPTS_CATEGORY"] = "Категория"
+L["TITAN_PANEL_ATTEMPTS_BUTTON"] = "Название кнопки"
 L["TITAN_PANEL_EXTRAS"] = "Дополнения"
 L["TITAN_PANEL_EXTRAS_SHORT"] = "Дополнения"
 L["TITAN_PANEL_EXTRAS_DESC"] = "Есть плагины с данными конфигурации, которые в настоящее время не загружены.\n"
@@ -70,8 +71,7 @@ L["TITAN_PANEL_SLASH_RESP3"] = LIGHTYELLOW_FONT_COLOR_CODE.."Масштаб Tita
 L["TITAN_PANEL_SLASH_RESP4"] = LIGHTYELLOW_FONT_COLOR_CODE.."Расстояние кнопок Titan Panel сброшено.";
 	
 -- general panel locale
-L["TITAN_PANEL"] = "Титан Панель";
-L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00"..TITAN_PANEL.." Development Team";
+L["TITAN_PANEL_VERSION_INFO"] = "|cffffd700 от |cffff8c00Titan Development Team";
 L["TITAN_PANEL_MENU_TITLE"] = "Титан панель";
 L["TITAN_PANEL_MENU_HIDE"] = "Скрыть";
 --L["TITAN_PANEL_MENU_CUSTOMIZE"] = "Настроить";
@@ -113,8 +113,9 @@ L["TITAN_PANEL_OPTIONS"] = "Опции";
 L["TITAN_PANEL_MENU_OPTIONS"] = "Подсказки и фреймы Титан панели";
 L["TITAN_PANEL_MENU_OPTIONS_SHORT"] = "Подсказки и фреймы";
 L["TITAN_PANEL_MENU_OPTIONS_BARS"] = "Панели";
+
 L["TITAN_PANEL_MENU_OPTIONS_MAIN_BARS"] = "Панели Титана";
-L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Вспомогательные панели";
+L["TITAN_PANEL_MENU_OPTIONS_AUX_BARS"] = "Дополнительные панели";
 L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"] = "Подсказки";
 L["TITAN_PANEL_MENU_OPTIONS_FRAMES"] = "Фреймы";
 L["TITAN_PANEL_MENU_PLUGINS"] = "Плагины";
@@ -151,7 +152,7 @@ L["TITAN_TRANS_MENU_TEXT"] = "Прозрачность";
 L["TITAN_TRANS_MENU_TEXT_SHORT"] = "Прозрачность";
 L["TITAN_TRANS_MENU_DESC"] = "Регулировка прозрачности панели Титана и подсказок.";
 L["TITAN_TRANS_MAIN_CONTROL_TITLE"] = "Главная панель";
-L["TITAN_TRANS_AUX_CONTROL_TITLE"] = "Вспомог-ная панель";
+L["TITAN_TRANS_AUX_CONTROL_TITLE"] = "Дополнительная панель";
 L["TITAN_TRANS_CONTROL_TITLE_TOOLTIP"] = "Подсказка";
 --L["TITAN_TRANS_MAIN_BAR_DESC"] = "Регулировка прозрачности главной панели.";
 --L["TITAN_TRANS_AUX_BAR_DESC"] = "Регулировка прозрачности вспомогательной (нижней) панели.";
@@ -173,7 +174,7 @@ L["TITAN_SKINS_TITLE"] = "Шкурки";
 L["TITAN_SKINS_TITLE_CUSTOM"] = "Свои шкурки";
 L["TITAN_SKINS_MAIN_DESC"] = "Все пользовательские шкурки находятся в: \n"
 			.."..\\AddOns\\Titan\\Artwork\\Custom\\<Skin Folder>\\ ".."\n"
-			.."\n"..TITAN_PANEL.." и пользовательские шкурки хранятся в папке Custom."
+			.."\nшкурки Титана и пользовательские, хранятся в папке Custom."
 L["TITAN_SKINS_LIST_TITLE"] = "Список шкурок";
 L["TITAN_SKINS_SET_DESC"] = "Выберите шкурку для панелей Титана.";
 L["TITAN_SKINS_SET_HEADER"] = "Установить шкурку панели";
@@ -411,7 +412,7 @@ L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Показать необходимы
 	--Titan Repair
 L["REPAIR_LOCALE"] = {
           pattern = "^Прочность: (%d+) / (%d+)$",
-          menu = "Информация о прочности амуниции",
+          menu = "Ремонт",
           tooltip = "Информация о прочности амуниции",
           button = "Прочность: ",
           normal = "Стоимость ремонта (Стандарт): ",
@@ -494,9 +495,7 @@ L["TITAN_GOLD_DELETE_PLAYER"] = "Удалить персонажа";
 L["TITAN_GOLD_SHOW_PLAYER"] = "Show toon";
 L["TITAN_GOLD_FACTION_PLAYER_ALLY"] = "Альянс";
 L["TITAN_GOLD_FACTION_PLAYER_HORDE"] = "Орда";
-L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Внимание: "
-	..FONT_COLOR_CODE_CLOSE.."Данное действие уничтожит вашу базу данных Titan Gold Trackerа."
-    .."Если вы хотите продолжить, жмите 'Принять', если нет, жмите 'Отмена' или клавишу 'Escape'.";
+L["TITAN_GOLD_CLEAR_DATA_WARNING"] = GREEN_FONT_COLOR_CODE.."Внимание: "..FONT_COLOR_CODE_CLOSE.."Данное действие уничтожит вашу базу данных Titan Gold Trackerа. Если вы хотите продолжить, жмите 'Принять', если нет, жмите 'Отмена' или клавишу 'Escape'.";
 L["TITAN_GOLD_COIN_LABELS"] = "Показать метки денег";
 L["TITAN_GOLD_ONLY"] = "Показать только золото";
 

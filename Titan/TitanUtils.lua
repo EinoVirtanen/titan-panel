@@ -518,10 +518,11 @@ end
 
 function TitanUtils_AddButtonOnBar(bar, id)
 	-- Add the button to the requested bar - bar / aux if shown
-	if (not TitanPanelSettings) 
+	if (not bar)
+	or (not id) 
+	or (not TitanPanelSettings) 
 	or (not TitanPanelGetVar(bar.."_Show"))
-	or (not bar)
-	or (not id) then
+	then
 		return;
 	end 
 

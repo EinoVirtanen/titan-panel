@@ -1700,10 +1700,10 @@ function TitanPanelBarButton:ADDON_LOADED(addon)
 		if not ServerHourFormat then
 			ServerHourFormat = {};
 		end
-		-- set registered skins
+		-- Unregister event - saves a few event calls.
+		self:UnregisterEvent("ADDON_LOADED");
+		self.ADDON_LOADED = nil
 	end
-	self:UnregisterEvent("ADDON_LOADED");
-	self.ADDON_LOADED = nil
 end
 
 function TitanPanelBarButton:PLAYER_ENTERING_WORLD()
@@ -2000,8 +2000,8 @@ end
 
 function TitanPanelBarButton_ToggleAutoHide(frame)
 	local frName = _G[frame]
-	local plugin = (TitanBarData[frame] and TitanBarData[frame].plugin or nil)
-	local var = bar.."_Hide"
+	local plugin = (TitanBarData[frame] and TitanBarData[frame].auto_hide_plugin or nil)
+	local var = TitanBarData[frame].name.."_Hide"
 	local hide = TitanPanelGetVar(var)
 
 	if frName then
@@ -2053,7 +2053,7 @@ function TitanPanelBarButton_DisplayBarsWanted()
 	-- Check all bars to see if the user has requested they be shown
 	for idx,v in pairs (TitanBarData) do
 		-- Show / hide plus kick auto hide, if needed
-		Titan_AutoHide_Init((_G[TitanBarData[idx].plugin] or nil))
+		Titan_AutoHide_Init((_G[TitanBarData[idx].auto_hide_plugin] or nil))
 	end
 
 	-- Adjust other frames because the bars shown / hidden may have changed
@@ -2063,15 +2063,14 @@ end
 function TitanPanelBarButton_Show(frame)
 	local display = _G[frame];
 	local bar = (TitanBarData[frame].name or nil)
+	local hide = TitanBarData[frame] and TitanBarData[frame].hide or nil
+	local show = TitanBarData[frame] and TitanBarData[frame].show or nil
+	local hider = _G[TitanBarData[frame].hider] or nil
 
-	-- Show the display bar if the user requested it
-	if (TitanPanelGetVar(bar.."_Show")) then
-		if display ~= nil then
-			local hider = _G[TitanBarData[frame].hider]
-
-			hide = TitanBarData[frame] and TitanBarData[frame].hide or nil
-			show = TitanBarData[frame] and TitanBarData[frame].show or nil
-
+	if bar and display and hider and show and hide 
+	then
+		-- Show the display bar if the user requested it
+		if (TitanPanelGetVar(bar.."_Show")) then
 			if hide and show then
 				display:ClearAllPoints();
 				display:SetPoint(show.top.pt, show.top.rel_fr, show.top.rel_pt, show.top.x, show.top.y); 
@@ -2079,6 +2078,14 @@ function TitanPanelBarButton_Show(frame)
 				
 				hider:Hide()
 			end
+		else
+			-- The user has not elected to show this bar
+			display:ClearAllPoints();
+			display:SetPoint(hide.top.pt, hide.top.rel_fr, hide.top.rel_pt, hide.top.x, hide.top.y); 
+			display:SetPoint(hide.bot.pt, hide.bot.rel_fr, hide.bot.rel_pt, hide.bot.x, hide.bot.y);
+			hider:ClearAllPoints();
+			hider:SetPoint(hide.top.pt, hide.top.rel_fr, hide.top.rel_pt, hide.top.x, hide.top.y); 
+			hider:SetPoint(hide.bot.pt, hide.bot.rel_fr, hide.bot.rel_pt, hide.bot.x, hide.bot.y);
 		end
 	end
 end
@@ -2093,19 +2100,23 @@ function TitanPanelBarButton_Hide(frame)
 	local hide = data.hide or nil
 	local show = data.show or nil
 
-	if display and hider then
+	if display and hider and bar and show and hide then
 		-- This moves rather than hides. If we just hide then
 		-- the plugins will still show.
 		display:ClearAllPoints();
 		display:SetPoint(hide.top.pt, hide.top.rel_fr, hide.top.rel_pt, hide.top.x, hide.top.y); 
 		display:SetPoint(hide.bot.pt, hide.bot.rel_fr, hide.bot.rel_pt, hide.bot.x, hide.bot.y);
-		-- Auto hide is requested so set the hider bar to handle retrieving the display bar
-		if (TitanPanelGetVar(bar.."_Hide")) then
-			-- Show the hider bar in the right place
+		if (TitanPanelGetVar(bar.."_Show")) and (TitanPanelGetVar(bar.."_Hide")) then
+			-- Auto hide is requested so show the hider bar in the right place
 			hider:ClearAllPoints();
 			hider:SetPoint(show.top.pt, show.top.rel_fr, show.top.rel_pt, show.top.x, show.top.y); 
 			hider:SetPoint(show.bot.pt, show.bot.rel_fr, show.bot.rel_pt, show.bot.x, show.bot.y);
 			hider:Show()
+		else
+			-- The bar was not requested so also move the hider bar to the right place
+			hider:ClearAllPoints();
+			hider:SetPoint(hide.top.pt, hide.top.rel_fr, hide.top.rel_pt, hide.top.x, hide.top.y); 
+			hider:SetPoint(hide.bot.pt, hide.bot.rel_fr, hide.bot.rel_pt, hide.bot.x, hide.bot.y);
 		end
 	end
 end
@@ -2137,7 +2148,7 @@ function TitanPanel_InitPanelButtons()
 	local r_prior = {}
 	local l_prior = {}
 	local scale = TitanPanelGetVar("Scale");
-	local button_spacing = TitanPanelGetVar("ButtonSpacing")
+	local button_spacing = TitanPanelGetVar("ButtonSpacing") * scale
 --	
 	local prior = {}
 	-- set prior to the starting offsets
@@ -2146,19 +2157,20 @@ function TitanPanel_InitPanelButtons()
 	-- The effect is left side plugins has spacing on the right side and
 	-- right side plugins have spacing on the left.
 	for idx,v in pairs (TitanBarData) do
-		bar = TitanBarData[idx].name
+		local bar = TitanBarData[idx].name
+		local y_off = TitanBarData[idx].plugin_y_offset
 		prior[bar] = {
 			right = { 
 				button = TITAN_PANEL_DISPLAY_PREFIX..bar, 
 				anchor = "RIGHT",
 				x = 5, -- Offset of first plugin to right side of screen
-				y = 0,
+				y = y_off,
 				},
 			left = {
 				button = TITAN_PANEL_DISPLAY_PREFIX..bar, 
 				anchor = "LEFT",
 				x = 0, -- Justify adjusts - center or not
-				y = 0,
+				y = y_off,
 				},
 			}
 	end
@@ -2210,7 +2222,7 @@ function TitanPanel_InitPanelButtons()
 				l_prior.button = "TitanPanel"..id.."Button"
 				-- set prior[x] (anchor points and offsets) for the next plugin
 				l_prior.anchor = "RIGHT"
-				l_prior.x = (button_spacing) / 2
+				l_prior.x = (button_spacing)
 				l_prior.y = 0
 				-- =========================
 			end
@@ -2284,16 +2296,18 @@ function TitanPanelButton_Justify()
 	local y_offset
 	local firstLeftButton
 	local scale = TitanPanelGetVar("Scale");
+	local button_spacing = TitanPanelGetVar("ButtonSpacing") * scale
 	local leftWidth = 0;
 	local rightWidth = 0;
 	local counter = 0;
 	local align = 0;
+	local center_offset = 0;
 
 	-- Look at each bar for plugins.
 	for idx,v in pairs (TitanBarData) do
 		bar = TitanBarData[idx].name
 		vert = TitanBarData[idx].vert
-		y_offset = (vert == TITAN_TOP and TITAN_PANEL_PLACE_TOP or TITAN_PANEL_PLACE_BOTTOM)
+		y_offset = TitanBarData[idx].plugin_y_offset
 		firstLeftButton = TitanUtils_GetButton(TitanPanelSettings.Buttons[TitanUtils_GetFirstButtonOnBar (bar, TITAN_LEFT)])
 		align = TitanPanelGetVar(bar.."_Align")
 		leftWidth = 0;
@@ -2306,7 +2320,6 @@ function TitanPanelButton_Justify()
 				-- Now offset the plugins
 				firstLeftButton:ClearAllPoints();
 				firstLeftButton:SetPoint("LEFT", idx, "LEFT", 5, y_offset); 
---				firstLeftButton:SetPoint("LEFT", idx, "LEFT", TitanPanelGetVar("ButtonSpacing")*scale, y_offset); 
 			end
 			-- Center if requested
 			if ( align == TITAN_PANEL_BUTTONS_ALIGN_CENTER ) then
@@ -2326,15 +2339,17 @@ function TitanPanelButton_Justify()
 							else
 								counter = counter + 1;
 								leftWidth = leftWidth 
-									+ (TitanPanelGetVar("ButtonSpacing")) 
+									+ button_spacing
 									+ button:GetWidth()
 							end
 						end
 					end
 				end
-				-- Now offset the plugins
+				-- Now offset the plugins on the bar
 				firstLeftButton:ClearAllPoints();
-				firstLeftButton:SetPoint("LEFT", idx, "CENTER", (0 - leftWidth / 2)*scale, y_offset); 
+				-- remove the last spacing otherwise the buttons appear justified too far left
+				center_offset = (0 - (leftWidth-button_spacing) / 2)
+				firstLeftButton:SetPoint("LEFT", idx, "CENTER", center_offset, y_offset); 
 			end
 		end
 	end

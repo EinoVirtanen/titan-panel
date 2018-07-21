@@ -200,7 +200,7 @@ L["TITAN_SKINS_RESET_DEFAULTS_TITLE"] = "Resetear lista";
 L["TITAN_SKINS_RESET_DEFAULTS_DESC"] = "Resetea la lista de skins a sus valores por defecto, los skins incluidos de serie.";
 L["TITAN_PANEL_MENU_LSM_FONTS_DESC"] = "Elige el tipo de letra utilizado por los diferentes plugins en las barras "..TITAN_PANEL..".";
 L["TITAN_PANEL_MENU_FONT_SIZE"] = "Tamaño de la fuente";
-L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Establece el tamaño para el tipo de letra de "..TITAN_PANEL".";
+L["TITAN_PANEL_MENU_FONT_SIZE_DESC"] = "Establece el tamaño para el tipo de letra de "..TITAN_PANEL..".";
 L["TITAN_PANEL_MENU_FRAME_STRATA"] = "Frame Strata de "..TITAN_PANEL;
 L["TITAN_PANEL_MENU_FRAME_STRATA_DESC"] = "Establece la prioridad de visionado de las Barras "..TITAN_PANEL..".";
 -- /end localization strings for AceConfigDialog-3.0

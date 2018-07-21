@@ -27,7 +27,7 @@ local TitanMovableData = {
 	TargetFrame = {frameName = "TargetFrame", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -4, position = TITAN_PANEL_PLACE_TOP},
 	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, position = TITAN_PANEL_PLACE_TOP},
 	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
-	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
+--	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
@@ -138,7 +138,7 @@ function TitanMovableFrame_CheckFrames(position)
 		
 		-- Move TemporaryEnchantFrame. 
 		-- Seems this will be deprecated in the future in favor of BuffFrame ...
-		TitanMovableFrame_CheckThisFrame(TemporaryEnchantFrame:GetName())
+--		TitanMovableFrame_CheckThisFrame(TemporaryEnchantFrame:GetName())
 	
 		-- Move MinimapCluster
 		if not CleanMinimap then
@@ -195,9 +195,10 @@ function TitanMovableFrame_MoveFrames(position)
 				xOffset = TitanMovableFrame_GetXOffset(frame, xArchor);
 				
 				-- properly adjust buff frame(s) if GM Ticket is visible
-				if (frameName == "TemporaryEnchantFrame" 
-				or frameName == "ConsolidatedBuffs")
-				and TicketStatusFrame:IsVisible() 
+--				if (frameName == "TemporaryEnchantFrame"
+--				or frameName == "ConsolidatedBuffs")
+				if (frameName == "ConsolidatedBuffs")
+				and TicketStatusFrame:IsVisible()
 				and TitanPanelGetVar("TicketAdjust") then
 					yOffset = (-TicketStatusFrame:GetHeight()) + panelYOffset
 				else
@@ -246,8 +247,8 @@ local function Titan_TicketStatusFrame_OnShow()
 	-- placement of temp buffs is inconsistent 
 	-- (likely Blizz but more testing needed)
 	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP);
-	if not InCombatLockdown() or (InCombatLockdown() 
-	and not TemporaryEnchantFrame:IsProtected()) then
+	if not InCombatLockdown() or (InCombatLockdown()) then
+--	and not TemporaryEnchantFrame:IsProtected()) then
 		if not TitanPanelGetVar("ScreenAdjust") 
 		and TitanPanelGetVar("TicketAdjust") then
 			ConsolidatedBuffs:SetPoint("TOPRIGHT", TicketStatusFrame:GetParent(), 
@@ -265,8 +266,8 @@ local function Titan_TicketStatusFrame_OnHide()
 	local panelYOffset = TitanMovable_GetPanelYOffset(TITAN_PANEL_PLACE_TOP);
 	-- this is to replicate Blizzard's check in FrameXML/HelpFrame.xml
 	if not GMChatStatusFrame or not GMChatStatusFrame:IsShown() then 
-		if not InCombatLockdown() or (InCombatLockdown() 
-		and not TemporaryEnchantFrame:IsProtected()) then
+		if not InCombatLockdown() or (InCombatLockdown()) then
+--		and not TemporaryEnchantFrame:IsProtected()) then
 			if not TitanPanelGetVar("ScreenAdjust") then
 				ConsolidatedBuffs:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", 
 					-180, -13 + panelYOffset);
