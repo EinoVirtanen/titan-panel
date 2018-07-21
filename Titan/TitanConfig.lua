@@ -1621,23 +1621,6 @@ local function TitanUpdateConfigAddons()
 	AceConfigRegistry:NotifyChange("Titan Panel Addon Control")
 end
 -------------
-
---[[ Titan
-NAME: TitanUpdateConfig
-DESC: This routine will handle the requests to update the various data items in Titan options screens.
-VARS: None
-OUT : None
-NOTE:
-- This is called after the plugins are registered in the 'player entering world' event. It can be called again as more plugins are registered.
---]]
-function TitanUpdateConfig()
-	TitanUpdateConfigAddons()
-	TitanUpdateAddonAttempts()
-	TitanUpdateExtras()
-	TitanUpdateChars()
-	TitanPanel_TransOptions(optionsTrans.args)
-end
-
 --[[ local
 NAME: optionsAdvanced
 DESC: Set the table to allow the user to control advanced features.
@@ -1680,6 +1663,49 @@ local optionsAdvanced = {
    },
  }
  
+
+--[[ Titan
+NAME: TitanUpdateConfig
+DESC: This routine will handle the requests to update the various data items in Titan options screens.
+VARS: None
+OUT : None
+NOTE:
+- This is called after the plugins are registered in the 'player entering world' event. It can be called again as more plugins are registered.
+--]]
+function TitanUpdateConfig(action)
+	if action == "init" then
+		-- Update the tables for the latest lists
+		TitanUpdateConfigAddons()
+		TitanUpdateAddonAttempts()
+		TitanUpdateExtras()
+		TitanUpdateChars()
+		TitanPanel_TransOptions(optionsTrans.args)
+	end
+	if action == "nuke" then
+		local nuked = {
+			name = "Titan could not initialize properly.", --L["TITAN_DEBUG"],
+			type = "group",
+			args = {}
+		}
+
+		TitanPrint("-- Clearing Titan options...", "warning")
+		-- Use the same group as below!!
+--		AceConfig:RegisterOptionsTable("Titan Panel Main", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Bars", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Aux Bars", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Frames", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Transparency Control", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Panel Control", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Skin Control", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Skin Custom", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Addon Control", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Addon Attempts", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Addon Extras", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Addon Chars", nuked)
+		AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", nuked)
+	end
+end
+
 --[[
 Register the options tables with Ace then register the options with Blizz so the user can use them.
 --]]
@@ -1697,7 +1723,7 @@ AceConfig:RegisterOptionsTable("Titan Panel Addon Attempts", optionsAddonAttempt
 AceConfig:RegisterOptionsTable("Titan Panel Addon Extras", optionsExtras)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Chars", optionsChars)
 AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", optionsAdvanced)
-
+-- Set the main options pages
 AceConfigDialog:AddToBlizOptions("Titan Panel Main", L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Bars", L["TITAN_PANEL_MENU_TOP_BARS"], L["TITAN_PANEL"])
 AceConfigDialog:AddToBlizOptions("Titan Panel Aux Bars", L["TITAN_PANEL_MENU_BOTTOM_BARS"], L["TITAN_PANEL"])

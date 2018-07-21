@@ -254,41 +254,69 @@ NOTE:
 - This also creates the hider bar in case the user want to use auto hide.
 --]]
 local function TitanPanel_CreateABar(frame)
+	if not frame then return end
 	local hide_name = TitanBarData[frame].hider
 	local bar_name = TitanBarData[frame].name
 
-	-- Set script handlers for display
-	_G[frame]:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-	_G[frame]:SetScript("OnEnter", function(self) TitanPanelBarButton_OnEnter(self) end)
-	_G[frame]:SetScript("OnLeave", function(self) TitanPanelBarButton_OnLeave(self) end)
-	_G[frame]:SetScript("OnClick", function(self, button) TitanPanelBarButton_OnClick(self, button) end)
+	if hide_name and bar_name then
+		-- Set script handlers for display
+		_G[frame]:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+		_G[frame]:SetScript("OnEnter", function(self) TitanPanelBarButton_OnEnter(self) end)
+		_G[frame]:SetScript("OnLeave", function(self) TitanPanelBarButton_OnLeave(self) end)
+		_G[frame]:SetScript("OnClick", function(self, button) TitanPanelBarButton_OnClick(self, button) end)
 
-	-- Set script handlers for display
-	_G[hide_name]:RegisterForClicks("LeftButtonUp", "RightButtonUp");
-	_G[hide_name]:SetScript("OnEnter", function(self) TitanPanelBarButtonHider_OnEnter(self) end)
-	_G[hide_name]:SetScript("OnLeave", function(self) TitanPanelBarButtonHider_OnLeave(self) end)
-	_G[hide_name]:SetScript("OnClick", function(self, button) TitanPanelBarButton_OnClick(self, button) end)
-	
-	_G[hide_name]:SetFrameStrata("BACKGROUND")
-	_G[hide_name]:SetHeight(TITAN_PANEL_BAR_HEIGHT/2);
-	_G[hide_name]:SetWidth(2560);
-	
-	-- Set the display bar
-	local container = _G[frame]
-	container:SetHeight(TITAN_PANEL_BAR_HEIGHT);
-	-- Set local identifier
-	local container_text = _G[frame.."_Text"]
-	if container_text then -- was used for debug/creating of the independent bars
-		container_text:SetText(tostring(bar_name))
-		-- for now show it
-		container:Show()
+		-- Set script handlers for display
+		_G[hide_name]:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+		_G[hide_name]:SetScript("OnEnter", function(self) TitanPanelBarButtonHider_OnEnter(self) end)
+		_G[hide_name]:SetScript("OnLeave", function(self) TitanPanelBarButtonHider_OnLeave(self) end)
+		_G[hide_name]:SetScript("OnClick", function(self, button) TitanPanelBarButton_OnClick(self, button) end)
+		
+		_G[hide_name]:SetFrameStrata("BACKGROUND")
+		_G[hide_name]:SetHeight(TITAN_PANEL_BAR_HEIGHT/2);
+		_G[hide_name]:SetWidth(2560);
+		
+		-- Set the display bar
+		local container = _G[frame]
+		container:SetHeight(TITAN_PANEL_BAR_HEIGHT);
+		-- Set local identifier
+		local container_text = _G[frame.."_Text"]
+		if container_text then -- was used for debug/creating of the independent bars
+			container_text:SetText(tostring(bar_name))
+			-- for now show it
+			container:Show()
+		end
+	end
+end
+
+--[[ local
+NAME: TitanPanel_DeleteABar
+DESC: Helper to nuke the Titan bar passed in.
+VARS: 
+- frame - The frame name (string) of the Titan bar to remove
+OUT : None
+NOTE:
+- This also removes the hider bar.
+--]]
+local function TitanPanel_DeleteABar(frame)
+	if not frame then return end
+	local hide_name = TitanBarData[frame].hider
+
+	if _G[frame] and _G[frame].Hide then
+		-- Hide it then nuke it
+		_G[frame]:Hide()
+--		_G[frame] = {}
+	end
+	if _G[hide_name] and _G[hide_name].Hide then
+		-- Hide it then nuke it
+		_G[hide_name]:Hide()
+--		_G[hide_name] = {}
 	end
 end
 
 --------------------------------------------------------------
 --
 -- Event registration
-_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
+--_G[TITAN_PANEL_CONTROL]:RegisterEvent("ADDON_LOADED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_DISABLED");
 _G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_REGEN_ENABLED");
@@ -316,6 +344,17 @@ function TitanPanel_PlayerEnteringWorld()
 		TitanLDBRefreshButton()
 	else
 		-- only do this sort of initialization on the first PEW event
+		TitanPrint("", "header")
+
+		-- Get Profile and Saved Vars
+		TitanVariables_InitTitanSettings();			
+
+		if not ServerTimeOffsets then
+			ServerTimeOffsets = {};
+		end
+		if not ServerHourFormat then
+			ServerHourFormat = {};
+		end
 
 		-- Set the two anchors in their default positions
 		-- until the Titan bars are drawn
@@ -355,7 +394,7 @@ function TitanPanel_PlayerEnteringWorld()
 	
 	-- all addons are loaded so update the config (options)
 	-- some could have registered late...
-	TitanUpdateConfig()
+	TitanUpdateConfig("init")
 
 	-- Init panel font
 	local isfontvalid = media:IsValid("font", TitanPanelGetVar("FontName"))
@@ -412,7 +451,35 @@ function TitanPanelBarButton:ADDON_LOADED(addon)
 end
 
 function TitanPanelBarButton:PLAYER_ENTERING_WORLD()
-	TitanPanel_PlayerEnteringWorld()
+	call_success, -- needed for pcall
+	ret_val =  -- actual return values
+		pcall (TitanPanel_PlayerEnteringWorld)
+	-- pcall does not allow errors to propagate out. Any error
+	-- is returned as text with the success / fail.
+	-- Think of it as sort of a try - catch block
+	if call_success then
+		-- Titan initialized properly
+	else
+		-- something really bad occured...
+		TitanPrint("Titan could not initialize!!!!  Cleaning up...", "error")
+		-- Clean up best we can and tell the user to submit a ticket.
+		-- This could be the 1st log in or a reload (reload, instance, boat, ...)
+		
+		-- Hide the bars. At times they are there but at 0% transparency.
+		-- They can be over the Blizz action bars creating havoc.
+		TitanPrint("-- Hiding Titan bars...", "warning")
+		for idx, v in pairs (TitanBarData) do
+			TitanPanel_DeleteABar(idx)
+		end
+		
+		-- Remove the options pages
+		TitanUpdateConfig("nuke")
+		-- What else to clean up???
+		
+		-- raise the error to WoW for display, if display errors is set.
+		-- This *must be* the last statement of the routine!
+		error(ret_val, 1)
+	end
 end
 
 function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)

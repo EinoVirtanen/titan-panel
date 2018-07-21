@@ -396,6 +396,8 @@ NOTE:
 --]]
 local function TitanVariables_InitPlayerSettings(profile, reset) 
 	-- TitanSettings should not be nil
+	TitanVariables_InitTitanSettings()
+--[[
 	if (not TitanSettings) then
 		TitanSettings = {};
 	end
@@ -404,7 +406,7 @@ local function TitanVariables_InitPlayerSettings(profile, reset)
 	if (not TitanSettings.Players ) then
 		TitanSettings.Players = {};
 	end
-	
+--]]	
 	CleanupProfile () -- we could have been called to use another profile
 	
 --[[
@@ -495,7 +497,7 @@ local function TitanVariables_PluginSettingsReset()
 end
 
 --[[ local
-NAME: TitanVariables_PluginSettingsReset
+NAME: TitanVariables_PluginSettingsInit
 DESC: Give the curent profile the default plugins - if they are registered. 
 VARS: None
 OUT : None
@@ -521,7 +523,7 @@ local function TitanVariables_PluginSettingsInit()
 --			TitanPanelButton_UpdateButton(id)
 		else
 			-- Remove the button
-			table.insert(to_remove, id)
+--			table.insert(to_remove, id)
 		end
 	end
 
@@ -680,16 +682,44 @@ NOTE:
 - Called when Titan is loaded (ADDON_LOADED event)
 --]]
 function TitanVariables_InitTitanSettings()
-	if (not TitanSettings) then
-		TitanSettings = {};
+	if (TitanSettings) then
+		-- check for player list per issue #745
+		if TitanSettings.Players then
+		else
+			-- Create the table so profile(s) can be added
+			TitanSettings.Players = {}
+		end
+--[[
+TitanDumpPlayerList()
+--]]
+	else
+		TitanSettings = {}
+		TitanVariables_SyncPanelSettings()
+--[[
+TitanDebug("_InitTitanSettings: init TitanSettings")
+--]]
 	end
 	
-	if (not TitanAll) then
+	if (TitanAll) then
+--[[
+TitanDebug("_InitTitanSettings: TitanAll "
+.."T_pew: "..(TitanAll.TimerPEW or 0).." "
+)
+--]]
+	else
 		TitanAll = {};
 		TitanVariables_SyncRegisterSavedVariables(TITAN_ALL_SAVED_VARIABLES, TitanAll)
+--[[
+TitanDebug("_InitTitanSettings: init TitanAll")
+--]]
 	end
 	
 	TitanSettings.Version = TITAN_VERSION;
+--[[
+TitanDebug("_InitTitanSettings: v"
+..(TitanSettings.Version or "?")
+)
+--]]
 end
 
 --[[ local
@@ -701,7 +731,7 @@ OUT : None
 NOTE:
 - Called when the user does a Titan reset or the profile does not exist.
 --]]
-function Detailed_settings_reset(profile)
+local function Detailed_settings_reset(profile)
 --TitanDebug("DetailedSettings: Reset")
 	-- Synchronize Plugins/Panel settings
 	TitanVariables_InitPlayerSettings(profile, true);
@@ -729,7 +759,7 @@ OUT : None
 NOTE:
 - Called at PLAYER_ENTERING_WORLD event after we know Titan has registered plugins.
 --]]
-function Detailed_settings_init(profile)
+local function Detailed_settings_init(profile)
 --TitanDebug("DetailedSettings: Init")
 	-- Synchronize Plugins/Panel settings
 	TitanVariables_InitPlayerSettings(profile, false)
@@ -755,7 +785,7 @@ OUT : None
 NOTE:
 - Called at PLAYER_ENTERING_WORLD event after we know Titan has registered plugins.
 --]]
-function TitanVariables_Detailed_settings_use(profile)
+local function TitanVariables_Detailed_settings_use(profile)
 --TitanDebug("DetailedSettings: Use")
 	-- copy the profile into this one
 	CleanupProfile () -- hide currently shown plugins
@@ -1033,6 +1063,12 @@ TitanDebug("Use 1: "
 ..(action or "?").." "
 )
 --]]
+	-- sanity check
+	if TitanSettings and TitanSettings.Players then
+		-- all is good
+	else
+		TitanVariables_InitTitanSettings()
+	end
 	if not profile then
 		local glob, name, player, server = TitanUtils_GetGlobalProfile()
 		-- Get the profile according to the user settings
