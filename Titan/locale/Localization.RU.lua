@@ -23,13 +23,13 @@ if not L then return end
 
 	L["TITAN_PANEL_ERROR_DUP_PLUGIN"] = " возможно зарегистрирован дважды, не удается загрузить Titan panel, пожалуйста исправьте эту проблему"
 	L["TITAN_PANEL_ERROR_PROF_DELCURRENT"] = "Вы не можете удалить свой текущий профиль.";
-local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Warning : "..FONT_COLOR_CODE_CLOSE
-local TITAN_PANEL_RELOAD_TEXT = "If you wish to continue with this operation, push 'Accept' (your UI will reload), otherwise push 'Cancel' or the 'Escape' key."
+local TITAN_PANEL_WARNING = GREEN_FONT_COLOR_CODE.."Внимание : "..FONT_COLOR_CODE_CLOSE
+local TITAN_PANEL_RELOAD_TEXT = "Если вы желаете продолжить данную операцию, нажмите 'Accept' (ваш UI будет перезагружен), емли нет, жмите 'Cancel' или клавишу 'Escape'."
 L["TITAN_PANEL_RESET_WARNING"] = TITAN_PANEL_WARNING
-	.."This setting will reset your bar(s) and Panel settings to default values and will recreate your current profile. "
+	.."Данные настройки сбросять ваши панели на стандартные настройки и обновят ваш текущий профиль. "
 	..TITAN_PANEL_RELOAD_TEXT
 L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
-	.."This will reload Titan Panel. "
+	.."Это перезагрузит Titan Panel. "
 	..TITAN_PANEL_RELOAD_TEXT
 	L["TITAN_PANEL_RESET_WARNING"] = GREEN_FONT_COLOR_CODE.."Предупреждение:"..FONT_COLOR_CODE_CLOSE.."Будут сброшены настройки ваших полос(ы) и панели на стандартные значения и будет пересоздан ваш текущий профиль. Если вы уверены в своих действиях, и хотите продолжить, то нажмите 'Accept' (ваш интерфей перезагрузится), или же нажмите 'Cancel' или клавишу 'Escape'.";
 	
@@ -69,9 +69,9 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_PANEL_MENU_DISPLAY_BOTH"] = "Показывать обе полосы";
 	L["TITAN_PANEL_MENU_DISABLE_PUSH"] = "Выключить подстройку экрана";
 	L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"] = "Отключить подстройку мини-карты";
-	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Авто подстройка записи";
+	L["TITAN_PANEL_MENU_DISABLE_LOGS"] = "Авто подстройка журнала";
 	L["TITAN_PANEL_MENU_DISABLE_BAGS"] = "Авто подстройка сумок";
-	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Automatic ticket frame adjust";
+	L["TITAN_PANEL_MENU_DISABLE_TICKET"] = "Авто подстройка  запросов";
 	L["TITAN_PANEL_MENU_BUILTINS"] = "Сборки титана";
 	L["TITAN_PANEL_MENU_LEFT_SIDE"] = "Левая сторона";
 	L["TITAN_PANEL_MENU_RIGHT_SIDE"] = "Правая сторона";
@@ -275,7 +275,7 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_LOOTTYPE_SHOWDUNGEONDIFF_LABEL"] = "Сложность рейда/подземелья";
 	L["TITAN_LOOTTYPE_SETDUNGEONDIFF_LABEL"] = "Установить сложность подземелья";
 	L["TITAN_LOOTTYPE_SETRAIDDIFF_LABEL"] = "Установить сложность рейда";
-	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Auto (group based)";
+	L["TITAN_LOOTTYPE_AUTODIFF_LABEL"] = "Авто (пологаясь на группу)";
 	
 	L["TITAN_MEMORY_FORMAT"] = "%.3f".."мб";
 	L["TITAN_MEMORY_FORMAT_KB"] = "%d".."KB";
@@ -349,13 +349,13 @@ L["TITAN_PANEL_RELOAD"] = TITAN_PANEL_WARNING
 	L["TITAN_XP_MENU_REFRESH_PLAYED"] = "Обновить таймеры";
 	L["TITAN_XP_UPDATE_PENDING"] = "Обновляется...";
 	L["TITAN_XP_KILLS_LABEL"] = "Убийств до уровня (%d опыта полученно): ";
-	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. Убийств: ";
+	L["TITAN_XP_KILLS_LABEL_SHORT"] = "Оц. убийств: ";
 	L["TITAN_XP_BUTTON_LABEL_SESSION_TIME"] = "Время сеанса: ";
 	L["TITAN_XP_MENU_SHOW_SESSION_TIME"] = "Показать время сеанса";
 	L["TITAN_XP_GAIN_PATTERN"] = "(.*) погибает, вы получаете (%d+) |4очко:очка:очков; опыта.";
-	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Est. Gains: ";
-	L["TITAN_XP_XPGAINS_LABEL"] = "XP Gains to level (at %d XP gained last): ";
-	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Show est. XP gains to level";
+	L["TITAN_XP_XPGAINS_LABEL_SHORT"] = "Получение опыта: ";
+	L["TITAN_XP_XPGAINS_LABEL"] = "Опыта до уровня (%d опыта в последний раз): ";
+	L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"] = "Показать необходимый опыт до уровня";
 	
 	L["TITAN_REGEN_MENU_TEXT"] = "Регенерация"
 	L["TITAN_REGEN_MENU_TOOLTIP_TITLE"] = "Информация о регенерации"

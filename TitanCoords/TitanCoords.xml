@@ -30,20 +30,20 @@
 	<Frame name="TitanMapFrame" parent="WorldMapFrame">
 		<Layers>
 			<Layer level="ARTWORK">
-				<FontString name="TitanMapCursorCoords" inherits="GameFontNormal" justifyH="LEFT">
+				<FontString name="TitanMapPlayerCoords" inherits="GameFontNormal" justifyH="LEFT">
 					<Anchors>
-						<Anchor point="LEFT" relativeTo="WorldMapFrame" relativePoint="CENTER">
+						<Anchor point="BOTTOMLEFT" relativeTo="WorldMapFrame" relativePoint="BOTTOMLEFT">
 							<Offset>
-								<AbsDimension x="0" y="-367"/>
+								<AbsDimension x="10" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="TitanMapPlayerCoords" inherits="GameFontNormal" justifyH="LEFT">
+				<FontString name="TitanMapCursorCoords" inherits="GameFontNormal" justifyH="LEFT">
 					<Anchors>
-						<Anchor point="LEFT" relativeTo="WorldMapFrame" relativePoint="CENTER">
+						<Anchor point="LEFT" relativeTo="TitanMapPlayerCoords" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="190" y="-367"/>
+								<AbsDimension x="20" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>

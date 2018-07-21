@@ -8,8 +8,8 @@
 -- ******************************** Constants *******************************
 local _G = getfenv(0);
 local TITAN_COORDS_ID = "Coords";
-local OFFSET_X = 0.0022;
-local OFFSET_Y = -0.0262;
+local OFFSET_X = 0.0022  --  0.0022;
+local OFFSET_Y = -0.0262  --  -0.0262;
 local cachedX = 0
 local cachedY = 0
 local updateTable = {TITAN_COORDS_ID, TITAN_PANEL_UPDATE_BUTTON};
@@ -383,52 +383,56 @@ end
 -- DESC : Update coordinates on map
 -- **************************************************************************
 function TitanMapFrame_OnUpdate(self, elapsed)
-  if not (TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap")) then
-  return;
-  end
-     if (TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap")) then
+	if not (TitanGetVar(TITAN_COORDS_ID, "ShowCoordsOnMap")) then
+		return;
+	end
 		-- using :Hide / :Show prevents coords from running
-		if WorldMapFrame.sizedDown then
-			-- map minimized and coordinates calc will not work
-			TitanMapCursorCoords:SetText("");
-			TitanMapPlayerCoords:SetText("");
---			TitanMapFrame:Hide() -- hide parent
-		else
-		    -- map maximized so do the coordinates calc
---			TitanMapFrame:Show() -- show parent
-			local cursorCoordsText, playerCoordsText;
-			local x, y = GetCursorPosition();
-			x = x / WorldMapDetailFrame:GetScale();
-			y = y / WorldMapDetailFrame:GetScale();
-     
-			self.px, self.py = GetPlayerMapPosition("player");
-			if self.px == nil then self.px = 0 end
-			if self.py == nil then self.py = 0 end
-			local centerX, centerY = WorldMapDetailFrame:GetCenter();
-			local width = WorldMapDetailFrame:GetWidth();
-			local height = WorldMapDetailFrame:GetHeight();
-			local cx = (x - (centerX - (width/2))) / width;
-			local cy = (centerY + (height/2) - y ) / height;
---			local cx = (adjustedX + OFFSET_X); -- no longer needed after map revamp
---			local cy = (adjustedY + OFFSET_Y);
+		--	TitanMapFrame:Hide() -- hide parent
 
-			if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then     				
-				cursorCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * cx, 100 * cy);
-				playerCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
-			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
-				cursorCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * cx, 100 * cy);
-				playerCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
-			elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
-				cursorCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * cx, 100 * cy);
-				playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
-			end
-     			
-			if self.px == 0 and self.py == 0 then
-				playerCoordsText = L["TITAN_COORDS_NO_COORDS"];
-			end
-
-			TitanMapCursorCoords:SetText(format(L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"], TitanUtils_GetHighlightText(cursorCoordsText)));
-			TitanMapPlayerCoords:SetText(format(L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerCoordsText)));
+	-- always calc the player position
+	self.px, self.py = GetPlayerMapPosition("player");
+	if self.px == nil then self.px = 0 end
+	if self.py == nil then self.py = 0 end
+	if self.px == 0 and self.py == 0 then
+		playerCoordsText = L["TITAN_COORDS_NO_COORDS"]
+	else
+		if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then     				
+			playerCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
+		elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
+			playerCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * self.px, 100 * self.py);
+		elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
+			playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
 		end
-     end
+		playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
+	end
+	TitanMapPlayerCoords:SetText(format(L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerCoordsText)));
+
+	--adjust the frame as needed
+	if ( WorldMapFrame.sizedDown ) then
+		TitanMapPlayerCoords:SetPoint("BOTTOMLEFT", WorldMapDetailFrame, "BOTTOMLEFT", 5, -20);
+	else
+		TitanMapPlayerCoords:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 20, 10);
+	end
+
+	-- calc cursor position on the map
+	local cursorCoordsText, playerCoordsText;
+	local x, y = GetCursorPosition();
+	x = x / WorldMapDetailFrame:GetScale();
+	y = y / WorldMapDetailFrame:GetScale();
+
+	local centerX, centerY = WorldMapDetailFrame:GetCenter();
+	local width = WorldMapDetailFrame:GetWidth();
+	local height = WorldMapDetailFrame:GetHeight();
+	local cx = ((x - (centerX - (width/2))) / width) -- OFFSET_X 
+	local cy = ((centerY + (height/2) - y ) / height) --  OFFSET_Y 
+
+	if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then     				
+		cursorCoordsText = format(L["TITAN_COORDS_FORMAT"], 100 * cx, 100 * cy);
+	elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat2")) then
+		cursorCoordsText = format(L["TITAN_COORDS_FORMAT2"], 100 * cx, 100 * cy);
+	elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
+		cursorCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * cx, 100 * cy);
+	end
+		
+	TitanMapCursorCoords:SetText(format(L["TITAN_COORDS_MAP_CURSOR_COORDS_TEXT"], TitanUtils_GetHighlightText(cursorCoordsText)));
 end

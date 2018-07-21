@@ -22,8 +22,8 @@ local TitanMovableData = {
 	PartyMemberFrame1 = {frameName = "PartyMemberFrame1", frameArchor = "TOPLEFT", xArchor = "LEFT", y = -128, position = TITAN_PANEL_PLACE_TOP},
 	TicketStatusFrame = {frameName = "TicketStatusFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
 	TemporaryEnchantFrame = {frameName = "TemporaryEnchantFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
-	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	ConsolidatedBuffs = {frameName = "ConsolidatedBuffs", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
+	BuffFrame = {frameName = "BuffFrame", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = -13, position = TITAN_PANEL_PLACE_TOP},
 	MinimapCluster = {frameName = "MinimapCluster", frameArchor = "TOPRIGHT", xArchor = "RIGHT", y = 0, position = TITAN_PANEL_PLACE_TOP},
 	WorldStateAlwaysUpFrame = {frameName = "WorldStateAlwaysUpFrame", frameArchor = "TOP", xArchor = "CENTER", y = -15, position = TITAN_PANEL_PLACE_TOP},
 	MainMenuBar = {frameName = "MainMenuBar", frameArchor = "BOTTOM", xArchor = "CENTER", y = 0, position = TITAN_PANEL_PLACE_BOTTOM},
@@ -147,7 +147,16 @@ function TitanMovableFrame_MoveFrames(position, override)
 				else
 					yOffset = y + panelYOffset;
 				end
+				-- adjust the temp enchant to the consolidated buff
+				if  frameName == "TemporaryEnchantFrame" and ConsolidatedBuffs:IsVisible() then
+					if TemporaryEnchantFrame:GetRight() >= ConsolidatedBuffs:GetRight() then
+						xOffset =  xOffset - ConsolidatedBuffsIcon:GetWidth()  + 20
+					else
+						xOffset =  xOffset
+					end
+				end
 				
+
 				-- properly adjust MinimapCluster if its border is hidden
 				if frameName == "MinimapCluster" and MinimapBorderTop and not MinimapBorderTop:IsShown() then					
 					yOffset = yOffset + (MinimapBorderTop:GetHeight() * 3/5) - 5
@@ -162,8 +171,9 @@ function TitanMovableFrame_MoveFrames(position, override)
 				-- account for Reputation Status Bar (doh)
 				local playerlevel = UnitLevel("player");
 				if frameName == "MultiBarRight" and ReputationWatchStatusBar:IsVisible() and playerlevel < _G["MAX_PLAYER_LEVEL"] then
-		  	yOffset = yOffset + 8;
-		  	end
+					yOffset = yOffset + 8;
+				end
+				
 				
 				frame:ClearAllPoints();		
 				frame:SetPoint(frameArchor, "UIParent", frameArchor, xOffset, yOffset);

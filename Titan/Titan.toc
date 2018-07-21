@@ -1,10 +1,10 @@
 ## Interface: 30300
-## Title: Titan Panel |cff00aa004.3.1.30300|r
+## Title: Titan Panel |cff00aa004.3.2.30300|r
 ## Notes: Adds a display bar on the top and/or bottom of the screen. Allows users to show and control information/launcher plugins.
 ## Author: Titan Development Team
 ## SavedVariables: TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
 ## Dependencies:
-## Version: 4.3.1.30300 - Revision 331
+## Version: 4.3.2.30300 - Revision 339
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0
 ## X-Embeds: Ace3, AceGUI-3.0-SharedMediaWidgets, LibSharedMedia-3.0
 ## X-Credits: TitanMod, Dark Imakuni, Adsertor, Titan Dev Team

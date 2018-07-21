@@ -145,6 +145,15 @@ TitanPanelAuxBarButton:SetFrameStrata(value)
 	end
 end
 
+local function TitanAdjustDisplayOnTop()
+	TitanPanelBarButton_TogglePosition()
+	
+	-- because we can not disable buttons via ACE
+	-- check if both bars were requested and cleanup
+	if TitanPanelGetVar("BothBars") then
+		TitanPanelBarButton_ToggleBarsShown()
+	end
+end
 
 -- Titan AceConfigDialog-3.0 init tables
 
@@ -583,14 +592,14 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS_BARS"],
 			type = "header",
 			name = L["TITAN_TRANS_MAIN_CONTROL_TITLE"],
 		},
---[[
+--[
 		optiontop = {
 			name = L["TITAN_PANEL_MENU_DISPLAY_ONTOP"],
 			desc = L["TITAN_PANEL_MENU_DISPLAY_ONTOP"],
 			order = 101, type = "toggle", width = "full",
---		info.disabled = TitanPanelGetVar("BothBars")
 			get = function() return (TitanPanelGetVar("Position") == TITAN_PANEL_PLACE_TOP) end,
-			set = function() TitanPanelBarButton_TogglePosition(); end,
+--			set = function() TitanPanelBarButton_TogglePosition(); end,
+			set = function() TitanAdjustDisplayOnTop(); end,
 		},
 --]]
 		optiontopdouble = {
@@ -613,6 +622,13 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS_BARS"],
 			order = 104, type = "toggle", width = "full",
 			get = function() return (TitanPanelGetVar("ButtonAlign") == TITAN_PANEL_BUTTONS_ALIGN_CENTER) end,
 			set = function() TitanPanelBarButton_ToggleAlign(); end,
+		},
+		optiontopscreen = {
+			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+			order = 105, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("ScreenAdjust") end,
+			set = function() TitanPanelBarButton_ToggleScreenAdjust(); end,
 		},
 		confdesc2 = {
 				order = 200,
@@ -647,6 +663,46 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS_BARS"],
 			get = function() return (TitanPanelGetVar("AuxButtonAlign") == TITAN_PANEL_BUTTONS_ALIGN_CENTER) end,
 			set = function() TitanPanelBarButton_ToggleAuxAlign(); end,
 		},
+		optionbottomscreen = {
+			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+			order = 205, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("AuxScreenAdjust") end,
+			set = function() TitanPanelBarButton_ToggleAuxScreenAdjust(); end,
+		},
+		confdesc3 = {
+			order = 300,
+			type = "header",
+			name = L["TITAN_PANEL_MENU_OPTIONS"],
+		},
+		optionminimap = {
+			name = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
+			order = 302, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("MinimapAdjust") end,
+			set = function() TitanPanelToggleVar("MinimapAdjust"); end,
+		},
+		optionlog = {
+			name = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
+			order = 303, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("LogAdjust") end,
+			set = function() TitanPanelToggleVar("LogAdjust"); end,
+		},
+		optionbags = {
+			name = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
+			order = 304, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("BagAdjust") end,
+			set = function() TitanPanelToggleVar("BagAdjust"); end,
+		},
+		optiontickets = {
+			name = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
+			desc = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
+			order = 305, type = "toggle", width = "full",
+			get = function() return TitanPanelGetVar("TicketAdjust"); end,
+			set = function() TitanPanel_TicketReload() end,
+		},
 	}
  }
 
@@ -672,46 +728,6 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS"],
 			order = 201, type = "toggle", width = "full",
 			get = function() return TitanPanelGetVar("HideTipsInCombat") end,
 			set = function() TitanPanelToggleVar("HideTipsInCombat"); end,
-		},
-		confdesc3 = {
-			order = 300,
-			type = "header",
-			name = L["TITAN_PANEL_MENU_OPTIONS"],
-		},
-		optionscreen = {
-			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			order = 301, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("ScreenAdjust") end,
-			set = function() TitanPanelBarButton_ToggleScreenAdjust(); end,
-		},
-		optionminimap = {
-			name = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_MINIMAP_PUSH"],
-			order = 302, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("MinimapAdjust") end,
-			set = function() TitanPanelToggleVar("MinimapAdjust"); end,
-		},
-		optionlog = {
-			name = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_LOGS"],
-			order = 303, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("LogAdjust") end,
-			set = function() TitanPanelToggleVar("LogAdjust"); end,
-		},
-		optionbags = {
-			name = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_BAGS"],
-			order = 304, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("BagAdjust") end,
-			set = function() TitanPanelToggleVar("BagAdjust"); end,
-		},
-		optionbags = {
-			name = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_TICKET"].." ".._G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_RELOADUI"],
-			order = 305, type = "toggle", width = "full",
-			get = function() return TitanPanelGetVar("TicketAdjust"); end,
-			set = function() TitanPanel_TicketReload() end,
 		},
 		confdesc = {
 			order = 400,
