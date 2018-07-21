@@ -249,7 +249,9 @@ function TitanMovableFrame_CheckFrames(position)
 		TitanMovableFrame_CheckThisFrame(WorldStateAlwaysUpFrame:GetName());
 
 		-- Move OrderHallCommandBar
-		TitanMovableFrame_CheckThisFrame(OrderHallCommandBar:GetName());
+		if OrderHallCommandBar then
+			TitanMovableFrame_CheckThisFrame(OrderHallCommandBar:GetName());
+		end
 	end
 
 	-- check bottom as requested
