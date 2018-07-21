@@ -538,6 +538,8 @@ L["TITAN_GOLD_COIN_LABELS"] = "Mostrar etiquetas en texto";
 L["TITAN_GOLD_COIN_ICONS"] = "Mostrar etiquetas en texto";
 L["TITAN_GOLD_ONLY"] = "Mostrar sólo oro";
 L["TITAN_GOLD_COLORS"] = "Mostrar colores en el oro";
+L["TITAN_GOLD_MERGE"] = "Merge Servers";
+L["TITAN_GOLD_SEPARATE"] = "Separate Servers";
 
 L["TITAN_VOLUME_TOOLTIP"] = "Control de Volumen";
 L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "Volumen general: ";

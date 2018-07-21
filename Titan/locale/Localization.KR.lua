@@ -523,6 +523,8 @@ L["TITAN_GOLD_COIN_LABELS"] = "동전 이름 표시";
 L["TITAN_GOLD_COIN_ICONS"] = "아이콘 라벨 표시";
 L["TITAN_GOLD_ONLY"] = "소지금만 표시";
 L["TITAN_GOLD_COLORS"] = "소지금 색상 표시";
+L["TITAN_GOLD_MERGE"] = "Merge Servers";
+L["TITAN_GOLD_SEPARATE"] = "Separate Servers";
 
 L["TITAN_VOLUME_TOOLTIP"] = "음량 정보";
 L["TITAN_VOLUME_MASTER_TOOLTIP_VALUE"] = "주 음량 : ";
