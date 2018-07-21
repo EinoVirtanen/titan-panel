@@ -267,13 +267,15 @@ end
 function TitanUtils_GetEstTimeText(s)
 	local timeText = "";
 	days, hours, minutes, seconds = GetTimeParts(s)
+	local fracdays = days + (hours/24);
+	local frachours = hours + (minutes/60);
 	if seconds == L["TITAN_NA"] then
 		timeText = L["TITAN_NA"];
 	else
 		if (days ~= 0) then
-			timeText = timeText..format("%d"..L["TITAN_DAYS_ABBR"].." ", days);
+			timeText = timeText..format("%4.1f"..L["TITAN_DAYS_ABBR"].." ", fracdays);
 		elseif (days ~= 0 or hours ~= 0) then
-			timeText = timeText..format("%d"..L["TITAN_HOURS_ABBR"].." ", hours);
+			timeText = timeText..format("%4.1f"..L["TITAN_HOURS_ABBR"].." ", frachours);
 		elseif (days ~= 0 or hours ~= 0 or minutes ~= 0) then
 			timeText = timeText..format("%d"..L["TITAN_MINUTES_ABBR"].." ", minutes);
 		else
@@ -491,7 +493,7 @@ function TitanPanelRightClickMenu_Hide(value)
 	TitanPanel_RemoveButton(value);
 end
 
-function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable)
+function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable, level)
 	local info = {};
 	info.text = text;
 	info.value = {id, var, toggleTable};
@@ -500,22 +502,33 @@ function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable)
 	end
 	info.checked = TitanGetVar(id, var);
 	info.keepShownOnClick = 1;
-	UIDropDownMenu_AddButton(info);
+	UIDropDownMenu_AddButton(info, level);
 end
 
-function TitanPanelRightClickMenu_AddToggleIcon(id)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"]
-		, id, "ShowIcon");
+function TitanPanelRightClickMenu_AddToggleIcon(id, level)
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"], 
+	id, "ShowIcon", nil, level);
 end
 
-function TitanPanelRightClickMenu_AddToggleLabelText(id)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"]
-		, id, "ShowLabelText");
+function TitanPanelRightClickMenu_AddToggleLabelText(id, level)
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], 
+	id, "ShowLabelText", nil, level);
 end
 
-function TitanPanelRightClickMenu_AddToggleColoredText(id)
-	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"]
-		, id, "ShowColoredText");
+function TitanPanelRightClickMenu_AddToggleColoredText(id, level)
+	TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], 
+	id, "ShowColoredText", nil, level);
+end
+
+function TitanPanelRightClickMenu_AddHide(id, level)
+	local info = {};
+	info.notCheckable = true;
+	info.text = L["TITAN_PANEL_MENU_HIDE"];
+	info.value = value;
+	info.func = function()
+		TitanPanelRightClickMenu_Hide(id)
+	end
+	UIDropDownMenu_AddButton(info, level);
 end
 
 function TitanPanelRightClickMenu_ToggleVar(value)

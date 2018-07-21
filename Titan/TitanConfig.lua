@@ -1070,8 +1070,8 @@ local function TitanUpdateChars()
 						order = 20, type = "execute", width = "full",
 						func = function(info, v) 
 							TitanVariables_UseSettings(info[1])
-							TitanPanelSettings.Buttons = newButtons;
-							TitanPanelSettings.Location = newLocations;
+--							TitanPanelSettings.Buttons = newButtons;
+--							TitanPanelSettings.Location = newLocations;
 						end,
 					},
 					sp_20 = {

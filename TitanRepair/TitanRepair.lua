@@ -640,6 +640,7 @@ function TitanRepair_GetStatus(index, bag)
                 _, -- g
          -- get color of the item
                 itemColor = GetItemQualityColor(itemRarity);
+                itemColor = "|c"..itemColor;
       end
    end
 

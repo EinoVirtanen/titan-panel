@@ -364,6 +364,7 @@ end
 -- id is required
 function TitanPanelButton_UpdateButton(id, setButtonWidth)  -- Used by plugins
 	local button, id = TitanUtils_GetButton(id);
+	local plugin = TitanUtils_GetPlugin(id)
 	-- safeguard to avoid errors
 	if not TitanUtils_IsPluginRegistered(id) then return end
 	
@@ -374,13 +375,17 @@ function TitanPanelButton_UpdateButton(id, setButtonWidth)  -- Used by plugins
 		
 	elseif ( TitanPanelButton_IsIcon(id) ) then
 		-- Update iconButton
-		TitanPanelButton_SetButtonIcon(id);
+		TitanPanelButton_SetButtonIcon(id, (plugin.iconCoords or nil),
+			(plugin.iconR or nil),(plugin.iconG or nil),(plugin.iconB or nil)
+			);
 		TitanPanelButton_SetIconButtonWidth(id);	
 		
 	elseif ( TitanPanelButton_IsCombo(id) ) then
 		-- Update comboButton
 		TitanPanelButton_SetButtonText(id);
-		TitanPanelButton_SetButtonIcon(id);
+		TitanPanelButton_SetButtonIcon(id, (plugin.iconCoords or nil),
+			(plugin.iconR or nil),(plugin.iconG or nil),(plugin.iconB or nil)
+			);
 		TitanPanelButton_SetComboButtonWidth(id, setButtonWidth);
 	end
 end
@@ -408,7 +413,7 @@ function TitanPanelButton_SetButtonIcon(id, iconCoords, iconR, iconG, iconB)
 			icon:SetWidth(iconWidth);
 		end
 		
-		-- support for iconCoords, iconR, iconG, iconB attributes		
+		-- support for iconCoords, iconR, iconG, iconB attributes
 		if iconCoords and icon then
 			icon:SetTexCoord(unpack(iconCoords))
 		end		

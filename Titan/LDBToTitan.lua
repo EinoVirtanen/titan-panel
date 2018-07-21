@@ -571,6 +571,8 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 	-- support for iconCoords, iconR, iconG, iconB attributes
 	-- Due to the callbacks being fired these can easily affect 
 	-- performance, BEWARE when using them !
+	--
+	-- capture the icon coords & color for the Titan plugin
 	if obj.iconCoords then
 		self:TitanLDBIconUpdate(nil, name, "iconCoords", obj.iconCoords, obj)
 		ldb.RegisterCallback(self, 
@@ -622,6 +624,10 @@ function LDBToTitan:TitanLDBCreateObject(_, name, obj)
 			type = (obj.type or ""),
 		},
 		notes = notes,
+		iconCoords = (obj.iconCoords or nil),
+		iconR = (obj.iconR or nil),
+		iconB = (obj.iconB or nil),
+		iconG = (obj.iconG or nil),
 	};
 
 	-- Set the plugin category, if it exists else default to "General"
