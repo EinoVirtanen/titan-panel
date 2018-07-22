@@ -58,7 +58,7 @@ function TitanPanelLocationButton_OnLoad(self)
 	self:RegisterEvent("ZONE_CHANGED");
 	self:RegisterEvent("ZONE_CHANGED_INDOORS");
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-	self:RegisterEvent("MINIMAP_ZONE_CHANGED");
+	-- self:RegisterEvent("MINIMAP_ZONE_CHANGED"); 20170722 MINIMAP_ZONE_CHANGED removed with 80000
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 

@@ -127,7 +127,7 @@ function TitanPanel_SaveCustomProfile()
 	StaticPopupDialogs["TITAN_RELOADUI"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"
 			..L["TITAN_PANEL_MENU_PROFILE_RELOADUI"],
-		button1 = TEXT(OKAY),
+		button1 = OKAY, --20180722 TEXT() is gone with 80000. Whatever it did, it doesn't do it anymore
 		OnAccept = function(self)
 			ReloadUI(); -- ensure profile is written to disk
 		end,

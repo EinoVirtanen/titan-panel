@@ -52,7 +52,7 @@ function TitanPanelLootTypeButton_OnLoad(self)
 		}
 	};
 
-	self:RegisterEvent("PARTY_MEMBERS_CHANGED");
+	-- self:RegisterEvent("PARTY_MEMBERS_CHANGED"); 20180722 PARTY_MEMBERS_CHANGED removed in 80000
 	self:RegisterEvent("RAID_ROSTER_UPDATE");
 	self:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
 	self:RegisterEvent("CHAT_MSG_SYSTEM");

@@ -257,13 +257,27 @@ function TitanMovableFrame_CheckFrames(position)
 		-- Move BuffFrame
 		TitanMovableFrame_CheckThisFrame(BuffFrame:GetName())
 
+--[[
+		20180722: Blizzard removed the WorldStateFrame entirely in the patch per https://us.battle.net/forums/en/wow/topic/20762318007:
+
+			UI Widgets are replacing the World State Frame (and much more to come)
+
+			UI Widgets are a new system that we have put in place to handle a wide variety of UI tasks going forward. 
+			As a result, WorldStateFrame is no longer needed and will be going away entirely. 
+			World State events will still be sent down as before, so don’t worry if you were relying on those. 
+			There are new events and UI Widget system API functions … see UIWidgetManagerDocumentation.lua in the documentation folder. 
+			For further information, see the lua & xml files in the \AddOns\Blizzard_UIWidgets folder.
+
 		-- Move WorldStateAlwaysUpFrame
 		TitanMovableFrame_CheckThisFrame(WorldStateAlwaysUpFrame:GetName());
+--]]
 
---[[		-- Move OrderHallCommandBar
+--[[
+		-- Move OrderHallCommandBar
 		if OrderHallCommandBar then
 			TitanMovableFrame_CheckThisFrame(OrderHallCommandBar:GetName());
-		end]]--
+		end
+--]]
 	end
 
 	-- check bottom as requested

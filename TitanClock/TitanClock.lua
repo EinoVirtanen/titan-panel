@@ -187,13 +187,14 @@ function TitanPanelClockButton_GetTime(displaytype, offset)
 		if (hour == 0) then
 			hour = 12;
 		end
+		--20180722: TEXT is no longer. Whatever it did, why it existed: nobody knows. But its gone now.
 		if (isAM) then
-			return nil, format(TEXT(TIME_TWELVEHOURAM), hour, minute);
+			return nil, format(TIME_TWELVEHOURAM, hour, minute);
 		else
-			return nil, format(TEXT(TIME_TWELVEHOURPM), hour, minute);
+			return nil, format(TIME_TWELVEHOURPM, hour, minute);
 		end
 	else
-		twentyfour = format(TEXT(TIME_TWENTYFOURHOURS), hour, minute);
+		twentyfour = format(TIME_TWENTYFOURHOURS, hour, minute);
 		if (hour < 10) then
 			twentyfour = "0" .. twentyfour
 		end
