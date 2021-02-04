@@ -126,7 +126,7 @@ function TitanPanelXPButton_OnEvent(self, event, a1, a2, ...)
 	elseif (event == "TIME_PLAYED_MSG") then
 		-- Remember play time
 		self.totalTime = a1;
-		self.levelTime = a2;
+		self.= a2;
 	elseif (event == "PLAYER_XP_UPDATE") then
 		if (not self.initXP) then
 			self.initXP = UnitXP("player");
@@ -190,6 +190,15 @@ function TitanPanelXPButton_GetButtonText(id)
 	local numofkills, numofgains;
 	if lastMobXP ~= 0 then numofkills = math.ceil(toLevelXP / lastMobXP) else numofkills = _G["UNKNOWN"] end
 	if XPGain ~= 0 then numofgains = math.ceil(toLevelXP / XPGain) else numofgains = _G["UNKNOWN"] end
+	
+	if (UnitLevel("player") < 59) then toLevelXP = toLevelXP + 209800 end	
+	if (UnitLevel("player") < 58) then toLevelXP = toLevelXP + 202300 end	
+	if (UnitLevel("player") < 57) then toLevelXP = toLevelXP + 195000 end	
+	if (UnitLevel("player") < 56) then toLevelXP = toLevelXP + 187900 end	
+	if (UnitLevel("player") < 55) then toLevelXP = toLevelXP + 180800 end	
+	if (UnitLevel("player") < 54) then toLevelXP = toLevelXP + 173900 end	
+	if (UnitLevel("player") < 53) then toLevelXP = toLevelXP + 167100 end	
+	if (UnitLevel("player") < 52) then toLevelXP = toLevelXP + 160400 end
 
 	if (levelTime) then
 		if (TitanGetVar(TITAN_XP_ID, "DisplayType") == "ShowXPPerHourSession") then
@@ -200,8 +209,8 @@ function TitanPanelXPButton_GetButtonText(id)
 			xpPerHourText = comma_value(math.floor(xpPerHour+0.5));
 			timeToLevelText = TitanUtils_GetEstTimeText(timeToLevel);
 
-			return L["TITAN_XP_BUTTON_LABEL_XPHR_SESSION"], TitanUtils_GetHighlightText(xpPerHourText),
-				L["TITAN_XP_BUTTON_LABEL_TOLEVEL_TIME_LEVEL"], TitanUtils_GetHighlightText(timeToLevelText);
+--                      time until 60 :)
+			return TitanUtils_GetHighlightText(timeToLevelText);
 		elseif (TitanGetVar(TITAN_XP_ID,"DisplayType") == "ShowXPPerHourLevel") then
 			xpPerHour = currentXP / levelTime * 3600;
 --			timeToLevel = TitanUtils_Ternary((currentXP == 0), -1, toLevelXP / currentXP * levelTime);
